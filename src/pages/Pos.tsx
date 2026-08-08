@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Search, Plus, Minus, Trash2, Printer, ShoppingBag, Package } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import Toast from '../components/Toast';
+import type { ToastType } from '../components/Toast';
 
 interface Item {
   id: string;
@@ -20,6 +22,7 @@ export default function Pos() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: ToastType; subtitle?: string } | null>(null);
   const [storeInfo, setStoreInfo] = useState({ name: 'BUMDes Noto Mulyo', address: 'Pulodarat, Jepara' });
 
   // Data yang disimpan KHUSUS untuk struk cetak (tidak ikut ter-reset)
@@ -46,10 +49,10 @@ export default function Pos() {
   }, []);
 
   const addToCart = (item: Item) => {
-    if (item.stock <= 0) return alert('Stok habis!');
+    if (item.stock <= 0) { setToast({ message: 'Stok habis!', type: 'warning', subtitle: `${item.name} tidak tersedia.` }); return; }
     const existing = cart.find(c => c.id === item.id);
     if (existing) {
-      if (existing.qty >= item.stock) return alert('Melebihi sisa stok!');
+      if (existing.qty >= item.stock) { setToast({ message: 'Melebihi sisa stok!', type: 'warning', subtitle: `Stok ${item.name} tersisa ${item.stock} unit.` }); return; }
       setCart(cart.map(c => c.id === item.id ? { ...c, qty: c.qty + 1 } : c));
     } else {
       setCart([...cart, { ...item, qty: 1 }]);
@@ -60,7 +63,7 @@ export default function Pos() {
     setCart(cart.map(c => {
       if (c.id === id) {
         const newQty = c.qty + delta;
-        if (newQty > c.stock) { alert('Melebihi sisa stok!'); return c; }
+        if (newQty > c.stock) { setToast({ message: 'Melebihi sisa stok!', type: 'warning', subtitle: `Stok ${c.name} tersisa ${c.stock} unit.` }); return c; }
         return { ...c, qty: Math.max(1, newQty) };
       }
       return c;
@@ -154,11 +157,11 @@ export default function Pos() {
         // Beri waktu React untuk merender printData sebelum memanggil print
         setTimeout(() => window.print(), 600);
       } else {
-        alert(`Transaksi Berhasil! Nota: ${invoiceNumber}`);
+        setToast({ message: `Transaksi Berhasil! 🎉`, type: 'success', subtitle: `Nota ${invoiceNumber} — Total Rp ${total.toLocaleString('id-ID')}` });
       }
     } catch (err) {
       console.error(err);
-      alert('Terjadi kesalahan saat checkout');
+      setToast({ message: 'Gagal memproses transaksi', type: 'error', subtitle: 'Terjadi kesalahan saat checkout. Silakan coba lagi.' });
     }
     setLoading(false);
   };
@@ -170,6 +173,15 @@ export default function Pos() {
 
   return (
     <>
+      {/* Toast Notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          subtitle={toast.subtitle}
+          onClose={() => setToast(null)}
+        />
+      )}
       <div className="flex flex-col xl:flex-row gap-6 h-full min-h-[calc(100vh-130px)] print:hidden relative pb-20 xl:pb-0">
         {/* AREA BARANG (KIRI) */}
         <div className="flex-1 card rounded-3xl shadow-sm p-4 md:p-6 flex flex-col h-[60vh] xl:h-auto">

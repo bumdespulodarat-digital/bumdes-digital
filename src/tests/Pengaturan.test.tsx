@@ -5,8 +5,10 @@ import Pengaturan from '../pages/Pengaturan';
 
 vi.mock('../lib/supabase', async () => {
   const { createMockSupabaseClient } = await import('./mocks/supabase');
+  const mockClient = createMockSupabaseClient();
   return {
-    supabase: createMockSupabaseClient(),
+    supabase: mockClient,
+    supabaseAdmin: mockClient,
   };
 });
 
@@ -278,10 +280,6 @@ describe('Pengaturan - Settings & User Management', () => {
   });
 
   it('TEST-SETT-019: Menampilkan konfirmasi saat menghapus pengurus', async () => {
-    // Mock window.confirm
-    const confirmSpy = vi.spyOn(window, 'confirm');
-    confirmSpy.mockImplementation(() => false); // User clicks cancel
-
     render(
       <BrowserRouter>
         <Pengaturan />
@@ -300,8 +298,14 @@ describe('Pengaturan - Settings & User Management', () => {
     
     fireEvent.click(firstDeleteButton);
 
-    expect(confirmSpy).toHaveBeenCalledWith('Yakin ingin menghapus pengurus ini?');
-    
-    confirmSpy.mockRestore();
+    // Confirm dialog should appear
+    expect(await screen.findByText('Hapus Pengurus?')).toBeInTheDocument();
+    expect(screen.getByText(/akan dihapus permanen dari sistem/)).toBeInTheDocument();
+
+    const confirmButton = screen.getByText('Ya, Hapus');
+    fireEvent.click(confirmButton);
+
+    // Toast should appear after deletion
+    expect(await screen.findByText(/berhasil dihapus/i)).toBeInTheDocument();
   });
 });

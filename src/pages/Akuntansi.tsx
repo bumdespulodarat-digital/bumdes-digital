@@ -2,6 +2,8 @@ import { useEffect, useState, useMemo } from 'react';
 import { FileText, TrendingUp, DollarSign, ArrowDownCircle, ArrowUpCircle, BookOpen, Scale, Wallet, Activity, Download, Loader2, Trash2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { exportToPDF, exportToExcel, type BumdesProfile, type ExportTableData } from '../utils/exportUtils';
+import Toast, { ConfirmDialog } from '../components/Toast';
+import type { ToastType } from '../components/Toast';
 
 interface FixedAsset {
   id: string;
@@ -50,6 +52,8 @@ export default function Akuntansi() {
   
   const [loading, setLoading] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: ToastType; subtitle?: string } | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
   // BUMDes profile for export headers/signatures
   const [bumdesProfile, setBumdesProfile] = useState<BumdesProfile>({
@@ -211,8 +215,8 @@ export default function Akuntansi() {
           { transaction_id: trx.id, account_id: kasId, debit: 0, credit: amount, description: desc }
         ]);
       }
-      setShowExpenseModal(false); setExpenseData({ amount: '', desc: '' }); fetchData(); alert('Pengeluaran berhasil dicatat!');
-    } catch (error) { console.error(error); alert('Terjadi kesalahan pencatatan.'); }
+      setShowExpenseModal(false); setExpenseData({ amount: '', desc: '' }); fetchData(); setToast({ message: 'Pengeluaran berhasil dicatat!', type: 'success', subtitle: `Rp ${Number(expenseData.amount).toLocaleString('id-ID')} telah tercatat.` });
+    } catch (error) { console.error(error); setToast({ message: 'Gagal mencatat pengeluaran', type: 'error', subtitle: 'Terjadi kesalahan. Silakan coba lagi.' }); }
     setLoading(false);
   };
 
@@ -238,23 +242,28 @@ export default function Akuntansi() {
           { transaction_id: trx.id, account_id: pendapatanId, debit: 0, credit: amount, description: desc }
         ]);
       }
-      setShowIncomeModal(false); setIncomeData({ amount: '', source: 'Tempat Parkir', desc: '' }); fetchData(); alert('Pemasukan berhasil dicatat!');
-    } catch (error) { console.error(error); alert('Terjadi kesalahan pencatatan.'); }
+      setShowIncomeModal(false); setIncomeData({ amount: '', source: 'Tempat Parkir', desc: '' }); fetchData(); setToast({ message: 'Pemasukan berhasil dicatat!', type: 'success', subtitle: `Rp ${Number(incomeData.amount).toLocaleString('id-ID')} dari ${incomeData.source} telah tercatat.` });
+    } catch (error) { console.error(error); setToast({ message: 'Gagal mencatat pemasukan', type: 'error', subtitle: 'Terjadi kesalahan. Silakan coba lagi.' }); }
     setLoading(false);
   };
 
   const handleDeleteTransaction = async (transactionId: string | undefined) => {
     if (!transactionId) return;
-    if (!confirm('Yakin ingin menghapus seluruh transaksi ini secara permanen? Data jurnal dan perubahan stok (jika ada) akan dihapus.')) return;
+    setDeleteConfirm(transactionId);
+  };
+
+  const confirmDeleteTransaction = async () => {
+    if (!deleteConfirm) return;
+    setDeleteConfirm(null);
     setLoading(true);
     try {
-      const { error } = await supabase.from('transactions').delete().eq('id', transactionId);
+      const { error } = await supabase.from('transactions').delete().eq('id', deleteConfirm);
       if (error) throw error;
-      alert('Transaksi berhasil dihapus!');
+      setToast({ message: 'Transaksi berhasil dihapus!', type: 'success' });
       fetchData();
     } catch (err) {
       console.error(err);
-      alert('Gagal menghapus transaksi.');
+      setToast({ message: 'Gagal menghapus transaksi', type: 'error', subtitle: 'Silakan coba lagi nanti.' });
     }
     setLoading(false);
   };
@@ -269,7 +278,7 @@ export default function Akuntansi() {
       if (data) await exportToPDF(data, bumdesProfile);
     } catch (err) {
       console.error('Export PDF error:', err);
-      alert('Gagal membuat file PDF.');
+      setToast({ message: 'Gagal membuat file PDF', type: 'error' });
     }
     setIsExporting(false);
   };
@@ -281,7 +290,7 @@ export default function Akuntansi() {
       if (data) await exportToExcel([data], bumdesProfile);
     } catch (err) {
       console.error('Export Excel error:', err);
-      alert('Gagal membuat file Excel.');
+      setToast({ message: 'Gagal membuat file Excel', type: 'error' });
     }
     setIsExporting(false);
   };
@@ -294,7 +303,7 @@ export default function Akuntansi() {
       if (allData.length > 0) await exportToExcel(allData, bumdesProfile);
     } catch (err) {
       console.error('Export All Excel error:', err);
-      alert('Gagal membuat file Excel.');
+      setToast({ message: 'Gagal membuat file Excel', type: 'error' });
     }
     setIsExporting(false);
   };
@@ -751,6 +760,29 @@ export default function Akuntansi() {
             </form>
           </div>
         </div>
+      )}
+
+      {/* Toast Notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          subtitle={toast.subtitle}
+          onClose={() => setToast(null)}
+        />
+      )}
+
+      {/* Confirm Delete Dialog */}
+      {deleteConfirm && (
+        <ConfirmDialog
+          title="Hapus Transaksi?"
+          message="Yakin ingin menghapus seluruh transaksi ini secara permanen? Data jurnal dan perubahan stok yang terkait akan ikut terhapus dan tidak dapat dikembalikan."
+          confirmText="Hapus Permanen"
+          cancelText="Batal"
+          type="danger"
+          onConfirm={confirmDeleteTransaction}
+          onCancel={() => setDeleteConfirm(null)}
+        />
       )}
     </div>
   );

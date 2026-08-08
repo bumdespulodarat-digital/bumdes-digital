@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Store, MapPin, Phone, Save, Users, UserPlus, Trash2 } from 'lucide-react';
 import { supabase, supabaseAdmin } from '../lib/supabase';
-import Toast from '../components/Toast';
+import Toast, { ConfirmDialog } from '../components/Toast';
 import type { ToastType } from '../components/Toast';
 
 export default function Pengaturan() {
@@ -19,6 +19,7 @@ export default function Pengaturan() {
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<'toko' | 'pengurus'>('toko');
   const [toast, setToast] = useState<{ message: string; type: ToastType; subtitle?: string } | null>(null);
+  const [confirmDialog, setConfirmDialog] = useState<{ id: string; name: string; email: string } | null>(null);
 
   const fetchData = async () => {
     setLoading(true);
@@ -98,10 +99,35 @@ export default function Pengaturan() {
     setSaving(false);
   };
 
-  const handleHapusPengurus = async (id: string) => {
-    if (!confirm('Yakin ingin menghapus pengurus ini?')) return;
-    await supabase.from('bumdes_users').delete().eq('id', id);
-    fetchData();
+  const handleHapusPengurus = async (id: string, name: string, email: string) => {
+    setConfirmDialog({ id, name, email });
+  };
+
+  const confirmHapusPengurus = async () => {
+    if (!confirmDialog) return;
+    const { id, name, email } = confirmDialog;
+    setConfirmDialog(null);
+    setSaving(true);
+    try {
+      // 1. Hapus dari tabel bumdes_users
+      await supabase.from('bumdes_users').delete().eq('id', id);
+
+      // 2. Hapus dari Supabase Auth (jika supabaseAdmin tersedia)
+      if (supabaseAdmin) {
+        const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers();
+        const authUser = authUsers?.users?.find((u: any) => u.email === email);
+        if (authUser) {
+          await supabaseAdmin.auth.admin.deleteUser(authUser.id);
+        }
+      }
+
+      fetchData();
+      setToast({ message: `${name} berhasil dihapus`, type: 'success', subtitle: `Akun ${email} telah dihapus dari sistem.` });
+    } catch (error) {
+      console.error(error);
+      setToast({ message: 'Gagal menghapus pengurus', type: 'error', subtitle: 'Terjadi kesalahan, silakan coba lagi.' });
+    }
+    setSaving(false);
   };
 
   return (
@@ -216,7 +242,7 @@ export default function Pengaturan() {
                           <p className="text-xs text-slate-500 dark:text-slate-400">{u.email} &bull; <span className="font-semibold text-primary-600 dark:text-primary-400">{u.role}</span></p>
                         </div>
                       </div>
-                      <button onClick={() => handleHapusPengurus(u.id)} className="w-10 h-10 rounded-xl flex items-center justify-center text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 trans-all">
+                      <button onClick={() => handleHapusPengurus(u.id, u.name, u.email)} className="w-10 h-10 rounded-xl flex items-center justify-center text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 trans-all">
                         <Trash2 size={18} />
                       </button>
                     </div>
@@ -266,6 +292,19 @@ export default function Pengaturan() {
         )}
 
       </div>
+
+      {/* Confirm Delete Dialog */}
+      {confirmDialog && (
+        <ConfirmDialog
+          title="Hapus Pengurus?"
+          message={`Akun "${confirmDialog.name}" (${confirmDialog.email}) akan dihapus permanen dari sistem dan tidak dapat dikembalikan.`}
+          confirmText="Ya, Hapus"
+          cancelText="Batal"
+          type="danger"
+          onConfirm={confirmHapusPengurus}
+          onCancel={() => setConfirmDialog(null)}
+        />
+      )}
     </div>
   );
 }
