@@ -14,7 +14,7 @@ export default function MainLayout() {
 
   useEffect(() => {
     // Ambil info toko
-    supabase.from('settings').select('*').single().then(({ data }) => {
+    supabase.from('settings').select('*').limit(1).maybeSingle().then(({ data }) => {
       if (data) setStoreInfo({ name: data.store_name, address: data.store_address });
     });
     // Ambil info user yang login

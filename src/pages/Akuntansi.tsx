@@ -80,7 +80,7 @@ export default function Akuntansi() {
     if (assets) setFixedAssets(assets);
 
     // Fetch BUMDes profile for export kop surat
-    const { data: storeData } = await supabase.from('settings').select('*').single();
+    const { data: storeData } = await supabase.from('settings').select('*').limit(1).maybeSingle();
     if (storeData) {
       setBumdesProfile(prev => ({
         ...prev,

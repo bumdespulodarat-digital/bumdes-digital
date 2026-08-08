@@ -37,7 +37,7 @@ export default function Pos() {
   };
 
   const fetchSettings = async () => {
-    const { data } = await supabase.from('settings').select('*').single();
+    const { data } = await supabase.from('settings').select('*').limit(1).maybeSingle();
     if (data) {
       setStoreInfo({ name: data.store_name, address: data.store_address });
     }

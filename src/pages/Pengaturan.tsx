@@ -23,7 +23,7 @@ export default function Pengaturan() {
 
   const fetchData = async () => {
     setLoading(true);
-    const { data: storeData } = await supabase.from('settings').select('*').single();
+    const { data: storeData } = await supabase.from('settings').select('*').limit(1).maybeSingle();
     if (storeData) setSettings(storeData);
 
     const { data: userData } = await supabase.from('bumdes_users').select('*').order('created_at');
