@@ -194,7 +194,11 @@ export default function Dashboard() {
         backgroundColor: isDark ? '#1e293b' : '#0f172a',
         padding: 12,
         cornerRadius: 12,
-        callbacks: { label: (ctx: any) => ` ${ctx.label}: Rp ${ctx.raw.toLocaleString('id-ID')}` }
+        callbacks: { 
+          label: (ctx: any) => ctx.label === 'Belum ada data' 
+            ? ' Belum ada data' 
+            : ` ${ctx.label}: Rp ${ctx.raw.toLocaleString('id-ID')}` 
+        }
       }
     }
   };
