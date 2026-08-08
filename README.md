@@ -65,7 +65,11 @@ Terintegrasi secara penuh dengan **Chart of Accounts (COA) 5-Level** standar BUM
 
 ### 👥 9. Manajemen Multi-Pengurus & Profil BUMDes
 - Pengaturan Profil BUMDes (Nama, Alamat, Nomor Kontak).
-- Manajemen Hak Akses Multi-User untuk kolaborasi Direktur, Bendahara, dan Operator.
+- Manajemen Hak Akses Multi-User untuk kolaborasi Direktur, Bendahara, dan Akuntan.
+- **Akun Login BUMDes:**
+  - Direktur: `direktur.bumdespulodarat@gmail.com`
+  - Bendahara: `bendahara.bumdespulodarat@gmail.com`
+  - Akuntan: `akuntan.bumdespulodarat@gmail.com`
 
 ## 🛠️ Stack Teknologi (Tech Stack)
 Aplikasi ini dibangun menggunakan arsitektur modern untuk menjamin kecepatan, keamanan, dan keandalan data:
@@ -80,7 +84,7 @@ Aplikasi ini dibangun menggunakan arsitektur modern untuk menjamin kecepatan, ke
 
 ### 1. Kloning Repositori
 ```bash
-git clone https://github.com/Abibsa/bumdes-digital.git
+git clone https://github.com/bumdes-pulodarat/bumdes-digital.git
 cd bumdes-digital
 ```
 
@@ -95,6 +99,8 @@ Buat file `.env.local` di folder *root* dan masukkan kredensial Supabase Anda:
 VITE_SUPABASE_URL=https://[PROJECT-ID].supabase.co
 VITE_SUPABASE_ANON_KEY=eyJh...
 ```
+
+**Catatan:** Gunakan akun Supabase BUMDes (`bumdespulodarat@gmail.com`) untuk mengelola database production.
 
 **Penting:** Jangan lupa jalankan script SQL yang ada di file `database_schema.sql` dan `database_update.sql` ke menu **SQL Editor** pada Supabase Anda untuk melakukan migrasi & *seeding* tabel.
 
