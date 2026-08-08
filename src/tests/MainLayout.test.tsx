@@ -74,4 +74,22 @@ describe('MainLayout - Layout Utama & Dark Mode', () => {
     expect(screen.getByText('Akuntansi')).toBeInTheDocument();
     expect(screen.getByText('Pengaturan')).toBeInTheDocument();
   });
+  it('TEST-LAYOUT-003: Klik avatar harus membuka dropdown profil dengan opsi Ubah Password', async () => {
+    render(
+      <BrowserRouter>
+        <MainLayout />
+      </BrowserRouter>
+    );
+
+    // Klik area profil (avatar)
+    const buttons = screen.getAllByRole('button');
+    const profileButton = buttons.find(btn => btn.textContent?.includes('Admin'));
+    if (profileButton) {
+      fireEvent.click(profileButton);
+
+      // Dropdown harus muncul
+      expect(await screen.findByText('Ubah Password Saya')).toBeInTheDocument();
+      expect(screen.getByText('Sedang login')).toBeInTheDocument();
+    }
+  });
 });

@@ -1,8 +1,10 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, ShoppingCart, Package, FileText, Settings, Store, LogOut, Menu, X, Moon, Sun, ChevronLeft, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, Package, FileText, Settings, Store, LogOut, Menu, X, Moon, Sun, ChevronLeft, ChevronRight, KeyRound } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useEffect, useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import Toast from '../components/Toast';
+import type { ToastType } from '../components/Toast';
 
 export default function MainLayout() {
   const navigate = useNavigate();
@@ -11,6 +13,11 @@ export default function MainLayout() {
   const [userName, setUserName] = useState('Admin');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({ newPassword: '', confirmPassword: '' });
+  const [savingPassword, setSavingPassword] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: ToastType; subtitle?: string } | null>(null);
 
   useEffect(() => {
     // Ambil info toko
@@ -21,15 +28,59 @@ export default function MainLayout() {
     supabase.auth.getUser().then(({ data }) => {
       if (data?.user?.email) {
         const namePart = data.user.email.split('@')[0];
-        // Capitalize first letter
         setUserName(namePart.charAt(0).toUpperCase() + namePart.slice(1));
       }
     });
   }, []);
 
+  // Close profile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('#profile-menu-container')) {
+        setShowProfileMenu(false);
+      }
+    };
+    if (showProfileMenu) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [showProfileMenu]);
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate('/login');
+  };
+
+  const handleChangeMyPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setToast({ message: 'Password tidak cocok', type: 'error', subtitle: 'Pastikan password baru dan konfirmasi sama.' });
+      return;
+    }
+
+    if (passwordForm.newPassword.length < 6) {
+      setToast({ message: 'Password terlalu pendek', type: 'error', subtitle: 'Minimal 6 karakter.' });
+      return;
+    }
+
+    setSavingPassword(true);
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: passwordForm.newPassword
+      });
+
+      if (error) throw error;
+
+      setToast({ message: 'Password berhasil diubah! 🔑', type: 'success', subtitle: 'Gunakan password baru Anda saat login berikutnya.' });
+      setShowChangePassword(false);
+      setPasswordForm({ newPassword: '', confirmPassword: '' });
+    } catch (error: any) {
+      console.error('Error mengubah password:', error);
+      setToast({ message: 'Gagal mengubah password', type: 'error', subtitle: error?.message || 'Terjadi kesalahan sistem.' });
+    }
+    setSavingPassword(false);
   };
 
   const navItems = [
@@ -44,6 +95,16 @@ export default function MainLayout() {
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-100 overflow-hidden">
       
+      {/* Toast Notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          subtitle={toast.subtitle}
+          onClose={() => setToast(null)}
+        />
+      )}
+
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (
         <div 
@@ -137,7 +198,7 @@ export default function MainLayout() {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Dark Mode Toggle (Cool Slider) */}
+            {/* Dark Mode Toggle */}
             <button
               onClick={toggleTheme}
               className={`relative flex items-center w-16 h-[34px] rounded-full p-1 transition-colors duration-500 ease-in-out border shadow-inner ${
@@ -145,13 +206,10 @@ export default function MainLayout() {
               }`}
               title={isDark ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap'}
             >
-              {/* Background Icons (Kiri: Matahari redup, Kanan: Bulan redup) */}
               <div className="absolute inset-0 flex justify-between items-center px-2 z-0 pointer-events-none">
                 <Sun size={14} className={`transform transition-all duration-500 ${isDark ? 'opacity-40 scale-100 text-amber-400/50' : 'opacity-0 scale-50'}`} />
                 <Moon size={14} className={`transform transition-all duration-500 ${isDark ? 'opacity-0 scale-50' : 'opacity-40 scale-100 text-blue-500'}`} />
               </div>
-
-              {/* Sliding Circle */}
               <div 
                 className={`relative w-[26px] h-[26px] rounded-full bg-white shadow-md flex items-center justify-center transform transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-10 ${
                   isDark ? 'translate-x-[28px] rotate-0' : 'translate-x-0 -rotate-90'
@@ -165,9 +223,44 @@ export default function MainLayout() {
               </div>
             </button>
 
-            <span className="text-sm font-bold text-slate-700 dark:text-slate-300 hidden sm:block">{userName}</span>
-            <div className="w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 flex items-center justify-center font-black text-sm border-2 border-white dark:border-slate-800 shadow-md uppercase">
-              {userName.charAt(0)}
+            {/* Profile Area with Dropdown */}
+            <div className="relative" id="profile-menu-container">
+              <button 
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+                className="flex items-center gap-2 sm:gap-3 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl px-2 py-1.5 trans-all"
+              >
+                <span className="text-sm font-bold text-slate-700 dark:text-slate-300 hidden sm:block">{userName}</span>
+                <div className="w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 flex items-center justify-center font-black text-sm border-2 border-white dark:border-slate-800 shadow-md uppercase">
+                  {userName.charAt(0)}
+                </div>
+              </button>
+
+              {/* Profile Dropdown */}
+              {showProfileMenu && (
+                <div className="absolute right-0 top-14 w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl py-2 z-50 animate-fade-in-up">
+                  <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-800">
+                    <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{userName}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Sedang login</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                      setShowChangePassword(true);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 trans-all"
+                  >
+                    <KeyRound size={16} className="text-primary-600" />
+                    Ubah Password Saya
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 trans-all"
+                  >
+                    <LogOut size={16} />
+                    Keluar Sistem
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </header>
@@ -176,6 +269,70 @@ export default function MainLayout() {
           <Outlet />
         </div>
       </main>
+
+      {/* Change Password Modal */}
+      {showChangePassword && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-fade-in-up">
+            <div className="p-5 sm:p-6 border-b border-slate-100 dark:border-slate-800">
+              <h2 className="text-lg sm:text-xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                <KeyRound size={22} className="text-primary-600" /> Ubah Password Saya
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                Masukkan password baru untuk akun <b>{userName}</b>
+              </p>
+            </div>
+            
+            <form onSubmit={handleChangeMyPassword} className="p-5 sm:p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Password Baru</label>
+                <input 
+                  type="password" 
+                  required 
+                  minLength={6}
+                  value={passwordForm.newPassword}
+                  onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                  className="w-full px-4 py-3 input-field border-2 rounded-xl focus:border-primary-500 font-semibold text-sm sm:text-base" 
+                  placeholder="Minimal 6 karakter"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Konfirmasi Password</label>
+                <input 
+                  type="password" 
+                  required 
+                  minLength={6}
+                  value={passwordForm.confirmPassword}
+                  onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                  className="w-full px-4 py-3 input-field border-2 rounded-xl focus:border-primary-500 font-semibold text-sm sm:text-base" 
+                  placeholder="Ketik ulang password baru"
+                />
+                {passwordForm.confirmPassword && passwordForm.newPassword !== passwordForm.confirmPassword && (
+                  <p className="text-xs text-rose-500 mt-1.5 font-semibold">⚠️ Password tidak cocok</p>
+                )}
+              </div>
+              
+              <div className="flex gap-3 pt-2">
+                <button 
+                  type="button" 
+                  onClick={() => { setShowChangePassword(false); setPasswordForm({ newPassword: '', confirmPassword: '' }); }}
+                  className="flex-1 py-3 px-4 rounded-xl font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 trans-all text-sm sm:text-base"
+                >
+                  Batal
+                </button>
+                <button 
+                  type="submit" 
+                  disabled={savingPassword || (passwordForm.confirmPassword !== '' && passwordForm.newPassword !== passwordForm.confirmPassword)}
+                  className="flex-1 py-3 px-4 rounded-xl font-bold text-white bg-primary-600 hover:bg-primary-700 shadow-lg shadow-primary-600/30 trans-all disabled:opacity-50 text-sm sm:text-base"
+                >
+                  {savingPassword ? 'Menyimpan...' : 'Simpan'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
