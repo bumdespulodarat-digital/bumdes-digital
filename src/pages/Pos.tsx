@@ -75,10 +75,13 @@ export default function Pos() {
   const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
   const getOrCreateAccount = async (code: string, name: string, type: string) => {
-    const { data } = await supabase.from('accounts').select('id').eq('code', code).single();
+    const { data, error: selectErr } = await supabase.from('accounts').select('id').eq('code', code).maybeSingle();
+    if (selectErr) throw new Error(`Gagal mencari akun ${code}: ${selectErr.message}`);
     if (data) return data.id;
-    const { data: newAcc } = await supabase.from('accounts').insert({ code, name, type }).select('id').single();
-    return newAcc?.id;
+
+    const { data: newAcc, error: insertErr } = await supabase.from('accounts').insert({ code, name, type }).select('id').single();
+    if (insertErr || !newAcc) throw new Error(`Gagal membuat akun ${code}: ${insertErr?.message || 'Unknown error'}`);
+    return newAcc.id;
   };
 
   const handleCheckout = async (andPrint: boolean = false) => {
@@ -104,21 +107,24 @@ export default function Pos() {
         notes: 'Penjualan Kasir'
       }).select('id').single();
 
-      if (trxErr || !trx) throw new Error('Gagal membuat transaksi');
+      if (trxErr || !trx) throw new Error(`Gagal membuat transaksi header: ${trxErr?.message || 'Unknown error'}`);
 
       let totalHpp = 0;
       for (const item of cart) {
-        await supabase.from('transaction_details').insert({
+        const { error: detErr } = await supabase.from('transaction_details').insert({
           transaction_id: trx.id,
           item_id: item.id,
           qty: item.qty,
           unit_price: item.price,
           subtotal: item.price * item.qty
         });
-        await supabase.from('items').update({ stock: item.stock - item.qty }).eq('id', item.id);
+        if (detErr) throw new Error(`Gagal insert detail transaksi: ${detErr.message}`);
+
+        const { error: updErr } = await supabase.from('items').update({ stock: item.stock - item.qty }).eq('id', item.id);
+        if (updErr) throw new Error(`Gagal update stok barang: ${updErr.message}`);
         
         // Log movement
-        await supabase.from('item_movements').insert({
+        const { error: movErr } = await supabase.from('item_movements').insert({
           item_id: item.id,
           type: 'OUT',
           qty: item.qty,
@@ -127,6 +133,7 @@ export default function Pos() {
           description: `Penjualan Kasir - Nota ${invoiceNumber}`,
           transaction_id: trx.id
         });
+        if (movErr) throw new Error(`Gagal mencatat kartu stok: ${movErr.message}`);
 
         totalHpp += (item.cost_price || 0) * item.qty;
       }
@@ -136,16 +143,18 @@ export default function Pos() {
       const hppId = await getOrCreateAccount('5.1.01.01', 'Harga Pokok Penjualan Barang Dagangan', 'Expense');
       const persId = await getOrCreateAccount('1.1.05.01', 'Persediaan Barang Dagangan', 'Asset');
 
-      await supabase.from('journals').insert([
+      const { error: jrnErr } = await supabase.from('journals').insert([
         { transaction_id: trx.id, account_id: kasId, debit: total, credit: 0, description: `Penjualan ${invoiceNumber}` },
         { transaction_id: trx.id, account_id: penjId, debit: 0, credit: total, description: `Penjualan ${invoiceNumber}` }
       ]);
+      if (jrnErr) throw new Error(`Gagal mencatat jurnal penjualan: ${jrnErr.message}`);
 
       if (totalHpp > 0) {
-        await supabase.from('journals').insert([
+        const { error: hppErr } = await supabase.from('journals').insert([
           { transaction_id: trx.id, account_id: hppId, debit: totalHpp, credit: 0, description: `HPP Penjualan ${invoiceNumber}` },
           { transaction_id: trx.id, account_id: persId, debit: 0, credit: totalHpp, description: `HPP Penjualan ${invoiceNumber}` }
         ]);
+        if (hppErr) throw new Error(`Gagal mencatat jurnal HPP: ${hppErr.message}`);
       }
 
       // Reset cart DULU, baru panggil print
@@ -159,9 +168,9 @@ export default function Pos() {
       } else {
         setToast({ message: `Transaksi Berhasil! 🎉`, type: 'success', subtitle: `Nota ${invoiceNumber} — Total Rp ${total.toLocaleString('id-ID')}` });
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      setToast({ message: 'Gagal memproses transaksi', type: 'error', subtitle: 'Terjadi kesalahan saat checkout. Silakan coba lagi.' });
+      setToast({ message: 'Gagal memproses transaksi', type: 'error', subtitle: err?.message || 'Terjadi kesalahan saat checkout. Silakan coba lagi.' });
     }
     setLoading(false);
   };
