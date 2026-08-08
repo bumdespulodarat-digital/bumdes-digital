@@ -110,22 +110,41 @@ export default function Pengaturan() {
     setSaving(true);
     try {
       // 1. Hapus dari tabel bumdes_users
-      await supabase.from('bumdes_users').delete().eq('id', id);
+      const { error: dbError } = await supabase.from('bumdes_users').delete().eq('id', id);
+      if (dbError) throw dbError;
 
-      // 2. Hapus dari Supabase Auth (jika supabaseAdmin tersedia)
+      // 2. Hapus dari Supabase Auth
       if (supabaseAdmin) {
-        const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers();
-        const authUser = authUsers?.users?.find((u: any) => u.email === email);
-        if (authUser) {
-          await supabaseAdmin.auth.admin.deleteUser(authUser.id);
+        const { data: authUsers, error: listError } = await supabaseAdmin.auth.admin.listUsers();
+        if (listError) {
+          console.error('Gagal mengambil daftar auth users:', listError);
+        } else {
+          const authUser = authUsers?.users?.find((u: any) => u.email === email);
+          if (authUser) {
+            const { error: deleteAuthError } = await supabaseAdmin.auth.admin.deleteUser(authUser.id);
+            if (deleteAuthError) {
+              console.error('Gagal menghapus dari Supabase Auth:', deleteAuthError);
+              setToast({ message: `${name} dihapus dari database`, type: 'warning', subtitle: `Tapi gagal menghapus dari Auth: ${deleteAuthError.message}. Hapus manual di Supabase Dashboard.` });
+              setSaving(false);
+              fetchData();
+              return;
+            }
+          }
         }
+      } else {
+        console.warn('supabaseAdmin tidak tersedia (VITE_SUPABASE_SERVICE_ROLE_KEY belum diset)');
+        // Tetap lanjut — tapi beri peringatan
+        setToast({ message: `${name} dihapus dari database`, type: 'warning', subtitle: 'Kunci Service Role belum diset di Vercel, jadi akun Auth belum terhapus. Tambahkan VITE_SUPABASE_SERVICE_ROLE_KEY di Vercel Settings.' });
+        setSaving(false);
+        fetchData();
+        return;
       }
 
       fetchData();
-      setToast({ message: `${name} berhasil dihapus`, type: 'success', subtitle: `Akun ${email} telah dihapus dari sistem.` });
-    } catch (error) {
-      console.error(error);
-      setToast({ message: 'Gagal menghapus pengurus', type: 'error', subtitle: 'Terjadi kesalahan, silakan coba lagi.' });
+      setToast({ message: `${name} berhasil dihapus sepenuhnya ✅`, type: 'success', subtitle: `Akun ${email} telah dihapus dari database dan Supabase Auth.` });
+    } catch (error: any) {
+      console.error('Error menghapus pengurus:', error);
+      setToast({ message: 'Gagal menghapus pengurus', type: 'error', subtitle: error?.message || 'Terjadi kesalahan, silakan coba lagi.' });
     }
     setSaving(false);
   };
