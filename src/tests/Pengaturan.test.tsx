@@ -257,4 +257,51 @@ describe('Pengaturan - Settings & User Management', () => {
       expect(screen.getByText('admin@bumdes.com', { exact: false })).toBeInTheDocument();
     }, { timeout: 3000 });
   });
+
+  it('TEST-SETT-018: Menampilkan Toast Notifikasi saat berhasil menyimpan Pengaturan Toko', async () => {
+    render(
+      <BrowserRouter>
+        <Pengaturan />
+      </BrowserRouter>
+    );
+
+    const namaTokoInput = await screen.findByDisplayValue('BUMDes Noto Mulyo');
+    fireEvent.change(namaTokoInput, { target: { value: 'BUMDes Baru' } });
+    
+    const simpanButton = screen.getByText(/simpan perubahan/i);
+    fireEvent.click(simpanButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('Pengaturan Toko berhasil disimpan!')).toBeInTheDocument();
+      expect(screen.getByText('Perubahan akan ditampilkan pada struk dan laporan.')).toBeInTheDocument();
+    }, { timeout: 3000 });
+  });
+
+  it('TEST-SETT-019: Menampilkan konfirmasi saat menghapus pengurus', async () => {
+    // Mock window.confirm
+    const confirmSpy = vi.spyOn(window, 'confirm');
+    confirmSpy.mockImplementation(() => false); // User clicks cancel
+
+    render(
+      <BrowserRouter>
+        <Pengaturan />
+      </BrowserRouter>
+    );
+
+    const pengurusTab = await screen.findByText('Manajemen Pengurus');
+    fireEvent.click(pengurusTab);
+
+    await waitFor(() => {
+      expect(screen.getByText('Admin Utama')).toBeInTheDocument();
+    }, { timeout: 3000 });
+
+    const deleteButtons = screen.getAllByRole('button').filter(btn => btn.className.includes('text-rose-500'));
+    const firstDeleteButton = deleteButtons[0];
+    
+    fireEvent.click(firstDeleteButton);
+
+    expect(confirmSpy).toHaveBeenCalledWith('Yakin ingin menghapus pengurus ini?');
+    
+    confirmSpy.mockRestore();
+  });
 });
