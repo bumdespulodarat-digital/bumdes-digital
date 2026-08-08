@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Store, MapPin, Phone, Save, Users, UserPlus, Trash2, CheckCircle } from 'lucide-react';
+import { Store, MapPin, Phone, Save, Users, UserPlus, Trash2 } from 'lucide-react';
 import { supabase, supabaseAdmin } from '../lib/supabase';
-import Toast, { ToastType } from '../components/Toast';
+import Toast from '../components/Toast';
+import type { ToastType } from '../components/Toast';
 
 export default function Pengaturan() {
   const [settings, setSettings] = useState({
