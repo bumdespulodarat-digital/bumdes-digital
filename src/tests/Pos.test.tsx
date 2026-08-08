@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Pos from '../pages/Pos';
@@ -13,6 +13,11 @@ vi.mock('../lib/supabase', async () => {
 describe('Kasir (POS) - Point of Sale System', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('TEST-POS-001: Halaman POS harus menampilkan search bar', async () => {
@@ -64,15 +69,21 @@ describe('Kasir (POS) - Point of Sale System', () => {
       </BrowserRouter>
     );
 
+    // Wait for items to load
     await waitFor(() => {
-      const pulpenCard = screen.getByText('Pulpen Standard').closest('div');
-      if (pulpenCard) {
-        fireEvent.click(pulpenCard);
-      }
+      expect(screen.getByText('Pulpen Standard')).toBeInTheDocument();
     });
 
+    // Click item card to add to cart
+    const pulpenCard = screen.getByText('Pulpen Standard').closest('div[class*="cursor-pointer"]');
+    if (pulpenCard) {
+      fireEvent.click(pulpenCard);
+    }
+
     await waitFor(() => {
-      expect(screen.getByText('Keranjang Belanja')).toBeInTheDocument();
+      // Verify item appears in cart area (there should be the item name twice: in grid + cart)
+      const pulpenElements = screen.getAllByText('Pulpen Standard');
+      expect(pulpenElements.length).toBeGreaterThanOrEqual(2);
     });
   });
 
@@ -111,6 +122,8 @@ describe('Kasir (POS) - Point of Sale System', () => {
     await waitFor(() => {
       const cetakButton = screen.getByText(/cetak struk/i).closest('button');
       expect(cetakButton).toBeDisabled();
+      const simpanButton = screen.getByText(/simpan data/i).closest('button');
+      expect(simpanButton).toBeDisabled();
     });
   });
 
@@ -123,17 +136,18 @@ describe('Kasir (POS) - Point of Sale System', () => {
 
     // Add item to cart first
     await waitFor(() => {
-      const pulpenCard = screen.getByText('Pulpen Standard').closest('div');
-      if (pulpenCard) {
-        fireEvent.click(pulpenCard);
-      }
+      expect(screen.getByText('Pulpen Standard')).toBeInTheDocument();
     });
 
-    // Check if plus button exists in cart
+    const pulpenCard = screen.getByText('Pulpen Standard').closest('div[class*="cursor-pointer"]');
+    if (pulpenCard) {
+      fireEvent.click(pulpenCard);
+    }
+
+    // Check that item appears in cart (shown twice: grid + cart)
     await waitFor(() => {
-      const plusButtons = screen.getAllByRole('button');
-      const plusButton = plusButtons.find(btn => btn.querySelector('svg'));
-      expect(plusButton).toBeDefined();
+      const allPulpen = screen.getAllByText('Pulpen Standard');
+      expect(allPulpen.length).toBeGreaterThanOrEqual(2);
     });
   });
 
@@ -146,21 +160,29 @@ describe('Kasir (POS) - Point of Sale System', () => {
 
     // Add item first
     await waitFor(() => {
-      const pulpenCard = screen.getByText('Pulpen Standard').closest('div');
-      if (pulpenCard) {
-        fireEvent.click(pulpenCard);
-      }
+      expect(screen.getByText('Pulpen Standard')).toBeInTheDocument();
     });
 
-    // Find and click trash button
+    const pulpenCard = screen.getByText('Pulpen Standard').closest('div[class*="cursor-pointer"]');
+    if (pulpenCard) {
+      fireEvent.click(pulpenCard);
+    }
+
+    // Verify item is in cart
     await waitFor(() => {
-      const allButtons = screen.getAllByRole('button');
-      // Trash button should be present
-      expect(allButtons.length).toBeGreaterThan(0);
+      const pulpenElements = screen.getAllByText('Pulpen Standard');
+      expect(pulpenElements.length).toBeGreaterThanOrEqual(2);
     });
+
+    // Find and click trash button (the one with rose/red styling)
+    const trashButton = document.querySelector('button[class*="rose"]');
+    
+    if (trashButton) {
+      fireEvent.click(trashButton);
+    }
   });
 
-  it('TEST-POS-010: Window.print harus dipanggil saat cetak struk', async () => {
+  it('TEST-POS-010: Cetak Struk harus checkout dan memanggil window.print', async () => {
     const printSpy = vi.spyOn(window, 'print').mockImplementation(() => {});
 
     render(
@@ -169,20 +191,150 @@ describe('Kasir (POS) - Point of Sale System', () => {
       </BrowserRouter>
     );
 
-    // Add item to cart
+    // Wait for items to load
     await waitFor(() => {
-      const pulpenCard = screen.getByText('Pulpen Standard').closest('div');
-      if (pulpenCard) {
-        fireEvent.click(pulpenCard);
-      }
+      expect(screen.getByText('Pulpen Standard')).toBeInTheDocument();
     });
 
-    // Click cetak struk button
-    const cetakButton = screen.getByText(/cetak struk/i).closest('button');
-    if (cetakButton && !cetakButton.hasAttribute('disabled')) {
-      fireEvent.click(cetakButton);
+    // Add item to cart
+    const pulpenCard = screen.getByText('Pulpen Standard').closest('div[class*="cursor-pointer"]');
+    if (pulpenCard) {
+      fireEvent.click(pulpenCard);
     }
 
+    // Verify cart is not empty — checkout buttons should be enabled
+    await waitFor(() => {
+      const cetakButton = screen.getByText(/cetak struk/i).closest('button');
+      expect(cetakButton).not.toBeDisabled();
+    });
+
+    // Click "Cetak Struk" button
+    const cetakButton = screen.getByText(/cetak struk/i).closest('button')!;
+    fireEvent.click(cetakButton);
+
+    // handleCheckout sets a 600ms setTimeout for window.print
+    // Advance timers to trigger the print call
+    await vi.advanceTimersByTimeAsync(700);
+
+    await waitFor(() => {
+      expect(printSpy).toHaveBeenCalled();
+    });
+
     printSpy.mockRestore();
+  });
+
+  it('TEST-POS-011: Simpan Data harus checkout dan menampilkan toast sukses', async () => {
+    render(
+      <BrowserRouter>
+        <Pos />
+      </BrowserRouter>
+    );
+
+    // Wait for items to load
+    await waitFor(() => {
+      expect(screen.getByText('Pulpen Standard')).toBeInTheDocument();
+    });
+
+    // Add item to cart
+    const pulpenCard = screen.getByText('Pulpen Standard').closest('div[class*="cursor-pointer"]');
+    if (pulpenCard) {
+      fireEvent.click(pulpenCard);
+    }
+
+    // Verify checkout button is enabled
+    await waitFor(() => {
+      const simpanButton = screen.getByText(/simpan data/i).closest('button');
+      expect(simpanButton).not.toBeDisabled();
+    });
+
+    // Click "Simpan Data"
+    const simpanButton = screen.getByText(/simpan data/i).closest('button')!;
+    fireEvent.click(simpanButton);
+
+    // Advance timers to let all async operations in handleCheckout resolve
+    await vi.advanceTimersByTimeAsync(100);
+
+    // Verify success toast appears
+    await waitFor(() => {
+      expect(screen.getByText(/transaksi berhasil/i)).toBeInTheDocument();
+    });
+  });
+
+  it('TEST-POS-012: Checkout harus memanggil Supabase untuk simpan transaksi', async () => {
+    const { supabase } = await import('../lib/supabase');
+
+    render(
+      <BrowserRouter>
+        <Pos />
+      </BrowserRouter>
+    );
+
+    // Wait for items
+    await waitFor(() => {
+      expect(screen.getByText('Pulpen Standard')).toBeInTheDocument();
+    });
+
+    // Add item to cart
+    const pulpenCard = screen.getByText('Pulpen Standard').closest('div[class*="cursor-pointer"]');
+    if (pulpenCard) {
+      fireEvent.click(pulpenCard);
+    }
+
+    // Click "Simpan Data"
+    await waitFor(() => {
+      const simpanButton = screen.getByText(/simpan data/i).closest('button');
+      expect(simpanButton).not.toBeDisabled();
+    });
+
+    const simpanButton = screen.getByText(/simpan data/i).closest('button')!;
+    fireEvent.click(simpanButton);
+
+    // Verify supabase.from was called with the right tables during checkout
+    await waitFor(() => {
+      const fromCalls = (supabase.from as any).mock.calls.map((c: any[]) => c[0]);
+      // Should have called: transactions, transaction_details, items (update), item_movements, accounts (x4), journals (x1-2)
+      expect(fromCalls).toContain('transactions');
+      expect(fromCalls).toContain('transaction_details');
+      expect(fromCalls).toContain('item_movements');
+      expect(fromCalls).toContain('accounts');
+      expect(fromCalls).toContain('journals');
+    });
+  });
+
+  it('TEST-POS-013: Keranjang harus kosong setelah checkout berhasil', async () => {
+    render(
+      <BrowserRouter>
+        <Pos />
+      </BrowserRouter>
+    );
+
+    // Wait for items
+    await waitFor(() => {
+      expect(screen.getByText('Pulpen Standard')).toBeInTheDocument();
+    });
+
+    // Add item to cart
+    const pulpenCard = screen.getByText('Pulpen Standard').closest('div[class*="cursor-pointer"]');
+    if (pulpenCard) {
+      fireEvent.click(pulpenCard);
+    }
+
+    // Verify item is in cart
+    await waitFor(() => {
+      const pulpenElements = screen.getAllByText('Pulpen Standard');
+      expect(pulpenElements.length).toBeGreaterThanOrEqual(2);
+    });
+
+    // Click "Simpan Data"
+    const simpanButton = screen.getByText(/simpan data/i).closest('button')!;
+    fireEvent.click(simpanButton);
+
+    // Advance timers to let all async operations in handleCheckout resolve
+    await vi.advanceTimersByTimeAsync(1000);
+
+    // After successful checkout, cart should be empty — "Belum ada barang dipilih" should appear
+    await waitFor(() => {
+      expect(screen.getByText(/belum ada barang dipilih/i)).toBeInTheDocument();
+    });
   });
 });

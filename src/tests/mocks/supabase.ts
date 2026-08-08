@@ -92,36 +92,136 @@ export const mockMovements = [
   { id: 'm2', created_at: '2026-08-01T10:00:00', type: 'OUT', qty: 5, description: 'Penjualan Kasir - Nota INV-001', item_id: '1' },
 ];
 
+// Table data lookup
+const tableData: Record<string, any> = {
+  items: [...mockItems],
+  accounts: [...mockAccounts],
+  journals: [...mockJournals],
+  contacts: [...mockContacts],
+  debts: [...mockDebts],
+  fixed_assets: [...mockFixedAssets],
+  settings: mockSettings,
+  bumdes_users: [...mockUsers],
+  transactions: [...mockTransactions],
+  item_movements: [...mockMovements],
+  transaction_details: [],
+};
+
+/**
+ * Creates a chainable query builder mock that properly supports all chains:
+ * - select().order()          → resolves to { data: array }
+ * - select().eq().single()    → resolves to { data: single item }
+ * - select().limit().maybeSingle() → resolves to { data: single item | null }
+ * - insert().select().single() → resolves to { data: { id: 'new-uuid' } }
+ * - insert() (array)          → resolves to { data: [], error: null }
+ * - update().eq()              → resolves to { data: null, error: null }
+ * - delete().eq()              → resolves to { data: null, error: null }
+ */
+function createQueryBuilder(table: string, operation: 'select' | 'insert' | 'update' | 'delete') {
+  // Track state across the chain
+  let _isInsert = operation === 'insert';
+  let _isUpdate = operation === 'update';
+  let _isDelete = operation === 'delete';
+  let _selectAfterInsert = false;
+  let _eqField: string | null = null;
+  let _eqValue: any = null;
+
+  const getData = () => tableData[table] || [];
+
+  const getFilteredSingle = () => {
+    const data = getData();
+    // For settings (non-array), return as-is
+    if (!Array.isArray(data)) return data;
+    // If we have an eq filter, find matching item
+    if (_eqField && _eqValue !== null) {
+      return data.find((item: any) => item[_eqField!] === _eqValue) || data[0] || null;
+    }
+    return data[0] || null;
+  };
+
+  // The chainable builder object
+  const builder: any = {
+    select: vi.fn(() => {
+      if (_isInsert) {
+        _selectAfterInsert = true;
+      }
+      return builder;
+    }),
+    insert: vi.fn(() => {
+      _isInsert = true;
+      return builder;
+    }),
+    update: vi.fn(() => {
+      _isUpdate = true;
+      return builder;
+    }),
+    delete: vi.fn(() => {
+      _isDelete = true;
+      return builder;
+    }),
+    eq: vi.fn((field: string, value: any) => {
+      _eqField = field;
+      _eqValue = value;
+      return builder;
+    }),
+    neq: vi.fn(() => builder),
+    gt: vi.fn(() => builder),
+    gte: vi.fn(() => builder),
+    lt: vi.fn(() => builder),
+    lte: vi.fn(() => builder),
+    in: vi.fn(() => builder),
+    ilike: vi.fn(() => builder),
+    order: vi.fn(() => builder),
+    limit: vi.fn(() => builder),
+    range: vi.fn(() => builder),
+    
+    // Terminal methods — these resolve the promise
+    single: vi.fn(() => {
+      if (_isInsert && _selectAfterInsert) {
+        // insert().select().single() → return a new record with id
+        return Promise.resolve({ data: { id: 'new-trx-uuid' }, error: null });
+      }
+      // select().eq().single() → find matching record
+      return Promise.resolve({ data: getFilteredSingle(), error: null });
+    }),
+
+    maybeSingle: vi.fn(() => {
+      if (!Array.isArray(getData())) {
+        return Promise.resolve({ data: getData(), error: null });
+      }
+      return Promise.resolve({ data: getFilteredSingle(), error: null });
+    }),
+
+    // Promise-like behavior for chains that end without terminal methods
+    // e.g. await supabase.from('items').update({...}).eq('id', x)
+    then: vi.fn((resolve: any) => {
+      if (_isInsert && !_selectAfterInsert) {
+        // Plain insert (no .select()) → resolves with data
+        return resolve({ data: null, error: null });
+      }
+      if (_isUpdate || _isDelete) {
+        return resolve({ data: null, error: null });
+      }
+      // Normal select → resolves with table data array
+      const data = getData();
+      return resolve({ data: Array.isArray(data) ? data : [data], error: null });
+    }),
+  };
+
+  return builder;
+}
+
 // Mock Supabase Client
 export const createMockSupabaseClient = () => {
-  const mockFrom = (table: string) => {
-    const data: any = {
-      items: [...mockItems],
-      accounts: [...mockAccounts],
-      journals: [...mockJournals],
-      contacts: [...mockContacts],
-      debts: [...mockDebts],
-      fixed_assets: [...mockFixedAssets],
-      settings: mockSettings,
-      bumdes_users: [...mockUsers],
-      transactions: [...mockTransactions],
-      item_movements: [...mockMovements],
-      transaction_details: [],
-    };
-
+  const mockFrom = vi.fn((table: string) => {
+    // Each from() call creates a fresh builder
     return {
-      select: vi.fn().mockReturnThis(),
-      insert: vi.fn().mockReturnThis(),
-      update: vi.fn().mockReturnThis(),
-      delete: vi.fn().mockReturnThis(),
-      eq: vi.fn().mockReturnThis(),
-      order: vi.fn().mockReturnThis(),
-      limit: vi.fn().mockReturnThis(),
-      single: vi.fn().mockResolvedValue({ data: data[table] === mockSettings ? data[table] : data[table]?.[0], error: null }),
-      maybeSingle: vi.fn().mockResolvedValue({ data: data[table] === mockSettings ? data[table] : data[table]?.[0], error: null }),
-      then: vi.fn((callback) => callback({ data: data[table] || [], error: null })),
+      select: vi.fn((..._args: any[]) => createQueryBuilder(table, 'select')),
+      insert: vi.fn((..._args: any[]) => createQueryBuilder(table, 'insert')),
+      update: vi.fn((..._args: any[]) => createQueryBuilder(table, 'update')),
+      delete: vi.fn((..._args: any[]) => createQueryBuilder(table, 'delete')),
     };
-  };
+  });
 
   return {
     from: mockFrom,

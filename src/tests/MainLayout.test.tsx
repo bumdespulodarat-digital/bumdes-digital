@@ -1,6 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+
+vi.mock('../lib/supabase', async () => {
+  const { createMockSupabaseClient } = await import('./mocks/supabase');
+  return {
+    supabase: createMockSupabaseClient(),
+  };
+});
+
 import MainLayout from '../layouts/MainLayout';
 
 // Mock matchMedia for dark mode testing

@@ -84,7 +84,7 @@ Aplikasi ini dibangun menggunakan arsitektur modern untuk menjamin kecepatan, ke
 
 ### 1. Kloning Repositori
 ```bash
-git clone https://github.com/bumdes-pulodarat/bumdes-digital.git
+git clone https://github.com/bumdespulodarat-digital/bumdes-digital.git
 cd bumdes-digital
 ```
 
@@ -111,7 +111,7 @@ npm run dev
 Aplikasi dapat diakses di browser pada alamat `http://localhost:5173`.
 
 ### 5. Menjalankan Unit Test (Vitest)
-Aplikasi dilengkapi dengan *Test Suite* komprehensif (>120 Test Cases) untuk menjamin kualitas fitur dan kalkulasi akuntansi.
+Aplikasi dilengkapi dengan *Test Suite* komprehensif (130+ Test Cases) untuk menjamin kualitas fitur dan kalkulasi akuntansi, termasuk pengujian checkout POS (Simpan Data & Cetak Struk).
 ```bash
 npm run test
 ```
