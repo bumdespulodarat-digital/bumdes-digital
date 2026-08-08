@@ -691,7 +691,7 @@ export default function Akuntansi() {
     <div className="flex flex-col min-h-[calc(100vh-130px)] space-y-4">
       {/* Navbar Tabs */}
       <div className="flex flex-col gap-3 md:gap-4 card rounded-2xl shadow-sm p-3 md:p-4 z-10">
-        <div className="flex flex-nowrap overflow-x-auto gap-1.5 md:gap-2 w-full pb-1" style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}>
+        <div className="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 md:gap-2 w-full pb-1 snap-x" style={{ WebkitOverflowScrolling: 'touch' }}>
           {[
             { id: 'laba-rugi', name: 'Laba Rugi', icon: <TrendingUp size={14} /> },
             { id: 'neraca', name: 'Neraca', icon: <Scale size={14} /> },
@@ -706,10 +706,10 @@ export default function Akuntansi() {
             </button>
           ))}
         </div>
-        <div className="flex gap-2 w-full">
-          <button onClick={() => setShowIncomeModal(true)} className="flex-1 flex items-center justify-center gap-1.5 md:gap-2 bg-emerald-50 text-emerald-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-emerald-200 text-xs md:text-sm"><ArrowDownCircle size={14} /> Pemasukan</button>
-          <button onClick={() => setShowExpenseModal(true)} className="flex-1 flex items-center justify-center gap-1.5 md:gap-2 bg-rose-50 text-rose-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-rose-200 text-xs md:text-sm"><ArrowUpCircle size={14} /> Pengeluaran</button>
-          <button onClick={handleExportAllExcel} disabled={isExporting} className="flex-1 flex items-center justify-center gap-1.5 md:gap-2 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-primary-200 dark:border-primary-800 text-xs md:text-sm disabled:opacity-50">
+        <div className="flex flex-wrap sm:flex-nowrap gap-2 w-full">
+          <button onClick={() => setShowIncomeModal(true)} className="flex-1 min-w-[calc(50%-0.25rem)] sm:min-w-0 flex items-center justify-center gap-1.5 md:gap-2 bg-emerald-50 text-emerald-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-emerald-200 text-xs md:text-sm"><ArrowDownCircle size={14} /> Pemasukan</button>
+          <button onClick={() => setShowExpenseModal(true)} className="flex-1 min-w-[calc(50%-0.25rem)] sm:min-w-0 flex items-center justify-center gap-1.5 md:gap-2 bg-rose-50 text-rose-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-rose-200 text-xs md:text-sm"><ArrowUpCircle size={14} /> Pengeluaran</button>
+          <button onClick={handleExportAllExcel} disabled={isExporting} className="flex-1 min-w-full sm:min-w-0 flex items-center justify-center gap-1.5 md:gap-2 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-primary-200 dark:border-primary-800 text-xs md:text-sm disabled:opacity-50">
             {isExporting ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />} Semua Laporan (.xlsx)
           </button>
         </div>

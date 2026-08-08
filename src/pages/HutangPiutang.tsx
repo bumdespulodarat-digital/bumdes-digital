@@ -159,7 +159,7 @@ export default function HutangPiutang() {
   return (
     <div className="flex flex-col min-h-[calc(100vh-130px)] space-y-4">
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center bg-white dark:bg-slate-900/40 p-4 border dark:border-slate-800/60 rounded-2xl shadow-sm relative z-10">
-        <div className="flex overflow-x-auto whitespace-nowrap scrollbar-hide bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl w-full sm:w-auto">
+        <div className="flex overflow-x-auto whitespace-nowrap no-scrollbar bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl w-full sm:w-auto snap-x">
           <button onClick={() => setActiveTab('Piutang')} className={`flex-1 sm:flex-none px-6 py-2 rounded-lg font-bold text-sm trans-all ${activeTab === 'Piutang' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}>Buku Piutang</button>
           <button onClick={() => setActiveTab('Utang')} className={`flex-1 sm:flex-none px-6 py-2 rounded-lg font-bold text-sm trans-all ${activeTab === 'Utang' ? 'bg-white dark:bg-slate-700 shadow-sm text-rose-700 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}>Buku Utang</button>
         </div>

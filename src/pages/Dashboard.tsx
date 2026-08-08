@@ -225,7 +225,7 @@ export default function Dashboard() {
       </div>
 
       {/* Grid Statistik */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 md:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-5">
         {statCards.map((stat, i) => (
           <div key={i} className={`bg-gradient-to-br ${stat.gradient} rounded-2xl md:rounded-3xl p-4 md:p-6 text-white shadow-lg hover:shadow-xl trans-all hover:-translate-y-1 relative overflow-hidden group animate-fade-in-up`} style={{ animationDelay: `${i * 80}ms` }}>
             <div className="flex flex-col relative z-10">

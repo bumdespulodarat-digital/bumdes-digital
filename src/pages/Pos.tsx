@@ -240,7 +240,7 @@ export default function Pos() {
             <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
               <ShoppingBag size={20} className="text-primary-600 dark:text-primary-400" /> Keranjang Belanja
             </h2>
-            <button onClick={() => setIsMobileCartOpen(false)} className="xl:hidden w-8 h-8 flex items-center justify-center rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
+            <button onClick={() => setIsMobileCartOpen(false)} className="xl:hidden w-11 h-11 flex items-center justify-center rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 shrink-0">
               <Minus size={18} />
             </button>
           </div>
@@ -258,20 +258,20 @@ export default function Pos() {
                   <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 line-clamp-1">{item.name}</h4>
                   <p className="text-primary-600 dark:text-primary-400 font-extrabold text-sm">Rp {(item.price * item.qty).toLocaleString('id-ID')}</p>
                 </div>
-                <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-700 p-1 rounded-xl border border-slate-200 dark:border-slate-600">
-                  <button onClick={() => updateQty(item.id, -1)} className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600 hover:shadow-sm trans-all"><Minus size={14} /></button>
-                  <span className="w-6 text-center font-bold text-sm text-slate-800 dark:text-slate-100">{item.qty}</span>
-                  <button onClick={() => updateQty(item.id, 1)} className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600 hover:shadow-sm trans-all"><Plus size={14} /></button>
+                <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-700 p-1 rounded-xl border border-slate-200 dark:border-slate-600 shrink-0">
+                  <button onClick={() => updateQty(item.id, -1)} className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600 hover:shadow-sm trans-all"><Minus size={14} /></button>
+                  <span className="w-7 text-center font-bold text-sm text-slate-800 dark:text-slate-100">{item.qty}</span>
+                  <button onClick={() => updateQty(item.id, 1)} className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600 hover:shadow-sm trans-all"><Plus size={14} /></button>
                 </div>
-                <button onClick={() => removeFromCart(item.id)} className="w-9 h-9 rounded-xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-rose-500 hover:bg-rose-500 hover:text-white trans-all ml-1"><Trash2 size={16} /></button>
+                <button onClick={() => removeFromCart(item.id)} className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-rose-500 hover:bg-rose-500 hover:text-white trans-all ml-1"><Trash2 size={16} /></button>
               </div>
             ))}
           </div>
 
-          <div className="p-6 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 rounded-b-3xl">
-            <div className="flex justify-between items-center mb-6 bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-              <span className="text-slate-500 font-bold text-sm uppercase tracking-wider">Total Tagihan</span>
-              <span className="text-2xl font-black text-primary-900 dark:text-primary-300">Rp {total.toLocaleString('id-ID')}</span>
+          <div className="p-4 sm:p-6 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 rounded-b-3xl">
+            <div className="flex justify-between items-center mb-4 sm:mb-6 bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+              <span className="text-slate-500 font-bold text-xs sm:text-sm uppercase tracking-wider">Total Tagihan</span>
+              <span className="text-xl sm:text-2xl font-black text-primary-900 dark:text-primary-300">Rp {total.toLocaleString('id-ID')}</span>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <button disabled={cart.length === 0 || loading} onClick={() => handleCheckout(true)} className="flex flex-col items-center justify-center gap-1 py-3 rounded-2xl bg-slate-800 text-white hover:bg-slate-900 trans-all disabled:opacity-50 active:scale-95 shadow-lg shadow-slate-800/20">

@@ -139,7 +139,7 @@ export default function Stok() {
     <div className="flex flex-col h-[calc(100vh-130px)] space-y-4">
       {/* Navbar Tabs */}
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-center card rounded-2xl shadow-sm p-4 z-10">
-        <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+        <div className="flex overflow-x-auto no-scrollbar whitespace-nowrap bg-slate-100 dark:bg-slate-800 p-1 rounded-xl w-full sm:w-auto snap-x">
           <button onClick={() => setActiveTab('Manajemen')} className={`flex items-center gap-2 px-6 py-2 rounded-lg font-bold text-sm trans-all ${activeTab === 'Manajemen' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}><Package size={16} /> Manajemen Stok</button>
           <button onClick={() => setActiveTab('Kartu')} className={`flex items-center gap-2 px-6 py-2 rounded-lg font-bold text-sm trans-all ${activeTab === 'Kartu' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}><FileText size={16} /> Kartu Stok</button>
         </div>

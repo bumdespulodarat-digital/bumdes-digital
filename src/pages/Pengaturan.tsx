@@ -160,10 +160,10 @@ export default function Pengaturan() {
           onClose={() => setToast(null)}
         />
       )}
-      <div className="flex gap-2 card rounded-2xl shadow-sm p-4 z-10 relative">
+      <div className="flex flex-nowrap overflow-x-auto whitespace-nowrap snap-x no-scrollbar gap-2 card rounded-2xl shadow-sm p-4 z-10 relative">
         <button
           onClick={() => setActiveTab('toko')}
-          className={`flex-1 sm:flex-none flex justify-center items-center gap-2 py-2.5 px-6 rounded-xl font-bold transition-all ${activeTab === 'toko'
+          className={`snap-start shrink-0 flex justify-center items-center gap-2 py-2.5 px-6 rounded-xl font-bold transition-all ${activeTab === 'toko'
               ? 'bg-primary-50 dark:bg-primary-950/50 text-primary-700 dark:text-primary-300 shadow-sm'
               : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'
             }`}
@@ -172,7 +172,7 @@ export default function Pengaturan() {
         </button>
         <button
           onClick={() => setActiveTab('pengurus')}
-          className={`flex-1 sm:flex-none flex justify-center items-center gap-2 py-2.5 px-6 rounded-xl font-bold transition-all ${activeTab === 'pengurus'
+          className={`snap-start shrink-0 flex justify-center items-center gap-2 py-2.5 px-6 rounded-xl font-bold transition-all ${activeTab === 'pengurus'
               ? 'bg-primary-50 dark:bg-primary-950/50 text-primary-700 dark:text-primary-300 shadow-sm'
               : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'
             }`}
@@ -252,16 +252,16 @@ export default function Pengaturan() {
                   {users.length === 0 && <p className="text-slate-500 italic">Belum ada data pengurus.</p>}
                   {users.map(u => (
                     <div key={u.id} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 flex items-center justify-center font-black text-lg uppercase">
+                      <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 flex items-center justify-center font-black text-base sm:text-lg uppercase">
                           {u.name.charAt(0)}
                         </div>
-                        <div>
-                          <h4 className="font-bold text-slate-800 dark:text-slate-100">{u.name}</h4>
-                          <p className="text-xs text-slate-500 dark:text-slate-400">{u.email} &bull; <span className="font-semibold text-primary-600 dark:text-primary-400">{u.role}</span></p>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-bold text-slate-800 dark:text-slate-100 truncate">{u.name}</h4>
+                          <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">{u.email} &bull; <span className="font-semibold text-primary-600 dark:text-primary-400">{u.role}</span></p>
                         </div>
                       </div>
-                      <button onClick={() => handleHapusPengurus(u.id, u.name, u.email)} className="w-10 h-10 rounded-xl flex items-center justify-center text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 trans-all">
+                      <button onClick={() => handleHapusPengurus(u.id, u.name, u.email)} className="w-11 h-11 shrink-0 rounded-xl flex items-center justify-center text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 trans-all">
                         <Trash2 size={18} />
                       </button>
                     </div>

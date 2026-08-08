@@ -18,9 +18,17 @@
 }
 
 @layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
   body {
     @apply bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100;
     font-family: 'Outfit', sans-serif;
+    -webkit-text-size-adjust: 100%;
   }
 }
 
@@ -49,6 +57,15 @@
   /* Reusable dark-mode input */
   .input-field {
     @apply bg-slate-50 border-slate-200 text-slate-800 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-100 dark:placeholder-slate-400;
+  }
+
+  /* Hide scrollbar but keep scrolling */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 
