@@ -308,4 +308,43 @@ describe('Pengaturan - Settings & User Management', () => {
     // Toast should appear after deletion
     expect(await screen.findByText(/berhasil dihapus/i)).toBeInTheDocument();
   });
+
+  it('TEST-SETT-020: Harus bisa menampilkan modal Ubah Password dan memanggil API', async () => {
+    render(
+      <BrowserRouter>
+        <Pengaturan />
+      </BrowserRouter>
+    );
+
+    const pengurusTab = await screen.findByText('Manajemen Pengurus');
+    fireEvent.click(pengurusTab);
+
+    // Pastikan user admin utama muncul
+    await waitFor(() => {
+      expect(screen.getByText('Admin Utama')).toBeInTheDocument();
+    }, { timeout: 3000 });
+
+    // Cari tombol "Ubah Password" (title="Ubah Password")
+    const ubahPassButtons = screen.getAllByTitle('Ubah Password');
+    fireEvent.click(ubahPassButtons[0]);
+
+    // Modal Ubah Password harus muncul
+    await waitFor(() => {
+      expect(screen.getByText(/Ubah password untuk/i)).toBeInTheDocument();
+    });
+
+    // Isi password baru (Pilih elemen kedua karena elemen pertama ada di form Tambah Akun)
+    const passwordInputs = screen.getAllByPlaceholderText(/Minimal 6 karakter/i);
+    const modalPasswordInput = passwordInputs[1];
+    fireEvent.change(modalPasswordInput, { target: { value: 'newpassword123' } });
+
+    // Klik simpan (Pilih tombol simpan di modal)
+    const simpanButton = screen.getByRole('button', { name: /Simpan/i });
+    fireEvent.click(simpanButton);
+
+    // Harus memunculkan toast berhasil
+    await waitFor(() => {
+      expect(screen.getByText(/berhasil diubah!/i)).toBeInTheDocument();
+    });
+  });
 });

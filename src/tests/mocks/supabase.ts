@@ -116,7 +116,9 @@ export const createMockSupabaseClient = () => {
       delete: vi.fn().mockReturnThis(),
       eq: vi.fn().mockReturnThis(),
       order: vi.fn().mockReturnThis(),
+      limit: vi.fn().mockReturnThis(),
       single: vi.fn().mockResolvedValue({ data: data[table] === mockSettings ? data[table] : data[table]?.[0], error: null }),
+      maybeSingle: vi.fn().mockResolvedValue({ data: data[table] === mockSettings ? data[table] : data[table]?.[0], error: null }),
       then: vi.fn((callback) => callback({ data: data[table] || [], error: null })),
     };
   };
@@ -145,6 +147,7 @@ export const createMockSupabaseClient = () => {
         listUsers: vi.fn().mockResolvedValue({ data: { users: [{ id: 'auth-1', email: 'admin@bumdes.com' }] }, error: null }),
         deleteUser: vi.fn().mockResolvedValue({ data: {}, error: null }),
         createUser: vi.fn().mockResolvedValue({ data: { user: { id: 'new-auth' } }, error: null }),
+        updateUserById: vi.fn().mockResolvedValue({ data: { user: { id: 'auth-1' } }, error: null }),
       }
     },
   };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Store, MapPin, Phone, Save, Users, UserPlus, Trash2 } from 'lucide-react';
+import { Store, MapPin, Phone, Save, Users, UserPlus, Trash2, KeyRound } from 'lucide-react';
 import { supabase, supabaseAdmin } from '../lib/supabase';
 import Toast, { ConfirmDialog } from '../components/Toast';
 import type { ToastType } from '../components/Toast';
@@ -20,6 +20,8 @@ export default function Pengaturan() {
   const [activeTab, setActiveTab] = useState<'toko' | 'pengurus'>('toko');
   const [toast, setToast] = useState<{ message: string; type: ToastType; subtitle?: string } | null>(null);
   const [confirmDialog, setConfirmDialog] = useState<{ id: string; name: string; email: string } | null>(null);
+  const [editPasswordModal, setEditPasswordModal] = useState<{ isOpen: boolean; email: string; name: string } | null>(null);
+  const [editPasswordValue, setEditPasswordValue] = useState('');
 
   const fetchData = async () => {
     setLoading(true);
@@ -149,6 +151,45 @@ export default function Pengaturan() {
     setSaving(false);
   };
 
+  const handleUbahPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editPasswordModal) return;
+    setSaving(true);
+    
+    try {
+      if (!supabaseAdmin) {
+        setToast({ message: 'Kunci Admin tidak ditemukan', type: 'error', subtitle: 'Fitur ini membutuhkan VITE_SUPABASE_SERVICE_ROLE_KEY di .env.local' });
+        setSaving(false);
+        return;
+      }
+
+      // Cari user di Auth
+      const { data: authUsers, error: listError } = await supabaseAdmin.auth.admin.listUsers();
+      if (listError) throw listError;
+      
+      const authUser = authUsers?.users?.find((u: any) => u.email === editPasswordModal.email);
+      if (!authUser) {
+        setToast({ message: 'Gagal mengubah password', type: 'error', subtitle: 'Pengguna tidak ditemukan di Auth Supabase.' });
+        setSaving(false);
+        return;
+      }
+
+      const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(authUser.id, {
+        password: editPasswordValue
+      });
+
+      if (updateError) throw updateError;
+
+      setToast({ message: `Password ${editPasswordModal.name} berhasil diubah! 🔑`, type: 'success', subtitle: 'Pengguna sekarang dapat login dengan password baru.' });
+      setEditPasswordModal(null);
+      setEditPasswordValue('');
+    } catch (error: any) {
+      console.error('Error mengubah password:', error);
+      setToast({ message: 'Gagal mengubah password', type: 'error', subtitle: error?.message || 'Terjadi kesalahan sistem.' });
+    }
+    setSaving(false);
+  };
+
   return (
     <div className="flex flex-col h-[calc(100vh-130px)] space-y-4">
       {/* Toast Notification */}
@@ -261,9 +302,14 @@ export default function Pengaturan() {
                           <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">{u.email} &bull; <span className="font-semibold text-primary-600 dark:text-primary-400">{u.role}</span></p>
                         </div>
                       </div>
-                      <button onClick={() => handleHapusPengurus(u.id, u.name, u.email)} className="w-11 h-11 shrink-0 rounded-xl flex items-center justify-center text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 trans-all">
-                        <Trash2 size={18} />
-                      </button>
+                      <div className="flex gap-2">
+                        <button onClick={() => setEditPasswordModal({ isOpen: true, email: u.email, name: u.name })} className="w-11 h-11 shrink-0 rounded-xl flex items-center justify-center text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 trans-all" title="Ubah Password">
+                          <KeyRound size={18} />
+                        </button>
+                        <button onClick={() => handleHapusPengurus(u.id, u.name, u.email)} className="w-11 h-11 shrink-0 rounded-xl flex items-center justify-center text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 trans-all">
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -311,6 +357,54 @@ export default function Pengaturan() {
         )}
 
       </div>
+
+      {/* Edit Password Modal */}
+      {editPasswordModal && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-fade-in-up">
+            <div className="p-6 border-b border-slate-100 dark:border-slate-800">
+              <h2 className="text-xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                <KeyRound size={22} className="text-primary-600" /> Ubah Password
+              </h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                Ubah password untuk <b>{editPasswordModal.name}</b>
+              </p>
+            </div>
+            
+            <form onSubmit={handleUbahPassword} className="p-6">
+              <div className="mb-6">
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Password Baru</label>
+                <input 
+                  type="password" 
+                  required 
+                  minLength={6}
+                  value={editPasswordValue}
+                  onChange={(e) => setEditPasswordValue(e.target.value)}
+                  className="w-full px-4 py-3 input-field border-2 rounded-xl focus:border-primary-500 font-semibold" 
+                  placeholder="Minimal 6 karakter"
+                />
+              </div>
+              
+              <div className="flex gap-3">
+                <button 
+                  type="button" 
+                  onClick={() => { setEditPasswordModal(null); setEditPasswordValue(''); }}
+                  className="flex-1 py-3 px-4 rounded-xl font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 trans-all"
+                >
+                  Batal
+                </button>
+                <button 
+                  type="submit" 
+                  disabled={saving}
+                  className="flex-1 py-3 px-4 rounded-xl font-bold text-white bg-primary-600 hover:bg-primary-700 shadow-lg shadow-primary-600/30 trans-all disabled:opacity-50"
+                >
+                  {saving ? 'Menyimpan...' : 'Simpan'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Confirm Delete Dialog */}
       {confirmDialog && (
