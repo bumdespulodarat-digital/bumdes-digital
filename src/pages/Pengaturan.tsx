@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Store, MapPin, Phone, Save, Users, UserPlus, Trash2 } from 'lucide-react';
+import { Store, MapPin, Phone, Save, Users, UserPlus, Trash2, CheckCircle } from 'lucide-react';
 import { supabase, supabaseAdmin } from '../lib/supabase';
+import Toast, { ToastType } from '../components/Toast';
 
 export default function Pengaturan() {
   const [settings, setSettings] = useState({
@@ -16,6 +17,7 @@ export default function Pengaturan() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<'toko' | 'pengurus'>('toko');
+  const [toast, setToast] = useState<{ message: string; type: ToastType; subtitle?: string } | null>(null);
 
   const fetchData = async () => {
     setLoading(true);
@@ -52,8 +54,8 @@ export default function Pengaturan() {
     }
     
     setSaving(false);
-    alert('Pengaturan Toko berhasil disimpan!');
-    window.location.reload();
+    setToast({ message: 'Pengaturan Toko berhasil disimpan!', type: 'success', subtitle: 'Perubahan akan ditampilkan pada struk dan laporan.' });
+    setTimeout(() => window.location.reload(), 2000);
   };
 
   const handleTambahPengurus = async (e: React.FormEvent) => {
@@ -61,7 +63,7 @@ export default function Pengaturan() {
     setSaving(true);
     try {
       if (!supabaseAdmin) {
-        alert('Fitur ini membutuhkan VITE_SUPABASE_SERVICE_ROLE_KEY di .env.local');
+        setToast({ message: 'Kunci Admin tidak ditemukan', type: 'error', subtitle: 'Fitur ini membutuhkan VITE_SUPABASE_SERVICE_ROLE_KEY di .env.local' });
         setSaving(false);
         return;
       }
@@ -75,7 +77,7 @@ export default function Pengaturan() {
       });
 
       if (signUpError) {
-        alert(`Gagal menambah pengurus: ${signUpError.message}`);
+        setToast({ message: 'Gagal menambah pengurus', type: 'error', subtitle: signUpError.message });
         setSaving(false);
         return;
       }
@@ -87,10 +89,10 @@ export default function Pengaturan() {
       });
       setNewUser({ name: '', role: 'Admin', email: '', password: '' });
       fetchData();
-      alert('Pengurus berhasil ditambahkan!');
+      setToast({ message: `${newUser.name} berhasil ditambahkan! ✨`, type: 'success', subtitle: `Akun ${newUser.email} (${newUser.role}) sudah aktif dan siap digunakan.` });
     } catch (error: any) {
       console.error(error);
-      alert('Terjadi kesalahan sistem.');
+      setToast({ message: 'Terjadi kesalahan sistem', type: 'error', subtitle: 'Silakan coba lagi atau hubungi administrator.' });
     }
     setSaving(false);
   };
@@ -103,6 +105,15 @@ export default function Pengaturan() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-130px)] space-y-4">
+      {/* Toast Notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          subtitle={toast.subtitle}
+          onClose={() => setToast(null)}
+        />
+      )}
       <div className="flex gap-2 card rounded-2xl shadow-sm p-4 z-10 relative">
         <button
           onClick={() => setActiveTab('toko')}
