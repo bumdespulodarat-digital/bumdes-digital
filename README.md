@@ -30,9 +30,9 @@ Program Kerja (Proker) KKN ini menginisiasi transformasi digital dengan membangu
 
 ### 🛒 2. Kasir Pintar (Point of Sale) & Struk Thermal
 - **Transaksi Super Cepat:** Desain kasir responsif untuk tablet & mobile.
-- **Kalkulasi Cerdas:** Menghitung total belanja & kembalian secara otomatis.
-- **Otomatisasi Jurnal:** Setiap penjualan otomatis menjurnal ke Akuntansi (Kas, Pendapatan, HPP, Persediaan).
-- **Cetak Struk:** Fitur cetak struk kompatibel dengan printer kasir (thermal).
+- **Kalkulasi Cerdas:** Menghitung total belanja & kembalian otomatis (termasuk tombol nominal uang bayar cepat/Uang Pas).
+- **Otomatisasi Jurnal:** Setiap penjualan otomatis menjurnal ke Akuntansi (Kas, Pendapatan, HPP, Persediaan) dan mencatat mutasi barang.
+- **Riwayat Transaksi & Cetak Ulang:** Tersedia tab khusus untuk melacak histori transaksi, filter pencarian, filter tanggal, modal detail pembelian, dan fitur cetak ulang struk lawas.
 
 ### 📦 3. Manajemen & Kartu Stok (Buku Pembantu Persediaan)
 - **Sinkronisasi Real-time:** Stok otomatis berkurang presisi pada setiap transaksi POS.
