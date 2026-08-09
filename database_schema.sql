@@ -133,7 +133,7 @@ INSERT INTO fixed_assets (name, category, acquisition_cost, notes) VALUES
 
 -- Insert data pengurus BUMDes (Pastikan Anda juga mendaftarkan email ini di menu Authentication Supabase dengan password yang Anda inginkan)
 INSERT INTO bumdes_users (name, role, email) VALUES
-    ('Mas Anjid', 'Direktur BUMDes', 'direktur.bumdespulodarat@gmail.com'),
+    ('Ahmad Fathul Kholis', 'Direktur BUMDes', 'direktur.bumdespulodarat@gmail.com'),
     ('Mbak Nurul', 'Bendahara', 'bendahara.bumdespulodarat@gmail.com'),
     ('Akuntan BUMDes', 'Akuntan', 'akuntan.bumdespulodarat@gmail.com');
 
