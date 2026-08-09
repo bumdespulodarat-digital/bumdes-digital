@@ -84,7 +84,11 @@ export const mockUsers = [
 ];
 
 export const mockTransactions = [
-  { id: 't1', invoice_number: 'INV-001', type: 'Penjualan', total_amount: 50000, notes: 'Penjualan Kasir', created_at: '2026-08-01' },
+  { id: 't1', invoice_number: 'INV-001', type: 'Penjualan', total_amount: 50000, notes: 'Penjualan Kasir', payment_method: 'Tunai', amount_paid: 50000, change_amount: 0, cashier_name: 'Admin Utama', created_at: '2026-08-01T10:00:00' },
+];
+
+export const mockTransactionDetails = [
+  { id: 'td1', transaction_id: 't1', item_id: '1', qty: 1, unit_price: 50000, subtotal: 50000, items: mockItems[0] },
 ];
 
 export const mockMovements = [
@@ -104,7 +108,7 @@ const tableData: Record<string, any> = {
   bumdes_users: [...mockUsers],
   transactions: [...mockTransactions],
   item_movements: [...mockMovements],
-  transaction_details: [],
+  transaction_details: [...mockTransactionDetails],
 };
 
 /**
@@ -170,6 +174,7 @@ function createQueryBuilder(table: string, operation: 'select' | 'insert' | 'upd
     lt: vi.fn(() => builder),
     lte: vi.fn(() => builder),
     in: vi.fn(() => builder),
+    like: vi.fn(() => builder),
     ilike: vi.fn(() => builder),
     order: vi.fn(() => builder),
     limit: vi.fn(() => builder),

@@ -208,7 +208,7 @@ describe('Hutang Piutang - Buku Pembantu', () => {
     fireEvent.click(tambahButton);
 
     await waitFor(() => {
-      expect(screen.getByPlaceholderText(/nominal rp/i)).toBeInTheDocument();
+      expect(screen.getByPlaceholderText('0')).toBeInTheDocument();
     });
   });
 

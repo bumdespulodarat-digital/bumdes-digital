@@ -202,6 +202,10 @@ describe('Kasir (POS) - Point of Sale System', () => {
       fireEvent.click(pulpenCard);
     }
 
+    // Select Uang Pas
+    const uangPasBtn = screen.getByText('Uang Pas');
+    fireEvent.click(uangPasBtn);
+
     // Verify cart is not empty — checkout buttons should be enabled
     await waitFor(() => {
       const cetakButton = screen.getByText(/cetak struk/i).closest('button');
@@ -241,6 +245,10 @@ describe('Kasir (POS) - Point of Sale System', () => {
       fireEvent.click(pulpenCard);
     }
 
+    // Select Uang Pas
+    const uangPasBtn = screen.getByText('Uang Pas');
+    fireEvent.click(uangPasBtn);
+
     // Verify checkout button is enabled
     await waitFor(() => {
       const simpanButton = screen.getByText(/simpan data/i).closest('button');
@@ -279,6 +287,10 @@ describe('Kasir (POS) - Point of Sale System', () => {
     if (pulpenCard) {
       fireEvent.click(pulpenCard);
     }
+
+    // Select Uang Pas
+    const uangPasBtn = screen.getByText('Uang Pas');
+    fireEvent.click(uangPasBtn);
 
     // Click "Simpan Data"
     await waitFor(() => {
@@ -325,6 +337,10 @@ describe('Kasir (POS) - Point of Sale System', () => {
       expect(pulpenElements.length).toBeGreaterThanOrEqual(2);
     });
 
+    // Select Uang Pas to fulfill payment
+    const uangPasBtn = screen.getByText('Uang Pas');
+    fireEvent.click(uangPasBtn);
+
     // Click "Simpan Data"
     const simpanButton = screen.getByText(/simpan data/i).closest('button')!;
     fireEvent.click(simpanButton);
@@ -336,5 +352,62 @@ describe('Kasir (POS) - Point of Sale System', () => {
     await waitFor(() => {
       expect(screen.getByText(/belum ada barang dipilih/i)).toBeInTheDocument();
     });
+  });
+
+  it('TEST-POS-014: Harus bisa berpindah ke tab Riwayat Transaksi', async () => {
+    render(<BrowserRouter><Pos /></BrowserRouter>);
+    const riwayatTab = screen.getByText(/Riwayat Transaksi/i);
+    fireEvent.click(riwayatTab);
+    await waitFor(() => {
+      expect(screen.getByText('INV-001')).toBeInTheDocument();
+    });
+  });
+
+  it('TEST-POS-015: Klik detail transaksi harus membuka modal dengan item terkait', async () => {
+    render(<BrowserRouter><Pos /></BrowserRouter>);
+    const riwayatTab = screen.getByText(/Riwayat Transaksi/i);
+    fireEvent.click(riwayatTab);
+    
+    await waitFor(() => {
+      expect(screen.getByText('INV-001')).toBeInTheDocument();
+    });
+
+    const detailButtons = await screen.findAllByText(/Detail/i);
+    fireEvent.click(detailButtons[0]);
+
+    await waitFor(() => {
+      expect(screen.getByText('Detail Transaksi')).toBeInTheDocument();
+      expect(screen.getByText('Pulpen Standard')).toBeInTheDocument();
+    });
+  });
+
+  it('TEST-POS-016: Harus bisa mencetak ulang struk dari riwayat', async () => {
+    const printSpy = vi.spyOn(window, 'print').mockImplementation(() => {});
+    render(<BrowserRouter><Pos /></BrowserRouter>);
+    
+    const riwayatTab = screen.getByText(/Riwayat Transaksi/i);
+    fireEvent.click(riwayatTab);
+    
+    await waitFor(() => {
+      expect(screen.getByText('INV-001')).toBeInTheDocument();
+    });
+
+    const detailButtons = await screen.findAllByText(/Detail/i);
+    fireEvent.click(detailButtons[0]);
+
+    await waitFor(() => {
+      expect(screen.getByText('Detail Transaksi')).toBeInTheDocument();
+    });
+
+    const cetakButton = screen.getByText(/Cetak Ulang Struk/i).closest('button')!;
+    fireEvent.click(cetakButton);
+
+    await vi.advanceTimersByTimeAsync(400);
+
+    await waitFor(() => {
+      expect(printSpy).toHaveBeenCalled();
+    });
+
+    printSpy.mockRestore();
   });
 });
