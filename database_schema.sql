@@ -131,11 +131,11 @@ INSERT INTO fixed_assets (name, category, acquisition_cost, notes) VALUES
   ('Printer', 'Peralatan', 2000000, 'Printer baru untuk toko'),
   ('Pembangunan Tempat Parkir', 'Bangunan', 100000000, 'Lahan parkir di sebelah pabrik (belum beroperasi)');
 
--- Insert data pengurus BUMDes
+-- Insert data pengurus BUMDes (Pastikan Anda juga mendaftarkan email ini di menu Authentication Supabase dengan password yang Anda inginkan)
 INSERT INTO bumdes_users (name, role, email) VALUES
-    ('Mas Anjid', 'Direktur BUMDes', 'direktur@bumdes.com'),
-    ('Mbak Nurul', 'Bendahara', 'bendahara@bumdes.com'),
-    ('Admin Pusat', 'Admin Sistem', 'admin@bumdes.com');
+    ('Mas Anjid', 'Direktur BUMDes', 'direktur.bumdespulodarat@gmail.com'),
+    ('Mbak Nurul', 'Bendahara', 'bendahara.bumdespulodarat@gmail.com'),
+    ('Akuntan BUMDes', 'Akuntan', 'akuntan.bumdespulodarat@gmail.com');
 
 -- =================================================================================
 -- 9. Tabel Kontak (Pihak Ketiga) untuk Piutang/Utang
