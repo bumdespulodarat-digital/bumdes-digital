@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Users, Plus, CheckCircle, XCircle, Pencil, Trash2, Undo2 } from 'lucide-react';
+import { Users, Plus, CheckCircle, Pencil, Trash2, Undo2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import Toast, { ConfirmDialog } from '../components/Toast';
 import type { ToastType } from '../components/Toast';
