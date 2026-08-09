@@ -80,38 +80,51 @@ Aplikasi ini dibangun menggunakan arsitektur modern untuk menjamin kecepatan, ke
 - **Testing:** Vitest & React Testing Library (Unit & Integration Test).
 - **Icons & Visuals:** Lucide React icons.
 
-## 🚀 Panduan Instalasi (Quick Start)
+## 🚀 Panduan Instalasi (Langkah demi Langkah)
 
-### 1. Kloning Repositori
+Panduan ini dibuat agar mudah dipahami, bahkan bagi pemula sekalipun. Ikuti urutan di bawah ini untuk menjalankan aplikasi BUMDes Digital di komputer Anda.
+
+### 1. Kloning (Download) Kode Aplikasi
+Pertama, Anda perlu mengunduh kode aplikasi ini ke komputer Anda. Buka **Terminal** atau **Command Prompt**, lalu ketikkan perintah berikut:
 ```bash
 git clone https://github.com/bumdespulodarat-digital/bumdes-digital.git
 cd bumdes-digital
 ```
+*(Perintah `cd bumdes-digital` akan mengarahkan Anda masuk ke dalam folder aplikasi yang baru saja diunduh).*
 
-### 2. Instalasi Dependensi
+### 2. Install Dependensi (Komponen Tambahan)
+Agar aplikasi bisa berjalan, Anda perlu mengunduh semua "alat bantu" (*library*) yang dibutuhkan. Pastikan Anda sudah menginstal **Node.js** di komputer Anda, lalu jalankan:
 ```bash
 npm install
 ```
+*(Tunggu beberapa saat sampai proses unduh selesai. Pastikan komputer terhubung dengan internet yang stabil).*
 
-### 3. Konfigurasi Database (Supabase)
-Buat file `.env.local` di folder *root* dan masukkan kredensial Supabase Anda:
+### 3. Konfigurasi Database (Menyambungkan ke Supabase)
+Aplikasi ini membutuhkan database *Supabase* untuk menyimpan data secara *real-time*.
+1. Buat sebuah file baru bernama `.env.local` tepat di dalam folder `bumdes-digital`.
+2. Buka file tersebut, lalu masukkan link (`URL`) dan kunci rahasia (`KEY`) dari akun Supabase Anda dengan format berikut:
 ```env
-VITE_SUPABASE_URL=https://[PROJECT-ID].supabase.co
-VITE_SUPABASE_ANON_KEY=eyJh...
+VITE_SUPABASE_URL=https://[GANTI_DENGAN_PROJECT_ID_ANDA].supabase.co
+VITE_SUPABASE_ANON_KEY=eyJh...[GANTI_DENGAN_ANON_KEY_ANDA]
 ```
+> **Catatan BUMDes:** Untuk mengelola *database* asli (*production*), pastikan Anda masuk ke *Dashboard Supabase* menggunakan akun resmi BUMDes (`bumdespulodarat@gmail.com`).
 
-**Catatan:** Gunakan akun Supabase BUMDes (`bumdespulodarat@gmail.com`) untuk mengelola database production.
+### 4. Memasukkan Struktur Database (PENTING!)
+Agar aplikasi bisa membaca dan menyimpan data (seperti produk, transaksi, dll), Anda harus membangun kerangka databasenya terlebih dahulu:
+1. Buka *Dashboard Supabase* Anda.
+2. Pergi ke menu **SQL Editor**.
+3. *Copy* (salin) semua isi dari file `database_schema.sql` (yang ada di dalam folder aplikasi ini), lalu *Paste* (tempel) dan tekan **Run** (Jalankan).
+4. Setelah berhasil, lakukan hal yang sama persis untuk file `database_update.sql`.
 
-**Penting:** Jangan lupa jalankan script SQL yang ada di file `database_schema.sql` dan `database_update.sql` ke menu **SQL Editor** pada Supabase Anda untuk melakukan migrasi & *seeding* tabel.
-
-### 4. Menjalankan Server Development
+### 5. Menjalankan Aplikasi di Komputer
+Semuanya sudah siap! Sekarang Anda tinggal menyalakan aplikasinya dengan perintah:
 ```bash
 npm run dev
 ```
-Aplikasi dapat diakses di browser pada alamat `http://localhost:5173`.
+Buka *browser* (seperti Google Chrome atau Firefox), lalu ketikkan alamat: **`http://localhost:5173`**. Selamat, aplikasi BUMDes Noto Mulyo siap digunakan! 🎉
 
-### 5. Menjalankan Unit Test (Vitest)
-Aplikasi dilengkapi dengan *Test Suite* komprehensif (130+ Test Cases) untuk menjamin kualitas fitur dan kalkulasi akuntansi, termasuk pengujian checkout POS (Simpan Data & Cetak Struk).
+### (Opsional) Menguji Aplikasi (Automated Testing)
+Bagi Anda yang ingin mengembangkan aplikasi ini lebih lanjut, Anda bisa menjalankan robot penguji otomatis untuk memastikan semua fitur (seperti perhitungan akuntansi dan kasir) berjalan normal. Aplikasi ini memiliki lebih dari 130+ skenario pengujian!
 ```bash
 npm run test
 ```
