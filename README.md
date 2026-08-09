@@ -114,7 +114,6 @@ Agar aplikasi bisa membaca dan menyimpan data (seperti produk, transaksi, dll), 
 1. Buka *Dashboard Supabase* Anda.
 2. Pergi ke menu **SQL Editor**.
 3. *Copy* (salin) semua isi dari file `database_schema.sql` (yang ada di dalam folder aplikasi ini), lalu *Paste* (tempel) dan tekan **Run** (Jalankan).
-4. Setelah berhasil, lakukan hal yang sama persis untuk file `database_update.sql`.
 
 ### 5. Menjalankan Aplikasi di Komputer
 Semuanya sudah siap! Sekarang Anda tinggal menyalakan aplikasinya dengan perintah:
