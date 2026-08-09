@@ -33,6 +33,10 @@ CREATE TABLE IF NOT EXISTS transactions (
   total_amount numeric NOT NULL DEFAULT 0,
   notes text,
   created_by text,
+  payment_method text DEFAULT 'Tunai',       -- 'Tunai', 'QRIS', 'Transfer Bank'
+  amount_paid numeric DEFAULT 0,             -- Jumlah uang yang dibayarkan pelanggan
+  change_amount numeric DEFAULT 0,           -- Kembalian (amount_paid - total_amount)
+  cashier_name text,                         -- Nama kasir/petugas yang login
   created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 

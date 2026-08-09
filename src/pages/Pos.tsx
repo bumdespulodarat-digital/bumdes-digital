@@ -17,19 +17,37 @@ interface CartItem extends Item {
   qty: number;
 }
 
+interface PrintData {
+  items: CartItem[];
+  total: number;
+  invoice: string;
+  date: string;
+  cashier: string;
+  paymentMethod: string;
+  amountPaid: number;
+  changeAmount: number;
+}
+
 export default function Pos() {
   const [items, setItems] = useState<Item[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: ToastType; subtitle?: string } | null>(null);
-  const [storeInfo, setStoreInfo] = useState({ name: 'BUMDes Noto Mulyo', address: 'Pulodarat, Jepara' });
+  const [storeInfo, setStoreInfo] = useState({ name: 'BUMDes Noto Mulyo', address: 'Pulodarat, Jepara', contact: '' });
 
   // Data yang disimpan KHUSUS untuk struk cetak (tidak ikut ter-reset)
-  const [printData, setPrintData] = useState<{ items: CartItem[], total: number, invoice: string, date: string } | null>(null);
+  const [printData, setPrintData] = useState<PrintData | null>(null);
 
   // Mobile cart toggle
   const [isMobileCartOpen, setIsMobileCartOpen] = useState(false);
+
+  // Nama kasir (dari user yang login)
+  const [cashierName, setCashierName] = useState('');
+
+  // Payment method states
+  const [paymentMethod, setPaymentMethod] = useState<'Tunai' | 'QRIS' | 'Transfer Bank'>('Tunai');
+  const [amountPaid, setAmountPaid] = useState<number>(0);
 
   const fetchItems = async () => {
     const { data } = await supabase.from('items').select('*').order('name');
@@ -39,13 +57,33 @@ export default function Pos() {
   const fetchSettings = async () => {
     const { data } = await supabase.from('settings').select('*').limit(1).maybeSingle();
     if (data) {
-      setStoreInfo({ name: data.store_name, address: data.store_address });
+      setStoreInfo({ name: data.store_name, address: data.store_address, contact: data.store_contact || '' });
+    }
+  };
+
+  const fetchCashierName = async () => {
+    const { data: authData } = await supabase.auth.getUser();
+    if (authData?.user?.email) {
+      // Coba cari nama lengkap di tabel bumdes_users
+      const { data: userData } = await supabase
+        .from('bumdes_users')
+        .select('name')
+        .eq('email', authData.user.email)
+        .maybeSingle();
+      if (userData?.name) {
+        setCashierName(userData.name);
+      } else {
+        // Fallback: gunakan bagian email sebelum @
+        const namePart = authData.user.email.split('@')[0];
+        setCashierName(namePart.charAt(0).toUpperCase() + namePart.slice(1));
+      }
     }
   };
 
   useEffect(() => {
     fetchItems();
     fetchSettings();
+    fetchCashierName();
   }, []);
 
   const addToCart = (item: Item) => {
@@ -73,6 +111,7 @@ export default function Pos() {
   const removeFromCart = (id: string) => setCart(cart.filter(c => c.id !== id));
 
   const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const changeAmount = paymentMethod === 'Tunai' ? Math.max(0, amountPaid - total) : 0;
 
   const getOrCreateAccount = async (code: string, name: string, type: string) => {
     const { data, error: selectErr } = await supabase.from('accounts').select('id').eq('code', code).maybeSingle();
@@ -84,27 +123,88 @@ export default function Pos() {
     return newAcc.id;
   };
 
+  /**
+   * Generate invoice number format: INV-YYYYMMDD-XXX
+   * XXX = nomor urut harian (3 digit, dimulai dari 001, reset setiap hari)
+   */
+  const generateInvoiceNumber = async (): Promise<string> => {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const dateStr = `${y}${m}${d}`;
+    const prefix = `INV-${dateStr}-`;
+
+    // Hitung jumlah transaksi hari ini berdasarkan invoice_number yang berawalan prefix
+    const { data: existing, error } = await supabase
+      .from('transactions')
+      .select('invoice_number')
+      .like('invoice_number', `${prefix}%`)
+      .order('invoice_number', { ascending: false })
+      .limit(1);
+
+    let nextNum = 1;
+    if (!error && existing && existing.length > 0) {
+      // Ambil nomor urut terakhir, lalu +1
+      const lastInvoice = existing[0].invoice_number; // e.g. INV-20260809-005
+      const lastNumStr = lastInvoice.split('-').pop(); // "005"
+      const lastNum = parseInt(lastNumStr || '0', 10);
+      nextNum = lastNum + 1;
+    }
+
+    return `${prefix}${String(nextNum).padStart(3, '0')}`;
+  };
+
+  /**
+   * Format tanggal dan waktu untuk struk
+   * Menghasilkan format: "9/8/2026 22:23:01" (tanggal locale ID + jam titik dua)
+   */
+  const formatReceiptDateTime = (date: Date): string => {
+    const dateStr = date.toLocaleDateString('id-ID');
+    const h = String(date.getHours()).padStart(2, '0');
+    const min = String(date.getMinutes()).padStart(2, '0');
+    const s = String(date.getSeconds()).padStart(2, '0');
+    return `${dateStr} ${h}:${min}:${s}`;
+  };
+
   const handleCheckout = async (andPrint: boolean = false) => {
     if (cart.length === 0) return;
+
+    // Validasi: jika Tunai, uang bayar harus >= total
+    if (paymentMethod === 'Tunai' && amountPaid < total) {
+      setToast({ message: 'Uang bayar kurang!', type: 'warning', subtitle: `Total tagihan Rp ${total.toLocaleString('id-ID')}, uang bayar Rp ${amountPaid.toLocaleString('id-ID')}.` });
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const invoiceNumber = `INV-${Date.now()}`;
+      const invoiceNumber = await generateInvoiceNumber();
 
       // Simpan data struk SEBELUM cart di-reset
       const now = new Date();
+      const currentChangeAmount = paymentMethod === 'Tunai' ? Math.max(0, amountPaid - total) : 0;
+
       setPrintData({
         items: [...cart],
         total: total,
         invoice: invoiceNumber,
-        date: `${now.toLocaleDateString('id-ID')} ${now.toLocaleTimeString('id-ID')}`
+        date: formatReceiptDateTime(now),
+        cashier: cashierName,
+        paymentMethod: paymentMethod,
+        amountPaid: paymentMethod === 'Tunai' ? amountPaid : total,
+        changeAmount: currentChangeAmount
       });
 
       const { data: trx, error: trxErr } = await supabase.from('transactions').insert({
         invoice_number: invoiceNumber,
         type: 'Penjualan',
         total_amount: total,
-        notes: 'Penjualan Kasir'
+        notes: 'Penjualan Kasir',
+        payment_method: paymentMethod,
+        amount_paid: paymentMethod === 'Tunai' ? amountPaid : total,
+        change_amount: currentChangeAmount,
+        cashier_name: cashierName
       }).select('id').single();
 
       if (trxErr || !trx) throw new Error(`Gagal membuat transaksi header: ${trxErr?.message || 'Unknown error'}`);
@@ -157,9 +257,11 @@ export default function Pos() {
         if (hppErr) throw new Error(`Gagal mencatat jurnal HPP: ${hppErr.message}`);
       }
 
-      // Reset cart DULU, baru panggil print
+      // Reset cart dan form pembayaran
       setCart([]);
       setIsMobileCartOpen(false);
+      setPaymentMethod('Tunai');
+      setAmountPaid(0);
       fetchItems();
 
       if (andPrint) {
@@ -278,16 +380,90 @@ export default function Pos() {
           </div>
 
           <div className="p-4 sm:p-6 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 rounded-b-3xl">
-            <div className="flex justify-between items-center mb-4 sm:mb-6 bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <div className="flex justify-between items-center mb-4 bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
               <span className="text-slate-500 font-bold text-xs sm:text-sm uppercase tracking-wider">Total Tagihan</span>
               <span className="text-xl sm:text-2xl font-black text-primary-900 dark:text-primary-300">Rp {total.toLocaleString('id-ID')}</span>
             </div>
+
+            {/* Metode Pembayaran */}
+            {cart.length > 0 && (
+              <div className="mb-4 space-y-3">
+                <div>
+                  <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wide">Metode Pembayaran</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(['Tunai', 'QRIS', 'Transfer Bank'] as const).map((method) => (
+                      <button
+                        key={method}
+                        type="button"
+                        onClick={() => { setPaymentMethod(method); if (method !== 'Tunai') setAmountPaid(0); }}
+                        className={`py-2.5 px-2 rounded-xl text-xs font-bold trans-all border-2 ${
+                          paymentMethod === method
+                            ? 'bg-primary-50 dark:bg-primary-950/50 border-primary-400 text-primary-700 dark:text-primary-300 shadow-sm'
+                            : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-500'
+                        }`}
+                      >
+                        {method}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {paymentMethod === 'Tunai' && (
+                  <div className="space-y-2">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wide">Uang Bayar</label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">Rp</span>
+                        <input
+                          type="number"
+                          min={0}
+                          value={amountPaid || ''}
+                          onChange={e => setAmountPaid(Number(e.target.value))}
+                          placeholder="0"
+                          className="w-full pl-10 pr-4 py-3 input-field border-2 rounded-xl focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-50 dark:focus:ring-primary-950 trans-all font-bold text-right text-lg"
+                        />
+                      </div>
+                    </div>
+                    {/* Tombol nominal cepat */}
+                    <div className="grid grid-cols-3 gap-1.5">
+                      {[
+                        { label: 'Uang Pas', value: total },
+                        { label: '50rb', value: 50000 },
+                        { label: '100rb', value: 100000 },
+                      ].map((preset) => (
+                        <button
+                          key={preset.label}
+                          type="button"
+                          onClick={() => setAmountPaid(preset.value)}
+                          className="py-1.5 px-2 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-primary-50 dark:hover:bg-primary-900/30 hover:text-primary-700 dark:hover:text-primary-300 trans-all border border-slate-200 dark:border-slate-600"
+                        >
+                          {preset.label}
+                        </button>
+                      ))}
+                    </div>
+                    {amountPaid >= total && total > 0 && (
+                      <div className="flex justify-between items-center bg-emerald-50 dark:bg-emerald-950/30 p-3 rounded-xl border border-emerald-200 dark:border-emerald-800">
+                        <span className="text-emerald-700 dark:text-emerald-400 font-bold text-xs uppercase tracking-wide">Kembalian</span>
+                        <span className="text-emerald-700 dark:text-emerald-300 font-black text-lg">Rp {changeAmount.toLocaleString('id-ID')}</span>
+                      </div>
+                    )}
+                    {amountPaid > 0 && amountPaid < total && (
+                      <div className="flex justify-between items-center bg-rose-50 dark:bg-rose-950/30 p-3 rounded-xl border border-rose-200 dark:border-rose-800">
+                        <span className="text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wide">Kurang</span>
+                        <span className="text-rose-600 dark:text-rose-300 font-black text-lg">Rp {(total - amountPaid).toLocaleString('id-ID')}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
             <div className="grid grid-cols-2 gap-3">
-              <button disabled={cart.length === 0 || loading} onClick={() => handleCheckout(true)} className="flex flex-col items-center justify-center gap-1 py-3 rounded-2xl bg-slate-800 text-white hover:bg-slate-900 trans-all disabled:opacity-50 active:scale-95 shadow-lg shadow-slate-800/20">
+              <button disabled={cart.length === 0 || loading || (paymentMethod === 'Tunai' && amountPaid < total)} onClick={() => handleCheckout(true)} className="flex flex-col items-center justify-center gap-1 py-3 rounded-2xl bg-slate-800 text-white hover:bg-slate-900 trans-all disabled:opacity-50 active:scale-95 shadow-lg shadow-slate-800/20">
                 <Printer size={20} />
                 <span className="text-xs font-bold uppercase tracking-wider">Cetak Struk</span>
               </button>
-              <button disabled={cart.length === 0 || loading} onClick={() => handleCheckout(false)} className="flex flex-col items-center justify-center gap-1 py-3 rounded-2xl bg-emerald-600 text-white hover:bg-emerald-700 trans-all disabled:opacity-50 active:scale-95 shadow-lg shadow-emerald-600/30">
+              <button disabled={cart.length === 0 || loading || (paymentMethod === 'Tunai' && amountPaid < total)} onClick={() => handleCheckout(false)} className="flex flex-col items-center justify-center gap-1 py-3 rounded-2xl bg-emerald-600 text-white hover:bg-emerald-700 trans-all disabled:opacity-50 active:scale-95 shadow-lg shadow-emerald-600/30">
                 <ShoppingBag size={20} />
                 <span className="text-xs font-bold uppercase tracking-wider">{loading ? 'Memproses...' : 'Simpan Data'}</span>
               </button>
@@ -302,12 +478,14 @@ export default function Pos() {
           <div className="text-center mb-4">
             <h2 className="font-bold text-[14px]">{storeInfo.name}</h2>
             <p>{storeInfo.address}</p>
+            {storeInfo.contact && <p>Telp: {storeInfo.contact}</p>}
             <div className="border-b border-dashed border-black my-2"></div>
           </div>
 
           <div className="mb-2">
             <p>No: {printData.invoice}</p>
             <p>Tgl: {printData.date}</p>
+            {printData.cashier && <p>Kasir: {printData.cashier}</p>}
             <div className="border-b border-dashed border-black my-2"></div>
           </div>
 
@@ -325,9 +503,23 @@ export default function Pos() {
 
           <div className="border-b border-dashed border-black my-2"></div>
 
-          <div className="flex justify-between font-bold text-[13px] mb-4">
+          <div className="flex justify-between font-bold text-[13px] mb-1">
             <span>TOTAL:</span>
             <span>Rp {printData.total.toLocaleString('id-ID')}</span>
+          </div>
+
+          {/* Info Pembayaran */}
+          <div className="mb-2">
+            <div className="flex justify-between">
+              <span>Bayar ({printData.paymentMethod}):</span>
+              <span>Rp {printData.amountPaid.toLocaleString('id-ID')}</span>
+            </div>
+            {printData.paymentMethod === 'Tunai' && printData.changeAmount > 0 && (
+              <div className="flex justify-between">
+                <span>Kembalian:</span>
+                <span>Rp {printData.changeAmount.toLocaleString('id-ID')}</span>
+              </div>
+            )}
           </div>
 
           <div className="text-center mt-6">
