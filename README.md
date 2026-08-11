@@ -118,7 +118,9 @@ VITE_SUPABASE_ANON_KEY=eyJh...[GANTI_DENGAN_ANON_KEY_ANDA]
 Agar aplikasi bisa membaca dan menyimpan data (seperti produk, transaksi, dll), Anda harus membangun kerangka databasenya terlebih dahulu:
 1. Buka *Dashboard Supabase* Anda.
 2. Pergi ke menu **SQL Editor**.
-3. *Copy* (salin) semua isi dari file `database_schema.sql` (yang ada di dalam folder aplikasi ini), lalu *Paste* (tempel) dan tekan **Run** (Jalankan).
+3. Buka tab **New query**.
+4. *Copy* (salin) semua isi dari file `database_schema.sql` (yang ada di dalam folder aplikasi ini), lalu *Paste* (tempel) di layar, dan tekan **Run** (Jalankan).
+5. Hapus teksnya, lalu *Copy* (salin) semua isi dari file `database_migration.sql`, dan tekan **Run** (Jalankan) sekali lagi untuk menambahkan seluruh fitur terbaru (sistem arsip, inventaris, kas otomatis, dll).
 
 ### 5. Menjalankan Aplikasi di Komputer
 Semuanya sudah siap! Sekarang Anda tinggal menyalakan aplikasinya dengan perintah:

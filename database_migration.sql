@@ -150,6 +150,10 @@ EXECUTE FUNCTION check_cash_balance();
 ALTER TABLE cash_book ADD COLUMN IF NOT EXISTS photo_url text DEFAULT '';
 
 -- Mengizinkan semua orang (public) untuk mengupload file ke dalam bucket 'bukti_transaksi'
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('bukti_transaksi', 'bukti_transaksi', true)
+ON CONFLICT (id) DO NOTHING;
+
 CREATE POLICY "Allow public uploads" ON storage.objects FOR INSERT TO public WITH CHECK (bucket_id = 'bukti_transaksi');
 CREATE POLICY "Allow public updates" ON storage.objects FOR UPDATE TO public USING (bucket_id = 'bukti_transaksi');
 CREATE POLICY "Allow public deletes" ON storage.objects FOR DELETE TO public USING (bucket_id = 'bukti_transaksi');
