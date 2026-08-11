@@ -211,8 +211,8 @@ export default function Inventaris() {
       {toast && <Toast message={toast.message} type={toast.type} subtitle={toast.subtitle} onClose={() => setToast(null)} />}
 
       {/* Tab Navigation */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-between items-center card rounded-2xl shadow-sm p-4 z-10">
-        <div className="flex overflow-x-auto no-scrollbar whitespace-nowrap bg-slate-100 dark:bg-slate-800 p-1 rounded-xl w-full sm:w-auto snap-x">
+      <div className="flex flex-col xl:flex-row gap-4 justify-between items-start xl:items-center card rounded-2xl shadow-sm p-4 z-10">
+        <div className="flex overflow-x-auto no-scrollbar whitespace-nowrap bg-slate-100 dark:bg-slate-800 p-1 rounded-xl w-full xl:w-auto snap-x">
           {tabs.map(tab => (
             <button
               key={tab.key}

@@ -215,7 +215,7 @@ export default function BukuKas() {
             {[2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
           </select>
           {!isPengawas && (
-            <button onClick={() => { setEditingId(null); setForm({ date: new Date().toISOString().split('T')[0], description: '', category: 'Umum', type: 'debit', amount: '' }); setShowModal(true); }} className="flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-primary-600/30">
+            <button onClick={() => { setEditingId(null); setForm({ date: new Date().toISOString().split('T')[0], description: '', category: 'Umum', type: 'debit', amount: '' }); setShowModal(true); }} className="w-full sm:w-auto flex justify-center items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-primary-600/30 mt-2 sm:mt-0">
               <Plus size={16} /> Tambah Entri
             </button>
           )}
@@ -223,7 +223,7 @@ export default function BukuKas() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="card rounded-2xl shadow-sm p-4 border dark:border-slate-800">
           <div className="flex items-center gap-2 mb-2">
             <ArrowDown size={16} className="text-emerald-600" />

@@ -164,49 +164,51 @@ export default function LaporanTransaksi() {
   };
 
   return (
-    <div className="flex flex-col gap-6 pb-8">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center card rounded-2xl shadow-sm p-4 relative z-10">
-        <div className="flex overflow-x-auto no-scrollbar whitespace-nowrap bg-slate-100 dark:bg-slate-800 p-1 rounded-xl w-full sm:w-auto snap-x">
-          {([
-            { key: 'mingguan' as PeriodType, label: 'Mingguan' },
-            { key: 'bulanan' as PeriodType, label: 'Bulanan' },
-            { key: 'tahunan' as PeriodType, label: 'Tahunan' },
-          ]).map(p => (
-            <button
-              key={p.key}
-              onClick={() => setPeriod(p.key)}
-              className={`flex items-center gap-2 px-6 py-2 rounded-lg font-bold text-sm trans-all snap-start shrink-0 ${period === p.key ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400'}`}
-            >
-              {p.label}
+    <div className="flex flex-col h-[calc(100vh-130px)] space-y-4 overflow-y-auto pr-2">
+      {/* Filters */}
+      <div className="card rounded-2xl shadow-sm border dark:border-slate-800 p-4">
+        <div className="flex flex-col xl:flex-row gap-4 justify-between items-start xl:items-center">
+          <div className="flex overflow-x-auto no-scrollbar whitespace-nowrap bg-slate-100 dark:bg-slate-800 p-1 rounded-xl w-full xl:w-auto snap-x">
+            {([
+              { key: 'mingguan' as PeriodType, label: 'Mingguan' },
+              { key: 'bulanan' as PeriodType, label: 'Bulanan' },
+              { key: 'tahunan' as PeriodType, label: 'Tahunan' },
+            ]).map(p => (
+              <button
+                key={p.key}
+                onClick={() => setPeriod(p.key)}
+                className={`flex items-center gap-2 px-6 py-2 rounded-lg font-bold text-sm trans-all snap-start shrink-0 ${period === p.key ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400'}`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap items-center gap-2 w-full xl:w-auto">
+            {period === 'mingguan' && (
+              <input type="date" value={selectedWeek} onChange={e => setSelectedWeek(e.target.value)} className="flex-1 sm:flex-none px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold" />
+            )}
+            {(period === 'bulanan' || period === 'tahunan') && (
+              <select value={selectedYear} onChange={e => setSelectedYear(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
+                {[2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
+              </select>
+            )}
+            {period === 'bulanan' && (
+              <select value={selectedMonth} onChange={e => setSelectedMonth(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
+                {BULAN.map((b, i) => <option key={i} value={i + 1}>{b}</option>)}
+              </select>
+            )}
+            <button onClick={() => handleExport('pdf')} disabled={isExporting || transactions.length === 0} className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-rose-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
+              <Download size={16} /> PDF
             </button>
-          ))}
-        </div>
-        <div className="flex gap-2 w-full sm:w-auto flex-wrap">
-          {period === 'mingguan' && (
-            <input type="date" value={selectedWeek} onChange={e => setSelectedWeek(e.target.value)} className="flex-1 sm:flex-none px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold" />
-          )}
-          {(period === 'bulanan' || period === 'tahunan') && (
-            <select value={selectedYear} onChange={e => setSelectedYear(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
-              {[2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
-            </select>
-          )}
-          {period === 'bulanan' && (
-            <select value={selectedMonth} onChange={e => setSelectedMonth(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
-              {BULAN.map((b, i) => <option key={i} value={i + 1}>{b}</option>)}
-            </select>
-          )}
-          <button onClick={() => handleExport('pdf')} disabled={isExporting || transactions.length === 0} className="flex items-center gap-2 px-4 py-2 bg-rose-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
-            <Download size={16} /> PDF
-          </button>
-          <button onClick={() => handleExport('excel')} disabled={isExporting || transactions.length === 0} className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
-            <Download size={16} /> Excel
-          </button>
+            <button onClick={() => handleExport('excel')} disabled={isExporting || transactions.length === 0} className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
+              <Download size={16} /> Excel
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: 'Total Pendapatan', value: `Rp ${stats.totalPendapatan.toLocaleString('id-ID')}`, icon: <DollarSign size={20} />, color: 'primary' },
           { label: 'Jumlah Transaksi', value: stats.jumlahTransaksi.toLocaleString('id-ID'), icon: <ShoppingCart size={20} />, color: 'emerald' },
