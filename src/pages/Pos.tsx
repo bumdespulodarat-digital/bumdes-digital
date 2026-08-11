@@ -856,7 +856,7 @@ export default function Pos() {
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Harga (Rp)</label>
                 <input required type="number" min="0" value={customForm.price} onChange={e => setCustomForm({...customForm, price: e.target.value})} className="w-full px-4 py-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl focus:ring-2 font-bold" placeholder="0" />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Pajak (%)</label>
                   <input type="number" min="0" max="100" step="0.5" value={customForm.tax_rate} onChange={e => setCustomForm({...customForm, tax_rate: e.target.value})} className="w-full px-4 py-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl focus:ring-2" placeholder="0" />

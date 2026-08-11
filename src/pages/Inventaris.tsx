@@ -411,7 +411,7 @@ export default function Inventaris() {
               {activeTab === 'barang' && (
                 <>
                   <input required type="text" value={invForm.name} onChange={e => setInvForm({...invForm, name: e.target.value})} className="w-full px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2" placeholder="Nama Barang" />
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <select value={invForm.category} onChange={e => setInvForm({...invForm, category: e.target.value})} className="w-full px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2">
                       <option value="Peralatan">Peralatan</option>
                       <option value="Meubelair">Meubelair</option>
@@ -426,11 +426,11 @@ export default function Inventaris() {
                       <option value="Rusak Berat">Rusak Berat</option>
                     </select>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input required type="number" min="1" value={invForm.qty} onChange={e => setInvForm({...invForm, qty: e.target.value})} className="w-full px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2" placeholder="Jumlah" />
                     <input type="text" value={invForm.location} onChange={e => setInvForm({...invForm, location: e.target.value})} className="w-full px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2" placeholder="Lokasi" />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input type="date" value={invForm.acquisition_date} onChange={e => setInvForm({...invForm, acquisition_date: e.target.value})} className="w-full px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2" />
                     <input type="number" min="0" value={invForm.acquisition_cost} onChange={e => setInvForm({...invForm, acquisition_cost: e.target.value})} className="w-full px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2" placeholder="Nilai Perolehan" />
                   </div>
@@ -440,7 +440,7 @@ export default function Inventaris() {
               {activeTab === 'surat' && (
                 <>
                   <input required type="text" value={letterForm.letter_number} onChange={e => setLetterForm({...letterForm, letter_number: e.target.value})} className="w-full px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2" placeholder="Nomor Surat" />
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input required type="date" value={letterForm.date} onChange={e => setLetterForm({...letterForm, date: e.target.value})} className="w-full px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2" />
                     <select value={letterForm.type} onChange={e => setLetterForm({...letterForm, type: e.target.value})} className="w-full px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2">
                       <option value="Masuk">Surat Masuk</option>
