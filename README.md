@@ -69,6 +69,12 @@ Terintegrasi secara penuh dengan **Chart of Accounts (COA) 5-Level** standar BUM
   - `Admin/Direktur/Bendahara`: Akses penuh pengeditan (*Superuser*).
   - `Pengawas`: Mode lihat saja (*Read-only*) khusus pada Laporan Keuangan, Akuntansi, Buku Kas, dan Inventaris.
   - `Karyawan Toko`: Fokus operasional harian (Akses khusus ke halaman Dashboard, Kasir, dan Stok Barang).
+- **Akun Demo / Default Login (Password: `bumdes2026`):**
+  - Direktur: `direktur.bumdespulodarat@gmail.com`
+  - Akuntan: `akuntan.bumdespulodarat@gmail.com`
+  - Bendahara: `bendahara.bumdespulodarat@gmail.com`
+  - Karyawan: `karyawan.bumdespulodarat@gmail.com`
+  - Pengawas: `pengawas.bumdespulodarat@gmail.com`
 
 ## 🛠️ Stack Teknologi (Tech Stack)
 Aplikasi ini dibangun menggunakan arsitektur modern untuk menjamin kecepatan, keamanan, dan keandalan data:
