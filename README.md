@@ -135,6 +135,30 @@ Bagi Anda yang ingin mengembangkan aplikasi ini lebih lanjut, Anda bisa menjalan
 npm run test
 ```
 
+## 🔧 Pemecahan Masalah (Troubleshooting & Error Handling)
+
+Berikut adalah beberapa kendala umum yang mungkin Anda temui saat proses instalasi atau penggunaan, beserta solusinya:
+
+### 1. Layar Putih Blank / Pesan "Failed to fetch"
+- **Penyebab**: Aplikasi gagal terhubung ke database Supabase.
+- **Solusi**: Pastikan Anda sudah membuat file `.env.local` dan memasukkan `VITE_SUPABASE_URL` serta `VITE_SUPABASE_ANON_KEY` dengan benar (tidak ada spasi ekstra). Pastikan juga komputer Anda terhubung ke internet.
+
+### 2. Tabel Kosong / Data Tidak Muncul
+- **Penyebab**: Kerangka database belum terbuat, atau kebijakan keamanan (RLS) menghalangi akses.
+- **Solusi**: Pastikan Anda telah menjalankan **Langkah 4 (Memasukkan Struktur Database)**. Anda harus menjalankan file `database_schema.sql` dan `database_migration.sql` di SQL Editor Supabase.
+
+### 3. Gagal Login (Invalid Login Credentials)
+- **Penyebab**: Akun belum terdaftar di sistem *Authentication* Supabase.
+- **Solusi**: Di *Dashboard* Supabase, masuk ke menu **Authentication > Users**, lalu tambahkan akun secara manual (misal: `direktur.bumdespulodarat@gmail.com`) beserta *password*-nya. Jangan lupa untuk menambahkan akun tersebut ke tabel `bumdes_users` di **Table Editor** agar jabatannya terbaca.
+
+### 4. Error "Port 5173 is already in use" di Terminal
+- **Penyebab**: Anda sudah menjalankan perintah `npm run dev` sebelumnya dan aplikasinya masih menyala di *background*.
+- **Solusi**: Matikan server yang sedang berjalan (tekan `Ctrl + C` di terminal lama), atau buka alamat alternatif yang diberikan oleh Vite (biasanya `http://localhost:5174`).
+
+### 5. Peringatan "Multiple GoTrueClient instances detected" di Console Browser
+- **Penyebab**: Ini adalah peringatan bawaan dari sistem Supabase karena React berjalan dalam *Strict Mode* saat mode *Development*.
+- **Solusi**: **Abaikan peringatan ini.** Hal ini sangat normal dan tidak akan muncul di versi *Production* (setelah aplikasi dipublikasikan/dideploy).
+
 ---
 <div align="center">
   <b>Dibangun dengan 💻 dan ☕ untuk BUMDes Noto Mulyo Pulodarat</b><br>
