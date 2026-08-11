@@ -144,3 +144,7 @@ CREATE TRIGGER ensure_positive_balance
 BEFORE INSERT OR UPDATE ON cash_book
 FOR EACH ROW
 EXECUTE FUNCTION check_cash_balance();
+
+-- ===== FASE 11: Fitur Upload Bukti Transaksi =====
+-- Menambahkan kolom untuk menyimpan link foto struk/nota di Buku Kas
+ALTER TABLE cash_book ADD COLUMN IF NOT EXISTS photo_url text DEFAULT '';

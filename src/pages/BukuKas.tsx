@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { BookOpen, Plus, Edit, Trash2, Search, Download, X, ArrowUp, ArrowDown, Loader2 } from 'lucide-react';
+import { BookOpen, Plus, Edit, Trash2, Search, Download, X, ArrowUp, ArrowDown, Loader2, Paperclip } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import Toast, { ConfirmDialog } from '../components/Toast';
 import type { ToastType } from '../components/Toast';
@@ -16,6 +16,7 @@ interface CashEntry {
   balance: number;
   source: string;
   reference_id: string | null;
+  photo_url: string | null;
   created_by: string;
   created_at: string;
   updated_at: string;
@@ -33,6 +34,8 @@ export default function BukuKas() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [saldoAwal, setSaldoAwal] = useState(0);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   // Modal states
   const [showModal, setShowModal] = useState(false);
@@ -43,6 +46,7 @@ export default function BukuKas() {
     category: 'Umum',
     type: 'debit' as 'debit' | 'credit',
     amount: '',
+    photo_url: null as string | null,
   });
 
   const [bumdesProfile, setBumdesProfile] = useState<BumdesProfile>({
@@ -138,12 +142,36 @@ export default function BukuKas() {
     setLoading(true);
 
     const amount = Number(form.amount);
+    let uploadedPhotoUrl = form.photo_url;
+    if (photoFile) {
+      const fileExt = photoFile.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `buku_kas/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('bukti_transaksi')
+        .upload(filePath, photoFile);
+
+      if (uploadError) {
+        setToast({ message: 'Gagal mengupload bukti transaksi!', type: 'error', subtitle: uploadError.message });
+        setLoading(false);
+        return;
+      }
+      
+      const { data: { publicUrl } } = supabase.storage
+        .from('bukti_transaksi')
+        .getPublicUrl(filePath);
+        
+      uploadedPhotoUrl = publicUrl;
+    }
+
     const payload = {
       date: form.date,
       description: form.description,
       category: form.category,
       debit: form.type === 'debit' ? amount : 0,
       credit: form.type === 'credit' ? amount : 0,
+      photo_url: uploadedPhotoUrl,
       source: 'Manual',
       created_by: userName,
       updated_at: new Date().toISOString(),
@@ -159,7 +187,9 @@ export default function BukuKas() {
       }
       setShowModal(false);
       setEditingId(null);
-      setForm({ date: new Date().toISOString().split('T')[0], description: '', category: 'Umum', type: 'debit', amount: '' });
+      setPhotoFile(null);
+      setPhotoPreview(null);
+      setForm({ date: new Date().toISOString().split('T')[0], description: '', category: 'Umum', type: 'debit', amount: '', photo_url: null });
       fetchEntries();
     } catch (err: any) {
       setToast({ message: 'Gagal menyimpan data', type: 'error', subtitle: err?.message });
@@ -169,12 +199,15 @@ export default function BukuKas() {
 
   const handleEdit = (entry: CashEntry) => {
     setEditingId(entry.id);
+    setPhotoFile(null);
+    setPhotoPreview(entry.photo_url || null);
     setForm({
       date: entry.date,
       description: entry.description,
       category: entry.category,
       type: entry.debit > 0 ? 'debit' : 'credit',
       amount: (entry.debit > 0 ? entry.debit : entry.credit).toString(),
+      photo_url: entry.photo_url,
     });
     setShowModal(true);
   };
@@ -234,7 +267,7 @@ export default function BukuKas() {
             {Array.from({ length: Math.max(10, new Date().getFullYear() - 2024 + 5) }, (_, i) => 2024 + i).map(y => <option key={y} value={y}>{y}</option>)}
           </select>
           {!isPengawas && (
-            <button onClick={() => { setEditingId(null); setForm({ date: new Date().toISOString().split('T')[0], description: '', category: 'Umum', type: 'debit', amount: '' }); setShowModal(true); }} className="w-full sm:w-auto flex justify-center items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-primary-600/30 mt-2 sm:mt-0">
+            <button onClick={() => { setEditingId(null); setPhotoFile(null); setPhotoPreview(null); setForm({ date: new Date().toISOString().split('T')[0], description: '', category: 'Umum', type: 'debit', amount: '', photo_url: null }); setShowModal(true); }} className="w-full sm:w-auto flex justify-center items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-primary-600/30 mt-2 sm:mt-0">
               <Plus size={16} /> Tambah Entri
             </button>
           )}
@@ -326,7 +359,16 @@ export default function BukuKas() {
                 <tr key={entry.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all">
                   <td className="p-4 text-slate-500 text-center">{idx + 1}</td>
                   <td className="p-4 dark:text-slate-300">{new Date(entry.date).toLocaleDateString('id-ID')}</td>
-                  <td className="p-4 font-semibold dark:text-slate-100">{entry.description}</td>
+                  <td className="p-4 font-semibold dark:text-slate-100">
+                    <div className="flex items-center gap-2">
+                      {entry.description}
+                      {entry.photo_url && (
+                        <a href={entry.photo_url} target="_blank" rel="noreferrer" className="text-primary-600 hover:text-primary-700 bg-primary-50 dark:bg-primary-900/30 p-1 rounded-md" title="Lihat Bukti Transaksi">
+                          <Paperclip size={14} />
+                        </a>
+                      )}
+                    </div>
+                  </td>
                   <td className="p-4"><span className="px-2 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-700 dark:text-slate-300">{entry.category}</span></td>
                   <td className="p-4 text-right font-bold text-emerald-600 dark:text-emerald-400">{entry.debit > 0 ? `Rp ${entry.debit.toLocaleString('id-ID')}` : '-'}</td>
                   <td className="p-4 text-right font-bold text-rose-600 dark:text-rose-400">{entry.credit > 0 ? `Rp ${entry.credit.toLocaleString('id-ID')}` : '-'}</td>
@@ -394,6 +436,29 @@ export default function BukuKas() {
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">Rp</span>
                 <input required type="number" min="1" value={form.amount} onChange={e => setForm({...form, amount: e.target.value})} className="w-full pl-10 pr-4 py-2.5 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2 font-bold text-right text-lg" placeholder="0" />
               </div>
+
+              <div className="border-2 border-dashed dark:border-slate-700 rounded-xl p-4 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all relative overflow-hidden group">
+                <input type="file" accept="image/*" onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setPhotoFile(file);
+                    setPhotoPreview(URL.createObjectURL(file));
+                  }
+                }} className="absolute inset-0 opacity-0 cursor-pointer z-10 w-full h-full" title="Upload Bukti Transaksi" />
+                {photoPreview ? (
+                  <div className="relative h-32 w-full flex items-center justify-center">
+                    <img src={photoPreview} alt="Preview Bukti" className="max-h-full max-w-full object-contain rounded-lg shadow-sm" />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center trans-all rounded-lg text-white font-bold text-sm backdrop-blur-sm">Klik untuk ganti foto</div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-4 text-slate-500">
+                    <Paperclip size={24} className="mb-2 text-slate-400 group-hover:text-primary-500 trans-all" />
+                    <span className="font-semibold text-sm group-hover:text-primary-600 trans-all">Upload Bukti Transaksi</span>
+                    <span className="text-xs mt-1 opacity-70">Opsional (Nota/Struk)</span>
+                  </div>
+                )}
+              </div>
+
               <div className="pt-4 flex justify-end gap-3 border-t dark:border-slate-800 mt-2">
                 <button type="button" onClick={() => { setShowModal(false); setEditingId(null); }} className="px-4 py-2.5 text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl font-bold">Batal</button>
                 <button type="submit" className="px-5 py-2.5 bg-primary-600 text-white rounded-xl font-bold shadow-lg">Simpan</button>
