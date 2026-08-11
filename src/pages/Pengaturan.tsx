@@ -3,8 +3,12 @@ import { Store, MapPin, Phone, Save, Users, UserPlus, Trash2, KeyRound } from 'l
 import { supabase, supabaseAdmin } from '../lib/supabase';
 import Toast, { ConfirmDialog } from '../components/Toast';
 import type { ToastType } from '../components/Toast';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Pengaturan() {
+  const { userRole } = useAuth();
+  const canManageUsers = ['Admin', 'Direktur BUMDes'].includes(userRole);
+
   const [settings, setSettings] = useState({
     id: '',
     store_name: '',
@@ -211,15 +215,17 @@ export default function Pengaturan() {
         >
           <Store size={18} /> Profil Usaha
         </button>
-        <button
-          onClick={() => setActiveTab('pengurus')}
-          className={`snap-start shrink-0 flex justify-center items-center gap-2 py-2.5 px-6 rounded-xl font-bold transition-all ${activeTab === 'pengurus'
-              ? 'bg-primary-50 dark:bg-primary-950/50 text-primary-700 dark:text-primary-300 shadow-sm'
-              : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'
-            }`}
-        >
-          <Users size={18} /> Manajemen Pengurus
-        </button>
+        {canManageUsers && (
+          <button
+            onClick={() => setActiveTab('pengurus')}
+            className={`snap-start shrink-0 flex justify-center items-center gap-2 py-2.5 px-6 rounded-xl font-bold transition-all ${activeTab === 'pengurus'
+                ? 'bg-primary-50 dark:bg-primary-950/50 text-primary-700 dark:text-primary-300 shadow-sm'
+                : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'
+              }`}
+          >
+            <Users size={18} /> Manajemen Pengurus
+          </button>
+        )}
       </div>
 
       <div className="flex-1 card rounded-2xl shadow-sm overflow-hidden flex flex-col relative z-0">
