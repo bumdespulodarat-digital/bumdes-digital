@@ -126,6 +126,12 @@ export default function BukuKas() {
     return { totalDebit, totalCredit, saldo: saldoAwal + totalDebit - totalCredit };
   }, [filteredEntries, saldoAwal]);
 
+  const isPastMonth = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const now = new Date();
+    return (date.getFullYear() < now.getFullYear()) || (date.getFullYear() === now.getFullYear() && date.getMonth() < now.getMonth());
+  };
+
   // ====== HANDLERS ======
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -334,9 +340,15 @@ export default function BukuKas() {
                   </td>
                   {!isPengawas && (
                     <td className="p-4 text-center space-x-1">
-                      <button onClick={() => handleEdit(entry)} className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={13} /></button>
-                      {entry.source === 'Manual' && (
-                        <button onClick={() => setDeleteConfirm(entry.id)} className="p-1.5 rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={13} /></button>
+                      {isPastMonth(entry.date) ? (
+                        <span className="text-xs font-semibold text-slate-400">Terkunci</span>
+                      ) : (
+                        <>
+                          <button onClick={() => handleEdit(entry)} className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={13} /></button>
+                          {entry.source === 'Manual' && (
+                            <button onClick={() => setDeleteConfirm(entry.id)} className="p-1.5 rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={13} /></button>
+                          )}
+                        </>
                       )}
                     </td>
                   )}

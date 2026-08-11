@@ -108,3 +108,39 @@ CREATE INDEX IF NOT EXISTS idx_transactions_created_at ON transactions(created_a
 CREATE INDEX IF NOT EXISTS idx_cash_book_date ON cash_book(date);
 CREATE INDEX IF NOT EXISTS idx_item_movements_created_at ON item_movements(created_at);
 CREATE INDEX IF NOT EXISTS idx_journals_created_at ON journals(created_at);
+
+-- ===== FASE 10: Validasi Ketat Saldo Minus (Accounting Rules) =====
+-- Mencegah kasir/sistem memasukkan pengeluaran yang membuat saldo kas BUMDes menjadi minus.
+CREATE OR REPLACE FUNCTION check_cash_balance() RETURNS trigger AS $$
+DECLARE
+   current_balance numeric;
+BEGIN
+   -- Hitung total saldo kas saat ini
+   SELECT COALESCE(SUM(debit - credit), 0) INTO current_balance FROM cash_book;
+   
+   -- Jika ada transaksi baru (INSERT) dan saldo akhir menjadi minus
+   IF TG_OP = 'INSERT' THEN
+      IF (current_balance + NEW.debit - NEW.credit) < 0 THEN
+         RAISE EXCEPTION 'TRANSAKSI DITOLAK: Saldo kas BUMDes tidak mencukupi untuk pengeluaran ini.';
+      END IF;
+   END IF;
+   
+   -- Jika transaksi diedit (UPDATE), hitung ulang saldonya
+   IF TG_OP = 'UPDATE' THEN
+      IF (current_balance - (OLD.debit - OLD.credit) + (NEW.debit - NEW.credit)) < 0 THEN
+         RAISE EXCEPTION 'TRANSAKSI DITOLAK: Perubahan ini akan menyebabkan saldo kas BUMDes menjadi minus.';
+      END IF;
+   END IF;
+   
+   RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Hapus trigger lama jika ada agar bisa direplace
+DROP TRIGGER IF EXISTS ensure_positive_balance ON cash_book;
+
+-- Pasang trigger ke tabel cash_book
+CREATE TRIGGER ensure_positive_balance
+BEFORE INSERT OR UPDATE ON cash_book
+FOR EACH ROW
+EXECUTE FUNCTION check_cash_balance();
