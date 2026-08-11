@@ -158,3 +158,20 @@ CREATE POLICY "Allow public uploads" ON storage.objects FOR INSERT TO public WIT
 CREATE POLICY "Allow public updates" ON storage.objects FOR UPDATE TO public USING (bucket_id = 'bukti_transaksi');
 CREATE POLICY "Allow public deletes" ON storage.objects FOR DELETE TO public USING (bucket_id = 'bukti_transaksi');
 CREATE POLICY "Allow public reads" ON storage.objects FOR SELECT TO public USING (bucket_id = 'bukti_transaksi');
+
+-- ===== FASE 12: Tutup Buku Bulanan (Monthly Closing) & Kas Bank =====
+-- 1. Tutup Buku Bulanan
+CREATE TABLE IF NOT EXISTS monthly_closing (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  month integer NOT NULL,
+  year integer NOT NULL,
+  closed_at timestamptz DEFAULT now(),
+  closed_by text NOT NULL,
+  UNIQUE(month, year)
+);
+ALTER TABLE monthly_closing ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public all access on monthly_closing" ON monthly_closing FOR ALL USING (true);
+
+-- 2. Kas Bank / Buku Kas Pembantu
+ALTER TABLE transactions ADD COLUMN IF NOT EXISTS payment_method text DEFAULT 'Tunai';
+ALTER TABLE cash_book ADD COLUMN IF NOT EXISTS payment_method text DEFAULT 'Tunai';

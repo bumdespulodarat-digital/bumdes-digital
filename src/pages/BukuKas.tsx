@@ -20,6 +20,7 @@ interface CashEntry {
   created_by: string;
   created_at: string;
   updated_at: string;
+  payment_method: string;
 }
 
 export default function BukuKas() {
@@ -36,6 +37,8 @@ export default function BukuKas() {
   const [saldoAwal, setSaldoAwal] = useState(0);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [paymentMethodTab, setPaymentMethodTab] = useState<'Tunai' | 'Bank'>('Tunai');
+  const [closedMonths, setClosedMonths] = useState<any[]>([]);
 
   // Modal states
   const [showModal, setShowModal] = useState(false);
@@ -62,7 +65,7 @@ export default function BukuKas() {
   useEffect(() => {
     fetchEntries();
     fetchProfile();
-  }, [filterMonth, filterYear]);
+  }, [filterMonth, filterYear, paymentMethodTab]);
 
   const fetchProfile = async () => {
     const { data: storeData } = await supabase.from('settings').select('*').limit(1).maybeSingle();
@@ -81,10 +84,14 @@ export default function BukuKas() {
     const lastDay = new Date(filterYear, filterMonth, 0).getDate();
     const endDate = `${filterYear}-${String(filterMonth).padStart(2, '0')}-${lastDay}T23:59:59`;
 
+    const { data: closingData } = await supabase.from('monthly_closing').select('*');
+    if (closingData) setClosedMonths(closingData);
+
     const { data: previousData } = await supabase
       .from('cash_book')
       .select('debit, credit')
-      .lt('date', startDate);
+      .lt('date', startDate)
+      .eq('payment_method', paymentMethodTab);
       
     if (previousData) {
       const awal = previousData.reduce((acc, curr) => acc + (Number(curr.debit) || 0) - (Number(curr.credit) || 0), 0);
@@ -98,6 +105,7 @@ export default function BukuKas() {
       .select('*')
       .gte('date', startDate)
       .lte('date', endDate.split('T')[0])
+      .eq('payment_method', paymentMethodTab)
       .order('date', { ascending: true })
       .order('created_at', { ascending: true });
     if (data) setEntries(data);
@@ -130,16 +138,23 @@ export default function BukuKas() {
     return { totalDebit, totalCredit, saldo: saldoAwal + totalDebit - totalCredit };
   }, [filteredEntries, saldoAwal]);
 
-  const isPastMonth = (dateStr: string) => {
-    const date = new Date(dateStr);
-    const now = new Date();
-    return (date.getFullYear() < now.getFullYear()) || (date.getFullYear() === now.getFullYear() && date.getMonth() < now.getMonth());
+  const isMonthClosed = (dateStr: string) => {
+    const d = new Date(dateStr);
+    return closedMonths.some(c => c.month === (d.getMonth() + 1) && c.year === d.getFullYear());
   };
 
   // ====== HANDLERS ======
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    const entryDate = new Date(form.date);
+    const isClosed = closedMonths.some(c => c.month === (entryDate.getMonth() + 1) && c.year === entryDate.getFullYear());
+    if (isClosed) {
+      setToast({ message: 'Bulan ini sudah ditutup', type: 'error', subtitle: 'Transaksi tidak dapat diubah di periode yang sudah ditutup.' });
+      setLoading(false);
+      return;
+    }
 
     const amount = Number(form.amount);
     let uploadedPhotoUrl = form.photo_url;
@@ -173,6 +188,7 @@ export default function BukuKas() {
       credit: form.type === 'credit' ? amount : 0,
       photo_url: uploadedPhotoUrl,
       source: 'Manual',
+      payment_method: paymentMethodTab,
       created_by: userName,
       updated_at: new Date().toISOString(),
     };
@@ -252,13 +268,19 @@ export default function BukuKas() {
 
       {/* Header */}
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center card rounded-2xl shadow-sm p-4 z-10">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center text-primary-600">
-            <BookOpen size={20} />
+        <div className="flex flex-col">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center text-primary-600">
+              <BookOpen size={20} />
+            </div>
+            <div>
+              <h2 className="font-bold text-slate-800 dark:text-slate-100">Buku Kas Umum</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{BULAN[filterMonth - 1]} {filterYear}</p>
+            </div>
           </div>
-          <div>
-            <h2 className="font-bold text-slate-800 dark:text-slate-100">Buku Kas Umum</h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400">{BULAN[filterMonth - 1]} {filterYear}</p>
+          <div className="flex gap-2">
+            <button onClick={() => setPaymentMethodTab('Tunai')} className={`px-4 py-1.5 rounded-lg text-sm font-bold trans-all ${paymentMethodTab === 'Tunai' ? 'bg-primary-600 text-white shadow-md' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 hover:bg-slate-200'}`}>Kas Tunai (Laci)</button>
+            <button onClick={() => setPaymentMethodTab('Bank')} className={`px-4 py-1.5 rounded-lg text-sm font-bold trans-all ${paymentMethodTab === 'Bank' ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 hover:bg-slate-200'}`}>Kas Bank (Rekening)</button>
           </div>
         </div>
         <div className="flex gap-2 w-full sm:w-auto flex-wrap">
@@ -384,7 +406,7 @@ export default function BukuKas() {
                   </td>
                   {!isPengawas && (
                     <td className="p-4 text-center space-x-1">
-                      {isPastMonth(entry.date) ? (
+                      {isMonthClosed(entry.date) ? (
                         <span className="text-xs font-semibold text-slate-400">Terkunci</span>
                       ) : (
                         <>

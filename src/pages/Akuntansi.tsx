@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import { exportToPDF, exportToExcel, type BumdesProfile, type ExportTableData } from '../utils/exportUtils';
 import Toast, { ConfirmDialog } from '../components/Toast';
 import type { ToastType } from '../components/Toast';
+import { useAuth } from '../contexts/AuthContext';
 
 interface FixedAsset {
   id: string;
@@ -35,17 +36,26 @@ interface Journal {
 type TabType = 'laba-rugi' | 'neraca' | 'jurnal' | 'buku-besar' | 'neraca-saldo' | 'lpe' | 'lak' | 'aset-tetap';
 
 export default function Akuntansi() {
+  const { userName, userRole } = useAuth();
+  const canManageClosing = ['Admin', 'Direktur BUMDes', 'Akuntan', 'Bendahara'].includes(userRole);
+
   const [activeTab, setActiveTab] = useState<TabType>('laba-rugi');
   
   const [journals, setJournals] = useState<Journal[]>([]);
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [fixedAssets, setFixedAssets] = useState<FixedAsset[]>([]);
   
+  const BULAN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
   // Modals
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const [expenseData, setExpenseData] = useState({ amount: '', desc: '' });
   const [showIncomeModal, setShowIncomeModal] = useState(false);
   const [incomeData, setIncomeData] = useState({ amount: '', source: 'Tempat Parkir', desc: '' });
+  
+  const [showClosingModal, setShowClosingModal] = useState(false);
+  const [closingData, setClosingData] = useState({ month: new Date().getMonth() + 1, year: new Date().getFullYear() });
+  const [closedMonths, setClosedMonths] = useState<any[]>([]);
   
   // Filters
   const [selectedLedgerAccount, setSelectedLedgerAccount] = useState<string>('');
@@ -100,6 +110,10 @@ export default function Akuntansi() {
         bendaharaName: bendahara?.name || ''
       }));
     }
+
+    // Fetch closed months
+    const { data: closingData } = await supabase.from('monthly_closing').select('*');
+    if (closingData) setClosedMonths(closingData);
 
     setLoading(false);
   };
@@ -264,6 +278,32 @@ export default function Akuntansi() {
     } catch (err) {
       console.error(err);
       setToast({ message: 'Gagal menghapus transaksi', type: 'error', subtitle: 'Silakan coba lagi nanti.' });
+    }
+    setLoading(false);
+  };
+
+  const handleTutupBuku = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const isClosed = closedMonths.some(c => c.month === closingData.month && c.year === closingData.year);
+      if (isClosed) {
+        setToast({ message: 'Bulan ini sudah ditutup', type: 'error', subtitle: 'Anda tidak bisa menutup buku pada periode yang sama dua kali.' });
+        setLoading(false);
+        return;
+      }
+      const { error } = await supabase.from('monthly_closing').insert({
+        month: closingData.month,
+        year: closingData.year,
+        closed_by: userName
+      });
+      if (error) throw error;
+      setToast({ message: 'Tutup Buku Berhasil!', type: 'success', subtitle: `Buku bulan ${closingData.month}/${closingData.year} telah resmi ditutup. Transaksi pada periode ini telah dikunci.` });
+      setShowClosingModal(false);
+      fetchData();
+    } catch (error) {
+      console.error(error);
+      setToast({ message: 'Gagal melakukan tutup buku', type: 'error', subtitle: 'Terjadi kesalahan pada server.' });
     }
     setLoading(false);
   };
@@ -709,6 +749,11 @@ export default function Akuntansi() {
         <div className="flex flex-wrap sm:flex-nowrap gap-2 w-full">
           <button onClick={() => setShowIncomeModal(true)} className="flex-1 min-w-[calc(50%-0.25rem)] sm:min-w-0 flex items-center justify-center gap-1.5 md:gap-2 bg-emerald-50 text-emerald-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-emerald-200 text-xs md:text-sm"><ArrowDownCircle size={14} /> Pemasukan</button>
           <button onClick={() => setShowExpenseModal(true)} className="flex-1 min-w-[calc(50%-0.25rem)] sm:min-w-0 flex items-center justify-center gap-1.5 md:gap-2 bg-rose-50 text-rose-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-rose-200 text-xs md:text-sm"><ArrowUpCircle size={14} /> Pengeluaran</button>
+          {canManageClosing && (
+            <button onClick={() => setShowClosingModal(true)} disabled={isExporting} className="flex-1 min-w-[calc(50%-0.25rem)] sm:min-w-0 flex items-center justify-center gap-1.5 md:gap-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-indigo-200 dark:border-indigo-800 text-xs md:text-sm disabled:opacity-50">
+              <BookOpen size={14} /> Tutup Buku
+            </button>
+          )}
           <button onClick={handleExportAllExcel} disabled={isExporting} className="flex-1 min-w-full sm:min-w-0 flex items-center justify-center gap-1.5 md:gap-2 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-primary-200 dark:border-primary-800 text-xs md:text-sm disabled:opacity-50">
             {isExporting ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />} Semua Laporan (.xlsx)
           </button>
@@ -757,6 +802,27 @@ export default function Akuntansi() {
               <input required type="number" value={expenseData.amount} onChange={e => setExpenseData({...expenseData, amount: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Nominal" />
               <textarea required value={expenseData.desc} onChange={e => setExpenseData({...expenseData, desc: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Keterangan Beban" />
               <div className="flex justify-end gap-2"><button type="button" onClick={() => setShowExpenseModal(false)} className="px-4 py-2 bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 rounded-xl">Batal</button><button type="submit" className="px-4 py-2 bg-rose-600 text-white rounded-xl">Simpan</button></div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showClosingModal && (
+        <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 w-full max-w-md">
+            <h3 className="text-xl font-bold mb-2">Tutup Buku Bulanan</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Pilih bulan dan tahun yang ingin ditutup. Transaksi pada periode ini tidak akan bisa diedit atau dihapus lagi.</p>
+            <form onSubmit={handleTutupBuku} className="space-y-4">
+              <div className="flex gap-4">
+                <select required value={closingData.month} onChange={e => setClosingData({...closingData, month: Number(e.target.value)})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl">
+                  {BULAN.map((m, i) => <option key={i} value={i+1}>{m}</option>)}
+                </select>
+                <input required type="number" min="2000" max="2100" value={closingData.year} onChange={e => setClosingData({...closingData, year: Number(e.target.value)})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Tahun" />
+              </div>
+              <div className="flex justify-end gap-2">
+                <button type="button" onClick={() => setShowClosingModal(false)} className="px-4 py-2 bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 rounded-xl">Batal</button>
+                <button type="submit" className="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl flex items-center gap-2">Tutup Buku</button>
+              </div>
             </form>
           </div>
         </div>

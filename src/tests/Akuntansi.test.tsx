@@ -234,4 +234,19 @@ describe('Akuntansi - Modul Akuntansi Enterprise', () => {
     render(<BrowserRouter><Akuntansi /></BrowserRouter>);
     await waitFor(() => { expect(screen.getByText(/semua laporan/i)).toBeInTheDocument(); });
   });
+
+  // ============================================================
+  // Tutup Buku Tests
+  // ============================================================
+  it('TEST-AKUN-034: Harus menampilkan tombol Tutup Buku jika canManageClosing', async () => {
+    render(<BrowserRouter><Akuntansi /></BrowserRouter>);
+    await waitFor(() => { expect(screen.getByText(/tutup buku/i)).toBeInTheDocument(); });
+  });
+
+  it('TEST-AKUN-035: Klik Tutup Buku harus buka modal', async () => {
+    render(<BrowserRouter><Akuntansi /></BrowserRouter>);
+    const tutupBukuBtn = await screen.findByText('Tutup Buku');
+    fireEvent.click(tutupBukuBtn);
+    await waitFor(() => { expect(screen.getByText('Tutup Buku Bulanan')).toBeInTheDocument(); });
+  });
 });

@@ -264,7 +264,7 @@ export default function Inventaris() {
                     <th className="p-4">Kondisi</th>
                     <th className="p-4">Lokasi</th>
                     <th className="p-4 text-right">Nilai (Rp)</th>
-                    <th className="p-4 text-center rounded-tr-xl">Aksi</th>
+                    {!isPengawas && <th className="p-4 text-center rounded-tr-xl">Aksi</th>}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200 dark:divide-slate-700/60">
@@ -309,7 +309,7 @@ export default function Inventaris() {
                     <th className="p-4">Jenis</th>
                     <th className="p-4">Perihal</th>
                     <th className="p-4">Pengirim/Tujuan</th>
-                    <th className="p-4 text-center rounded-tr-xl">Aksi</th>
+                    {!isPengawas && <th className="p-4 text-center rounded-tr-xl">Aksi</th>}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200 dark:divide-slate-700/60">

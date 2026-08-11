@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import * as XLSX from 'xlsx';
 import Toast from '../components/Toast';
 import type { ToastType } from '../components/Toast';
+import { useAuth } from '../contexts/AuthContext';
 
 interface Item {
   id: string;
@@ -25,6 +26,7 @@ interface Movement {
 }
 
 export default function Stok() {
+  const { isPengawas } = useAuth();
   const [activeTab, setActiveTab] = useState<'Manajemen' | 'Kartu'>('Manajemen');
   const [inventory, setInventory] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
@@ -224,9 +226,13 @@ export default function Stok() {
         {activeTab === 'Manajemen' && (
           <div className="flex gap-2 w-full sm:w-auto flex-wrap">
             <button onClick={fetchItems} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-xl font-bold border dark:border-slate-700"><RefreshCw size={16} className={loading ? 'animate-spin' : ''} /></button>
-            <button onClick={handleDownloadTemplate} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-3 py-2 rounded-xl font-bold border border-emerald-200 dark:border-emerald-800 text-sm"><Download size={14} /> Template</button>
-            <button onClick={() => setShowImportModal(true)} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-2 rounded-xl font-bold border border-blue-200 dark:border-blue-800 text-sm"><Upload size={14} /> Import Excel</button>
-            <button onClick={() => { setEditingItem(null); setFormData({ sku: '', name: '', category: 'ATK', price: '', cost_price: '', stock: '', tax_rate: '0' }); setShowModal(true); }} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-primary-600/30"><Plus size={16} /> Tambah Barang</button>
+            {!isPengawas && (
+              <>
+                <button onClick={handleDownloadTemplate} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-3 py-2 rounded-xl font-bold border border-emerald-200 dark:border-emerald-800 text-sm"><Download size={14} /> Template</button>
+                <button onClick={() => setShowImportModal(true)} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-2 rounded-xl font-bold border border-blue-200 dark:border-blue-800 text-sm"><Upload size={14} /> Import Excel</button>
+                <button onClick={() => { setEditingItem(null); setFormData({ sku: '', name: '', category: 'ATK', price: '', cost_price: '', stock: '', tax_rate: '0' }); setShowModal(true); }} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-primary-600/30"><Plus size={16} /> Tambah Barang</button>
+              </>
+            )}
           </div>
         )}
       </div>
@@ -256,14 +262,14 @@ export default function Stok() {
                 <table className="w-full text-left text-sm min-w-[800px]">
                   <thead className="bg-slate-100 dark:bg-slate-800/80 font-bold uppercase text-xs dark:text-slate-300">
                   <tr>
-                    <th className="p-4 rounded-tl-xl">Kode (SKU)</th>
+                    <th className="p-4 rounded-tl-xl w-32">Kode (SKU)</th>
                     <th className="p-4">Nama Barang</th>
                     <th className="p-4">Kategori</th>
                     <th className="p-4 text-right">Harga Beli</th>
                     <th className="p-4 text-right">Harga Jual</th>
                     <th className="p-4 text-center">Pajak</th>
                     <th className="p-4 text-center">Stok</th>
-                    <th className="p-4 text-center rounded-tr-xl">Aksi</th>
+                    {!isPengawas && <th className="p-4 text-center rounded-tr-xl">Aksi</th>}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200 dark:divide-slate-700/60">
@@ -281,11 +287,17 @@ export default function Stok() {
                           <span className="text-slate-400 text-xs">-</span>
                         )}
                       </td>
-                      <td className="p-4 text-center font-black dark:text-slate-100">{item.stock}</td>
-                      <td className="p-4 text-center space-x-2">
-                        <button onClick={() => handleEdit(item)} className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={14} /></button>
-                        <button onClick={() => handleDelete(item.id)} className="p-2 rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={14} /></button>
+                      <td className="p-4 text-center">
+                        <span className={`px-2 py-1 rounded-full text-xs font-bold ${item.stock < 10 ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400' : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'}`}>
+                          {item.stock}
+                        </span>
                       </td>
+                      {!isPengawas && (
+                        <td className="p-4 text-center space-x-2">
+                          <button onClick={() => handleEdit(item)} className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={14} /></button>
+                          <button onClick={() => handleDelete(item.id)} className="p-2 rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={14} /></button>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
