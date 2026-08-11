@@ -190,10 +190,10 @@ export default function StrukturOrganisasi() {
           <table className="w-full text-left text-sm min-w-[600px]">
             <thead className="bg-slate-100 dark:bg-slate-800/80 font-bold uppercase text-xs dark:text-slate-300">
               <tr>
-                <th className="p-4 rounded-tl-xl">Nama</th>
-                <th className="p-4">Jabatan / Role</th>
-                <th className="p-4">Email</th>
-                <th className="p-4 rounded-tr-xl">Telepon</th>
+                <th className="p-4 rounded-tl-xl whitespace-nowrap">Nama</th>
+                <th className="p-4 whitespace-nowrap">Jabatan / Role</th>
+                <th className="p-4 whitespace-nowrap">Email</th>
+                <th className="p-4 rounded-tr-xl whitespace-nowrap">Telepon</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-700/60">
@@ -202,18 +202,18 @@ export default function StrukturOrganisasi() {
                   <td className="p-4">
                     <div className="flex items-center gap-3">
                       <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${ROLE_COLORS[m.role] || 'from-slate-500 to-slate-700'} flex items-center justify-center text-white font-bold text-sm shrink-0`}>
-                        {m.name.charAt(0)}
+                        {m.name.charAt(0).toUpperCase()}
                       </div>
-                      <span className="font-bold text-slate-800 dark:text-slate-100">{m.name}</span>
+                      <span className="font-bold text-slate-800 dark:text-slate-100 whitespace-nowrap">{m.name}</span>
                     </div>
                   </td>
                   <td className="p-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r ${ROLE_COLORS[m.role] || 'from-slate-500 to-slate-700'} text-white`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r ${ROLE_COLORS[m.role] || 'from-slate-500 to-slate-700'} text-white whitespace-nowrap inline-block`}>
                       {m.position || m.role}
                     </span>
                   </td>
-                  <td className="p-4 text-slate-600 dark:text-slate-400 text-sm">{m.email}</td>
-                  <td className="p-4 text-slate-600 dark:text-slate-400 text-sm">{m.phone || '-'}</td>
+                  <td className="p-4 text-slate-600 dark:text-slate-400 text-sm whitespace-nowrap">{m.email}</td>
+                  <td className="p-4 text-slate-600 dark:text-slate-400 text-sm whitespace-nowrap">{m.phone || '-'}</td>
                 </tr>
               ))}
             </tbody>
