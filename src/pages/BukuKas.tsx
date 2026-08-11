@@ -179,10 +179,12 @@ export default function BukuKas() {
 
     try {
       if (editingId) {
-        await supabase.from('cash_book').update(payload).eq('id', editingId);
+        const { error } = await supabase.from('cash_book').update(payload).eq('id', editingId);
+        if (error) throw error;
         setToast({ message: 'Entri berhasil diperbarui! ✅', type: 'success' });
       } else {
-        await supabase.from('cash_book').insert(payload);
+        const { error } = await supabase.from('cash_book').insert(payload);
+        if (error) throw error;
         setToast({ message: 'Entri kas berhasil ditambahkan! ✅', type: 'success' });
       }
       setShowModal(false);
