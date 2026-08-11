@@ -11,15 +11,19 @@ interface Item {
   price: number;
   cost_price: number;
   stock: number;
+  tax_rate: number;
 }
 
 interface CartItem extends Item {
   qty: number;
+  isCustom?: boolean;
 }
 
 interface PrintData {
   items: CartItem[];
   total: number;
+  subtotal: number;
+  totalTax: number;
   invoice: string;
   date: string;
   cashier: string;
@@ -64,6 +68,10 @@ export default function Pos() {
   const [storeInfo, setStoreInfo] = useState({ name: 'BUMDes Noto Mulyo', address: 'Pulodarat, Jepara', contact: '' });
   const [printData, setPrintData] = useState<PrintData | null>(null);
   const [cashierName, setCashierName] = useState('');
+
+  // Custom item modal
+  const [showCustomModal, setShowCustomModal] = useState(false);
+  const [customForm, setCustomForm] = useState({ name: '', price: '', qty: '1', tax_rate: '0' });
 
   const fetchItems = async () => {
     const { data } = await supabase.from('items').select('*').order('name');
@@ -131,6 +139,25 @@ export default function Pos() {
     }
   };
 
+  const addCustomToCart = () => {
+    if (!customForm.name || !customForm.price) return;
+    const customId = `custom-${Date.now()}`;
+    const customItem: CartItem = {
+      id: customId,
+      sku: 'CUSTOM',
+      name: customForm.name,
+      price: Number(customForm.price),
+      cost_price: 0,
+      stock: 9999,
+      tax_rate: Number(customForm.tax_rate) || 0,
+      qty: Number(customForm.qty) || 1,
+      isCustom: true,
+    };
+    setCart([...cart, customItem]);
+    setCustomForm({ name: '', price: '', qty: '1', tax_rate: '0' });
+    setShowCustomModal(false);
+  };
+
   const updateQty = (id: string, delta: number) => {
     setCart(cart.map(c => {
       if (c.id === id) {
@@ -144,7 +171,13 @@ export default function Pos() {
 
   const removeFromCart = (id: string) => setCart(cart.filter(c => c.id !== id));
 
-  const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const total = cart.reduce((sum, item) => {
+    const itemSubtotal = item.price * item.qty;
+    const itemTax = itemSubtotal * ((item.tax_rate || 0) / 100);
+    return sum + itemSubtotal + itemTax;
+  }, 0);
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const totalTax = cart.reduce((sum, item) => sum + (item.price * item.qty * ((item.tax_rate || 0) / 100)), 0);
   const changeAmount = paymentMethod === 'Tunai' ? Math.max(0, amountPaid - total) : 0;
 
   const getOrCreateAccount = async (code: string, name: string, type: string) => {
@@ -209,6 +242,8 @@ export default function Pos() {
       setPrintData({
         items: [...cart],
         total: total,
+        subtotal: subtotal,
+        totalTax: totalTax,
         invoice: invoiceNumber,
         date: formatReceiptDateTime(now),
         cashier: cashierName,
@@ -221,6 +256,7 @@ export default function Pos() {
         invoice_number: invoiceNumber,
         type: 'Penjualan',
         total_amount: total,
+        tax_amount: totalTax,
         notes: 'Penjualan Kasir',
         payment_method: paymentMethod,
         amount_paid: paymentMethod === 'Tunai' ? amountPaid : total,
@@ -232,30 +268,51 @@ export default function Pos() {
 
       let totalHpp = 0;
       for (const item of cart) {
-        const { error: detErr } = await supabase.from('transaction_details').insert({
-          transaction_id: trx.id,
-          item_id: item.id,
-          qty: item.qty,
-          unit_price: item.price,
-          subtotal: item.price * item.qty
-        });
-        if (detErr) throw new Error(`Gagal insert detail transaksi: ${detErr.message}`);
+        const itemTaxRate = item.tax_rate || 0;
+        const itemTaxAmount = item.price * item.qty * (itemTaxRate / 100);
 
-        const { error: updErr } = await supabase.from('items').update({ stock: item.stock - item.qty }).eq('id', item.id);
-        if (updErr) throw new Error(`Gagal update stok barang: ${updErr.message}`);
-        
-        const { error: movErr } = await supabase.from('item_movements').insert({
-          item_id: item.id,
-          type: 'OUT',
-          qty: item.qty,
-          unit_price: item.cost_price || 0,
-          total_price: (item.cost_price || 0) * item.qty,
-          description: `Penjualan Kasir - Nota ${invoiceNumber}`,
-          transaction_id: trx.id
-        });
-        if (movErr) throw new Error(`Gagal mencatat kartu stok: ${movErr.message}`);
+        if (item.isCustom) {
+          // Custom item — no stock deduction, item_id = null
+          const { error: detErr } = await supabase.from('transaction_details').insert({
+            transaction_id: trx.id,
+            item_id: null,
+            custom_item_name: item.name,
+            qty: item.qty,
+            unit_price: item.price,
+            subtotal: item.price * item.qty,
+            tax_rate: itemTaxRate,
+            tax_amount: itemTaxAmount
+          });
+          if (detErr) throw new Error(`Gagal insert detail transaksi custom: ${detErr.message}`);
+        } else {
+          // Normal item — deduct stock
+          const { error: detErr } = await supabase.from('transaction_details').insert({
+            transaction_id: trx.id,
+            item_id: item.id,
+            qty: item.qty,
+            unit_price: item.price,
+            subtotal: item.price * item.qty,
+            tax_rate: itemTaxRate,
+            tax_amount: itemTaxAmount
+          });
+          if (detErr) throw new Error(`Gagal insert detail transaksi: ${detErr.message}`);
 
-        totalHpp += (item.cost_price || 0) * item.qty;
+          const { error: updErr } = await supabase.from('items').update({ stock: item.stock - item.qty }).eq('id', item.id);
+          if (updErr) throw new Error(`Gagal update stok barang: ${updErr.message}`);
+
+          const { error: movErr } = await supabase.from('item_movements').insert({
+            item_id: item.id,
+            type: 'OUT',
+            qty: item.qty,
+            unit_price: item.cost_price || 0,
+            total_price: (item.cost_price || 0) * item.qty,
+            description: `Penjualan Kasir - Nota ${invoiceNumber}`,
+            transaction_id: trx.id
+          });
+          if (movErr) throw new Error(`Gagal mencatat kartu stok: ${movErr.message}`);
+
+          totalHpp += (item.cost_price || 0) * item.qty;
+        }
       }
 
       const kasId = await getOrCreateAccount('1.1.01.01', 'Kas Tunai', 'Asset');
@@ -275,6 +332,31 @@ export default function Pos() {
           { transaction_id: trx.id, account_id: persId, debit: 0, credit: totalHpp, description: `HPP Penjualan ${invoiceNumber}` }
         ]);
         if (hppErr) throw new Error(`Gagal mencatat jurnal HPP: ${hppErr.message}`);
+      }
+
+      // Auto-insert PPN journal if there's tax
+      if (totalTax > 0) {
+        const ppnKeluaranId = await getOrCreateAccount('2.1.02.01', 'PPN Keluaran', 'Liability');
+        await supabase.from('journals').insert([
+          { transaction_id: trx.id, account_id: kasId, debit: totalTax, credit: 0, description: `PPN Penjualan ${invoiceNumber}` },
+          { transaction_id: trx.id, account_id: ppnKeluaranId, debit: 0, credit: totalTax, description: `PPN Penjualan ${invoiceNumber}` }
+        ]);
+      }
+
+      // Auto-insert to Cash Book
+      try {
+        await supabase.from('cash_book').insert({
+          date: now.toISOString().split('T')[0],
+          description: `Penjualan Kasir - ${invoiceNumber}`,
+          category: 'Penjualan Toko',
+          debit: total,
+          credit: 0,
+          source: 'Kasir',
+          reference_id: trx.id,
+          created_by: cashierName
+        });
+      } catch (cashBookErr) {
+        console.warn('Gagal auto-insert buku kas:', cashBookErr);
       }
 
       setCart([]);
@@ -327,17 +409,20 @@ export default function Pos() {
   const handleReprint = (trx: Transaction, details: any[]) => {
     const itemsForPrint: CartItem[] = details.map(d => ({
       id: d.item_id,
-      name: d.items?.name || 'Unknown Item',
+      name: d.items?.name || d.custom_item_name || 'Item Custom',
       sku: d.items?.sku || '',
       qty: d.qty,
       price: d.unit_price,
       cost_price: 0,
-      stock: 0
+      stock: 0,
+      tax_rate: 0,
     }));
 
     setPrintData({
       items: itemsForPrint,
       total: trx.total_amount,
+      subtotal: trx.total_amount - (trx.amount_paid || 0) + (trx.change_amount || 0), // approximate
+      totalTax: 0,
       invoice: trx.invoice_number,
       date: formatReceiptDateTime(new Date(trx.created_at)),
       cashier: trx.cashier_name || '',
@@ -394,6 +479,17 @@ export default function Pos() {
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-4 overflow-y-auto pr-2 pb-4">
+                {/* Custom Product Button */}
+                <div
+                  onClick={() => setShowCustomModal(true)}
+                  className="card rounded-2xl p-4 cursor-pointer hover:border-amber-400 hover:shadow-lg trans-all flex flex-col justify-between group relative overflow-hidden border-2 border-dashed border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-950/20"
+                >
+                  <div className="relative z-10 flex flex-col items-center justify-center h-full gap-2 py-4">
+                    <Plus size={28} className="text-amber-500" />
+                    <h4 className="font-bold text-amber-700 dark:text-amber-400 text-sm text-center">Produk Custom</h4>
+                    <p className="text-xs text-amber-500 dark:text-amber-500 text-center">Jasa / Biaya Lainnya</p>
+                  </div>
+                </div>
                 {filteredItems.map(item => (
                   <div
                     key={item.id}
@@ -416,6 +512,15 @@ export default function Pos() {
                 )}
               </div>
             </div>
+
+            {/* Floating Custom Item Button */}
+            <button
+              onClick={() => setShowCustomModal(true)}
+              className="xl:hidden fixed bottom-24 right-6 z-40 bg-amber-500 text-white p-3 rounded-full shadow-xl flex items-center gap-2 trans-all hover:bg-amber-600"
+              title="Tambah Produk Custom"
+            >
+              <Plus size={20} />
+            </button>
 
             {/* Floating Toggle Button for Mobile */}
             <button
@@ -451,10 +556,16 @@ export default function Pos() {
                   </div>
                 )}
                 {cart.map(item => (
-                  <div key={item.id} className="flex gap-3 items-center p-3 rounded-2xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:border-primary-200 dark:hover:border-primary-700 trans-all">
+                  <div key={item.id} className={`flex gap-3 items-center p-3 rounded-2xl border shadow-sm hover:border-primary-200 dark:hover:border-primary-700 trans-all ${item.isCustom ? 'border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-950/20' : 'border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800'}`}>
                     <div className="flex-1">
-                      <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 line-clamp-1">{item.name}</h4>
-                      <p className="text-primary-600 dark:text-primary-400 font-extrabold text-sm">Rp {(item.price * item.qty).toLocaleString('id-ID')}</p>
+                      <div className="flex items-center gap-1.5">
+                        <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 line-clamp-1">{item.name}</h4>
+                        {item.isCustom && <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200">CUSTOM</span>}
+                      </div>
+                      <p className="text-primary-600 dark:text-primary-400 font-extrabold text-sm">
+                        Rp {(item.price * item.qty).toLocaleString('id-ID')}
+                        {(item.tax_rate || 0) > 0 && <span className="text-[10px] text-amber-600 dark:text-amber-400 ml-1">+{item.tax_rate}%</span>}
+                      </p>
                     </div>
                     <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-700 p-1 rounded-xl border border-slate-200 dark:border-slate-600 shrink-0">
                       <button onClick={() => updateQty(item.id, -1)} className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600 hover:shadow-sm trans-all"><Minus size={14} /></button>
@@ -467,9 +578,22 @@ export default function Pos() {
               </div>
 
               <div className="p-4 sm:p-6 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 rounded-b-3xl">
-                <div className="flex justify-between items-center mb-4 bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                  <span className="text-slate-500 font-bold text-xs sm:text-sm uppercase tracking-wider">Total Tagihan</span>
-                  <span className="text-xl sm:text-2xl font-black text-primary-900 dark:text-primary-300">Rp {total.toLocaleString('id-ID')}</span>
+                {/* Totals */}
+                <div className="mb-4 bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-500 font-bold text-xs uppercase tracking-wider">Subtotal</span>
+                    <span className="text-base font-bold text-slate-700 dark:text-slate-300">Rp {subtotal.toLocaleString('id-ID')}</span>
+                  </div>
+                  {totalTax > 0 && (
+                    <div className="flex justify-between items-center">
+                      <span className="text-amber-600 dark:text-amber-400 font-bold text-xs uppercase tracking-wider">Pajak</span>
+                      <span className="text-base font-bold text-amber-600 dark:text-amber-400">Rp {Math.round(totalTax).toLocaleString('id-ID')}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-700">
+                    <span className="text-slate-500 font-bold text-xs uppercase tracking-wider">Total Tagihan</span>
+                    <span className="text-xl sm:text-2xl font-black text-primary-900 dark:text-primary-300">Rp {Math.round(total).toLocaleString('id-ID')}</span>
+                  </div>
                 </div>
 
                 {/* Metode Pembayaran */}
@@ -688,7 +812,7 @@ export default function Pos() {
                   ) : (
                     transactionDetails.map(detail => (
                       <tr key={detail.id}>
-                        <td className="p-3 pl-4 font-semibold text-slate-800 dark:text-slate-200">{detail.items?.name || '-'}</td>
+                        <td className="p-3 pl-4 font-semibold text-slate-800 dark:text-slate-200">{detail.items?.name || detail.custom_item_name || 'Item Custom'}</td>
                         <td className="p-3 text-center font-medium text-slate-600 dark:text-slate-400">{detail.qty}</td>
                         <td className="p-3 text-right font-medium text-slate-600 dark:text-slate-400">{detail.unit_price.toLocaleString('id-ID')}</td>
                         <td className="p-3 pr-4 text-right font-bold text-slate-800 dark:text-slate-200">{(detail.qty * detail.unit_price).toLocaleString('id-ID')}</td>
@@ -708,6 +832,44 @@ export default function Pos() {
               >
                 <Printer size={18} /> Cetak Ulang Struk
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ===== MODAL CUSTOM ITEM ===== */}
+      {showCustomModal && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in print:hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border dark:border-slate-800">
+            <div className="flex justify-between items-center p-6 border-b dark:border-slate-800 shrink-0">
+              <h3 className="text-xl font-bold dark:text-slate-100 flex items-center gap-2">
+                <Plus size={22} className="text-amber-500" /> Produk Custom
+              </h3>
+              <button onClick={() => setShowCustomModal(false)} className="text-slate-400 hover:text-slate-600 p-2 bg-slate-100 dark:bg-slate-800 rounded-xl"><X size={20} /></button>
+            </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Nama Jasa / Barang</label>
+                <input required type="text" value={customForm.name} onChange={e => setCustomForm({...customForm, name: e.target.value})} className="w-full px-4 py-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl focus:ring-2" placeholder="Contoh: Jasa Fotokopi / Biaya Admin" />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Harga (Rp)</label>
+                <input required type="number" min="0" value={customForm.price} onChange={e => setCustomForm({...customForm, price: e.target.value})} className="w-full px-4 py-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl focus:ring-2 font-bold" placeholder="0" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Pajak (%)</label>
+                  <input type="number" min="0" max="100" step="0.5" value={customForm.tax_rate} onChange={e => setCustomForm({...customForm, tax_rate: e.target.value})} className="w-full px-4 py-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl focus:ring-2" placeholder="0" />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Jumlah / Qty</label>
+                  <input required type="number" min="1" value={customForm.qty} onChange={e => setCustomForm({...customForm, qty: e.target.value})} className="w-full px-4 py-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl focus:ring-2 font-bold" placeholder="1" />
+                </div>
+              </div>
+            </div>
+            <div className="p-6 border-t dark:border-slate-800 flex justify-end gap-3 shrink-0">
+              <button onClick={() => setShowCustomModal(false)} className="px-4 py-2.5 text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-xl font-bold">Batal</button>
+              <button onClick={addCustomToCart} disabled={!customForm.name || !customForm.price} className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold shadow-lg disabled:opacity-50">Tambahkan</button>
             </div>
           </div>
         </div>
@@ -743,6 +905,19 @@ export default function Pos() {
           </div>
 
           <div className="border-b border-dashed border-black my-2"></div>
+
+          {totalTax > 0 && printData.totalTax > 0 && (
+            <div className="mb-1">
+              <div className="flex justify-between">
+                <span>Subtotal:</span>
+                <span>Rp {printData.subtotal.toLocaleString('id-ID')}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Pajak:</span>
+                <span>Rp {Math.round(printData.totalTax).toLocaleString('id-ID')}</span>
+              </div>
+            </div>
+          )}
 
           <div className="flex justify-between font-bold text-[13px] mb-1">
             <span>TOTAL:</span>

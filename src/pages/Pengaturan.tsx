@@ -341,6 +341,8 @@ export default function Pengaturan() {
                         <option value="Akuntan">Akuntan / Petugas Akuntansi</option>
                         <option value="Sekretaris">Sekretaris</option>
                         <option value="Admin">Admin</option>
+                        <option value="Karyawan">Karyawan Toko</option>
+                        <option value="Pengawas">Pengawas (Hanya Lihat Laporan)</option>
                       </select>
                     </div>
                     <div className="pt-2">

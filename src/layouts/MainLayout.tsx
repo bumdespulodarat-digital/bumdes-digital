@@ -1,14 +1,16 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, ShoppingCart, Package, FileText, Settings, Store, LogOut, Menu, X, Moon, Sun, ChevronLeft, ChevronRight, KeyRound } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, Package, FileText, Settings, Store, LogOut, Menu, X, Moon, Sun, ChevronLeft, ChevronRight, KeyRound, BarChart3, Archive, Users, BookOpen } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useEffect, useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
 import Toast from '../components/Toast';
 import type { ToastType } from '../components/Toast';
 
 export default function MainLayout() {
   const navigate = useNavigate();
   const { isDark, toggleTheme } = useTheme();
+  const { userName: authUserName, canAccess } = useAuth();
   const [storeInfo, setStoreInfo] = useState({ name: 'BUMDes Digital', address: 'Pulodarat, Jepara' });
   const [userName, setUserName] = useState('Admin');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,14 +26,12 @@ export default function MainLayout() {
     supabase.from('settings').select('*').limit(1).maybeSingle().then(({ data }) => {
       if (data) setStoreInfo({ name: data.store_name, address: data.store_address });
     });
-    // Ambil info user yang login
-    supabase.auth.getUser().then(({ data }) => {
-      if (data?.user?.email) {
-        const namePart = data.user.email.split('@')[0];
-        setUserName(namePart.charAt(0).toUpperCase() + namePart.slice(1));
-      }
-    });
   }, []);
+
+  // Sync userName from AuthContext
+  useEffect(() => {
+    if (authUserName) setUserName(authUserName);
+  }, [authUserName]);
 
   // Close profile menu when clicking outside
   useEffect(() => {
@@ -83,14 +83,21 @@ export default function MainLayout() {
     setSavingPassword(false);
   };
 
-  const navItems = [
+  const allNavItems = [
     { path: '/', icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
     { path: '/kasir', icon: <ShoppingCart size={20} />, label: 'Kasir (POS)' },
     { path: '/stok', icon: <Package size={20} />, label: 'Stok Barang' },
     { path: '/hutang-piutang', icon: <FileText size={20} />, label: 'Hutang Piutang' },
     { path: '/akuntansi', icon: <FileText size={20} />, label: 'Akuntansi' },
+    { path: '/laporan-transaksi', icon: <BarChart3 size={20} />, label: 'Laporan Transaksi' },
+    { path: '/buku-kas', icon: <BookOpen size={20} />, label: 'Buku Kas' },
+    { path: '/inventaris', icon: <Archive size={20} />, label: 'Inventaris & Arsip' },
+    { path: '/struktur-organisasi', icon: <Users size={20} />, label: 'Struktur Organisasi' },
     { path: '/pengaturan', icon: <Settings size={20} />, label: 'Pengaturan' },
   ];
+
+  // Filter nav items based on user role
+  const navItems = allNavItems.filter(item => canAccess(item.path));
 
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-100 overflow-hidden">
