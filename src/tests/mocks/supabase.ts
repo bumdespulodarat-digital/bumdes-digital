@@ -96,6 +96,15 @@ export const mockMovements = [
   { id: 'm2', created_at: '2026-08-01T10:00:00', type: 'OUT', qty: 5, description: 'Penjualan Kasir - Nota INV-001', item_id: '1' },
 ];
 
+export const mockCashBook = [
+  { id: 'cb1', date: '2026-08-01', description: 'Saldo Awal', category: 'Umum', debit: 5000000, credit: 0, source: 'Manual', created_by: 'Admin', created_at: '2026-08-01T08:00:00' },
+  { id: 'cb2', date: '2026-08-05', description: 'Beli Kertas', category: 'Biaya Operasional', debit: 0, credit: 50000, source: 'Manual', created_by: 'Admin', created_at: '2026-08-05T09:00:00' },
+];
+
+export const mockInventoryItems = [
+  { id: 'inv1', name: 'Komputer Kantor', category: 'Elektronik', qty: 2, condition: 'Baik', location: 'Ruang Admin', acquisition_date: '2025-01-01', acquisition_cost: 10000000, notes: '', created_at: '2025-01-01T00:00:00' }
+];
+
 // Table data lookup
 const tableData: Record<string, any> = {
   items: [...mockItems],
@@ -109,6 +118,8 @@ const tableData: Record<string, any> = {
   transactions: [...mockTransactions],
   item_movements: [...mockMovements],
   transaction_details: [...mockTransactionDetails],
+  cash_book: [...mockCashBook],
+  inventory_items: [...mockInventoryItems],
 };
 
 /**

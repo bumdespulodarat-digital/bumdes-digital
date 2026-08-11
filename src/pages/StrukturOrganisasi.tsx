@@ -68,7 +68,7 @@ export default function StrukturOrganisasi() {
     const isSmall = size === 'small';
 
     return (
-      <div className={`bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-700 trans-all overflow-hidden group ${isLarge ? 'max-w-xs' : isSmall ? 'max-w-[200px]' : 'max-w-[240px]'}`}>
+      <div className={`bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-700 trans-all overflow-hidden group w-full ${isLarge ? 'sm:max-w-xs' : isSmall ? 'sm:max-w-[200px]' : 'sm:max-w-[240px]'}`}>
         {/* Color bar */}
         <div className={`h-2 bg-gradient-to-r ${gradient}`} />
         <div className={`${isLarge ? 'p-6' : 'p-4'} text-center`}>
@@ -129,12 +129,12 @@ export default function StrukturOrganisasi() {
 
       {/* Org Chart */}
       {showOrgChart && (
-        <div className="card rounded-2xl shadow-sm p-6 sm:p-8 overflow-x-auto border dark:border-slate-800">
-          <div className="min-w-[600px] flex flex-col items-center gap-6">
+        <div className="card rounded-2xl shadow-sm p-4 sm:p-8 overflow-x-auto border dark:border-slate-800">
+          <div className="w-full sm:min-w-[600px] flex flex-col items-center gap-6">
             {/* Level 1: Direktur */}
             {pimpinan.length > 0 && (
-              <div className="flex flex-col items-center">
-                <div className="flex gap-4 justify-center">
+              <div className="flex flex-col items-center w-full">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">
                   {pimpinan.map(m => <MemberCard key={m.id} member={m} size="large" />)}
                 </div>
                 {(manajemen.length > 0 || pengawas.length > 0 || operasional.length > 0) && (
@@ -145,12 +145,14 @@ export default function StrukturOrganisasi() {
 
             {/* Level 2: Pengawas (side) + Manajemen */}
             {(manajemen.length > 0 || pengawas.length > 0) && (
-              <div className="flex flex-col items-center">
-                <div className="flex items-start gap-8 justify-center">
+              <div className="flex flex-col items-center w-full">
+                <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 justify-center w-full">
                   {pengawas.length > 0 && (
                     <div className="flex flex-col items-center gap-3">
                       <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">Pengawas</div>
-                      {pengawas.map(m => <MemberCard key={m.id} member={m} size="small" />)}
+                      <div className="flex flex-row md:flex-col gap-4 justify-center flex-wrap">
+                        {pengawas.map(m => <MemberCard key={m.id} member={m} size="small" />)}
+                      </div>
                     </div>
                   )}
                   {manajemen.length > 0 && (
@@ -167,9 +169,9 @@ export default function StrukturOrganisasi() {
 
             {/* Level 3: Operasional / Karyawan */}
             {operasional.length > 0 && (
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center w-full">
                 <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Staff & Karyawan</div>
-                <div className="flex gap-4 justify-center flex-wrap">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap w-full">
                   {operasional.map(m => <MemberCard key={m.id} member={m} size="small" />)}
                 </div>
               </div>
