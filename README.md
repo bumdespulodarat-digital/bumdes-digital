@@ -24,52 +24,51 @@ Program Kerja (Proker) KKN ini menginisiasi transformasi digital dengan membangu
 
 ## ✨ Fitur Utama (Core Features)
 
-### 📊 1. Dashboard Interaktif (Chart.js)
+### 📊 1. Laporan Keuangan & Transaksi Periodik (Chart.js)
 - **Visualisasi Data Real-Time:** Menampilkan grafik pendapatan, pengeluaran, dan tren laba menggunakan visualisasi Chart.js yang dinamis.
-- **Ringkasan Cepat:** Metrik utama (Kas, Laba, Total Penjualan, Total Aset) di satu halaman.
+- **Filter Fleksibel:** Laporan transaksi Mingguan, Bulanan, dan Tahunan.
+- **Ringkasan Cepat:** Metrik utama (Kas, Laba, Total Pendapatan, Jumlah Transaksi, Total Pajak).
 
 ### 🛒 2. Kasir Pintar (Point of Sale) & Struk Thermal
 - **Transaksi Super Cepat:** Desain kasir responsif untuk tablet & mobile.
-- **Kalkulasi Cerdas:** Menghitung total belanja & kembalian otomatis (termasuk tombol nominal uang bayar cepat/Uang Pas).
-- **Otomatisasi Jurnal:** Setiap penjualan otomatis menjurnal ke Akuntansi (Kas, Pendapatan, HPP, Persediaan) dan mencatat mutasi barang.
-- **Riwayat Transaksi & Cetak Ulang:** Tersedia tab khusus untuk melacak histori transaksi, filter pencarian, filter tanggal, modal detail pembelian, dan fitur cetak ulang struk lawas.
+- **Produk Custom / Jasa Khusus:** Bisa menambahkan item transaksi secara bebas (nama dan harga custom) untuk jasa seperti fotokopi, parkir, admin, tanpa memotong stok.
+- **Kalkulasi Cerdas:** Menghitung total belanja, kembalian, dan **Pajak (PPN)** secara otomatis per barang.
+- **Riwayat Transaksi & Cetak Ulang:** Tersedia tab khusus untuk melacak histori transaksi dan fitur cetak ulang struk lawas.
 
-### 📦 3. Manajemen & Kartu Stok (Buku Pembantu Persediaan)
+### 📦 3. Manajemen, Import Excel & Kartu Stok
 - **Sinkronisasi Real-time:** Stok otomatis berkurang presisi pada setiap transaksi POS.
 - **Kartu Stok Dinamis:** Pantau riwayat seluruh barang masuk (IN) dan keluar (OUT) lengkap dengan saldo berjalan.
-- **Visualisasi Stok Cerdas:** Indikator warna barang yang hampir habis dengan antarmuka dinamis.
+- **Import Excel (Bulk):** Unggah ratusan data barang sekaligus menggunakan template Excel bawaan sistem.
+- **Pajak Dinamis:** Pengaturan persentase pajak (0%, 2%, 11%, dll) khusus per masing-masing barang.
 
-### ⚖️ 4. Akuntansi Kelas Enterprise (Standar Noto Mulyo 2025)
+### ⚖️ 4. Akuntansi & Buku Kas Umum
 Terintegrasi secara penuh dengan **Chart of Accounts (COA) 5-Level** standar BUMDes. Fitur meliputi:
-- **Buku Jurnal Umum:** Mencatat seluruh transaksi debit-kredit otomatis dan manual.
+- **Buku Kas Umum:** Terkoneksi otomatis! Setiap uang masuk dari mesin kasir otomatis masuk ke Debit Buku Kas. Dilengkapi saldo berjalan.
+- **Buku Jurnal Umum:** Mencatat seluruh transaksi debit-kredit (termasuk jurnal PPN otomatis dari Kasir).
 - **Buku Besar (General Ledger):** Memfilter riwayat per akun secara spesifik untuk melihat mutasi dan saldo berjalan.
-- **Neraca Saldo (Trial Balance):** Memastikan keseimbangan (balance) antara seluruh aktiva, kewajiban, ekuitas, pendapatan, dan beban.
+- **Neraca Saldo (Trial Balance):** Memastikan keseimbangan (balance) keuangan BUMDes.
 
 ### 📈 5. Pelaporan Keuangan Komprehensif Real-Time
 - **Laporan Laba Rugi:** Membedah Pendapatan, HPP, hingga Beban Operasional untuk Laba Bersih.
 - **Laporan Posisi Keuangan (Neraca):** Pemantauan mendalam Kas, Piutang, Persediaan, Aset Tetap, Utang, dan Ekuitas.
 - **Laporan Perubahan Ekuitas (LPE):** Mengkalkulasi otomatis penambahan modal dari SHU/Laba berjalan.
-- **Laporan Arus Kas (LAK):** Merekap arus uang masuk dan keluar BUMDes.
 
 ### 🖨️ 6. Export Laporan (PDF & Excel)
-- **PDF Export (pdfmake):** Unduh laporan keuangan resmi berformat PDF siap cetak lengkap dengan Kop Surat, tabel profesional, dan blok Tanda Tangan (Direktur & Bendahara).
-- **Excel Export (exceljs):** Unduh satu atau seluruh laporan ke format *Spreadsheet* (`.xlsx`) multi-sheet (Buku Besar, Neraca, Laba Rugi, dll) lengkap dengan format angka *Currency* dan border tabel siap analisa.
+- **PDF Export (pdfmake):** Unduh laporan keuangan resmi berformat PDF siap cetak lengkap dengan Kop Surat.
+- **Excel Export (exceljs):** Unduh laporan ke format *Spreadsheet* (`.xlsx`) lengkap dengan format angka *Currency*.
 
-### 💳 7. Buku Pembantu Utang & Piutang
-- **Catatan Pihak Terkait:** Pantau seluruh *customer* dan *supplier* BUMDes.
-- **Sistem Cicilan/Pelunasan:** Kelola status piutang warga atau utang supplier. Pelunasan otomatis menjurnal ke Kas.
+### 📂 7. Sistem Inventaris & Arsip Terpadu
+- **Inventaris Barang BUMDes:** Mencatat seluruh aset tetap perusahaan (laptop, printer, mesin) beserta kondisinya.
+- **Manajemen Arsip Surat:** Katalogisasi surat masuk dan surat keluar resmi BUMDes.
+- **Notulen Rapat:** Pencatatan absensi peserta rapat, agenda, dan keputusan akhir secara digital.
+- **Dokumentasi Kegiatan:** Pengarsipan galeri foto dan rekap acara BUMDes.
 
-### 🎨 8. Tema UI/UX Premium
-- **Dark Mode Penuh:** Transisi halus antara mode terang dan gelap untuk kenyamanan mata.
-- **Responsive Layout:** 100% Mobile-friendly dan dioptimalkan untuk desktop/tablet.
-
-### 👥 9. Manajemen Multi-Pengurus & Profil BUMDes
-- Pengaturan Profil BUMDes (Nama, Alamat, Nomor Kontak).
-- Manajemen Hak Akses Multi-User untuk kolaborasi Direktur, Bendahara, dan Akuntan.
-- **Akun Login BUMDes:**
-  - Direktur: `direktur.bumdespulodarat@gmail.com`
-  - Bendahara: `bendahara.bumdespulodarat@gmail.com`
-  - Akuntan: `akuntan.bumdespulodarat@gmail.com`
+### 👥 8. Struktur Organisasi & Hak Akses Bertingkat (RBAC)
+- **Visualisasi Struktur Organisasi (Org Chart):** Tampilan hierarki cantik dari Direktur hingga staf lapis bawah secara otomatis.
+- **Manajemen Multi-User & Role Khusus:**
+  - `Admin/Direktur/Bendahara`: Akses penuh pengeditan (*Superuser*).
+  - `Pengawas`: Mode lihat saja (*Read-only*) khusus pada Laporan Keuangan, Akuntansi, Buku Kas, dan Inventaris.
+  - `Karyawan Toko`: Fokus operasional harian (Akses khusus ke halaman Dashboard, Kasir, dan Stok Barang).
 
 ## 🛠️ Stack Teknologi (Tech Stack)
 Aplikasi ini dibangun menggunakan arsitektur modern untuk menjamin kecepatan, keamanan, dan keandalan data:
