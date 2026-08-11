@@ -189,7 +189,7 @@ export default function LaporanTransaksi() {
             )}
             {(period === 'bulanan' || period === 'tahunan') && (
               <select value={selectedYear} onChange={e => setSelectedYear(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
-                {[2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
+                {Array.from({ length: Math.max(10, new Date().getFullYear() - 2024 + 5) }, (_, i) => 2024 + i).map(y => <option key={y} value={y}>{y}</option>)}
               </select>
             )}
             {period === 'bulanan' && (

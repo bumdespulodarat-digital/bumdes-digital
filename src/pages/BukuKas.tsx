@@ -212,7 +212,7 @@ export default function BukuKas() {
             {BULAN.map((b, i) => <option key={i} value={i + 1}>{b}</option>)}
           </select>
           <select value={filterYear} onChange={e => setFilterYear(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
-            {[2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
+            {Array.from({ length: Math.max(10, new Date().getFullYear() - 2024 + 5) }, (_, i) => 2024 + i).map(y => <option key={y} value={y}>{y}</option>)}
           </select>
           {!isPengawas && (
             <button onClick={() => { setEditingId(null); setForm({ date: new Date().toISOString().split('T')[0], description: '', category: 'Umum', type: 'debit', amount: '' }); setShowModal(true); }} className="w-full sm:w-auto flex justify-center items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-primary-600/30 mt-2 sm:mt-0">
