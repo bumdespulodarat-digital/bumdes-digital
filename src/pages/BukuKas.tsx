@@ -32,6 +32,7 @@ export default function BukuKas() {
   const [toast, setToast] = useState<{ message: string; type: ToastType; subtitle?: string } | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState(false);
+  const [saldoAwal, setSaldoAwal] = useState(0);
 
   // Modal states
   const [showModal, setShowModal] = useState(false);
@@ -76,6 +77,18 @@ export default function BukuKas() {
     const lastDay = new Date(filterYear, filterMonth, 0).getDate();
     const endDate = `${filterYear}-${String(filterMonth).padStart(2, '0')}-${lastDay}T23:59:59`;
 
+    const { data: previousData } = await supabase
+      .from('cash_book')
+      .select('debit, credit')
+      .lt('date', startDate);
+      
+    if (previousData) {
+      const awal = previousData.reduce((acc, curr) => acc + (Number(curr.debit) || 0) - (Number(curr.credit) || 0), 0);
+      setSaldoAwal(awal);
+    } else {
+      setSaldoAwal(0);
+    }
+
     const { data } = await supabase
       .from('cash_book')
       .select('*')
@@ -100,18 +113,18 @@ export default function BukuKas() {
   }, [entries, search, filterCategory]);
 
   const runningBalanceEntries = useMemo(() => {
-    let balance = 0;
+    let balance = saldoAwal;
     return filteredEntries.map(e => {
-      balance += (e.debit - e.credit);
+      balance += (Number(e.debit) - Number(e.credit));
       return { ...e, runningBalance: balance };
     });
-  }, [filteredEntries]);
+  }, [filteredEntries, saldoAwal]);
 
   const summary = useMemo(() => {
-    const totalDebit = filteredEntries.reduce((s, e) => s + e.debit, 0);
-    const totalCredit = filteredEntries.reduce((s, e) => s + e.credit, 0);
-    return { totalDebit, totalCredit, saldo: totalDebit - totalCredit };
-  }, [filteredEntries]);
+    const totalDebit = filteredEntries.reduce((s, e) => s + Number(e.debit), 0);
+    const totalCredit = filteredEntries.reduce((s, e) => s + Number(e.credit), 0);
+    return { totalDebit, totalCredit, saldo: saldoAwal + totalDebit - totalCredit };
+  }, [filteredEntries, saldoAwal]);
 
   // ====== HANDLERS ======
   const handleSave = async (e: React.FormEvent) => {
@@ -288,6 +301,18 @@ export default function BukuKas() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-700/60">
+              {saldoAwal !== 0 && (
+                <tr className="bg-slate-50/50 dark:bg-slate-800/20 font-medium text-slate-500">
+                  <td className="p-4" colSpan={3}>Saldo Awal dari bulan sebelumnya</td>
+                  <td className="p-4"></td>
+                  <td className="p-4"></td>
+                  <td className="p-4"></td>
+                  <td className="p-4 text-right font-black text-slate-800 dark:text-slate-200">
+                    Rp {saldoAwal.toLocaleString('id-ID')}
+                  </td>
+                  <td colSpan={isPengawas ? 1 : 2}></td>
+                </tr>
+              )}
               {runningBalanceEntries.length === 0 && (
                 <tr><td colSpan={isPengawas ? 8 : 9} className="p-12 text-center text-slate-400 font-medium">Belum ada entri buku kas untuk periode ini.</td></tr>
               )}

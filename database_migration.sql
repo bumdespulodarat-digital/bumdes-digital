@@ -101,3 +101,10 @@ CREATE POLICY "Allow public all access on letters" ON letters FOR ALL USING (tru
 CREATE POLICY "Allow public all access on meeting_minutes" ON meeting_minutes FOR ALL USING (true);
 CREATE POLICY "Allow public all access on activity_docs" ON activity_docs FOR ALL USING (true);
 CREATE POLICY "Allow public all access on cash_book" ON cash_book FOR ALL USING (true);
+
+-- ===== FASE 9: Performance Optimization (Indexes) =====
+-- Menambahkan index agar query laporan (filter berdasarkan tanggal) berjalan secepat kilat
+CREATE INDEX IF NOT EXISTS idx_transactions_created_at ON transactions(created_at);
+CREATE INDEX IF NOT EXISTS idx_cash_book_date ON cash_book(date);
+CREATE INDEX IF NOT EXISTS idx_item_movements_created_at ON item_movements(created_at);
+CREATE INDEX IF NOT EXISTS idx_journals_created_at ON journals(created_at);
