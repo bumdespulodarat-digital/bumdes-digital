@@ -36,31 +36,123 @@ export default function BukuPanduan() {
   const handleDownloadPDF = () => {
     const docDefinition: TDocumentDefinitions = {
       pageSize: 'A4',
-      pageMargins: [40, 60, 40, 60],
-      header: {
-        text: 'Buku Panduan Sistem Digital BUMDes',
-        margin: [40, 20, 40, 0],
-        fontSize: 9,
-        color: 'gray',
-        alignment: 'right'
+      pageMargins: [40, 70, 40, 60],
+      info: {
+        title: 'Buku Panduan BUMDes Digital',
+        author: 'Tim IT KKN',
+        subject: 'SOP Sistem BUMDes',
+      },
+      header: (currentPage) => {
+        if (currentPage === 1) return null;
+        return {
+          columns: [
+            { text: 'BUKU PANDUAN BUMDES DIGITAL', style: 'headerLeft' },
+            { text: 'Pulodarat, Jepara', style: 'headerRight' }
+          ],
+          margin: [40, 20, 40, 0]
+        };
+      },
+      footer: (currentPage, pageCount) => {
+        return {
+          columns: [
+            { text: 'Sistem Informasi Digital BUMDes', style: 'footerLeft' },
+            { text: `Halaman ${currentPage} dari ${pageCount}`, style: 'footerRight' }
+          ],
+          margin: [40, 20, 40, 0]
+        };
       },
       content: [
-        { text: 'BUKU PANDUAN PENGGUNA', style: 'header', alignment: 'center', margin: [0, 0, 0, 5] as [number, number, number, number] },
-        { text: 'Sistem Informasi Digital BUMDes', style: 'subheader', alignment: 'center', margin: [0, 0, 0, 40] as [number, number, number, number] },
-        
-        { text: 'Daftar Pertanyaan Umum (FAQ) & Panduan Singkat', style: 'sectionHeader', margin: [0, 0, 0, 20] as [number, number, number, number] },
-        
-        ...faqs.flatMap((faq, index) => ([
-          { text: `${index + 1}. ${faq.q}`, style: 'question', margin: [0, 10, 0, 5] as [number, number, number, number] },
-          { text: faq.a, style: 'answer', margin: [15, 0, 0, 20] as [number, number, number, number] }
-        ]))
+        // COVER PAGE
+        { text: '\n\n\n\n\n\n' },
+        {
+          canvas: [
+            { type: 'rect', x: 0, y: 0, w: 515, h: 4, color: '#0F766E' }
+          ]
+        },
+        { text: 'BUKU PANDUAN PENGGUNA', style: 'coverTitle', margin: [0, 20, 0, 5] as [number, number, number, number] },
+        { text: '(Standard Operating Procedure)', style: 'coverSubtitle', margin: [0, 0, 0, 20] as [number, number, number, number] },
+        { text: 'SISTEM INFORMASI DIGITAL BUMDES', style: 'coverMain', margin: [0, 0, 0, 20] as [number, number, number, number] },
+        {
+          canvas: [
+            { type: 'rect', x: 0, y: 0, w: 515, h: 2, color: '#0F766E' }
+          ]
+        },
+        { text: '\n\n\n' },
+        { text: 'Disusun Oleh:\nTim Mahasiswa KKN\nDesa Pulodarat, Kec. Pecangaan, Kab. Jepara\n2024', style: 'coverAuthor', alignment: 'center' },
+        { text: '', pageBreak: 'after' },
+
+        // KATA PENGANTAR
+        { text: 'KATA PENGANTAR', style: 'h1' },
+        { 
+          text: 'Sistem Informasi Digital BUMDes dibuat untuk memudahkan pencatatan transaksi kasir, manajemen stok, dan otomatisasi akuntansi (pembuatan Jurnal, Buku Kas, Laporan Laba Rugi, dan Neraca) secara terpadu.\n\nBuku panduan ini disusun sebagai pegangan bagi para pengurus BUMDes (Direktur, Bendahara, Admin, hingga Kasir) agar dapat mengoperasikan sistem dengan baik dan benar.',
+          style: 'paragraph' 
+        },
+
+        // BAB 1: KASIR
+        { text: '1. MODUL KASIR (POINT OF SALE)', style: 'h1', margin: [0, 20, 0, 10] as [number, number, number, number] },
+        { text: 'Modul ini digunakan untuk melayani pembeli secara langsung.', style: 'paragraph' },
+        {
+          ul: [
+            { text: 'Pilih Barang: Klik barang pada daftar atau ketikkan nama/barcode pada kolom pencarian.', style: 'listItem' },
+            { text: 'Produk Custom: Jika ada layanan/jasa yang tidak ada di stok (misal: Jasa Fotokopi), klik tombol "Produk Custom" (ikon + kuning) lalu masukkan nama dan harga.', style: 'listItem' },
+            { text: 'Pembayaran: Pilih metode pembayaran (Tunai/QRIS/Transfer), lalu masukkan nominal uang yang dibayar (jika tunai).', style: 'listItem' },
+            { text: 'Checkout: Klik "Cetak Struk" untuk menyimpan data sekaligus mencetak struk thermal, atau "Simpan Data" jika tidak ingin mencetak kertas.', style: 'listItem' },
+          ]
+        },
+        { 
+          text: 'PENTING: Setiap transaksi yang berhasil di kasir akan secara otomatis memotong stok barang, menambah kas di Buku Kas, dan membuat Jurnal Akuntansi otomatis.',
+          style: 'alertBox', margin: [0, 10, 0, 10] as [number, number, number, number]
+        },
+
+        // BAB 2: STOK & INVENTARIS
+        { text: '2. MODUL STOK BARANG & INVENTARIS', style: 'h1', margin: [0, 15, 0, 10] as [number, number, number, number] },
+        { text: 'Manajemen ketersediaan barang dagangan dan aset desa.', style: 'paragraph' },
+        {
+          ul: [
+            { text: 'Tambah Stok Baru: Masuk ke menu "Stok Barang", klik tombol "+ Tambah Barang". Isi nama, kode/SKU (bisa dari barcode), harga beli, dan harga jual.', style: 'listItem' },
+            { text: 'Kartu Stok: Klik tombol "Detail" pada salah satu barang untuk melihat riwayat keluar-masuk barang tersebut.', style: 'listItem' },
+            { text: 'Inventaris & Arsip: Menu ini khusus untuk mencatat Aset Tetap (seperti Mesin Fotokopi, Meja, Kursi) dan menyimpan dokumen penting (PDF/Word).', style: 'listItem' },
+          ]
+        },
+
+        // BAB 3: KEUANGAN
+        { text: '3. MODUL KEUANGAN & AKUNTANSI', style: 'h1', margin: [0, 15, 0, 10] as [number, number, number, number] },
+        { text: 'Sistem ini dilengkapi akuntansi otomatis berstandar ganda (Double-Entry).', style: 'paragraph' },
+        {
+          ul: [
+            { text: 'Buku Kas: Catat semua pengeluaran operasional (seperti bayar listrik, beli galon) melalui menu "Buku Kas" agar saldo kas BUMDes selalu akurat.', style: 'listItem' },
+            { text: 'Hutang & Piutang: Jika ada pembeli yang kasbon/berhutang, catat di menu Piutang. Sistem akan mencatatnya sebagai tagihan dan bisa dicicil/dilunasi.', style: 'listItem' },
+            { text: 'Akuntansi (Laba Rugi & Neraca): Anda bisa memantau keuntungan harian atau bulanan secara langsung tanpa perlu menyusun laporan manual.', style: 'listItem' },
+          ]
+        },
+
+        // BAB 4: PENGATURAN
+        { text: '4. PENGATURAN & STRUKTUR PENGURUS', style: 'h1', margin: [0, 15, 0, 10] as [number, number, number, number] },
+        {
+          ul: [
+            { text: 'Struktur Organisasi: Tampilan bagan hierarki kepengurusan BUMDes mulai dari Musdes hingga Karyawan.', style: 'listItem' },
+            { text: 'Pengaturan Akun: Hanya Direktur dan Admin yang dapat mengakses menu ini untuk menambah atau menghapus hak akses (login) untuk pengurus lain.', style: 'listItem' },
+            { text: 'Download PDF / Excel: Setiap laporan (Transaksi, Buku Kas, Keuangan) dilengkapi fitur Export untuk pelaporan fisik kepada Kepala Desa.', style: 'listItem' },
+          ]
+        },
+
+        { text: '\n\n\n' },
+        { text: '--- Selamat Bekerja Menggunakan Sistem Digital BUMDes ---', style: 'closing', alignment: 'center' }
       ],
       styles: {
-        header: { fontSize: 24, bold: true, color: '#1E293B' },
-        subheader: { fontSize: 16, bold: true, color: '#64748B' },
-        sectionHeader: { fontSize: 14, bold: true, color: '#0F766E', decoration: 'underline' },
-        question: { fontSize: 12, bold: true, color: '#334155' },
-        answer: { fontSize: 11, color: '#475569', lineHeight: 1.6 }
+        coverTitle: { fontSize: 28, bold: true, alignment: 'center', color: '#1E293B' },
+        coverSubtitle: { fontSize: 16, italics: true, alignment: 'center', color: '#64748B' },
+        coverMain: { fontSize: 24, bold: true, alignment: 'center', color: '#0F766E' },
+        coverAuthor: { fontSize: 14, bold: true, color: '#334155', lineHeight: 1.5 },
+        h1: { fontSize: 16, bold: true, color: '#0F766E', decoration: 'underline', margin: [0, 10, 0, 5] },
+        paragraph: { fontSize: 11, color: '#334155', lineHeight: 1.5, margin: [0, 0, 0, 10] },
+        listItem: { fontSize: 11, color: '#334155', lineHeight: 1.5, margin: [0, 0, 0, 6] },
+        alertBox: { fontSize: 11, bold: true, color: '#991B1B', background: '#FEE2E2', margin: [0, 5, 0, 5] },
+        closing: { fontSize: 12, italics: true, color: '#64748B', bold: true },
+        headerLeft: { fontSize: 9, color: '#94A3B8', bold: true },
+        headerRight: { fontSize: 9, color: '#94A3B8', alignment: 'right' },
+        footerLeft: { fontSize: 9, color: '#94A3B8' },
+        footerRight: { fontSize: 9, color: '#94A3B8', alignment: 'right' }
       },
       defaultStyle: { font: 'Roboto' }
     };
