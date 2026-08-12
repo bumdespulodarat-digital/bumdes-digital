@@ -34,6 +34,20 @@ export default function BukuPanduan() {
   ];
 
   const handleDownloadPDF = () => {
+    const screenshotBox = (text: string) => ({
+      table: {
+        widths: ['*'],
+        body: [
+          [{ text: `📷 [ ${text} ]\n(Area Placeholder Gambar)`, alignment: 'center', margin: [0, 40, 0, 40] as [number, number, number, number], color: '#94A3B8', fillColor: '#F1F5F9' }]
+        ]
+      },
+      layout: {
+        hLineWidth: () => 1, vLineWidth: () => 1,
+        hLineColor: () => '#E2E8F0', vLineColor: () => '#E2E8F0'
+      },
+      margin: [0, 10, 0, 15] as [number, number, number, number]
+    });
+
     const docDefinition: TDocumentDefinitions = {
       pageSize: 'A4',
       pageMargins: [40, 80, 40, 60],
@@ -74,9 +88,11 @@ export default function BukuPanduan() {
         {
           table: {
             widths: ['*'],
-            body: [[{ text: '[ LOGO BUMDES ]', style: 'logoPlaceholder', margin: [0, 40, 0, 40] as [number, number, number, number] }]]
+            body: [[{ text: '📷 [ LOGO BUMDES ]', style: 'logoPlaceholder', margin: [0, 40, 0, 40] as [number, number, number, number], fillColor: '#F8FAFC' }]]
           },
-          layout: 'noBorders',
+          layout: {
+            hLineWidth: () => 1, vLineWidth: () => 1, hLineColor: () => '#E2E8F0', vLineColor: () => '#E2E8F0'
+          },
           margin: [0, 0, 0, 40] as [number, number, number, number]
         },
 
@@ -105,7 +121,18 @@ export default function BukuPanduan() {
           text: 'Puji syukur kami panjatkan ke hadirat Tuhan Yang Maha Esa atas selesainya penyusunan "Buku Panduan Pengguna (SOP) Sistem Informasi Digital BUMDes". \n\nSistem ini dirancang khusus untuk mempermudah dan mendigitalisasi operasional BUMDes Noto Mulyo, mulai dari transaksi kasir, manajemen stok, pencatatan hutang-piutang, hingga otomatisasi pembukuan (akuntansi).\n\nBuku panduan ini disusun dengan bahasa yang sederhana agar dapat menjadi pedoman yang mudah dipahami oleh seluruh jajaran pengurus BUMDes (Direktur, Bendahara, Admin, dan Karyawan). Dengan adanya sistem ini, diharapkan transparansi dan efisiensi pengelolaan BUMDes semakin meningkat.',
           style: 'paragraph' 
         },
-        { text: 'Jepara, 2024\n\n\n\nTim Penyusun', style: 'paragraph', alignment: 'right', margin: [0, 40, 0, 0] as [number, number, number, number] },
+
+        // PERSYARATAN SISTEM
+        { text: 'PERSYARATAN SISTEM', style: 'h2' },
+        {
+          ul: [
+            { text: 'Koneksi Internet: Sistem ini berbasis Cloud (Web-Based), sehingga membutuhkan koneksi internet (Wi-Fi/Kuota) agar bisa melakukan transaksi secara real-time.', style: 'listItem' },
+            { text: 'Perangkat: Bisa dibuka melalui Laptop, Komputer Kasir (PC), Tablet, maupun Smartphone (HP).', style: 'listItem' },
+            { text: 'Browser Rekomendasi: Gunakan Google Chrome, Mozilla Firefox, atau Safari versi terbaru untuk performa dan tampilan terbaik.', style: 'listItem' }
+          ]
+        },
+
+        { text: 'Jepara, 2024\n\n\n\nTim Penyusun', style: 'paragraph', alignment: 'right', margin: [0, 30, 0, 0] as [number, number, number, number] },
         { text: '', pageBreak: 'after' },
 
         // BAB 1
@@ -124,7 +151,7 @@ export default function BukuPanduan() {
           margin: [0, 0, 0, 15] as [number, number, number, number]
         },
         { text: '1. Cara Login ke Dalam Sistem', style: 'h2' },
-        { text: '[Screenshot: Halaman Login Aplikasi]', style: 'screenshotPlaceholder' },
+        screenshotBox('Halaman Login Aplikasi'),
         {
           ol: [
             { text: 'Buka alamat website sistem BUMDes melalui browser (Google Chrome/Safari) di Laptop atau HP Anda.', style: 'listItem' },
@@ -158,7 +185,7 @@ export default function BukuPanduan() {
           margin: [0, 0, 0, 15] as [number, number, number, number]
         },
         { text: 'Dashboard adalah halaman pertama yang Anda lihat setelah login. Halaman ini berfungsi sebagai pusat informasi (rapor) harian BUMDes.', style: 'paragraph' },
-        { text: '[Screenshot: Tampilan Dashboard dengan Grafik]', style: 'screenshotPlaceholder' },
+        screenshotBox('Tampilan Dashboard dengan Grafik'),
         {
           ol: [
             { text: 'Perhatikan Kotak Ringkasan di bagian atas. Anda bisa melihat total pemasukan hari ini, bulan ini, dan saldo kas secara langsung.', style: 'listItem' },
@@ -189,7 +216,7 @@ export default function BukuPanduan() {
         { text: 'Setiap transaksi di Kasir akan secara OTOMATIS: \n1. Mengurangi sisa stok barang.\n2. Menambah saldo di Buku Kas.\n3. Membuat jurnal pembukuan akuntansi.\nAnda TIDAK PERLU mencatatnya lagi secara manual!', style: 'noteBox', margin: [0, 0, 0, 15] as [number, number, number, number] },
 
         { text: '1. Cara Melakukan Transaksi Penjualan', style: 'h2' },
-        { text: '[Screenshot: Tampilan Menu Kasir & Keranjang]', style: 'screenshotPlaceholder' },
+        screenshotBox('Tampilan Menu Kasir & Keranjang'),
         {
           ol: [
             { text: 'Buka menu Kasir (POS) di sidebar.', style: 'listItem' },
@@ -219,6 +246,7 @@ export default function BukuPanduan() {
           margin: [0, 0, 0, 15] as [number, number, number, number]
         },
         { text: '1. Cara Menambahkan Barang Baru', style: 'h2' },
+        screenshotBox('Tampilan Form Tambah Barang'),
         {
           ol: [
             { text: 'Buka menu Stok Barang, lalu klik tombol "+ Tambah Barang" di pojok kanan atas.', style: 'listItem' },
@@ -246,7 +274,7 @@ export default function BukuPanduan() {
           layout: 'lightHorizontalLines',
           margin: [0, 0, 0, 15] as [number, number, number, number]
         },
-        { text: '[Screenshot: Tabel Piutang Pelanggan]', style: 'screenshotPlaceholder' },
+        screenshotBox('Tabel Piutang Pelanggan'),
         { text: '1. Cara Mencatat Warga yang Kasbon (Piutang)', style: 'h2' },
         {
           ol: [
@@ -272,7 +300,7 @@ export default function BukuPanduan() {
         },
 
         { text: '2. Laporan Laba Rugi & Neraca', style: 'h2' },
-        { text: '[Screenshot: Tampilan Laporan Laba Rugi]', style: 'screenshotPlaceholder' },
+        screenshotBox('Tampilan Laporan Laba Rugi'),
         {
           ol: [
             { text: 'Buka menu Akuntansi. Anda akan langsung melihat laporan keuangan BUMDes tanpa perlu menghitung rumus rumit.', style: 'listItem' },
@@ -284,14 +312,28 @@ export default function BukuPanduan() {
 
         // BAB 7
         { text: 'BAB 7 - PENGATURAN & STRUKTUR', style: 'h1', tocItem: true },
-        { text: '1. Mengelola Akun Pengurus', style: 'h2' },
+        
+        { text: '1. Struktur Organisasi', style: 'h2' },
+        { text: 'BUMDes dikelola dengan hierarki kepengurusan yang jelas, yang terangkum dalam menu Struktur Organisasi:', style: 'paragraph' },
+        {
+          ul: [
+            { text: 'Musyawarah Desa (Musdes): Forum tertinggi pengambil keputusan di BUMDes.', style: 'listItem' },
+            { text: 'Penasihat (Kepala Desa): Memberikan arahan dan pengawasan secara struktural.', style: 'listItem' },
+            { text: 'Direktur / Ketua: Memimpin operasional BUMDes sehari-hari.', style: 'listItem' },
+            { text: 'Sekretaris & Bendahara: Mengurus administrasi dan keuangan (memegang akses penuh sistem).', style: 'listItem' },
+            { text: 'Staff / Karyawan: Menjalankan unit usaha teknis (seperti Kasir POS).', style: 'listItem' }
+          ]
+        },
+
+        { text: '2. Mengelola Akun Pengurus', style: 'h2' },
         {
           ol: [
             { text: 'Menu Pengaturan hanya bisa diakses oleh jabatan Admin dan Direktur.', style: 'listItem' },
             { text: 'Di sini, Anda bisa membuatkan akun (email & password) baru jika ada pergantian pengurus BUMDes.', style: 'listItem' }
           ]
         },
-        { text: '2. Mencetak Laporan (Export PDF/Excel)', style: 'h2' },
+
+        { text: '3. Mencetak Laporan Bulanan (Export PDF/Excel)', style: 'h2' },
         { text: 'Setiap akhir bulan, BUMDes wajib melapor ke Kepala Desa. Caranya sangat mudah:', style: 'paragraph' },
         {
           ol: [
@@ -315,9 +357,11 @@ export default function BukuPanduan() {
           ]
         },
 
-        { text: 'TANYA JAWAB (FAQ)', style: 'h1', tocItem: true, margin: [0, 20, 0, 10] as [number, number, number, number] },
+        { text: 'TROUBLESHOOTING & FAQ', style: 'h1', tocItem: true, margin: [0, 20, 0, 10] as [number, number, number, number] },
         {
           ul: [
+            { text: 'T: Saya lupa Password, bagaimana cara masuk?\nJ: Anda bisa menghubungi Admin/Direktur BUMDes. Mereka memiliki akses ke menu Pengaturan untuk mereset password akun Anda.', style: 'listItem' },
+            { text: 'T: Mengapa Struk Printer tidak mau keluar?\nJ: Pastikan kabel Bluetooth/USB printer sudah tersambung dengan perangkat. Jika mencetak melalui browser (Chrome), pastikan pop-up tidak diblokir.', style: 'listItem' },
             { text: 'T: Apakah data aman jika laptop rusak?\nJ: Sangat aman! Sistem ini berbasis digital (Cloud). Anda cukup meminjam laptop atau HP lain, buka website-nya, login, dan semua data Anda masih utuh.', style: 'listItem' },
             { text: 'T: Bagaimana jika ada barang yang sama tapi harganya beda?\nJ: Anda bisa mengubah Harga Jual langsung saat berada di menu Kasir sebelum menekan tombol Bayar, atau perbarui data barang di menu Stok.', style: 'listItem' }
           ]
@@ -325,7 +369,7 @@ export default function BukuPanduan() {
 
         { text: 'BANTUAN TEKNIS', style: 'h1', tocItem: true, margin: [0, 20, 0, 10] as [number, number, number, number] },
         { 
-          text: 'Jika Anda menemukan kendala, *error*, atau kesulitan dalam menggunakan aplikasi, silakan hubungi:\n\nTim IT / Administrator\nEmail: admin@bumdespulodarat.id\nNo. Telp / WA: 0812-XXXX-XXXX',
+          text: 'Jika Anda menemukan kendala, error, atau kesulitan dalam menggunakan aplikasi, silakan hubungi:\n\nTim IT / Administrator\nEmail: admin@bumdespulodarat.id\nNo. Telp / WA: 0812-3456-7890 (Dummy - Silakan diganti melalui PDF Editor)',
           style: 'paragraph'
         }
       ],
@@ -348,8 +392,6 @@ export default function BukuPanduan() {
         
         noteTitle: { fontSize: 11, bold: true, color: '#B45309', margin: [0, 10, 0, 2] },
         noteBox: { fontSize: 11, color: '#92400E', background: '#FEF3C7', margin: [0, 0, 0, 15] },
-        
-        screenshotPlaceholder: { fontSize: 10, italics: true, alignment: 'center', color: '#94A3B8', background: '#F1F5F9', margin: [0, 10, 0, 15] },
         
         headerLeft: { fontSize: 9, color: '#4F46E5', bold: true },
         headerRight: { fontSize: 9, color: '#64748B', alignment: 'right' },
