@@ -215,7 +215,7 @@ export default function Stok() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-130px)] space-y-4">
+    <div className="flex flex-col xl:h-[calc(100vh-130px)] space-y-4">
       {toast && <Toast message={toast.message} type={toast.type} subtitle={toast.subtitle} onClose={() => setToast(null)} />}
       {/* Navbar Tabs */}
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-center card rounded-2xl shadow-sm p-4 z-10">

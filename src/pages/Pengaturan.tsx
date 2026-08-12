@@ -195,7 +195,7 @@ export default function Pengaturan() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-130px)] space-y-4">
+    <div className="flex flex-col xl:h-[calc(100vh-130px)] space-y-4">
       {/* Toast Notification */}
       {toast && (
         <Toast

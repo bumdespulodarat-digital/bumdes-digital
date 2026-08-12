@@ -164,7 +164,7 @@ export default function LaporanTransaksi() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-130px)] space-y-4 overflow-y-auto pr-2">
+    <div className="flex flex-col xl:h-[calc(100vh-130px)] space-y-4 overflow-y-auto pr-2 pb-10 xl:pb-0">
       {/* Filters */}
       <div className="card rounded-2xl shadow-sm border dark:border-slate-800 p-4">
         <div className="flex flex-col xl:flex-row gap-4 justify-between items-start xl:items-center">
