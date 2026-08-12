@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Archive, FileText, Users, Camera, Plus, Search, Trash2, Edit, X, RefreshCw } from 'lucide-react';
+import { Archive, FileText, Users, Camera, Plus, Search, Trash2, Edit, X, RefreshCw, Download } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import Toast, { ConfirmDialog } from '../components/Toast';
 import type { ToastType } from '../components/Toast';
 import { useAuth } from '../contexts/AuthContext';
+import { exportToPDF, exportToExcel, type BumdesProfile, type ExportTableData } from '../utils/exportUtils';
 
 type TabType = 'barang' | 'surat' | 'notulen' | 'dokumentasi';
 
@@ -63,6 +64,13 @@ export default function Inventaris() {
   const [search, setSearch] = useState('');
   const [toast, setToast] = useState<{ message: string; type: ToastType; subtitle?: string } | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; table: string; name: string } | null>(null);
+  const [isExporting, setIsExporting] = useState(false);
+  const [bumdesProfile, setBumdesProfile] = useState<BumdesProfile>({
+    storeName: 'BUMDes',
+    storeAddress: '',
+    direkturName: '',
+    bendaharaName: ''
+  });
 
   // ====== DATA STATES ======
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
@@ -99,6 +107,17 @@ export default function Inventaris() {
       const { data } = await supabase.from('activity_docs').select('*').order('date', { ascending: false });
       if (data) setActivities(data);
     }
+    
+    // Fetch Profile
+    const { data: storeData } = await supabase.from('settings').select('*').limit(1).maybeSingle();
+    if (storeData) setBumdesProfile(prev => ({ ...prev, storeName: storeData.store_name, storeAddress: storeData.store_address }));
+    const { data: usersData } = await supabase.from('bumdes_users').select('*');
+    if (usersData) {
+      const d = usersData.find((u: any) => u.role === 'Direktur BUMDes');
+      const b = usersData.find((u: any) => u.role === 'Bendahara');
+      setBumdesProfile(prev => ({ ...prev, direkturName: d?.name || '', bendaharaName: b?.name || '' }));
+    }
+    
     setLoading(false);
   };
 
@@ -190,6 +209,49 @@ export default function Inventaris() {
     setShowModal(true);
   };
 
+  const handleExport = async (format: 'pdf' | 'excel') => {
+    setIsExporting(true);
+    try {
+      if (activeTab === 'barang') {
+        const exportData: ExportTableData = {
+          title: 'DATA INVENTARIS ASET',
+          headers: ['No', 'Nama Barang', 'Kategori', 'Jumlah', 'Kondisi', 'Lokasi', 'Nilai (Rp)'],
+          rows: inventoryItems.filter(i => i.name.toLowerCase().includes(search.toLowerCase())).map((item, i) => [
+            i + 1,
+            item.name,
+            item.category,
+            item.qty,
+            item.condition,
+            item.location || '-',
+            item.acquisition_cost
+          ]),
+          totalRow: ['', '', '', '', '', 'TOTAL NILAI', inventoryItems.filter(i => i.name.toLowerCase().includes(search.toLowerCase())).reduce((acc, curr) => acc + curr.acquisition_cost, 0)]
+        };
+        if (format === 'pdf') await exportToPDF(exportData, bumdesProfile);
+        else await exportToExcel([exportData], bumdesProfile);
+      } else if (activeTab === 'surat') {
+        const exportData: ExportTableData = {
+          title: 'DATA INVENTARIS SURAT',
+          headers: ['No', 'No. Surat', 'Tanggal', 'Jenis', 'Perihal', 'Pengirim/Tujuan', 'Keterangan'],
+          rows: letters.filter(l => l.subject.toLowerCase().includes(search.toLowerCase()) || l.letter_number.toLowerCase().includes(search.toLowerCase())).map((item, i) => [
+            i + 1,
+            item.letter_number,
+            new Date(item.date).toLocaleDateString('id-ID'),
+            item.type,
+            item.subject,
+            item.sender_receiver || '-',
+            item.notes || '-'
+          ])
+        };
+        if (format === 'pdf') await exportToPDF(exportData, bumdesProfile);
+        else await exportToExcel([exportData], bumdesProfile);
+      }
+    } catch (err: any) {
+      setToast({ message: 'Gagal mengekspor data', type: 'error', subtitle: err?.message });
+    }
+    setIsExporting(false);
+  };
+
   // ====== TAB CONFIG ======
   const tabs = [
     { key: 'barang' as TabType, icon: <Archive size={16} />, label: 'Inventaris Barang' },
@@ -207,7 +269,7 @@ export default function Inventaris() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-130px)] space-y-4">
+    <div className="flex flex-col xl:h-[calc(100vh-130px)] space-y-4">
       {toast && <Toast message={toast.message} type={toast.type} subtitle={toast.subtitle} onClose={() => setToast(null)} />}
 
       {/* Tab Navigation */}
@@ -244,11 +306,21 @@ export default function Inventaris() {
       <div className="flex-1 card rounded-2xl shadow-sm border dark:border-slate-800 overflow-hidden flex flex-col relative bg-white dark:bg-slate-900">
         {loading && <div className="absolute inset-0 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm z-20 flex items-center justify-center font-bold text-primary-600">Memuat data...</div>}
 
-        <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
-          <div className="relative max-w-md">
+        <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center">
+          <div className="relative w-full max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Cari data..." className="w-full pl-10 pr-4 py-2.5 border dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm font-semibold bg-white dark:bg-slate-900 dark:text-slate-100" />
           </div>
+          {(activeTab === 'barang' || activeTab === 'surat') && (
+            <div className="flex gap-2 w-full sm:w-auto">
+              <button onClick={() => handleExport('pdf')} disabled={isExporting || (activeTab === 'barang' && inventoryItems.length === 0) || (activeTab === 'surat' && letters.length === 0)} className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-rose-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
+                <Download size={14} /> PDF
+              </button>
+              <button onClick={() => handleExport('excel')} disabled={isExporting || (activeTab === 'barang' && inventoryItems.length === 0) || (activeTab === 'surat' && letters.length === 0)} className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
+                <Download size={14} /> Excel
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="flex-1 overflow-auto p-4">

@@ -14,22 +14,24 @@ interface Member {
 
 // Hierarchy levels for org chart ordering
 const ROLE_ORDER: Record<string, number> = {
-  'Direktur BUMDes': 1,
-  'Sekretaris': 2,
-  'Bendahara': 3,
-  'Akuntan': 4,
-  'Admin': 5,
-  'Pengawas': 6,
-  'Karyawan': 7,
+  'Musyawarah Desa (MUSDES)': 1,
+  'Penasihat': 2,
+  'Pengawas': 3,
+  'Direktur BUMDes': 4,
+  'Sekretaris': 5,
+  'Bendahara': 6,
+  'Manager Unit Usaha': 7,
+  'Karyawan': 8,
 };
 
 const ROLE_COLORS: Record<string, string> = {
+  'Musyawarah Desa (MUSDES)': 'from-indigo-600 to-indigo-800',
+  'Penasihat': 'from-sky-500 to-sky-700',
+  'Pengawas': 'from-violet-500 to-violet-700',
   'Direktur BUMDes': 'from-primary-600 to-primary-800',
   'Sekretaris': 'from-blue-500 to-blue-700',
   'Bendahara': 'from-emerald-500 to-emerald-700',
-  'Akuntan': 'from-amber-500 to-amber-700',
-  'Admin': 'from-slate-500 to-slate-700',
-  'Pengawas': 'from-violet-500 to-violet-700',
+  'Manager Unit Usaha': 'from-amber-500 to-amber-700',
   'Karyawan': 'from-teal-500 to-teal-700',
 };
 
@@ -57,10 +59,14 @@ export default function StrukturOrganisasi() {
   const sortedMembers = [...members].sort((a, b) => (ROLE_ORDER[a.role] || 99) - (ROLE_ORDER[b.role] || 99));
 
   // Group for org chart
-  const pimpinan = sortedMembers.filter(m => ['Direktur BUMDes'].includes(m.role));
-  const manajemen = sortedMembers.filter(m => ['Sekretaris', 'Bendahara', 'Akuntan'].includes(m.role));
+  const musdes = sortedMembers.filter(m => ['Musyawarah Desa (MUSDES)', 'MUSDES'].includes(m.role));
+  const penasihat = sortedMembers.filter(m => m.role === 'Penasihat');
   const pengawas = sortedMembers.filter(m => m.role === 'Pengawas');
-  const operasional = sortedMembers.filter(m => ['Admin', 'Karyawan'].includes(m.role));
+  const direktur = sortedMembers.filter(m => ['Direktur BUMDes', 'Direktur'].includes(m.role));
+  const sekretaris = sortedMembers.filter(m => m.role === 'Sekretaris');
+  const bendahara = sortedMembers.filter(m => m.role === 'Bendahara');
+  const manager = sortedMembers.filter(m => ['Manager Unit Usaha', 'Manager'].includes(m.role));
+  const karyawan = sortedMembers.filter(m => ['Karyawan', 'Admin', 'Akuntan'].includes(m.role));
 
   const MemberCard = ({ member, size = 'normal' }: { member: Member; size?: 'large' | 'normal' | 'small' }) => {
     const gradient = ROLE_COLORS[member.role] || 'from-slate-500 to-slate-700';
@@ -131,48 +137,84 @@ export default function StrukturOrganisasi() {
       {showOrgChart && (
         <div className="card rounded-2xl shadow-sm p-4 sm:p-8 overflow-x-auto border dark:border-slate-800">
           <div className="w-full sm:min-w-[600px] flex flex-col items-center gap-6">
-            {/* Level 1: Direktur */}
-            {pimpinan.length > 0 && (
+            {/* Level 1: MUSDES */}
+            {musdes.length > 0 && (
+              <div className="flex flex-col items-center w-full">
+                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Musyawarah Desa</div>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">
+                  {musdes.map(m => <MemberCard key={m.id} member={m} size="large" />)}
+                </div>
+                <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />
+              </div>
+            )}
+
+            {/* Level 2: PENASIHAT & PENGAWAS */}
+            {(penasihat.length > 0 || pengawas.length > 0) && (
+              <div className="flex flex-col items-center w-full">
+                <div className="flex gap-8 justify-center w-full items-start">
+                  {penasihat.length > 0 && (
+                    <div className="flex flex-col items-center">
+                       <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Penasihat</div>
+                       {penasihat.map(m => <MemberCard key={m.id} member={m} />)}
+                    </div>
+                  )}
+                  {pengawas.length > 0 && (
+                    <div className="flex flex-col items-center">
+                       <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Pengawas</div>
+                       {pengawas.map(m => <MemberCard key={m.id} member={m} />)}
+                    </div>
+                  )}
+                </div>
+                <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />
+              </div>
+            )}
+
+            {/* Level 3: DIREKTUR */}
+            {direktur.length > 0 && (
               <div className="flex flex-col items-center w-full">
                 <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">
-                  {pimpinan.map(m => <MemberCard key={m.id} member={m} size="large" />)}
+                  {direktur.map(m => <MemberCard key={m.id} member={m} size="large" />)}
                 </div>
-                {(manajemen.length > 0 || pengawas.length > 0 || operasional.length > 0) && (
-                  <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600" />
-                )}
+                {(sekretaris.length > 0 || bendahara.length > 0 || manager.length > 0 || karyawan.length > 0) && <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />}
               </div>
             )}
 
-            {/* Level 2: Pengawas (side) + Manajemen */}
-            {(manajemen.length > 0 || pengawas.length > 0) && (
+            {/* Level 4: SEKRETARIS & BENDAHARA */}
+            {(sekretaris.length > 0 || bendahara.length > 0) && (
               <div className="flex flex-col items-center w-full">
-                <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 justify-center w-full">
-                  {pengawas.length > 0 && (
-                    <div className="flex flex-col items-center gap-3">
-                      <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">Pengawas</div>
-                      <div className="flex flex-row md:flex-col gap-4 justify-center flex-wrap">
-                        {pengawas.map(m => <MemberCard key={m.id} member={m} size="small" />)}
-                      </div>
+                <div className="flex gap-8 justify-center w-full items-start">
+                  {sekretaris.length > 0 && (
+                    <div className="flex flex-col items-center">
+                       {sekretaris.map(m => <MemberCard key={m.id} member={m} />)}
                     </div>
                   )}
-                  {manajemen.length > 0 && (
-                    <div className="flex flex-col items-center gap-3">
-                      <div className="flex gap-4 justify-center flex-wrap">
-                        {manajemen.map(m => <MemberCard key={m.id} member={m} />)}
-                      </div>
+                  {bendahara.length > 0 && (
+                    <div className="flex flex-col items-center">
+                       {bendahara.map(m => <MemberCard key={m.id} member={m} />)}
                     </div>
                   )}
                 </div>
-                {operasional.length > 0 && <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />}
+                {(manager.length > 0 || karyawan.length > 0) && <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />}
               </div>
             )}
 
-            {/* Level 3: Operasional / Karyawan */}
-            {operasional.length > 0 && (
+            {/* Level 5: MANAGER UNIT USAHA */}
+            {manager.length > 0 && (
+              <div className="flex flex-col items-center w-full">
+                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Manager Unit Usaha</div>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">
+                  {manager.map(m => <MemberCard key={m.id} member={m} />)}
+                </div>
+                {karyawan.length > 0 && <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />}
+              </div>
+            )}
+
+            {/* Level 6: KARYAWAN */}
+            {karyawan.length > 0 && (
               <div className="flex flex-col items-center w-full">
                 <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Staff & Karyawan</div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap w-full">
-                  {operasional.map(m => <MemberCard key={m.id} member={m} size="small" />)}
+                  {karyawan.map(m => <MemberCard key={m.id} member={m} size="small" />)}
                 </div>
               </div>
             )}

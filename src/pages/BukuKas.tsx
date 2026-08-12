@@ -263,7 +263,7 @@ export default function BukuKas() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-130px)] space-y-4">
+    <div className="flex flex-col xl:h-[calc(100vh-130px)] space-y-4">
       {toast && <Toast message={toast.message} type={toast.type} subtitle={toast.subtitle} onClose={() => setToast(null)} />}
 
       {/* Header */}
