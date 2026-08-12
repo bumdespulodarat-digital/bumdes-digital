@@ -26,6 +26,7 @@ Program Kerja (Proker) KKN ini menginisiasi transformasi digital dengan membangu
 
 ### 📊 1. Laporan Keuangan & Transaksi Periodik (Chart.js)
 - **Visualisasi Data Real-Time:** Menampilkan grafik pendapatan, pengeluaran, dan tren laba menggunakan visualisasi Chart.js yang dinamis.
+- **Integrasi Web Desa (Public Dashboard):** Tersedia *endpoint* khusus (`/public-dashboard`) berupa *live-widget* statistik anonim yang siap dipasang (*embed*) ke dalam website resmi desa (seperti WordPress).
 - **Filter Fleksibel:** Laporan transaksi Mingguan, Bulanan, dan Tahunan.
 - **Ringkasan Cepat:** Metrik utama (Kas, Laba, Total Pendapatan, Jumlah Transaksi, Total Pajak).
 
