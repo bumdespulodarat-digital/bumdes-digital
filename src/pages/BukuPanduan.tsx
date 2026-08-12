@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { BookOpen, Download, ChevronDown, HelpCircle, Lightbulb, PlayCircle, ShieldQuestion } from 'lucide-react';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import type { TDocumentDefinitions } from 'pdfmake/interfaces';
 
 // Register fonts for pdfmake
 (pdfMake as any).vfs = (pdfFonts as any).pdfMake?.vfs ?? pdfFonts;
