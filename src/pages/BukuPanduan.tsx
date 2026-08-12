@@ -70,7 +70,7 @@ export default function BukuPanduan() {
           ]
         },
         { text: 'BUKU PANDUAN PENGGUNA', style: 'coverTitle', margin: [0, 20, 0, 5] as [number, number, number, number] },
-        { text: '(Standard Operating Procedure)', style: 'coverSubtitle', margin: [0, 0, 0, 20] as [number, number, number, number] },
+        { text: '(Standard Operating Procedure Lengkap)', style: 'coverSubtitle', margin: [0, 0, 0, 20] as [number, number, number, number] },
         { text: 'SISTEM INFORMASI DIGITAL BUMDES', style: 'coverMain', margin: [0, 0, 0, 20] as [number, number, number, number] },
         {
           canvas: [
@@ -81,63 +81,103 @@ export default function BukuPanduan() {
         { text: 'Disusun Oleh:\nTim Mahasiswa KKN\nDesa Pulodarat, Kec. Pecangaan, Kab. Jepara\n2024', style: 'coverAuthor', alignment: 'center' },
         { text: '', pageBreak: 'after' },
 
+        // DAFTAR ISI (TOC)
+        {
+          toc: {
+            title: { text: 'DAFTAR ISI', style: 'h1', margin: [0, 0, 0, 15] as [number, number, number, number] },
+            textMargin: [0, 5, 0, 5] as [number, number, number, number]
+          }
+        },
+        { text: '', pageBreak: 'after' },
+
         // KATA PENGANTAR
-        { text: 'KATA PENGANTAR', style: 'h1' },
+        { text: 'KATA PENGANTAR', style: 'h1', tocItem: true },
         { 
-          text: 'Sistem Informasi Digital BUMDes dibuat untuk memudahkan pencatatan transaksi kasir, manajemen stok, dan otomatisasi akuntansi (pembuatan Jurnal, Buku Kas, Laporan Laba Rugi, dan Neraca) secara terpadu.\n\nBuku panduan ini disusun sebagai pegangan bagi para pengurus BUMDes (Direktur, Bendahara, Admin, hingga Kasir) agar dapat mengoperasikan sistem dengan baik dan benar.',
+          text: 'Sistem Informasi Digital BUMDes dibuat untuk memudahkan pencatatan transaksi kasir, manajemen stok, pengawasan hutang-piutang, dan otomatisasi akuntansi (Jurnal, Buku Kas, Laba Rugi, dan Neraca) secara terpadu.\n\nBuku panduan lengkap (Standard Operating Procedure) ini disusun sebagai pegangan operasional bagi seluruh jajaran pengurus BUMDes (Mulai dari MUSDES, Penasihat, Pengawas, Direktur, Bendahara, Admin, hingga Karyawan).',
           style: 'paragraph' 
         },
 
-        // BAB 1: KASIR
-        { text: '1. MODUL KASIR (POINT OF SALE)', style: 'h1', margin: [0, 20, 0, 10] as [number, number, number, number] },
-        { text: 'Modul ini digunakan untuk melayani pembeli secara langsung.', style: 'paragraph' },
+        // BAB 1: PENDAHULUAN & AKSES SISTEM
+        { text: '1. PENDAHULUAN & AKSES SISTEM', style: 'h1', tocItem: true, margin: [0, 20, 0, 10] as [number, number, number, number] },
         {
           ul: [
-            { text: 'Pilih Barang: Klik barang pada daftar atau ketikkan nama/barcode pada kolom pencarian.', style: 'listItem' },
-            { text: 'Produk Custom: Jika ada layanan/jasa yang tidak ada di stok (misal: Jasa Fotokopi), klik tombol "Produk Custom" (ikon + kuning) lalu masukkan nama dan harga.', style: 'listItem' },
-            { text: 'Pembayaran: Pilih metode pembayaran (Tunai/QRIS/Transfer), lalu masukkan nominal uang yang dibayar (jika tunai).', style: 'listItem' },
-            { text: 'Checkout: Klik "Cetak Struk" untuk menyimpan data sekaligus mencetak struk thermal, atau "Simpan Data" jika tidak ingin mencetak kertas.', style: 'listItem' },
+            { text: 'Login Akses: Anda memerlukan email dan password untuk masuk ke dalam sistem. Akses ini dikelola langsung oleh Admin BUMDes.', style: 'listItem' },
+            { text: 'Tema Terang/Gelap (Dark Mode): Sistem dilengkapi dengan fitur Dark Mode. Anda bisa menekan tombol ikon Bulan/Matahari di pojok kanan atas layar untuk mengubah tema warna agar mata tidak mudah lelah.', style: 'listItem' },
+            { text: 'Navigasi Sidebar: Di sebelah kiri layar terdapat menu navigasi untuk berpindah antar halaman (Dashboard, Kasir, Stok, Keuangan, dll). Jika Anda menggunakan HP/Tablet, menu ini dapat dimunculkan dengan menekan ikon garis tiga (Hamburger Menu).', style: 'listItem' },
+          ]
+        },
+
+        // BAB 2: DASHBOARD
+        { text: '2. MODUL DASHBOARD & ANALITIK', style: 'h1', tocItem: true, margin: [0, 15, 0, 10] as [number, number, number, number] },
+        {
+          ul: [
+            { text: 'Ringkasan Utama (Cards): Menampilkan total pemasukan, laba bersih, dan metrik penting lainnya dalam bulan berjalan secara instan tanpa perlu menghitung manual.', style: 'listItem' },
+            { text: 'Grafik Interaktif: Menampilkan tren penjualan dan laba dari hari ke hari dalam bentuk grafik garis dan batang yang mudah dipahami.', style: 'listItem' },
+            { text: 'Status Piutang: Menampilkan peringatan / tabel pelanggan yang memiliki tunggakan cicilan/kasbon yang belum lunas.', style: 'listItem' },
+          ]
+        },
+
+        // BAB 3: KASIR
+        { text: '3. MODUL KASIR (POINT OF SALE)', style: 'h1', tocItem: true, margin: [0, 15, 0, 10] as [number, number, number, number] },
+        { text: 'Digunakan oleh Karyawan/Kasir untuk melayani transaksi pembeli.', style: 'paragraph' },
+        {
+          ul: [
+            { text: 'Pencarian & Barcode: Klik pada kotak pencarian dan scan barcode barang menggunakan alat scanner, atau ketikkan nama barang secara manual.', style: 'listItem' },
+            { text: 'Produk Custom (Jasa/Biaya Lain): Jika ada layanan yang tidak memiliki stok (misal: Jasa Fotokopi), gunakan tombol "Produk Custom" (ikon kuning), lalu isi nama dan nominal tarif.', style: 'listItem' },
+            { text: 'Pembayaran: Tersedia pilihan Tunai, QRIS, dan Transfer Bank. Khusus untuk tunai, sistem akan otomatis menghitung kembalian ketika uang pelanggan diinput.', style: 'listItem' },
+            { text: 'Cetak Struk & Riwayat: Setelah pembayaran selesai, struk thermal dapat dicetak. Jika ingin mencetak ulang struk lama, buka tab "Riwayat Transaksi" di halaman Kasir.', style: 'listItem' },
           ]
         },
         { 
-          text: 'PENTING: Setiap transaksi yang berhasil di kasir akan secara otomatis memotong stok barang, menambah kas di Buku Kas, dan membuat Jurnal Akuntansi otomatis.',
-          style: 'alertBox', margin: [0, 10, 0, 10] as [number, number, number, number]
+          text: 'PENTING: Penjualan di kasir akan otomatis memotong stok barang, menambah kas, dan membuat jurnal akuntansi Harga Pokok Penjualan (HPP) secara mandiri di belakang layar.',
+          style: 'alertBox', margin: [0, 5, 0, 10] as [number, number, number, number]
         },
 
-        // BAB 2: STOK & INVENTARIS
-        { text: '2. MODUL STOK BARANG & INVENTARIS', style: 'h1', margin: [0, 15, 0, 10] as [number, number, number, number] },
-        { text: 'Manajemen ketersediaan barang dagangan dan aset desa.', style: 'paragraph' },
+        // BAB 4: STOK BARANG
+        { text: '4. MODUL STOK BARANG & INVENTARIS', style: 'h1', tocItem: true, margin: [0, 15, 0, 10] as [number, number, number, number] },
         {
           ul: [
-            { text: 'Tambah Stok Baru: Masuk ke menu "Stok Barang", klik tombol "+ Tambah Barang". Isi nama, kode/SKU (bisa dari barcode), harga beli, dan harga jual.', style: 'listItem' },
-            { text: 'Kartu Stok: Klik tombol "Detail" pada salah satu barang untuk melihat riwayat keluar-masuk barang tersebut.', style: 'listItem' },
-            { text: 'Inventaris & Arsip: Menu ini khusus untuk mencatat Aset Tetap (seperti Mesin Fotokopi, Meja, Kursi) dan menyimpan dokumen penting (PDF/Word).', style: 'listItem' },
+            { text: 'Manajemen Data Barang: Tambah, edit, atau hapus data barang dagangan. Masukkan Harga Beli (untuk HPP) dan Harga Jual (untuk Kasir).', style: 'listItem' },
+            { text: 'Peringatan Stok Tipis: Barang yang stoknya menipis (kurang dari batas minimum) akan ditandai dengan warna merah.', style: 'listItem' },
+            { text: 'Kartu Stok (Riwayat Barang): Klik tombol Detail pada suatu barang untuk melihat sejarah darimana stok bertambah (Pembelian) dan kemana stok berkurang (Penjualan Kasir).', style: 'listItem' },
+            { text: 'Inventaris & Arsip: Menu ini (terpisah dari stok dagangan) digunakan untuk mencatat Aset Tetap Desa (seperti Mesin Printer, Etalase Kaca, dll) dan menyimpan dokumen-dokumen penting BUMDes.', style: 'listItem' },
           ]
         },
 
-        // BAB 3: KEUANGAN
-        { text: '3. MODUL KEUANGAN & AKUNTANSI', style: 'h1', margin: [0, 15, 0, 10] as [number, number, number, number] },
-        { text: 'Sistem ini dilengkapi akuntansi otomatis berstandar ganda (Double-Entry).', style: 'paragraph' },
+        // BAB 5: HUTANG & PIUTANG
+        { text: '5. MODUL HUTANG & PIUTANG (KASBON)', style: 'h1', tocItem: true, margin: [0, 15, 0, 10] as [number, number, number, number] },
         {
           ul: [
-            { text: 'Buku Kas: Catat semua pengeluaran operasional (seperti bayar listrik, beli galon) melalui menu "Buku Kas" agar saldo kas BUMDes selalu akurat.', style: 'listItem' },
-            { text: 'Hutang & Piutang: Jika ada pembeli yang kasbon/berhutang, catat di menu Piutang. Sistem akan mencatatnya sebagai tagihan dan bisa dicicil/dilunasi.', style: 'listItem' },
-            { text: 'Akuntansi (Laba Rugi & Neraca): Anda bisa memantau keuntungan harian atau bulanan secara langsung tanpa perlu menyusun laporan manual.', style: 'listItem' },
+            { text: 'Mencatat Hutang: Jika BUMDes membeli stok barang dagangan ke Supplier dengan cara berhutang, catatlah pada menu Hutang.', style: 'listItem' },
+            { text: 'Mencatat Piutang: Jika warga/pembeli melakukan bon/kasbon di toko BUMDes, catatlah pada menu Piutang.', style: 'listItem' },
+            { text: 'Pembayaran Cicilan: Pengurus bisa meng-klik tombol "Bayar/Cicil" pada data hutang/piutang yang bersangkutan. Setiap cicilan yang masuk akan otomatis memperbarui saldo di Buku Kas!', style: 'listItem' },
           ]
         },
 
-        // BAB 4: PENGATURAN
-        { text: '4. PENGATURAN & STRUKTUR PENGURUS', style: 'h1', margin: [0, 15, 0, 10] as [number, number, number, number] },
+        // BAB 6: BUKU KAS & AKUNTANSI
+        { text: '6. MODUL BUKU KAS & AKUNTANSI OTOMATIS', style: 'h1', tocItem: true, margin: [0, 15, 0, 10] as [number, number, number, number] },
+        { text: 'Jantung utama transparansi keuangan BUMDes.', style: 'paragraph' },
         {
           ul: [
-            { text: 'Struktur Organisasi: Tampilan bagan hierarki kepengurusan BUMDes mulai dari Musdes hingga Karyawan.', style: 'listItem' },
-            { text: 'Pengaturan Akun: Hanya Direktur dan Admin yang dapat mengakses menu ini untuk menambah atau menghapus hak akses (login) untuk pengurus lain.', style: 'listItem' },
-            { text: 'Download PDF / Excel: Setiap laporan (Transaksi, Buku Kas, Keuangan) dilengkapi fitur Export untuk pelaporan fisik kepada Kepala Desa.', style: 'listItem' },
+            { text: 'Buku Kas Harian: Catat semua pengeluaran operasional BUMDes secara manual (seperti uang kebersihan, beli ATK, bayar listrik). Arus masuk dari Penjualan Kasir sudah otomatis tercatat di sini.', style: 'listItem' },
+            { text: 'Jurnal Umum (Otomatis): BUMDes Digital menggunakan sistem Double-Entry. Setiap transaksi apapun (Penjualan, Pengeluaran, Hutang) sudah dirubah menjadi ayat jurnal debit-kredit secara otomatis.', style: 'listItem' },
+            { text: 'Laporan Laba Rugi: Pantau pendapatan kotor, Harga Pokok Penjualan (HPP), dan biaya operasional untuk melihat Laba Bersih secara real-time.', style: 'listItem' },
+            { text: 'Laporan Neraca (Posisi Keuangan): Lihat keseimbangan antara Aset BUMDes dengan Kewajiban (Hutang) dan Modal yang dimiliki.', style: 'listItem' },
           ]
         },
 
-        { text: '\n\n\n' },
-        { text: '--- Selamat Bekerja Menggunakan Sistem Digital BUMDes ---', style: 'closing', alignment: 'center' }
+        // BAB 7: PENGATURAN
+        { text: '7. LAPORAN, PENGATURAN & STRUKTUR', style: 'h1', tocItem: true, margin: [0, 15, 0, 10] as [number, number, number, number] },
+        {
+          ul: [
+            { text: 'Struktur Organisasi (SOP): Menampilkan bagan rantai komando dari Musyawarah Desa (Musdes), Penasihat, hingga Staff BUMDes. Berfungsi sebagai pedoman pertanggungjawaban.', style: 'listItem' },
+            { text: 'Pengaturan Akun Pengurus: Direktur atau Admin dapat membuatkan akun sistem untuk pengurus baru, serta mengubah password jika diperlukan.', style: 'listItem' },
+            { text: 'Export PDF & Excel: Seluruh data (Transaksi, Buku Kas, Jurnal, Laba Rugi) memiliki tombol Export. Laporan akan terunduh dalam format Excel atau PDF yang resmi dan sudah dilengkapi dengan KOP Surat BUMDes.', style: 'listItem' },
+          ]
+        },
+
+        { text: '\n\n\n\n' },
+        { text: '--- Selamat Mengoperasikan Sistem Digital BUMDes ---', style: 'closing', alignment: 'center' }
       ],
       styles: {
         coverTitle: { fontSize: 28, bold: true, alignment: 'center', color: '#1E293B' },
@@ -157,7 +197,7 @@ export default function BukuPanduan() {
       defaultStyle: { font: 'Roboto' }
     };
 
-    pdfMake.createPdf(docDefinition).download('Buku_Panduan_BUMDes_Digital.pdf');
+    pdfMake.createPdf(docDefinition).download('Buku_Panduan_Lengkap_BUMDes.pdf');
   };
 
   const toggleItem = (index: number) => {
