@@ -1,5 +1,11 @@
 import { useState } from 'react';
 import { BookOpen, Download, ChevronDown, HelpCircle, Lightbulb, PlayCircle, ShieldQuestion } from 'lucide-react';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import type { TDocumentDefinitions } from 'pdfmake/interfaces';
+
+// Register fonts for pdfmake
+(pdfMake as any).vfs = (pdfFonts as any).pdfMake?.vfs ?? pdfFonts;
 
 export default function BukuPanduan() {
   const [openItem, setOpenItem] = useState<number | null>(0);
@@ -27,6 +33,41 @@ export default function BukuPanduan() {
     }
   ];
 
+  const handleDownloadPDF = () => {
+    const docDefinition: TDocumentDefinitions = {
+      pageSize: 'A4',
+      pageMargins: [40, 60, 40, 60],
+      header: {
+        text: 'Buku Panduan Sistem Digital BUMDes',
+        margin: [40, 20, 40, 0],
+        fontSize: 9,
+        color: 'gray',
+        alignment: 'right'
+      },
+      content: [
+        { text: 'BUKU PANDUAN PENGGUNA', style: 'header', alignment: 'center', margin: [0, 0, 0, 5] },
+        { text: 'Sistem Informasi Digital BUMDes', style: 'subheader', alignment: 'center', margin: [0, 0, 0, 40] },
+        
+        { text: 'Daftar Pertanyaan Umum (FAQ) & Panduan Singkat', style: 'sectionHeader', margin: [0, 0, 0, 20] },
+        
+        ...faqs.map((faq, index) => ([
+          { text: `${index + 1}. ${faq.q}`, style: 'question', margin: [0, 10, 0, 5] },
+          { text: faq.a, style: 'answer', margin: [15, 0, 0, 20] }
+        ]))
+      ],
+      styles: {
+        header: { fontSize: 24, bold: true, color: '#1E293B' },
+        subheader: { fontSize: 16, bold: true, color: '#64748B' },
+        sectionHeader: { fontSize: 14, bold: true, color: '#0F766E', decoration: 'underline' },
+        question: { fontSize: 12, bold: true, color: '#334155' },
+        answer: { fontSize: 11, color: '#475569', lineHeight: 1.6 }
+      },
+      defaultStyle: { font: 'Roboto' }
+    };
+
+    pdfMake.createPdf(docDefinition).download('Buku_Panduan_BUMDes_Digital.pdf');
+  };
+
   const toggleItem = (index: number) => {
     setOpenItem(openItem === index ? null : index);
   };
@@ -45,8 +86,8 @@ export default function BukuPanduan() {
             </p>
           </div>
           <button 
-            onClick={() => alert('Fitur ini akan mengunduh file PDF Buku Panduan (Saat ini file PDF sedang disiapkan oleh Tim KKN)')}
-            className="flex items-center justify-center gap-2 bg-white text-primary-700 hover:bg-primary-50 px-6 py-3 rounded-xl font-bold transition-all shadow-lg active:scale-95 shrink-0"
+            onClick={handleDownloadPDF}
+            className="flex items-center justify-center gap-2 bg-white text-primary-700 hover:bg-primary-50 px-6 py-3 rounded-xl font-bold transition-all shadow-lg active:scale-95 shrink-0 cursor-pointer"
           >
             <Download size={18} /> Download PDF Panduan
           </button>
