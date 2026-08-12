@@ -107,6 +107,17 @@ describe('Kasir (POS) - Point of Sale System', () => {
       </BrowserRouter>
     );
 
+    // Wait for items to load
+    await waitFor(() => {
+      expect(screen.getByText('Pulpen Standard')).toBeInTheDocument();
+    });
+
+    // Add item to cart
+    const pulpenCard = screen.getByText('Pulpen Standard').closest('div[class*="cursor-pointer"]');
+    if (pulpenCard) {
+      fireEvent.click(pulpenCard);
+    }
+
     await waitFor(() => {
       expect(screen.getByText(/total tagihan/i)).toBeInTheDocument();
     });
