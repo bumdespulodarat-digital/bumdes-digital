@@ -14,6 +14,7 @@ import Inventaris from './pages/Inventaris';
 import LaporanTransaksi from './pages/LaporanTransaksi';
 import StrukturOrganisasi from './pages/StrukturOrganisasi';
 import BukuKas from './pages/BukuKas';
+import PublicDashboard from './pages/PublicDashboard';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/public-dashboard" element={<PublicDashboard />} />
             <Route path="/" element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
               <Route index element={<Dashboard />} />
               <Route path="kasir" element={<Pos />} />
