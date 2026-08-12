@@ -536,10 +536,10 @@ export default function Pos() {
 
             {/* Cart Panel */}
             <div className={`
-              fixed xl:static inset-x-0 bottom-0 z-30 w-full xl:w-[420px] flex-shrink-0 card xl:rounded-3xl border-t xl:border shadow-2xl xl:shadow-sm flex flex-col h-[75vh] xl:h-auto trans-all
+              fixed xl:static inset-x-0 bottom-0 z-30 w-full xl:w-[420px] flex-shrink-0 card xl:rounded-3xl border-t xl:border shadow-2xl xl:shadow-sm flex flex-col h-[85vh] xl:max-h-[calc(100vh-140px)] trans-all
               ${isMobileCartOpen ? 'translate-y-0' : 'translate-y-full xl:translate-y-0'}
             `}>
-              <div className="p-5 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50 xl:rounded-t-3xl">
+              <div className="p-5 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50 xl:rounded-t-3xl shrink-0">
                 <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                   <ShoppingBag size={20} className="text-primary-600 dark:text-primary-400" /> Keranjang Belanja
                 </h2>
@@ -548,127 +548,131 @@ export default function Pos() {
                 </button>
               </div>
 
-              <div className="flex-1 p-4 md:p-6 overflow-y-auto space-y-3">
-                {cart.length === 0 && (
-                  <div className="h-full flex flex-col items-center justify-center text-slate-400 space-y-4">
-                    <ShoppingBag size={48} className="opacity-20" />
-                    <p className="font-medium">Belum ada barang dipilih.</p>
-                  </div>
-                )}
-                {cart.map(item => (
-                  <div key={item.id} className={`flex gap-3 items-center p-3 rounded-2xl border shadow-sm hover:border-primary-200 dark:hover:border-primary-700 trans-all ${item.isCustom ? 'border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-950/20' : 'border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800'}`}>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-1.5">
-                        <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 line-clamp-1">{item.name}</h4>
-                        {item.isCustom && <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200">CUSTOM</span>}
-                      </div>
-                      <p className="text-primary-600 dark:text-primary-400 font-extrabold text-sm">
-                        Rp {(item.price * item.qty).toLocaleString('id-ID')}
-                        {(item.tax_rate || 0) > 0 && <span className="text-[10px] text-amber-600 dark:text-amber-400 ml-1">+{item.tax_rate}%</span>}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-700 p-1 rounded-xl border border-slate-200 dark:border-slate-600 shrink-0">
-                      <button onClick={() => updateQty(item.id, -1)} className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600 hover:shadow-sm trans-all"><Minus size={14} /></button>
-                      <span className="w-7 text-center font-bold text-sm text-slate-800 dark:text-slate-100">{item.qty}</span>
-                      <button onClick={() => updateQty(item.id, 1)} className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600 hover:shadow-sm trans-all"><Plus size={14} /></button>
-                    </div>
-                    <button onClick={() => removeFromCart(item.id)} className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-rose-500 hover:bg-rose-500 hover:text-white trans-all ml-1"><Trash2 size={16} /></button>
-                  </div>
-                ))}
-              </div>
-
-              <div className="p-4 sm:p-6 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 rounded-b-3xl">
-                {/* Totals */}
-                <div className="mb-4 bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-slate-500 font-bold text-xs uppercase tracking-wider">Subtotal</span>
-                    <span className="text-base font-bold text-slate-700 dark:text-slate-300">Rp {subtotal.toLocaleString('id-ID')}</span>
-                  </div>
-                  {totalTax > 0 && (
-                    <div className="flex justify-between items-center">
-                      <span className="text-amber-600 dark:text-amber-400 font-bold text-xs uppercase tracking-wider">Pajak</span>
-                      <span className="text-base font-bold text-amber-600 dark:text-amber-400">Rp {Math.round(totalTax).toLocaleString('id-ID')}</span>
+              <div className="flex-1 p-4 md:p-6 overflow-y-auto space-y-4">
+                {/* Bagian Items */}
+                <div className="space-y-3">
+                  {cart.length === 0 && (
+                    <div className="flex flex-col items-center justify-center text-slate-400 space-y-4 py-10">
+                      <ShoppingBag size={48} className="opacity-20" />
+                      <p className="font-medium">Belum ada barang dipilih.</p>
                     </div>
                   )}
-                  <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-700">
-                    <span className="text-slate-500 font-bold text-xs uppercase tracking-wider">Total Tagihan</span>
-                    <span className="text-xl sm:text-2xl font-black text-primary-900 dark:text-primary-300">Rp {Math.round(total).toLocaleString('id-ID')}</span>
-                  </div>
+                  {cart.map(item => (
+                    <div key={item.id} className={`flex gap-3 items-center p-3 rounded-2xl border shadow-sm hover:border-primary-200 dark:hover:border-primary-700 trans-all ${item.isCustom ? 'border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-950/20' : 'border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800'}`}>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-1.5">
+                          <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 line-clamp-1">{item.name}</h4>
+                          {item.isCustom && <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200">CUSTOM</span>}
+                        </div>
+                        <p className="text-primary-600 dark:text-primary-400 font-extrabold text-sm">
+                          Rp {(item.price * item.qty).toLocaleString('id-ID')}
+                          {(item.tax_rate || 0) > 0 && <span className="text-[10px] text-amber-600 dark:text-amber-400 ml-1">+{item.tax_rate}%</span>}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-700 p-1 rounded-xl border border-slate-200 dark:border-slate-600 shrink-0">
+                        <button onClick={() => updateQty(item.id, -1)} className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600 hover:shadow-sm trans-all"><Minus size={14} /></button>
+                        <span className="w-7 text-center font-bold text-sm text-slate-800 dark:text-slate-100">{item.qty}</span>
+                        <button onClick={() => updateQty(item.id, 1)} className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600 hover:shadow-sm trans-all"><Plus size={14} /></button>
+                      </div>
+                      <button onClick={() => removeFromCart(item.id)} className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-rose-500 hover:bg-rose-500 hover:text-white trans-all ml-1"><Trash2 size={16} /></button>
+                    </div>
+                  ))}
                 </div>
 
-                {/* Metode Pembayaran */}
+                {/* Bagian Totals dan Pembayaran */}
                 {cart.length > 0 && (
-                  <div className="mb-4 space-y-3">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wide">Metode Pembayaran</label>
-                      <div className="grid grid-cols-3 gap-2">
-                        {(['Tunai', 'QRIS', 'Transfer Bank'] as const).map((method) => (
-                          <button
-                            key={method}
-                            type="button"
-                            onClick={() => { setPaymentMethod(method); if (method !== 'Tunai') setAmountPaid(0); }}
-                            className={`py-2.5 px-2 rounded-xl text-xs font-bold trans-all border-2 ${
-                              paymentMethod === method
-                                ? 'bg-primary-50 dark:bg-primary-950/50 border-primary-400 text-primary-700 dark:text-primary-300 shadow-sm'
-                                : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-500'
-                            }`}
-                          >
-                            {method}
-                          </button>
-                        ))}
+                  <div className="pt-4 border-t border-slate-100 dark:border-slate-700 space-y-4">
+                    <div className="bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-slate-500 font-bold text-xs uppercase tracking-wider">Subtotal</span>
+                        <span className="text-base font-bold text-slate-700 dark:text-slate-300">Rp {subtotal.toLocaleString('id-ID')}</span>
+                      </div>
+                      {totalTax > 0 && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-amber-600 dark:text-amber-400 font-bold text-xs uppercase tracking-wider">Pajak</span>
+                          <span className="text-base font-bold text-amber-600 dark:text-amber-400">Rp {Math.round(totalTax).toLocaleString('id-ID')}</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-700">
+                        <span className="text-slate-500 font-bold text-xs uppercase tracking-wider">Total Tagihan</span>
+                        <span className="text-xl sm:text-2xl font-black text-primary-900 dark:text-primary-300">Rp {Math.round(total).toLocaleString('id-ID')}</span>
                       </div>
                     </div>
 
-                    {paymentMethod === 'Tunai' && (
-                      <div className="space-y-2">
-                        <div>
-                          <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wide">Uang Bayar</label>
-                          <div className="relative">
-                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">Rp</span>
-                            <input
-                              type="number"
-                              min={0}
-                              value={amountPaid || ''}
-                              onChange={e => setAmountPaid(Number(e.target.value))}
-                              placeholder="0"
-                              className="w-full pl-10 pr-4 py-3 input-field border-2 rounded-xl focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-50 dark:focus:ring-primary-950 trans-all font-bold text-right text-lg"
-                            />
-                          </div>
-                        </div>
-                        {/* Tombol nominal cepat */}
-                        <div className="grid grid-cols-3 gap-1.5">
-                          {[
-                            { label: 'Uang Pas', value: total },
-                            { label: '50rb', value: 50000 },
-                            { label: '100rb', value: 100000 },
-                          ].map((preset) => (
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wide">Metode Pembayaran</label>
+                        <div className="grid grid-cols-3 gap-2">
+                          {(['Tunai', 'QRIS', 'Transfer Bank'] as const).map((method) => (
                             <button
-                              key={preset.label}
+                              key={method}
                               type="button"
-                              onClick={() => setAmountPaid(preset.value)}
-                              className="py-1.5 px-2 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-primary-50 dark:hover:bg-primary-900/30 hover:text-primary-700 dark:hover:text-primary-300 trans-all border border-slate-200 dark:border-slate-600"
+                              onClick={() => { setPaymentMethod(method); if (method !== 'Tunai') setAmountPaid(0); }}
+                              className={`py-2.5 px-2 rounded-xl text-xs font-bold trans-all border-2 ${
+                                paymentMethod === method
+                                  ? 'bg-primary-50 dark:bg-primary-950/50 border-primary-400 text-primary-700 dark:text-primary-300 shadow-sm'
+                                  : 'border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-500'
+                              }`}
                             >
-                              {preset.label}
+                              {method}
                             </button>
                           ))}
                         </div>
-                        {amountPaid >= total && total > 0 && (
-                          <div className="flex justify-between items-center bg-emerald-50 dark:bg-emerald-950/30 p-3 rounded-xl border border-emerald-200 dark:border-emerald-800">
-                            <span className="text-emerald-700 dark:text-emerald-400 font-bold text-xs uppercase tracking-wide">Kembalian</span>
-                            <span className="text-emerald-700 dark:text-emerald-300 font-black text-lg">Rp {changeAmount.toLocaleString('id-ID')}</span>
-                          </div>
-                        )}
-                        {amountPaid > 0 && amountPaid < total && (
-                          <div className="flex justify-between items-center bg-rose-50 dark:bg-rose-950/30 p-3 rounded-xl border border-rose-200 dark:border-rose-800">
-                            <span className="text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wide">Kurang</span>
-                            <span className="text-rose-600 dark:text-rose-300 font-black text-lg">Rp {(total - amountPaid).toLocaleString('id-ID')}</span>
-                          </div>
-                        )}
                       </div>
-                    )}
+
+                      {paymentMethod === 'Tunai' && (
+                        <div className="space-y-2">
+                          <div>
+                            <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wide">Uang Bayar</label>
+                            <div className="relative">
+                              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">Rp</span>
+                              <input
+                                type="number"
+                                min={0}
+                                value={amountPaid || ''}
+                                onChange={e => setAmountPaid(Number(e.target.value))}
+                                placeholder="0"
+                                className="w-full pl-10 pr-4 py-3 input-field border-2 rounded-xl focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-50 dark:focus:ring-primary-950 trans-all font-bold text-right text-lg"
+                              />
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-3 gap-1.5">
+                            {[
+                              { label: 'Uang Pas', value: total },
+                              { label: '50rb', value: 50000 },
+                              { label: '100rb', value: 100000 },
+                            ].map((preset) => (
+                              <button
+                                key={preset.label}
+                                type="button"
+                                onClick={() => setAmountPaid(preset.value)}
+                                className="py-1.5 px-2 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-primary-50 dark:hover:bg-primary-900/30 hover:text-primary-700 dark:hover:text-primary-300 trans-all border border-slate-200 dark:border-slate-600"
+                              >
+                                {preset.label}
+                              </button>
+                            ))}
+                          </div>
+                          {amountPaid >= total && total > 0 && (
+                            <div className="flex justify-between items-center bg-emerald-50 dark:bg-emerald-950/30 p-3 rounded-xl border border-emerald-200 dark:border-emerald-800">
+                              <span className="text-emerald-700 dark:text-emerald-400 font-bold text-xs uppercase tracking-wide">Kembalian</span>
+                              <span className="text-emerald-700 dark:text-emerald-300 font-black text-lg">Rp {changeAmount.toLocaleString('id-ID')}</span>
+                            </div>
+                          )}
+                          {amountPaid > 0 && amountPaid < total && (
+                            <div className="flex justify-between items-center bg-rose-50 dark:bg-rose-950/30 p-3 rounded-xl border border-rose-200 dark:border-rose-800">
+                              <span className="text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wide">Kurang</span>
+                              <span className="text-rose-600 dark:text-rose-300 font-black text-lg">Rp {(total - amountPaid).toLocaleString('id-ID')}</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
+              </div>
 
+              {/* Action Buttons Fixed at Bottom */}
+              <div className="p-4 sm:p-6 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 rounded-b-3xl shrink-0">
                 <div className="grid grid-cols-2 gap-3">
                   <button disabled={cart.length === 0 || loading || (paymentMethod === 'Tunai' && amountPaid < total)} onClick={() => handleCheckout(true)} className="flex flex-col items-center justify-center gap-1 py-3 rounded-2xl bg-slate-800 text-white hover:bg-slate-900 trans-all disabled:opacity-50 active:scale-95 shadow-lg shadow-slate-800/20">
                     <Printer size={20} />
