@@ -335,7 +335,7 @@ export default function BukuPanduan() {
         coverEntity: { fontSize: 20, bold: true, alignment: 'center', color: '#0F766E' },
         coverAddress: { fontSize: 12, alignment: 'center', color: '#64748B', margin: [0, 5, 0, 0] },
         coverYear: { fontSize: 14, bold: true, color: '#334155' },
-        logoPlaceholder: { fontSize: 16, bold: true, alignment: 'center', color: '#CBD5E1', fillColor: '#F8FAFC', padding: 20, border: [true, true, true, true] },
+        logoPlaceholder: { fontSize: 16, bold: true, alignment: 'center', color: '#CBD5E1' },
         
         h1: { fontSize: 18, bold: true, color: '#4F46E5', margin: [0, 15, 0, 10] },
         h2: { fontSize: 14, bold: true, color: '#334155', margin: [0, 10, 0, 8] },
