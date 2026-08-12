@@ -99,6 +99,20 @@ export default function StrukturOrganisasi() {
     );
   };
 
+  const EmptyCard = ({ role, size = 'normal' }: { role: string; size?: 'large' | 'normal' | 'small' }) => {
+    const isLarge = size === 'large';
+    const isSmall = size === 'small';
+
+    return (
+      <div className={`bg-slate-50/50 dark:bg-slate-800/30 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex items-center justify-center text-center p-4 w-full ${isLarge ? 'sm:max-w-xs h-[180px]' : isSmall ? 'sm:max-w-[200px] h-[120px]' : 'sm:max-w-[240px] h-[150px]'}`}>
+        <div>
+          <p className="text-slate-400 dark:text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">{role}</p>
+          <p className="text-slate-400 dark:text-slate-500 text-[10px]">(Belum ada)</p>
+        </div>
+      </div>
+    );
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-[calc(100vh-200px)] text-slate-500 font-bold">
@@ -138,86 +152,69 @@ export default function StrukturOrganisasi() {
         <div className="card rounded-2xl shadow-sm p-4 sm:p-8 overflow-x-auto border dark:border-slate-800">
           <div className="w-full sm:min-w-[600px] flex flex-col items-center gap-6">
             {/* Level 1: MUSDES */}
-            {musdes.length > 0 && (
-              <div className="flex flex-col items-center w-full">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Musyawarah Desa</div>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">
-                  {musdes.map(m => <MemberCard key={m.id} member={m} size="large" />)}
-                </div>
-                <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />
+            <div className="flex flex-col items-center w-full">
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Musyawarah Desa</div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">
+                {musdes.length > 0 ? musdes.map(m => <MemberCard key={m.id} member={m} size="large" />) : <EmptyCard role="MUSDES" size="large" />}
               </div>
-            )}
+              <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />
+            </div>
 
             {/* Level 2: PENASIHAT & PENGAWAS */}
-            {(penasihat.length > 0 || pengawas.length > 0) && (
-              <div className="flex flex-col items-center w-full">
-                <div className="flex gap-8 justify-center w-full items-start">
-                  {penasihat.length > 0 && (
-                    <div className="flex flex-col items-center">
-                       <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Penasihat</div>
-                       {penasihat.map(m => <MemberCard key={m.id} member={m} />)}
-                    </div>
-                  )}
-                  {pengawas.length > 0 && (
-                    <div className="flex flex-col items-center">
-                       <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Pengawas</div>
-                       {pengawas.map(m => <MemberCard key={m.id} member={m} />)}
-                    </div>
-                  )}
+            <div className="flex flex-col items-center w-full">
+              <div className="flex gap-8 justify-center w-full items-start">
+                <div className="flex flex-col items-center">
+                   <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Penasihat</div>
+                   {penasihat.length > 0 ? penasihat.map(m => <MemberCard key={m.id} member={m} />) : <EmptyCard role="Penasihat" />}
                 </div>
-                <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />
+                <div className="flex flex-col items-center">
+                   <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Pengawas</div>
+                   {pengawas.length > 0 ? pengawas.map(m => <MemberCard key={m.id} member={m} />) : <EmptyCard role="Pengawas" />}
+                </div>
               </div>
-            )}
+              <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />
+            </div>
 
             {/* Level 3: DIREKTUR */}
-            {direktur.length > 0 && (
-              <div className="flex flex-col items-center w-full">
-                <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">
-                  {direktur.map(m => <MemberCard key={m.id} member={m} size="large" />)}
-                </div>
-                {(sekretaris.length > 0 || bendahara.length > 0 || manager.length > 0 || karyawan.length > 0) && <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />}
+            <div className="flex flex-col items-center w-full">
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Direktur</div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">
+                {direktur.length > 0 ? direktur.map(m => <MemberCard key={m.id} member={m} size="large" />) : <EmptyCard role="Direktur" size="large" />}
               </div>
-            )}
+              <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />
+            </div>
 
             {/* Level 4: SEKRETARIS & BENDAHARA */}
-            {(sekretaris.length > 0 || bendahara.length > 0) && (
-              <div className="flex flex-col items-center w-full">
-                <div className="flex gap-8 justify-center w-full items-start">
-                  {sekretaris.length > 0 && (
-                    <div className="flex flex-col items-center">
-                       {sekretaris.map(m => <MemberCard key={m.id} member={m} />)}
-                    </div>
-                  )}
-                  {bendahara.length > 0 && (
-                    <div className="flex flex-col items-center">
-                       {bendahara.map(m => <MemberCard key={m.id} member={m} />)}
-                    </div>
-                  )}
+            <div className="flex flex-col items-center w-full">
+              <div className="flex gap-8 justify-center w-full items-start">
+                <div className="flex flex-col items-center">
+                   <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Sekretaris</div>
+                   {sekretaris.length > 0 ? sekretaris.map(m => <MemberCard key={m.id} member={m} />) : <EmptyCard role="Sekretaris" />}
                 </div>
-                {(manager.length > 0 || karyawan.length > 0) && <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />}
+                <div className="flex flex-col items-center">
+                   <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Bendahara</div>
+                   {bendahara.length > 0 ? bendahara.map(m => <MemberCard key={m.id} member={m} />) : <EmptyCard role="Bendahara" />}
+                </div>
               </div>
-            )}
+              <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />
+            </div>
 
             {/* Level 5: MANAGER UNIT USAHA */}
-            {manager.length > 0 && (
-              <div className="flex flex-col items-center w-full">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Manager Unit Usaha</div>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">
-                  {manager.map(m => <MemberCard key={m.id} member={m} />)}
-                </div>
-                {karyawan.length > 0 && <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />}
+            <div className="flex flex-col items-center w-full">
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Manager Unit Usaha</div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">
+                {manager.length > 0 ? manager.map(m => <MemberCard key={m.id} member={m} />) : <EmptyCard role="Manager" />}
               </div>
-            )}
+              <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />
+            </div>
 
             {/* Level 6: KARYAWAN */}
-            {karyawan.length > 0 && (
-              <div className="flex flex-col items-center w-full">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Staff & Karyawan</div>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap w-full">
-                  {karyawan.map(m => <MemberCard key={m.id} member={m} size="small" />)}
-                </div>
+            <div className="flex flex-col items-center w-full">
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Staff & Karyawan</div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap w-full">
+                {karyawan.length > 0 ? karyawan.map(m => <MemberCard key={m.id} member={m} size="small" />) : <EmptyCard role="Karyawan" size="small" />}
               </div>
-            )}
+            </div>
           </div>
         </div>
       )}

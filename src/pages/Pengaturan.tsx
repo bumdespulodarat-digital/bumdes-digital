@@ -17,7 +17,7 @@ export default function Pengaturan() {
   });
   
   const [users, setUsers] = useState<any[]>([]);
-  const [newUser, setNewUser] = useState({ name: '', role: 'Admin', email: '', password: '' });
+  const [newUser, setNewUser] = useState({ name: '', role: 'Karyawan', email: '', password: '' });
 
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -95,7 +95,7 @@ export default function Pengaturan() {
         role: newUser.role,
         email: newUser.email
       });
-      setNewUser({ name: '', role: 'Admin', email: '', password: '' });
+      setNewUser({ name: '', role: 'Karyawan', email: '', password: '' });
       fetchData();
       setToast({ message: `${newUser.name} berhasil ditambahkan! ✨`, type: 'success', subtitle: `Akun ${newUser.email} (${newUser.role}) sudah aktif dan siap digunakan.` });
     } catch (error: any) {
@@ -342,13 +342,14 @@ export default function Pengaturan() {
                     <div>
                       <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wide">Jabatan</label>
                       <select value={newUser.role} onChange={e => setNewUser({ ...newUser, role: e.target.value })} className="w-full px-4 py-2.5 input-field border rounded-xl focus:border-primary-500 font-semibold text-sm">
+                        <option value="Musyawarah Desa (MUSDES)">Musyawarah Desa (MUSDES)</option>
+                        <option value="Penasihat">Penasihat</option>
+                        <option value="Pengawas">Pengawas</option>
                         <option value="Direktur BUMDes">Direktur BUMDes</option>
-                        <option value="Bendahara">Bendahara</option>
-                        <option value="Akuntan">Akuntan / Petugas Akuntansi</option>
                         <option value="Sekretaris">Sekretaris</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Karyawan">Karyawan Toko</option>
-                        <option value="Pengawas">Pengawas (Hanya Lihat Laporan)</option>
+                        <option value="Bendahara">Bendahara</option>
+                        <option value="Manager Unit Usaha">Manager Unit Usaha</option>
+                        <option value="Karyawan">Karyawan</option>
                       </select>
                     </div>
                     <div className="pt-2">
