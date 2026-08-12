@@ -1,5 +1,5 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, ShoppingCart, Package, FileText, Settings, Store, LogOut, Menu, X, Moon, Sun, ChevronLeft, ChevronRight, KeyRound, BarChart3, Archive, Users, BookOpen } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, Package, FileText, Settings, Store, LogOut, Menu, X, Moon, Sun, ChevronLeft, ChevronRight, KeyRound, BarChart3, Archive, Users, BookOpen, HelpCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useEffect, useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
@@ -93,6 +93,7 @@ export default function MainLayout() {
     { path: '/buku-kas', icon: <BookOpen size={20} />, label: 'Buku Kas' },
     { path: '/inventaris', icon: <Archive size={20} />, label: 'Inventaris & Arsip' },
     { path: '/struktur-organisasi', icon: <Users size={20} />, label: 'Struktur Organisasi' },
+    { path: '/panduan', icon: <HelpCircle size={20} />, label: 'Pusat Bantuan' },
     { path: '/pengaturan', icon: <Settings size={20} />, label: 'Pengaturan' },
   ];
 
