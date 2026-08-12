@@ -34,21 +34,21 @@ export default function BukuPanduan() {
   ];
 
   const handleDownloadPDF = () => {
-    const screenshotBox = (text: string) => ({
+    const screenshotBox = (text: string): any => ({
       table: {
         widths: ['*'],
         body: [
-          [{ text: `📷 [ ${text} ]\n(Area Placeholder Gambar)`, alignment: 'center', margin: [0, 40, 0, 40] as [number, number, number, number], color: '#94A3B8', fillColor: '#F1F5F9' }]
+          [{ text: `📷 [ ${text} ]\n(Area Placeholder Gambar)`, alignment: 'center', margin: [0, 40, 0, 40], color: '#94A3B8', fillColor: '#F1F5F9' }]
         ]
       },
       layout: {
         hLineWidth: () => 1, vLineWidth: () => 1,
         hLineColor: () => '#E2E8F0', vLineColor: () => '#E2E8F0'
       },
-      margin: [0, 10, 0, 15] as [number, number, number, number]
+      margin: [0, 10, 0, 15]
     });
 
-    const docDefinition: TDocumentDefinitions = {
+    const docDefinition: any = {
       pageSize: 'A4',
       pageMargins: [40, 80, 40, 60],
       info: {
@@ -56,7 +56,7 @@ export default function BukuPanduan() {
         author: 'Tim IT KKN & Pengurus BUMDes',
         subject: 'Buku Panduan Pengguna (SOP)',
       },
-      header: (currentPage) => {
+      header: (currentPage: number) => {
         if (currentPage === 1) return null;
         return {
           columns: [
@@ -66,7 +66,7 @@ export default function BukuPanduan() {
           margin: [40, 25, 40, 0]
         };
       },
-      footer: (currentPage, pageCount) => {
+      footer: (currentPage: number, pageCount: number) => {
         if (currentPage === 1) return null;
         return {
           columns: [
@@ -82,18 +82,18 @@ export default function BukuPanduan() {
         {
           canvas: [{ type: 'rect', x: 0, y: 0, w: 515, h: 6, color: '#4F46E5' }] // Indigo accent
         },
-        { text: 'BUKU PANDUAN PENGGUNA', style: 'coverTitle', margin: [0, 30, 0, 5] as [number, number, number, number] },
-        { text: 'SISTEM INFORMASI DIGITAL BUMDES', style: 'coverSubtitle', margin: [0, 0, 0, 40] as [number, number, number, number] },
+        { text: 'BUKU PANDUAN PENGGUNA', style: 'coverTitle', margin: [0, 30, 0, 5] },
+        { text: 'SISTEM INFORMASI DIGITAL BUMDES', style: 'coverSubtitle', margin: [0, 0, 0, 40] },
         
         {
           table: {
             widths: ['*'],
-            body: [[{ text: '📷 [ LOGO BUMDES ]', style: 'logoPlaceholder', margin: [0, 40, 0, 40] as [number, number, number, number], fillColor: '#F8FAFC' }]]
+            body: [[{ text: '📷 [ LOGO BUMDES ]', style: 'logoPlaceholder', margin: [0, 40, 0, 40], fillColor: '#F8FAFC' }]]
           },
           layout: {
             hLineWidth: () => 1, vLineWidth: () => 1, hLineColor: () => '#E2E8F0', vLineColor: () => '#E2E8F0'
           },
-          margin: [0, 0, 0, 40] as [number, number, number, number]
+          margin: [0, 0, 0, 40]
         },
 
         { text: 'BUMDes Noto Mulyo', style: 'coverEntity' },
@@ -103,7 +103,7 @@ export default function BukuPanduan() {
         {
           canvas: [{ type: 'rect', x: 0, y: 0, w: 515, h: 3, color: '#4F46E5' }]
         },
-        { text: 'Tahun 2024', style: 'coverYear', alignment: 'center', margin: [0, 20, 0, 0] as [number, number, number, number] },
+        { text: 'Tahun 2024', style: 'coverYear', alignment: 'center', margin: [0, 20, 0, 0] },
         { text: '', pageBreak: 'after' },
 
         // DAFTAR ISI (TOC)
