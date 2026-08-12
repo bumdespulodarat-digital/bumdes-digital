@@ -36,55 +36,64 @@ export default function BukuPanduan() {
   const handleDownloadPDF = () => {
     const docDefinition: TDocumentDefinitions = {
       pageSize: 'A4',
-      pageMargins: [40, 70, 40, 60],
+      pageMargins: [40, 80, 40, 60],
       info: {
-        title: 'Buku Panduan BUMDes Digital',
-        author: 'Tim IT KKN',
-        subject: 'SOP Sistem BUMDes',
+        title: 'Buku Panduan BUMDes Digital Noto Mulyo',
+        author: 'Tim IT KKN & Pengurus BUMDes',
+        subject: 'Buku Panduan Pengguna (SOP)',
       },
       header: (currentPage) => {
         if (currentPage === 1) return null;
         return {
           columns: [
-            { text: 'BUKU PANDUAN BUMDES DIGITAL', style: 'headerLeft' },
-            { text: 'Pulodarat, Jepara', style: 'headerRight' }
+            { text: 'BUKU PANDUAN PENGGUNA', style: 'headerLeft' },
+            { text: 'SISTEM DIGITAL BUMDES', style: 'headerRight' }
           ],
-          margin: [40, 20, 40, 0]
+          margin: [40, 25, 40, 0]
         };
       },
       footer: (currentPage, pageCount) => {
+        if (currentPage === 1) return null;
         return {
           columns: [
-            { text: 'Sistem Informasi Digital BUMDes', style: 'footerLeft' },
-            { text: `Halaman ${currentPage} dari ${pageCount}`, style: 'footerRight' }
+            { text: 'BUMDes Noto Mulyo - Desa Pulodarat', style: 'footerLeft' },
+            { text: `Halaman ${currentPage} / ${pageCount}`, style: 'footerRight' }
           ],
           margin: [40, 20, 40, 0]
         };
       },
       content: [
         // COVER PAGE
+        { text: '\n\n\n\n' },
+        {
+          canvas: [{ type: 'rect', x: 0, y: 0, w: 515, h: 6, color: '#4F46E5' }] // Indigo accent
+        },
+        { text: 'BUKU PANDUAN PENGGUNA', style: 'coverTitle', margin: [0, 30, 0, 5] as [number, number, number, number] },
+        { text: 'SISTEM INFORMASI DIGITAL BUMDES', style: 'coverSubtitle', margin: [0, 0, 0, 40] as [number, number, number, number] },
+        
+        {
+          table: {
+            widths: ['*'],
+            body: [[{ text: '[ LOGO BUMDES ]', style: 'logoPlaceholder', margin: [0, 40, 0, 40] as [number, number, number, number] }]]
+          },
+          layout: 'noBorders',
+          margin: [0, 0, 0, 40] as [number, number, number, number]
+        },
+
+        { text: 'BUMDes Noto Mulyo', style: 'coverEntity' },
+        { text: 'Balai Desa Pulodarat, Kecamatan Pecangaan,\nKabupaten Jepara', style: 'coverAddress' },
+        
         { text: '\n\n\n\n\n\n' },
         {
-          canvas: [
-            { type: 'rect', x: 0, y: 0, w: 515, h: 4, color: '#0F766E' }
-          ]
+          canvas: [{ type: 'rect', x: 0, y: 0, w: 515, h: 3, color: '#4F46E5' }]
         },
-        { text: 'BUKU PANDUAN PENGGUNA', style: 'coverTitle', margin: [0, 20, 0, 5] as [number, number, number, number] },
-        { text: '(Standard Operating Procedure Lengkap)', style: 'coverSubtitle', margin: [0, 0, 0, 20] as [number, number, number, number] },
-        { text: 'SISTEM INFORMASI DIGITAL BUMDES', style: 'coverMain', margin: [0, 0, 0, 20] as [number, number, number, number] },
-        {
-          canvas: [
-            { type: 'rect', x: 0, y: 0, w: 515, h: 2, color: '#0F766E' }
-          ]
-        },
-        { text: '\n\n\n' },
-        { text: 'Disusun Oleh:\nTim Mahasiswa KKN\nDesa Pulodarat, Kec. Pecangaan, Kab. Jepara\n2024', style: 'coverAuthor', alignment: 'center' },
+        { text: 'Tahun 2024', style: 'coverYear', alignment: 'center', margin: [0, 20, 0, 0] as [number, number, number, number] },
         { text: '', pageBreak: 'after' },
 
         // DAFTAR ISI (TOC)
         {
           toc: {
-            title: { text: 'DAFTAR ISI', style: 'h1', margin: [0, 0, 0, 15] as [number, number, number, number] },
+            title: { text: 'DAFTAR ISI', style: 'h1', margin: [0, 0, 0, 20] as [number, number, number, number] },
             textMargin: [0, 5, 0, 5] as [number, number, number, number]
           }
         },
@@ -93,106 +102,259 @@ export default function BukuPanduan() {
         // KATA PENGANTAR
         { text: 'KATA PENGANTAR', style: 'h1', tocItem: true },
         { 
-          text: 'Sistem Informasi Digital BUMDes dibuat untuk memudahkan pencatatan transaksi kasir, manajemen stok, pengawasan hutang-piutang, dan otomatisasi akuntansi (Jurnal, Buku Kas, Laba Rugi, dan Neraca) secara terpadu.\n\nBuku panduan lengkap (Standard Operating Procedure) ini disusun sebagai pegangan operasional bagi seluruh jajaran pengurus BUMDes (Mulai dari MUSDES, Penasihat, Pengawas, Direktur, Bendahara, Admin, hingga Karyawan).',
+          text: 'Puji syukur kami panjatkan ke hadirat Tuhan Yang Maha Esa atas selesainya penyusunan "Buku Panduan Pengguna (SOP) Sistem Informasi Digital BUMDes". \n\nSistem ini dirancang khusus untuk mempermudah dan mendigitalisasi operasional BUMDes Noto Mulyo, mulai dari transaksi kasir, manajemen stok, pencatatan hutang-piutang, hingga otomatisasi pembukuan (akuntansi).\n\nBuku panduan ini disusun dengan bahasa yang sederhana agar dapat menjadi pedoman yang mudah dipahami oleh seluruh jajaran pengurus BUMDes (Direktur, Bendahara, Admin, dan Karyawan). Dengan adanya sistem ini, diharapkan transparansi dan efisiensi pengelolaan BUMDes semakin meningkat.',
           style: 'paragraph' 
         },
+        { text: 'Jepara, 2024\n\n\n\nTim Penyusun', style: 'paragraph', alignment: 'right', margin: [0, 40, 0, 0] as [number, number, number, number] },
+        { text: '', pageBreak: 'after' },
 
-        // BAB 1: PENDAHULUAN & AKSES SISTEM
-        { text: '1. PENDAHULUAN & AKSES SISTEM', style: 'h1', tocItem: true, margin: [0, 20, 0, 10] as [number, number, number, number] },
+        // BAB 1
+        { text: 'BAB 1 - PENDAHULUAN & AKSES SISTEM', style: 'h1', tocItem: true },
         {
-          ul: [
-            { text: 'Login Akses: Anda memerlukan email dan password untuk masuk ke dalam sistem. Akses ini dikelola langsung oleh Admin BUMDes.', style: 'listItem' },
-            { text: 'Tema Terang/Gelap (Dark Mode): Sistem dilengkapi dengan fitur Dark Mode. Anda bisa menekan tombol ikon Bulan/Matahari di pojok kanan atas layar untuk mengubah tema warna agar mata tidak mudah lelah.', style: 'listItem' },
-            { text: 'Navigasi Sidebar: Di sebelah kiri layar terdapat menu navigasi untuk berpindah antar halaman (Dashboard, Kasir, Stok, Keuangan, dll). Jika Anda menggunakan HP/Tablet, menu ini dapat dimunculkan dengan menekan ikon garis tiga (Hamburger Menu).', style: 'listItem' },
+          table: {
+            headerRows: 1,
+            widths: ['30%', '70%'],
+            body: [
+              [{ text: 'Fitur', style: 'tableHeader' }, { text: 'Fungsi Utama', style: 'tableHeader' }],
+              [{ text: 'Login Sistem', style: 'tableCell' }, { text: 'Melindungi data BUMDes agar hanya bisa diakses pengurus.', style: 'tableCell' }],
+              [{ text: 'Dark Mode', style: 'tableCell' }, { text: 'Mengubah warna layar menjadi gelap agar mata tidak lelah.', style: 'tableCell' }]
+            ]
+          },
+          layout: 'lightHorizontalLines',
+          margin: [0, 0, 0, 15] as [number, number, number, number]
+        },
+        { text: '1. Cara Login ke Dalam Sistem', style: 'h2' },
+        { text: '[Screenshot: Halaman Login Aplikasi]', style: 'screenshotPlaceholder' },
+        {
+          ol: [
+            { text: 'Buka alamat website sistem BUMDes melalui browser (Google Chrome/Safari) di Laptop atau HP Anda.', style: 'listItem' },
+            { text: 'Masukkan Email dan Password yang telah didaftarkan oleh Admin.', style: 'listItem' },
+            { text: 'Klik tombol "Masuk". Jika berhasil, Anda akan langsung diarahkan ke halaman Dashboard.', style: 'listItem' }
+          ]
+        },
+        { text: '2. Navigasi & Tampilan (Dark Mode)', style: 'h2' },
+        {
+          ol: [
+            { text: 'Di sebelah kiri layar terdapat Sidebar (Menu Samping) untuk berpindah halaman.', style: 'listItem' },
+            { text: 'Jika Anda menggunakan HP, klik ikon Garis Tiga di pojok kiri atas untuk memunculkan menu.', style: 'listItem' },
+            { text: 'Untuk mengaktifkan Tema Gelap, klik ikon Bulan di pojok kanan atas. Klik ikon Matahari untuk mengembalikan ke Tema Terang.', style: 'listItem' }
+          ]
+        },
+        { text: '', pageBreak: 'after' },
+
+        // BAB 2
+        { text: 'BAB 2 - MODUL DASHBOARD & ANALITIK', style: 'h1', tocItem: true },
+        {
+          table: {
+            headerRows: 1,
+            widths: ['30%', '70%'],
+            body: [
+              [{ text: 'Fitur', style: 'tableHeader' }, { text: 'Fungsi Utama', style: 'tableHeader' }],
+              [{ text: 'Ringkasan Utama', style: 'tableCell' }, { text: 'Melihat Pemasukan dan Laba secara instan.', style: 'tableCell' }],
+              [{ text: 'Grafik Interaktif', style: 'tableCell' }, { text: 'Memantau naik-turunnya penjualan per hari.', style: 'tableCell' }]
+            ]
+          },
+          layout: 'lightHorizontalLines',
+          margin: [0, 0, 0, 15] as [number, number, number, number]
+        },
+        { text: 'Dashboard adalah halaman pertama yang Anda lihat setelah login. Halaman ini berfungsi sebagai pusat informasi (rapor) harian BUMDes.', style: 'paragraph' },
+        { text: '[Screenshot: Tampilan Dashboard dengan Grafik]', style: 'screenshotPlaceholder' },
+        {
+          ol: [
+            { text: 'Perhatikan Kotak Ringkasan di bagian atas. Anda bisa melihat total pemasukan hari ini, bulan ini, dan saldo kas secara langsung.', style: 'listItem' },
+            { text: 'Lihat Grafik Garis di bagian tengah untuk menganalisa hari apa toko paling ramai.', style: 'listItem' },
+            { text: 'Di bagian bawah, terdapat tabel peringatan Piutang Belum Lunas. Segera hubungi pelanggan yang bersangkutan jika tanggal jatuh tempo sudah lewat.', style: 'listItem' }
+          ]
+        },
+        { text: '', pageBreak: 'after' },
+
+        // BAB 3
+        { text: 'BAB 3 - MODUL KASIR (POINT OF SALE)', style: 'h1', tocItem: true },
+        {
+          table: {
+            headerRows: 1,
+            widths: ['30%', '70%'],
+            body: [
+              [{ text: 'Fitur', style: 'tableHeader' }, { text: 'Fungsi Utama', style: 'tableHeader' }],
+              [{ text: 'Cari & Scan Barang', style: 'tableCell' }, { text: 'Memasukkan barang ke keranjang belanja pembeli.', style: 'tableCell' }],
+              [{ text: 'Cetak Struk', style: 'tableCell' }, { text: 'Mencetak bukti pembayaran (nota) untuk pembeli.', style: 'tableCell' }]
+            ]
+          },
+          layout: 'lightHorizontalLines',
+          margin: [0, 0, 0, 15] as [number, number, number, number]
+        },
+        { text: 'Modul ini digunakan oleh Karyawan atau Kasir saat melayani pembeli di toko.', style: 'paragraph' },
+        
+        { text: 'Catatan Penting: Otomatisasi', style: 'noteTitle' },
+        { text: 'Setiap transaksi di Kasir akan secara OTOMATIS: \n1. Mengurangi sisa stok barang.\n2. Menambah saldo di Buku Kas.\n3. Membuat jurnal pembukuan akuntansi.\nAnda TIDAK PERLU mencatatnya lagi secara manual!', style: 'noteBox', margin: [0, 0, 0, 15] as [number, number, number, number] },
+
+        { text: '1. Cara Melakukan Transaksi Penjualan', style: 'h2' },
+        { text: '[Screenshot: Tampilan Menu Kasir & Keranjang]', style: 'screenshotPlaceholder' },
+        {
+          ol: [
+            { text: 'Buka menu Kasir (POS) di sidebar.', style: 'listItem' },
+            { text: 'Cari barang dengan cara mengetik nama barang di kolom pencarian ATAU tembakkan alat Scan Barcode ke produk.', style: 'listItem' },
+            { text: 'Klik barang yang muncul untuk memasukannya ke Keranjang Belanja di sebelah kanan.', style: 'listItem' },
+            { text: 'Jika pembeli membeli layanan (misal: Jasa Fotokopi), klik ikon "+" (Produk Custom), lalu ketik nama jasa dan harganya.', style: 'listItem' },
+            { text: 'Pilih Metode Pembayaran (Tunai, QRIS, atau Transfer).', style: 'listItem' },
+            { text: 'Jika Tunai, ketikkan jumlah uang yang diberikan pembeli di kolom "Uang Bayar". Sistem akan otomatis menampilkan nominal Kembalian.', style: 'listItem' },
+            { text: 'Klik tombol "Cetak Struk" untuk menyimpan transaksi dan mencetak nota. Klik "Simpan Data" jika pembeli tidak meminta struk.', style: 'listItem' }
+          ]
+        },
+        { text: '', pageBreak: 'after' },
+
+        // BAB 4
+        { text: 'BAB 4 - MODUL STOK BARANG & INVENTARIS', style: 'h1', tocItem: true },
+        {
+          table: {
+            headerRows: 1,
+            widths: ['30%', '70%'],
+            body: [
+              [{ text: 'Fitur', style: 'tableHeader' }, { text: 'Fungsi Utama', style: 'tableHeader' }],
+              [{ text: 'Tambah Barang', style: 'tableCell' }, { text: 'Mendaftarkan barang dagangan baru ke sistem.', style: 'tableCell' }],
+              [{ text: 'Kartu Stok', style: 'tableCell' }, { text: 'Melihat riwayat keluar/masuk barang.', style: 'tableCell' }]
+            ]
+          },
+          layout: 'lightHorizontalLines',
+          margin: [0, 0, 0, 15] as [number, number, number, number]
+        },
+        { text: '1. Cara Menambahkan Barang Baru', style: 'h2' },
+        {
+          ol: [
+            { text: 'Buka menu Stok Barang, lalu klik tombol "+ Tambah Barang" di pojok kanan atas.', style: 'listItem' },
+            { text: 'Isi Nama Barang dan Kode SKU (Bisa diisi dengan men-scan barcode di kemasan produk).', style: 'listItem' },
+            { text: 'Isi Harga Beli (modal) dan Harga Jual (untuk pelanggan).', style: 'listItem' },
+            { text: 'Isi Jumlah Stok Awal yang ada di toko, lalu klik "Simpan".', style: 'listItem' }
+          ]
+        },
+        { text: '2. Inventaris (Aset Tetap)', style: 'h2' },
+        { text: 'Berbeda dengan barang dagangan, menu Inventaris & Arsip digunakan khusus untuk mendata Aset Tetap milik BUMDes (seperti Meja, Kursi, Komputer) agar tidak hilang dan terdata dengan rapi.', style: 'paragraph' },
+        { text: '', pageBreak: 'after' },
+
+        // BAB 5
+        { text: 'BAB 5 - MODUL HUTANG & PIUTANG', style: 'h1', tocItem: true },
+        {
+          table: {
+            headerRows: 1,
+            widths: ['30%', '70%'],
+            body: [
+              [{ text: 'Fitur', style: 'tableHeader' }, { text: 'Fungsi Utama', style: 'tableHeader' }],
+              [{ text: 'Catat Hutang', style: 'tableCell' }, { text: 'Mencatat hutang BUMDes ke pihak luar (Supplier).', style: 'tableCell' }],
+              [{ text: 'Catat Piutang', style: 'tableCell' }, { text: 'Mencatat kasbon/hutang warga ke BUMDes.', style: 'tableCell' }]
+            ]
+          },
+          layout: 'lightHorizontalLines',
+          margin: [0, 0, 0, 15] as [number, number, number, number]
+        },
+        { text: '[Screenshot: Tabel Piutang Pelanggan]', style: 'screenshotPlaceholder' },
+        { text: '1. Cara Mencatat Warga yang Kasbon (Piutang)', style: 'h2' },
+        {
+          ol: [
+            { text: 'Buka menu Hutang Piutang, pilih tab Piutang.', style: 'listItem' },
+            { text: 'Klik tombol "+ Catat Piutang", masukkan nama warga, nominal, dan tanggal janji bayar (Jatuh Tempo).', style: 'listItem' },
+            { text: 'Jika warga tersebut datang untuk menyicil, klik tombol "Bayar/Cicil" di sebelah namanya, masukkan nominal uang yang dibayar.', style: 'listItem' },
+            { text: 'Sistem akan otomatis memotong sisa hutang warga tersebut dan memasukkan uang cicilan ke Buku Kas BUMDes.', style: 'listItem' }
+          ]
+        },
+        { text: '', pageBreak: 'after' },
+
+        // BAB 6
+        { text: 'BAB 6 - BUKU KAS & AKUNTANSI OTOMATIS', style: 'h1', tocItem: true },
+        { text: 'Ini adalah jantung dari sistem pelaporan BUMDes. Sistem menggunakan standar Akuntansi Double-Entry yang berjalan secara otomatis.', style: 'paragraph' },
+        
+        { text: '1. Buku Kas (Arus Kas Harian)', style: 'h2' },
+        { text: 'Buku kas mencatat semua uang nyata yang masuk dan keluar.', style: 'paragraph' },
+        {
+          ol: [
+            { text: 'Pemasukan dari Kasir sudah OTOMATIS masuk ke sini. Anda tidak perlu repot mengetik ulang.', style: 'listItem' },
+            { text: 'Untuk mencatat pengeluaran harian (misal: Beli ATK, Bayar Listrik, Gaji), klik tombol "+ Catat Transaksi" lalu pilih tipe "Uang Keluar".', style: 'listItem' }
           ]
         },
 
-        // BAB 2: DASHBOARD
-        { text: '2. MODUL DASHBOARD & ANALITIK', style: 'h1', tocItem: true, margin: [0, 15, 0, 10] as [number, number, number, number] },
+        { text: '2. Laporan Laba Rugi & Neraca', style: 'h2' },
+        { text: '[Screenshot: Tampilan Laporan Laba Rugi]', style: 'screenshotPlaceholder' },
+        {
+          ol: [
+            { text: 'Buka menu Akuntansi. Anda akan langsung melihat laporan keuangan BUMDes tanpa perlu menghitung rumus rumit.', style: 'listItem' },
+            { text: 'Laba Rugi: Menampilkan total Pendapatan dikurangi Harga Pokok Penjualan (HPP) dan Beban (Pengeluaran), sehingga ketemu nilai Laba Bersih.', style: 'listItem' },
+            { text: 'Neraca: Menampilkan posisi keuangan BUMDes (Berapa total Kas, total Aset, dan Modal).', style: 'listItem' }
+          ]
+        },
+        { text: '', pageBreak: 'after' },
+
+        // BAB 7
+        { text: 'BAB 7 - PENGATURAN & STRUKTUR', style: 'h1', tocItem: true },
+        { text: '1. Mengelola Akun Pengurus', style: 'h2' },
+        {
+          ol: [
+            { text: 'Menu Pengaturan hanya bisa diakses oleh jabatan Admin dan Direktur.', style: 'listItem' },
+            { text: 'Di sini, Anda bisa membuatkan akun (email & password) baru jika ada pergantian pengurus BUMDes.', style: 'listItem' }
+          ]
+        },
+        { text: '2. Mencetak Laporan (Export PDF/Excel)', style: 'h2' },
+        { text: 'Setiap akhir bulan, BUMDes wajib melapor ke Kepala Desa. Caranya sangat mudah:', style: 'paragraph' },
+        {
+          ol: [
+            { text: 'Buka menu Laporan Transaksi atau Akuntansi.', style: 'listItem' },
+            { text: 'Atur filter tanggal (Misal: 1 Agustus - 31 Agustus).', style: 'listItem' },
+            { text: 'Klik tombol "Export PDF" atau "Export Excel".', style: 'listItem' },
+            { text: 'Laporan resmi lengkap dengan KOP Surat BUMDes akan otomatis terunduh dan siap di-print.', style: 'listItem' }
+          ]
+        },
+        { text: '', pageBreak: 'after' },
+
+        // GLOSARIUM & FAQ
+        { text: 'GLOSARIUM (Kamus Istilah Singkat)', style: 'h1', tocItem: true },
         {
           ul: [
-            { text: 'Ringkasan Utama (Cards): Menampilkan total pemasukan, laba bersih, dan metrik penting lainnya dalam bulan berjalan secara instan tanpa perlu menghitung manual.', style: 'listItem' },
-            { text: 'Grafik Interaktif: Menampilkan tren penjualan dan laba dari hari ke hari dalam bentuk grafik garis dan batang yang mudah dipahami.', style: 'listItem' },
-            { text: 'Status Piutang: Menampilkan peringatan / tabel pelanggan yang memiliki tunggakan cicilan/kasbon yang belum lunas.', style: 'listItem' },
+            { text: 'HPP (Harga Pokok Penjualan): Harga modal awal dari barang yang sudah laku terjual.', style: 'listItem' },
+            { text: 'Laba Kotor: Keuntungan dari penjualan (Harga Jual - Harga Beli/HPP), tapi belum dikurangi biaya operasional.', style: 'listItem' },
+            { text: 'Laba Bersih: Keuntungan murni setelah dipotong semua biaya operasional (listrik, gaji, dll).', style: 'listItem' },
+            { text: 'Kasbon / Piutang: Uang yang dipinjam oleh warga, atau barang yang diambil warga tapi belum dibayar lunas.', style: 'listItem' },
+            { text: 'Jurnal Umum: Buku catatan akuntansi yang mencatat setiap kejadian keuangan menjadi dua sisi (Debit dan Kredit) agar seimbang.', style: 'listItem' }
           ]
         },
 
-        // BAB 3: KASIR
-        { text: '3. MODUL KASIR (POINT OF SALE)', style: 'h1', tocItem: true, margin: [0, 15, 0, 10] as [number, number, number, number] },
-        { text: 'Digunakan oleh Karyawan/Kasir untuk melayani transaksi pembeli.', style: 'paragraph' },
+        { text: 'TANYA JAWAB (FAQ)', style: 'h1', tocItem: true, margin: [0, 20, 0, 10] as [number, number, number, number] },
         {
           ul: [
-            { text: 'Pencarian & Barcode: Klik pada kotak pencarian dan scan barcode barang menggunakan alat scanner, atau ketikkan nama barang secara manual.', style: 'listItem' },
-            { text: 'Produk Custom (Jasa/Biaya Lain): Jika ada layanan yang tidak memiliki stok (misal: Jasa Fotokopi), gunakan tombol "Produk Custom" (ikon kuning), lalu isi nama dan nominal tarif.', style: 'listItem' },
-            { text: 'Pembayaran: Tersedia pilihan Tunai, QRIS, dan Transfer Bank. Khusus untuk tunai, sistem akan otomatis menghitung kembalian ketika uang pelanggan diinput.', style: 'listItem' },
-            { text: 'Cetak Struk & Riwayat: Setelah pembayaran selesai, struk thermal dapat dicetak. Jika ingin mencetak ulang struk lama, buka tab "Riwayat Transaksi" di halaman Kasir.', style: 'listItem' },
+            { text: 'T: Apakah data aman jika laptop rusak?\nJ: Sangat aman! Sistem ini berbasis digital (Cloud). Anda cukup meminjam laptop atau HP lain, buka website-nya, login, dan semua data Anda masih utuh.', style: 'listItem' },
+            { text: 'T: Bagaimana jika ada barang yang sama tapi harganya beda?\nJ: Anda bisa mengubah Harga Jual langsung saat berada di menu Kasir sebelum menekan tombol Bayar, atau perbarui data barang di menu Stok.', style: 'listItem' }
           ]
         },
+
+        { text: 'BANTUAN TEKNIS', style: 'h1', tocItem: true, margin: [0, 20, 0, 10] as [number, number, number, number] },
         { 
-          text: 'PENTING: Penjualan di kasir akan otomatis memotong stok barang, menambah kas, dan membuat jurnal akuntansi Harga Pokok Penjualan (HPP) secara mandiri di belakang layar.',
-          style: 'alertBox', margin: [0, 5, 0, 10] as [number, number, number, number]
-        },
-
-        // BAB 4: STOK BARANG
-        { text: '4. MODUL STOK BARANG & INVENTARIS', style: 'h1', tocItem: true, margin: [0, 15, 0, 10] as [number, number, number, number] },
-        {
-          ul: [
-            { text: 'Manajemen Data Barang: Tambah, edit, atau hapus data barang dagangan. Masukkan Harga Beli (untuk HPP) dan Harga Jual (untuk Kasir).', style: 'listItem' },
-            { text: 'Peringatan Stok Tipis: Barang yang stoknya menipis (kurang dari batas minimum) akan ditandai dengan warna merah.', style: 'listItem' },
-            { text: 'Kartu Stok (Riwayat Barang): Klik tombol Detail pada suatu barang untuk melihat sejarah darimana stok bertambah (Pembelian) dan kemana stok berkurang (Penjualan Kasir).', style: 'listItem' },
-            { text: 'Inventaris & Arsip: Menu ini (terpisah dari stok dagangan) digunakan untuk mencatat Aset Tetap Desa (seperti Mesin Printer, Etalase Kaca, dll) dan menyimpan dokumen-dokumen penting BUMDes.', style: 'listItem' },
-          ]
-        },
-
-        // BAB 5: HUTANG & PIUTANG
-        { text: '5. MODUL HUTANG & PIUTANG (KASBON)', style: 'h1', tocItem: true, margin: [0, 15, 0, 10] as [number, number, number, number] },
-        {
-          ul: [
-            { text: 'Mencatat Hutang: Jika BUMDes membeli stok barang dagangan ke Supplier dengan cara berhutang, catatlah pada menu Hutang.', style: 'listItem' },
-            { text: 'Mencatat Piutang: Jika warga/pembeli melakukan bon/kasbon di toko BUMDes, catatlah pada menu Piutang.', style: 'listItem' },
-            { text: 'Pembayaran Cicilan: Pengurus bisa meng-klik tombol "Bayar/Cicil" pada data hutang/piutang yang bersangkutan. Setiap cicilan yang masuk akan otomatis memperbarui saldo di Buku Kas!', style: 'listItem' },
-          ]
-        },
-
-        // BAB 6: BUKU KAS & AKUNTANSI
-        { text: '6. MODUL BUKU KAS & AKUNTANSI OTOMATIS', style: 'h1', tocItem: true, margin: [0, 15, 0, 10] as [number, number, number, number] },
-        { text: 'Jantung utama transparansi keuangan BUMDes.', style: 'paragraph' },
-        {
-          ul: [
-            { text: 'Buku Kas Harian: Catat semua pengeluaran operasional BUMDes secara manual (seperti uang kebersihan, beli ATK, bayar listrik). Arus masuk dari Penjualan Kasir sudah otomatis tercatat di sini.', style: 'listItem' },
-            { text: 'Jurnal Umum (Otomatis): BUMDes Digital menggunakan sistem Double-Entry. Setiap transaksi apapun (Penjualan, Pengeluaran, Hutang) sudah dirubah menjadi ayat jurnal debit-kredit secara otomatis.', style: 'listItem' },
-            { text: 'Laporan Laba Rugi: Pantau pendapatan kotor, Harga Pokok Penjualan (HPP), dan biaya operasional untuk melihat Laba Bersih secara real-time.', style: 'listItem' },
-            { text: 'Laporan Neraca (Posisi Keuangan): Lihat keseimbangan antara Aset BUMDes dengan Kewajiban (Hutang) dan Modal yang dimiliki.', style: 'listItem' },
-          ]
-        },
-
-        // BAB 7: PENGATURAN
-        { text: '7. LAPORAN, PENGATURAN & STRUKTUR', style: 'h1', tocItem: true, margin: [0, 15, 0, 10] as [number, number, number, number] },
-        {
-          ul: [
-            { text: 'Struktur Organisasi (SOP): Menampilkan bagan rantai komando dari Musyawarah Desa (Musdes), Penasihat, hingga Staff BUMDes. Berfungsi sebagai pedoman pertanggungjawaban.', style: 'listItem' },
-            { text: 'Pengaturan Akun Pengurus: Direktur atau Admin dapat membuatkan akun sistem untuk pengurus baru, serta mengubah password jika diperlukan.', style: 'listItem' },
-            { text: 'Export PDF & Excel: Seluruh data (Transaksi, Buku Kas, Jurnal, Laba Rugi) memiliki tombol Export. Laporan akan terunduh dalam format Excel atau PDF yang resmi dan sudah dilengkapi dengan KOP Surat BUMDes.', style: 'listItem' },
-          ]
-        },
-
-        { text: '\n\n\n\n' },
-        { text: '--- Selamat Mengoperasikan Sistem Digital BUMDes ---', style: 'closing', alignment: 'center' }
+          text: 'Jika Anda menemukan kendala, *error*, atau kesulitan dalam menggunakan aplikasi, silakan hubungi:\n\nTim IT / Administrator\nEmail: admin@bumdespulodarat.id\nNo. Telp / WA: 0812-XXXX-XXXX',
+          style: 'paragraph'
+        }
       ],
       styles: {
-        coverTitle: { fontSize: 28, bold: true, alignment: 'center', color: '#1E293B' },
-        coverSubtitle: { fontSize: 16, italics: true, alignment: 'center', color: '#64748B' },
-        coverMain: { fontSize: 24, bold: true, alignment: 'center', color: '#0F766E' },
-        coverAuthor: { fontSize: 14, bold: true, color: '#334155', lineHeight: 1.5 },
-        h1: { fontSize: 16, bold: true, color: '#0F766E', decoration: 'underline', margin: [0, 10, 0, 5] },
+        coverTitle: { fontSize: 32, bold: true, alignment: 'center', color: '#1E293B', font: 'Roboto' },
+        coverSubtitle: { fontSize: 18, italics: true, alignment: 'center', color: '#4F46E5', margin: [0, 0, 0, 10] },
+        coverEntity: { fontSize: 20, bold: true, alignment: 'center', color: '#0F766E' },
+        coverAddress: { fontSize: 12, alignment: 'center', color: '#64748B', margin: [0, 5, 0, 0] },
+        coverYear: { fontSize: 14, bold: true, color: '#334155' },
+        logoPlaceholder: { fontSize: 16, bold: true, alignment: 'center', color: '#CBD5E1', fillColor: '#F8FAFC', padding: 20, border: [true, true, true, true] },
+        
+        h1: { fontSize: 18, bold: true, color: '#4F46E5', margin: [0, 15, 0, 10] },
+        h2: { fontSize: 14, bold: true, color: '#334155', margin: [0, 10, 0, 8] },
+        
         paragraph: { fontSize: 11, color: '#334155', lineHeight: 1.5, margin: [0, 0, 0, 10] },
         listItem: { fontSize: 11, color: '#334155', lineHeight: 1.5, margin: [0, 0, 0, 6] },
-        alertBox: { fontSize: 11, bold: true, color: '#991B1B', background: '#FEE2E2', margin: [0, 5, 0, 5] },
-        closing: { fontSize: 12, italics: true, color: '#64748B', bold: true },
-        headerLeft: { fontSize: 9, color: '#94A3B8', bold: true },
-        headerRight: { fontSize: 9, color: '#94A3B8', alignment: 'right' },
-        footerLeft: { fontSize: 9, color: '#94A3B8' },
-        footerRight: { fontSize: 9, color: '#94A3B8', alignment: 'right' }
+        
+        tableHeader: { fontSize: 11, bold: true, fillColor: '#EEF2FF', color: '#4F46E5', margin: [5, 5, 5, 5] },
+        tableCell: { fontSize: 10, color: '#475569', margin: [5, 5, 5, 5] },
+        
+        noteTitle: { fontSize: 11, bold: true, color: '#B45309', margin: [0, 10, 0, 2] },
+        noteBox: { fontSize: 11, color: '#92400E', background: '#FEF3C7', margin: [0, 0, 0, 15] },
+        
+        screenshotPlaceholder: { fontSize: 10, italics: true, alignment: 'center', color: '#94A3B8', background: '#F1F5F9', margin: [0, 10, 0, 15] },
+        
+        headerLeft: { fontSize: 9, color: '#4F46E5', bold: true },
+        headerRight: { fontSize: 9, color: '#64748B', alignment: 'right' },
+        footerLeft: { fontSize: 9, color: '#64748B' },
+        footerRight: { fontSize: 9, color: '#64748B', alignment: 'right' }
       },
       defaultStyle: { font: 'Roboto' }
     };
