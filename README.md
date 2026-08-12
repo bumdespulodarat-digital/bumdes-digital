@@ -76,6 +76,10 @@ Terintegrasi secara penuh dengan **Chart of Accounts (COA) 5-Level** standar BUM
   - Karyawan: `karyawan.bumdespulodarat@gmail.com`
   - Pengawas: `pengawas.bumdespulodarat@gmail.com`
 
+### 📖 9. Buku Panduan (SOP) Digital
+- **Built-in FAQ:** Jawaban untuk pertanyaan umum (troubleshooting dasar) tersedia langsung di dalam aplikasi.
+- **Buku Panduan PDF:** Unduh otomatis *SOP (Standard Operating Procedure)* menjadi dokumen PDF yang profesional, lengkap, dan siap cetak untuk panduan pengurus BUMDes.
+
 ## 🛠️ Stack Teknologi (Tech Stack)
 Aplikasi ini dibangun menggunakan arsitektur modern untuk menjamin kecepatan, keamanan, dan keandalan data:
 - **Frontend Layer:** React (Vite) dengan strict TypeScript.

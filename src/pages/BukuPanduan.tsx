@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BookOpen, Download, ChevronDown, HelpCircle, Lightbulb, PlayCircle, ShieldQuestion } from 'lucide-react';
+import { BookOpen, Download, ChevronDown, HelpCircle, Lightbulb, ShieldQuestion } from 'lucide-react';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
@@ -480,15 +480,7 @@ export default function BukuPanduan() {
             </p>
           </div>
 
-          <div className="card rounded-3xl shadow-sm p-6 border border-slate-200 dark:border-slate-800">
-            <h3 className="text-slate-800 dark:text-slate-100 font-black flex items-center gap-2 mb-4">
-              <PlayCircle size={20} className="text-primary-600" /> Video Tutorial
-            </h3>
-            <div className="aspect-video bg-slate-100 dark:bg-slate-800 rounded-2xl flex flex-col items-center justify-center text-slate-400 border-2 border-dashed border-slate-300 dark:border-slate-700 group hover:border-primary-400 hover:text-primary-500 transition-all cursor-pointer">
-              <PlayCircle size={40} className="mb-2 group-hover:scale-110 transition-transform" />
-              <span className="text-xs font-bold">Tonton Video (Segera)</span>
-            </div>
-          </div>
+
           
           <div className="card rounded-3xl shadow-sm p-6 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
             <h3 className="text-slate-800 dark:text-slate-100 font-black flex items-center gap-2 mb-2">
