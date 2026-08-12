@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { DollarSign, TrendingUp, Package, ShoppingCart, Building2, Store } from 'lucide-react';
+import { DollarSign, TrendingUp, Package, ShoppingCart, Store } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import {
   Chart as ChartJS,
