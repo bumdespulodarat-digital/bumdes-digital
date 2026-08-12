@@ -45,14 +45,14 @@ export default function BukuPanduan() {
         alignment: 'right'
       },
       content: [
-        { text: 'BUKU PANDUAN PENGGUNA', style: 'header', alignment: 'center', margin: [0, 0, 0, 5] },
-        { text: 'Sistem Informasi Digital BUMDes', style: 'subheader', alignment: 'center', margin: [0, 0, 0, 40] },
+        { text: 'BUKU PANDUAN PENGGUNA', style: 'header', alignment: 'center', margin: [0, 0, 0, 5] as [number, number, number, number] },
+        { text: 'Sistem Informasi Digital BUMDes', style: 'subheader', alignment: 'center', margin: [0, 0, 0, 40] as [number, number, number, number] },
         
-        { text: 'Daftar Pertanyaan Umum (FAQ) & Panduan Singkat', style: 'sectionHeader', margin: [0, 0, 0, 20] },
+        { text: 'Daftar Pertanyaan Umum (FAQ) & Panduan Singkat', style: 'sectionHeader', margin: [0, 0, 0, 20] as [number, number, number, number] },
         
-        ...faqs.map((faq, index) => ([
-          { text: `${index + 1}. ${faq.q}`, style: 'question', margin: [0, 10, 0, 5] },
-          { text: faq.a, style: 'answer', margin: [15, 0, 0, 20] }
+        ...faqs.flatMap((faq, index) => ([
+          { text: `${index + 1}. ${faq.q}`, style: 'question', margin: [0, 10, 0, 5] as [number, number, number, number] },
+          { text: faq.a, style: 'answer', margin: [15, 0, 0, 20] as [number, number, number, number] }
         ]))
       ],
       styles: {
