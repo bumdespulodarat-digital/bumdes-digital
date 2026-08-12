@@ -439,7 +439,7 @@ export default function BukuPanduan() {
               <ShieldQuestion size={20} className="text-primary-600" /> Pertanyaan yang Sering Diajukan (FAQ)
             </h2>
           </div>
-          <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-3">
+          <div className="flex-1 lg:overflow-y-auto p-4 md:p-6 space-y-3">
             {faqs.map((faq, index) => (
               <div 
                 key={index} 
