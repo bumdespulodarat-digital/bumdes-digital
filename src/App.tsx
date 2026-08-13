@@ -15,6 +15,7 @@ import LaporanTransaksi from './pages/LaporanTransaksi';
 import StrukturOrganisasi from './pages/StrukturOrganisasi';
 import BukuKas from './pages/BukuKas';
 import BukuPanduan from './pages/BukuPanduan';
+import Profil from './pages/Profil';
 import PublicDashboard from './pages/PublicDashboard';
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
               <Route path="struktur-organisasi" element={<StrukturOrganisasi />} />
               <Route path="buku-kas" element={<BukuKas />} />
               <Route path="panduan" element={<BukuPanduan />} />
+              <Route path="profil" element={<Profil />} />
             </Route>
           </Routes>
         </BrowserRouter>

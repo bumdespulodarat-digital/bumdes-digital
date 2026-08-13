@@ -1,5 +1,5 @@
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, ShoppingCart, Package, FileText, Settings, Store, LogOut, Menu, X, Moon, Sun, ChevronLeft, ChevronRight, KeyRound, BarChart3, Archive, Users, BookOpen, HelpCircle } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, Package, FileText, Settings, Store, LogOut, Menu, X, Moon, Sun, ChevronLeft, ChevronRight, KeyRound, BarChart3, Archive, Users, BookOpen, HelpCircle, User } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useEffect, useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
@@ -11,7 +11,7 @@ export default function MainLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const { isDark, toggleTheme } = useTheme();
-  const { userName: authUserName, canAccess, isLoading } = useAuth();
+  const { userName: authUserName, canAccess, isLoading, photoUrl } = useAuth();
   const [storeInfo, setStoreInfo] = useState({ name: 'BUMDes Digital', address: 'Pulodarat, Jepara' });
   const [userName, setUserName] = useState('Admin');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -252,9 +252,13 @@ export default function MainLayout() {
                 className="flex items-center gap-2 sm:gap-3 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl px-2 py-1.5 trans-all"
               >
                 <span className="text-sm font-bold text-slate-700 dark:text-slate-300 hidden sm:block">{userName}</span>
-                <div className="w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 flex items-center justify-center font-black text-sm border-2 border-white dark:border-slate-800 shadow-md uppercase">
-                  {userName.charAt(0)}
-                </div>
+                {photoUrl ? (
+                  <img src={photoUrl} alt="Profile" className="w-10 h-10 rounded-full border-2 border-white dark:border-slate-800 shadow-md object-cover" />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 flex items-center justify-center font-black text-sm border-2 border-white dark:border-slate-800 shadow-md uppercase">
+                    {userName.charAt(0)}
+                  </div>
+                )}
               </button>
 
               {/* Profile Dropdown */}
@@ -264,6 +268,16 @@ export default function MainLayout() {
                     <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{userName}</p>
                     <p className="text-xs text-slate-500 dark:text-slate-400">Sedang login</p>
                   </div>
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                      navigate('/admin/profil');
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 trans-all"
+                  >
+                    <User size={16} className="text-primary-600" />
+                    Profil Saya
+                  </button>
                   <button
                     onClick={() => {
                       setShowProfileMenu(false);

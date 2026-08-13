@@ -10,6 +10,7 @@ interface AuthContextType {
   userEmail: string;
   userName: string;
   userRole: UserRole;
+  photoUrl: string;
   isLoading: boolean;
   hasFullAccess: boolean;
   isKaryawan: boolean;
@@ -21,6 +22,7 @@ const AuthContext = createContext<AuthContextType>({
   userEmail: '',
   userName: 'Admin',
   userRole: 'Admin',
+  photoUrl: '',
   isLoading: true,
   hasFullAccess: true,
   isKaryawan: false,
@@ -36,6 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('Admin');
   const [userRole, setUserRole] = useState<UserRole>('Admin');
+  const [photoUrl, setPhotoUrl] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -49,13 +52,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           // Look up in bumdes_users
           const { data: userData } = await supabase
             .from('bumdes_users')
-            .select('name, role')
+            .select('name, role, photo_url')
             .eq('email', email)
             .maybeSingle();
 
           if (userData) {
             setUserName(userData.name);
             setUserRole(userData.role as UserRole);
+            setPhotoUrl(userData.photo_url || '');
           } else {
             const namePart = email.split('@')[0];
             setUserName(namePart.charAt(0).toUpperCase() + namePart.slice(1));
@@ -89,7 +93,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ userEmail, userName, userRole, isLoading, hasFullAccess, isKaryawan, isPengawas, canAccess }}>
+    <AuthContext.Provider value={{ userEmail, userName, userRole, photoUrl, isLoading, hasFullAccess, isKaryawan, isPengawas, canAccess }}>
       {children}
     </AuthContext.Provider>
   );

@@ -260,6 +260,7 @@ export const createMockSupabaseClient = () => {
       getUser: vi.fn().mockResolvedValue({ data: { user: { email: 'admin@bumdes.com' } }, error: null }),
       signOut: vi.fn().mockResolvedValue({ error: null }),
       updateUser: vi.fn().mockResolvedValue({ data: { user: { email: 'admin@bumdes.com' } }, error: null }),
+      onAuthStateChange: vi.fn().mockReturnValue({ data: { subscription: { unsubscribe: vi.fn() } } }),
       admin: {
         listUsers: vi.fn().mockResolvedValue({ data: { users: [{ id: 'auth-1', email: 'admin@bumdes.com' }] }, error: null }),
         deleteUser: vi.fn().mockResolvedValue({ data: {}, error: null }),
@@ -267,5 +268,11 @@ export const createMockSupabaseClient = () => {
         updateUserById: vi.fn().mockResolvedValue({ data: { user: { id: 'auth-1' } }, error: null }),
       }
     },
+    storage: {
+      from: vi.fn(() => ({
+        upload: vi.fn().mockResolvedValue({ data: { path: 'test.jpg' }, error: null }),
+        getPublicUrl: vi.fn().mockReturnValue({ data: { publicUrl: 'https://mock.supabase.co/storage/v1/object/public/avatars/test.jpg' } })
+      }))
+    }
   };
 };
