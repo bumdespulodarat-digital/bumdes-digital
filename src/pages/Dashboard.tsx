@@ -94,8 +94,9 @@ export default function Dashboard() {
       setMonthlyExpense(expByMonth);
 
       // Revenue by source
-      const srcLabels = Object.keys(sourceMap);
-      const srcData = Object.values(sourceMap);
+      const filteredSources = Object.entries(sourceMap).filter(([, val]) => val > 0);
+      const srcLabels = filteredSources.map(([key]) => key);
+      const srcData = filteredSources.map(([, val]) => val);
       setRevenueBySource({ labels: srcLabels, data: srcData });
 
       // Stok & transaksi count
