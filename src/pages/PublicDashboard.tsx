@@ -31,6 +31,7 @@ export default function PublicDashboard() {
   });
   const [loading, setLoading] = useState(true);
   const [storeName, setStoreName] = useState('BUMDes Noto Mulyo');
+  const [lastUpdate, setLastUpdate] = useState('');
 
   // Chart Data
   const [monthlyRevenue, setMonthlyRevenue] = useState<number[]>(new Array(12).fill(0));
@@ -110,6 +111,10 @@ export default function PublicDashboard() {
         transaksiCount: transaksiCount || 0,
         asetTetap: totalAset
       });
+
+      const now = new Date();
+      setLastUpdate(`Terakhir diperbarui: Hari ini, pukul ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} WIB`);
+      
       setLoading(false);
     };
 
@@ -209,7 +214,19 @@ export default function PublicDashboard() {
       <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-primary-500/20 dark:bg-primary-500/10 rounded-full blur-[100px] -z-10"></div>
       <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-emerald-500/20 dark:bg-emerald-500/10 rounded-full blur-[120px] -z-10"></div>
 
-      <div className="max-w-7xl mx-auto space-y-4 md:space-y-6 relative z-10">
+      <div className="max-w-7xl mx-auto space-y-6 md:space-y-8 relative z-10">
+        
+        {/* Hero Section */}
+        <div className="bg-gradient-to-r from-primary-900 to-primary-700 rounded-[2rem] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden group border border-primary-600/30">
+          <div className="relative z-10 max-w-3xl">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 leading-tight text-white drop-shadow-md animate-fade-in-up">Selamat Datang di Portal Resmi <br className="hidden md:block" /> BUMDes Noto Mulyo</h1>
+            <p className="text-primary-100 text-base md:text-xl font-medium leading-relaxed max-w-2xl animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+              Mewujudkan desa mandiri, inovatif, dan sejahtera melalui pengelolaan unit usaha profesional yang berfokus pada pelayanan dan pemberdayaan ekonomi masyarakat Desa Pulodarat.
+            </p>
+          </div>
+          <div className="absolute right-[-10%] top-[-20%] w-96 h-96 bg-white opacity-[0.07] rounded-full blur-3xl group-hover:scale-110 trans-all duration-1000"></div>
+          <div className="absolute left-[40%] bottom-[-50%] w-64 h-64 bg-primary-400 opacity-[0.15] rounded-full blur-2xl"></div>
+        </div>
         
         {/* Header Widget */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/80 dark:border-slate-800/80 p-4 md:p-6 rounded-2xl md:rounded-[2rem] shadow-sm">
@@ -219,7 +236,7 @@ export default function PublicDashboard() {
             </div>
             <div>
               <h1 className="text-xl md:text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">Statistik {storeName}</h1>
-              <p className="text-sm md:text-base font-bold text-slate-500 dark:text-slate-400">Pembaruan Data Otomatis (Real-time)</p>
+              <p className="text-sm md:text-base font-bold text-slate-500 dark:text-slate-400">{lastUpdate || 'Pembaruan Data Otomatis (Real-time)'}</p>
             </div>
           </div>
           <div className="flex items-center gap-3 w-full sm:w-auto bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-700/80 px-4 py-2.5 rounded-xl shadow-sm justify-between sm:justify-start">
@@ -298,6 +315,69 @@ export default function PublicDashboard() {
             </div>
           </div>
         </div>
+
+        {/* Unit Usaha Profile */}
+        <div className="pt-8 md:pt-12">
+          <div className="text-center mb-10 md:mb-12">
+            <h2 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">Unit Usaha BUMDes</h2>
+            <p className="text-slate-500 dark:text-slate-400 mt-3 font-medium text-sm md:text-base">Mendukung perekonomian lokal melalui berbagai layanan unggulan</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {/* ATK */}
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10 hover:border-blue-500/30 trans-all duration-300">
+              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+                <ShoppingCart size={32} />
+              </div>
+              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-3">Toko Alat Tulis Kantor (ATK)</h3>
+              <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-sm">Menyediakan berbagai macam kebutuhan alat tulis kantor, perlengkapan sekolah, dan jasa fotokopi berkualitas dengan harga terjangkau untuk warga desa.</p>
+            </div>
+            
+            {/* Pengasapan Lele */}
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 hover:border-orange-500/30 trans-all duration-300">
+              <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+                <Package size={32} />
+              </div>
+              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-3">Pengasapan Lele</h3>
+              <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-sm">Pusat produksi dan distribusi lele asap premium yang diolah secara higienis, berupaya memberdayakan peternak ikan lokal Desa Pulodarat secara berkelanjutan.</p>
+            </div>
+            
+            {/* Pengelolaan Parkir */}
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/10 hover:border-emerald-500/30 trans-all duration-300">
+              <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
+              </div>
+              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-3">Pengelolaan Parkir</h3>
+              <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-sm">Menyediakan layanan tata kelola lahan parkir yang aman, tertib, dan terpadu di kawasan pusat keramaian dan pasar demi kenyamanan warga desa.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <footer className="mt-16 pt-10 pb-8 border-t border-slate-200/80 dark:border-slate-800/80">
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
+            <div className="flex items-center gap-4 text-center md:text-left">
+              <div className="w-12 h-12 bg-primary-600 rounded-xl flex items-center justify-center text-white shadow-lg shrink-0 mx-auto md:mx-0">
+                <Store size={24} />
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-800 dark:text-slate-100 text-lg">{storeName}</h4>
+                <p className="text-sm text-slate-500 font-medium mt-1">Sistem Informasi Digital & Keuangan Enterprise</p>
+              </div>
+            </div>
+            
+            <div className="text-center md:text-right text-slate-500 text-sm font-medium space-y-1">
+              <p>Kantor: Balai Desa Pulodarat RT 01 / RW 01</p>
+              <p>Kecamatan Pecangaan, Kabupaten Jepara</p>
+              <p className="text-primary-600 dark:text-primary-400 pt-1">Email: admin@bumdespulodarat.id</p>
+            </div>
+          </div>
+          
+          <div className="mt-10 pt-6 border-t border-slate-200/50 dark:border-slate-800/50 text-center text-slate-400 text-xs md:text-sm font-medium flex flex-col sm:flex-row justify-center items-center gap-2">
+            <span>&copy; {new Date().getFullYear()} {storeName}. Hak Cipta Dilindungi.</span>
+            <span className="hidden sm:inline">&bull;</span>
+            <span>Program Kerja KKN Tematik Angkatan XXI</span>
+          </div>
+        </footer>
 
       </div>
     </div>
