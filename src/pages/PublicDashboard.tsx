@@ -196,43 +196,59 @@ export default function PublicDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-6 lg:p-8 font-sans">
-      <div className="max-w-7xl mx-auto space-y-4 md:space-y-6">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-6 lg:p-8 font-sans relative overflow-hidden z-0">
+      
+      {/* Ambient Background Orbs */}
+      <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-primary-500/20 dark:bg-primary-500/10 rounded-full blur-[100px] -z-10"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-emerald-500/20 dark:bg-emerald-500/10 rounded-full blur-[120px] -z-10"></div>
+
+      <div className="max-w-7xl mx-auto space-y-4 md:space-y-6 relative z-10">
         
         {/* Header Widget */}
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl flex items-center justify-center text-white shadow-lg">
-              <Store size={24} />
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/80 dark:border-slate-800/80 p-4 md:p-6 rounded-2xl md:rounded-[2rem] shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary-900/20 transform -rotate-2">
+              <Store size={28} className="rotate-2" />
             </div>
             <div>
-              <h1 className="text-xl md:text-2xl font-black text-slate-800 dark:text-slate-100">Statistik {storeName}</h1>
-              <p className="text-sm font-bold text-slate-500 dark:text-slate-400">Pembaruan Data Otomatis (Real-time)</p>
+              <h1 className="text-xl md:text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">Statistik {storeName}</h1>
+              <p className="text-sm md:text-base font-bold text-slate-500 dark:text-slate-400">Pembaruan Data Otomatis (Real-time)</p>
             </div>
           </div>
-          <div className="hidden sm:flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 rounded-xl shadow-sm">
-            <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></div>
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-300 mr-2">Live Terhubung</span>
-            <Link to="/login" className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 hover:bg-primary-100 dark:bg-primary-900/30 dark:hover:bg-primary-900/50 text-primary-700 dark:text-primary-300 rounded-lg text-xs font-bold transition-all border border-primary-200 dark:border-primary-800">
-              <Lock size={12} /> Login Admin
+          <div className="flex items-center gap-3 w-full sm:w-auto bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-700/80 px-4 py-2.5 rounded-xl shadow-sm justify-between sm:justify-start">
+            <div className="flex items-center gap-2">
+              <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+              <span className="text-xs md:text-sm font-bold text-slate-600 dark:text-slate-300 sm:mr-2">Live Terhubung</span>
+            </div>
+            <Link to="/login" className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white rounded-lg text-xs md:text-sm font-bold transition-all shadow-md shadow-primary-900/20 hover:shadow-lg hover:-translate-y-0.5">
+              <Lock size={14} /> Login Admin
             </Link>
           </div>
         </div>
 
         {/* Grid Statistik */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5">
           {statCards.map((stat, i) => (
-            <div key={i} className={`bg-gradient-to-br ${stat.gradient} rounded-2xl md:rounded-3xl p-4 md:p-6 text-white shadow-lg hover:shadow-xl trans-all relative overflow-hidden group`}>
-              <div className="flex flex-col relative z-10">
-                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl ${stat.iconBg} flex items-center justify-center mb-3 md:mb-4 group-hover:scale-110 trans-all`}>
-                  {stat.icon}
+            <div key={i} className={`bg-gradient-to-br ${stat.gradient} rounded-2xl md:rounded-[2rem] p-5 md:p-6 text-white shadow-xl shadow-${stat.gradient.split('-')[1]}-900/20 hover:shadow-2xl hover:-translate-y-1 trans-all relative overflow-hidden group border border-white/10`}>
+              <div className="flex flex-col relative z-10 h-full justify-between">
+                <div className="flex justify-between items-start mb-4">
+                  <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${stat.iconBg} flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 trans-all backdrop-blur-md border border-white/20`}>
+                    {stat.icon}
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                    <TrendingUp size={14} className="text-white" />
+                  </div>
                 </div>
-                <p className="text-white/70 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-0.5 md:mb-1">{stat.title}</p>
-                <h3 className="text-lg md:text-2xl font-black tracking-tight truncate">
-                  {loading ? '...' : stat.value}
-                </h3>
+                <div>
+                  <p className="text-white/80 text-xs font-bold uppercase tracking-widest mb-1">{stat.title}</p>
+                  <h3 className="text-2xl md:text-3xl font-black tracking-tight truncate drop-shadow-sm">
+                    {loading ? '...' : stat.value}
+                  </h3>
+                </div>
               </div>
-              <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-white opacity-10 rounded-full group-hover:scale-150 trans-all duration-500"></div>
+              {/* Decorative Background Elements */}
+              <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-white opacity-10 rounded-full group-hover:scale-150 trans-all duration-700 blur-2xl"></div>
+              <div className="absolute -left-8 -top-8 w-24 h-24 bg-white opacity-10 rounded-full blur-xl"></div>
             </div>
           ))}
         </div>
@@ -240,16 +256,19 @@ export default function PublicDashboard() {
         {/* Charts Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
           {/* Bar Chart */}
-          <div className="lg:col-span-2 bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm border border-slate-200 dark:border-slate-800">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-2">
+          <div className="lg:col-span-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl md:rounded-[2rem] p-5 md:p-7 shadow-lg shadow-slate-200/50 dark:shadow-none border border-white dark:border-slate-800">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-8 gap-2">
               <div>
-                <h3 className="font-extrabold text-slate-800 dark:text-slate-100 text-base md:text-lg">Pendapatan vs Pengeluaran</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Tahun {new Date().getFullYear()}</p>
+                <h3 className="font-black text-slate-800 dark:text-slate-100 text-lg md:text-xl tracking-tight">Pendapatan vs Pengeluaran</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">Tahun {new Date().getFullYear()}</p>
               </div>
             </div>
-            <div className="h-[250px] md:h-[320px]">
+            <div className="h-[280px] md:h-[350px]">
               {loading ? (
-                <div className="w-full h-full flex items-center justify-center text-slate-400 font-bold">Memuat Grafik...</div>
+                <div className="w-full h-full flex flex-col gap-3 items-center justify-center text-slate-400 font-bold">
+                  <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                  Memuat Grafik...
+                </div>
               ) : (
                 <Bar data={barChartData} options={barChartOptions} />
               )}
@@ -257,12 +276,15 @@ export default function PublicDashboard() {
           </div>
 
           {/* Doughnut Chart */}
-          <div className="bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm border border-slate-200 dark:border-slate-800">
-            <h3 className="font-extrabold text-slate-800 dark:text-slate-100 text-base md:text-lg mb-1">Sumber Pendapatan</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-4 md:mb-6">Komposisi per unit usaha</p>
-            <div className="h-[220px] md:h-[260px]">
+          <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl md:rounded-[2rem] p-5 md:p-7 shadow-lg shadow-slate-200/50 dark:shadow-none border border-white dark:border-slate-800">
+            <h3 className="font-black text-slate-800 dark:text-slate-100 text-lg md:text-xl tracking-tight mb-1">Sumber Pendapatan</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mb-6 md:mb-8">Komposisi per unit usaha</p>
+            <div className="h-[250px] md:h-[300px]">
               {loading ? (
-                <div className="w-full h-full flex items-center justify-center text-slate-400 font-bold">Memuat Grafik...</div>
+                <div className="w-full h-full flex flex-col gap-3 items-center justify-center text-slate-400 font-bold">
+                  <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                  Memuat Grafik...
+                </div>
               ) : (
                 <Doughnut data={doughnutData} options={doughnutOptions} />
               )}
