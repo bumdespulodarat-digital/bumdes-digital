@@ -167,6 +167,7 @@ export default function MainLayout() {
             <NavLink
               key={item.path}
               to={item.path}
+              end={item.path === '/admin'}
               onClick={() => setIsMobileMenuOpen(false)}
               className={({ isActive }) =>
                 `group flex items-center rounded-xl transition-all duration-300 ${
