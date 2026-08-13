@@ -375,7 +375,7 @@ export default function PublicDashboard() {
           <div className="mt-10 pt-6 border-t border-slate-200/50 dark:border-slate-800/50 text-center text-slate-400 text-xs md:text-sm font-medium flex flex-col sm:flex-row justify-center items-center gap-2">
             <span>&copy; {new Date().getFullYear()} {storeName}. Hak Cipta Dilindungi.</span>
             <span className="hidden sm:inline">&bull;</span>
-            <span>Program Kerja KKN Tematik Angkatan XXI</span>
+            <span>Program Kerja KKN Angkatan XXI</span>
           </div>
         </footer>
 
