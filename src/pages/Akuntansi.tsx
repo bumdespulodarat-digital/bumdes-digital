@@ -863,22 +863,22 @@ export default function Akuntansi() {
             </button>
           ))}
         </div>
-        <div className="flex flex-wrap sm:flex-nowrap gap-2 w-full items-center justify-between">
-          <select value={reportPeriod} onChange={(e) => setReportPeriod(e.target.value as ReportPeriod)} className="p-2.5 border rounded-xl bg-white dark:bg-slate-800 dark:border-slate-700 text-sm font-bold text-slate-700 dark:text-slate-300">
+        <div className="flex flex-col xl:flex-row gap-3 w-full items-start xl:items-center justify-between">
+          <select value={reportPeriod} onChange={(e) => setReportPeriod(e.target.value as ReportPeriod)} className="w-full xl:w-auto p-2.5 border rounded-xl bg-white dark:bg-slate-800 dark:border-slate-700 text-sm font-bold text-slate-700 dark:text-slate-300">
             <option value="all">Semua Waktu</option>
             <option value="this_month">Bulan Ini</option>
             <option value="3_months">3 Bulan Terakhir</option>
             <option value="6_months">6 Bulan Terakhir</option>
           </select>
-          <div className="flex flex-wrap sm:flex-nowrap gap-2 flex-1 justify-end">
-            <button onClick={() => setShowIncomeModal(true)} className="flex-1 min-w-[calc(50%-0.25rem)] sm:max-w-xs flex items-center justify-center gap-1.5 md:gap-2 bg-emerald-50 text-emerald-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-emerald-200 text-xs md:text-sm"><ArrowDownCircle size={14} /> Pemasukan</button>
-            <button onClick={() => setShowExpenseModal(true)} className="flex-1 min-w-[calc(50%-0.25rem)] sm:max-w-xs flex items-center justify-center gap-1.5 md:gap-2 bg-rose-50 text-rose-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-rose-200 text-xs md:text-sm"><ArrowUpCircle size={14} /> Pengeluaran</button>
+          <div className="grid grid-cols-2 md:flex md:flex-row flex-wrap gap-2 w-full xl:w-auto xl:justify-end">
+            <button onClick={() => setShowIncomeModal(true)} className="flex items-center justify-center gap-1.5 md:gap-2 bg-emerald-50 text-emerald-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-emerald-200 text-xs md:text-sm whitespace-nowrap"><ArrowDownCircle size={14} /> Pemasukan</button>
+            <button onClick={() => setShowExpenseModal(true)} className="flex items-center justify-center gap-1.5 md:gap-2 bg-rose-50 text-rose-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-rose-200 text-xs md:text-sm whitespace-nowrap"><ArrowUpCircle size={14} /> Pengeluaran</button>
           {canManageClosing && (
-            <button onClick={() => setShowClosingModal(true)} disabled={isExporting} className="flex-1 min-w-[calc(50%-0.25rem)] sm:min-w-0 flex items-center justify-center gap-1.5 md:gap-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-indigo-200 dark:border-indigo-800 text-xs md:text-sm disabled:opacity-50">
+            <button onClick={() => setShowClosingModal(true)} disabled={isExporting} className="flex items-center justify-center gap-1.5 md:gap-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-indigo-200 dark:border-indigo-800 text-xs md:text-sm disabled:opacity-50 whitespace-nowrap">
               <BookOpen size={14} /> Tutup Buku
             </button>
           )}
-          <button onClick={handleExportAllExcel} disabled={isExporting} className="flex-1 min-w-full sm:min-w-0 flex items-center justify-center gap-1.5 md:gap-2 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-primary-200 dark:border-primary-800 text-xs md:text-sm disabled:opacity-50">
+          <button onClick={handleExportAllExcel} disabled={isExporting} className="col-span-2 md:col-span-1 flex items-center justify-center gap-1.5 md:gap-2 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-primary-200 dark:border-primary-800 text-xs md:text-sm disabled:opacity-50 whitespace-nowrap">
             {isExporting ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />} Semua Laporan (.xlsx)
           </button>
         </div>

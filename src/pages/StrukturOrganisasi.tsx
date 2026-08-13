@@ -308,12 +308,12 @@ export default function StrukturOrganisasi() {
 
       {showEditModal && (
         <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border dark:border-slate-800">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border dark:border-slate-800 max-h-[90vh] flex flex-col">
             <div className="flex justify-between items-center p-6 border-b dark:border-slate-800">
               <h3 className="text-xl font-bold dark:text-slate-100">Edit Profil Pengurus</h3>
               <button onClick={() => setShowEditModal(false)} className="text-slate-400 hover:text-slate-600 p-2 bg-slate-100 dark:bg-slate-800 rounded-xl"><X size={20} /></button>
             </div>
-            <form onSubmit={handleSaveMember} className="p-6 space-y-4">
+            <form onSubmit={handleSaveMember} className="p-6 space-y-4 overflow-y-auto flex-1">
               <div>
                 <label className="block text-xs font-bold text-slate-500 mb-1">Nama Lengkap</label>
                 <input required type="text" value={editData.name || ''} onChange={e => setEditData({...editData, name: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" />
