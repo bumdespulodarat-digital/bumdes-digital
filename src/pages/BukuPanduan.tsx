@@ -8,6 +8,7 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 
 export default function BukuPanduan() {
   const [openItem, setOpenItem] = useState<number | null>(0);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   const faqs = [
     {
@@ -32,7 +33,20 @@ export default function BukuPanduan() {
     }
   ];
 
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
+    setIsGeneratingPdf(true);
+    let logoBase64 = '';
+    try {
+      const response = await fetch('/logo-bumdes.png');
+      const blob = await response.blob();
+      logoBase64 = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(blob);
+      });
+    } catch (err) {
+      console.warn('Gagal memuat logo BUMDes', err);
+    }
     const screenshotBox = (text: string): any => ({
       table: {
         widths: ['*'],
@@ -87,7 +101,11 @@ export default function BukuPanduan() {
         {
           table: {
             widths: ['*'],
-            body: [[{ text: '📷 [ LOGO BUMDES ]', style: 'logoPlaceholder', margin: [0, 40, 0, 40], fillColor: '#F8FAFC' }]]
+            body: [[
+              logoBase64 
+                ? { image: logoBase64, width: 160, alignment: 'center', margin: [0, 40, 0, 40] }
+                : { text: '📷 [ LOGO BUMDES ]', style: 'logoPlaceholder', margin: [0, 40, 0, 40], fillColor: '#F8FAFC' }
+            ]]
           },
           layout: {
             hLineWidth: () => 1, vLineWidth: () => 1, hLineColor: () => '#E2E8F0', vLineColor: () => '#E2E8F0'
@@ -403,6 +421,7 @@ export default function BukuPanduan() {
     };
 
     pdfMake.createPdf(docDefinition).download('Buku_Panduan_Lengkap_BUMDes.pdf');
+    setIsGeneratingPdf(false);
   };
 
   const toggleItem = (index: number) => {
@@ -424,9 +443,11 @@ export default function BukuPanduan() {
           </div>
           <button 
             onClick={handleDownloadPDF}
-            className="flex items-center justify-center gap-2 bg-white text-primary-700 hover:bg-primary-50 px-6 py-3 rounded-xl font-bold transition-all shadow-lg active:scale-95 shrink-0 cursor-pointer"
+            disabled={isGeneratingPdf}
+            className="flex items-center justify-center gap-2 bg-white text-primary-700 hover:bg-primary-50 px-6 py-3 rounded-xl font-bold transition-all shadow-lg active:scale-95 shrink-0 cursor-pointer disabled:opacity-70 disabled:cursor-wait"
           >
-            <Download size={18} /> Download PDF Panduan
+            <Download size={18} className={isGeneratingPdf ? 'animate-bounce' : ''} /> 
+            {isGeneratingPdf ? 'Menyiapkan PDF...' : 'Download PDF Panduan'}
           </button>
         </div>
         <div className="absolute -right-10 -top-10 w-48 h-48 bg-white opacity-10 rounded-full blur-2xl group-hover:scale-110 trans-all duration-700"></div>
