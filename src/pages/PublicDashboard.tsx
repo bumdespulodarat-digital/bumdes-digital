@@ -15,7 +15,7 @@ import {
   Legend,
   Filler,
 } from 'chart.js';
-import { Bar, Doughnut } from 'react-chartjs-2';
+import { Bar, Doughnut, Line } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, ArcElement, Title, Tooltip, Legend, Filler);
 
@@ -127,33 +127,53 @@ export default function PublicDashboard() {
   const gridColor = isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(148, 163, 184, 0.2)';
   const textColor = isDark ? '#94a3b8' : '#64748b';
 
-  const barChartData = {
+  const areaChartData = {
     labels: BULAN,
     datasets: [
       {
         label: 'Pendapatan',
         data: monthlyRevenue,
-        backgroundColor: 'rgba(16, 185, 129, 0.7)',
+        backgroundColor: (context: any) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+          gradient.addColorStop(0, 'rgba(16, 185, 129, 0.4)');
+          gradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+          return gradient;
+        },
         borderColor: 'rgb(16, 185, 129)',
-        borderWidth: 2,
-        borderRadius: 8,
-        borderSkipped: false,
-        maxBarThickness: 40,
+        borderWidth: 3,
+        tension: 0.4,
+        fill: true,
+        pointBackgroundColor: 'rgb(16, 185, 129)',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6,
       },
       {
         label: 'Pengeluaran',
         data: monthlyExpense,
-        backgroundColor: 'rgba(244, 63, 94, 0.5)',
+        backgroundColor: (context: any) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+          gradient.addColorStop(0, 'rgba(244, 63, 94, 0.4)');
+          gradient.addColorStop(1, 'rgba(244, 63, 94, 0.0)');
+          return gradient;
+        },
         borderColor: 'rgb(244, 63, 94)',
-        borderWidth: 2,
-        borderRadius: 8,
-        borderSkipped: false,
-        maxBarThickness: 40,
+        borderWidth: 3,
+        tension: 0.4,
+        fill: true,
+        pointBackgroundColor: 'rgb(244, 63, 94)',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6,
       }
     ]
   };
 
-  const barChartOptions = {
+  const areaChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -312,7 +332,9 @@ export default function PublicDashboard() {
                   Memuat Grafik...
                 </div>
               ) : (
-                <Bar data={barChartData} options={barChartOptions} />
+                <div className="h-[350px] w-full mt-6">
+                  <Line data={areaChartData} options={areaChartOptions} />
+                </div>
               )}
             </div>
           </div>
