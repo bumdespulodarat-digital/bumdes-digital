@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Users, Phone, Mail, ChevronDown, ChevronUp, Building2 } from 'lucide-react';
+import { Users, Phone, Mail, ChevronDown, ChevronUp, Building2, X } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../contexts/AuthContext';
+import Toast from '../components/Toast';
+import type { ToastType } from '../components/Toast';
 
 interface Member {
   id: string;
@@ -10,6 +13,8 @@ interface Member {
   position: string;
   phone: string;
   photo_url: string;
+  nik?: string;
+  last_education?: string;
 }
 
 // Hierarchy levels for org chart ordering
@@ -19,9 +24,9 @@ const ROLE_ORDER: Record<string, number> = {
   'Pengawas': 3,
   'Direktur BUMDes': 4,
   'Sekretaris': 5,
-  'Bendahara': 6,
-  'Manager Unit Usaha': 7,
-  'Karyawan': 8,
+  'Bendahara': 5,
+  'Manager Unit Usaha': 6,
+  'Karyawan': 7,
 };
 
 const ROLE_COLORS: Record<string, string> = {
@@ -36,10 +41,15 @@ const ROLE_COLORS: Record<string, string> = {
 };
 
 export default function StrukturOrganisasi() {
+  const { userRole } = useAuth();
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
   const [storeInfo, setStoreInfo] = useState({ name: 'BUMDes Noto Mulyo', address: 'Pulodarat, Jepara' });
   const [showOrgChart, setShowOrgChart] = useState(true);
+  
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editData, setEditData] = useState<Partial<Member>>({});
+  const [toast, setToast] = useState<{ message: string; type: ToastType; subtitle?: string } | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -94,6 +104,17 @@ export default function StrukturOrganisasi() {
           <p className="text-[11px] text-slate-400 dark:text-slate-500 truncate mt-0.5">
             <Mail size={10} className="inline mr-1" />{member.email}
           </p>
+          {(member.nik || member.last_education) && (
+            <div className="mt-2 pt-2 border-t border-slate-100 dark:border-slate-700/50">
+              {member.nik && <p className="text-[10px] text-slate-500 font-medium">NIK: {member.nik}</p>}
+              {member.last_education && <p className="text-[10px] text-slate-500 font-medium">Pend: {member.last_education}</p>}
+            </div>
+          )}
+          {(userRole === 'Admin' || userRole === 'Direktur BUMDes') && (
+            <button onClick={() => { setEditData(member); setShowEditModal(true); }} className="mt-3 px-3 py-1.5 bg-slate-50 border dark:border-slate-700 dark:bg-slate-700 text-xs font-bold rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/50 trans-all w-full text-slate-700 dark:text-slate-200">
+              Edit Profil
+            </button>
+          )}
         </div>
       </div>
     );
@@ -113,7 +134,32 @@ export default function StrukturOrganisasi() {
     );
   };
 
-  if (loading) {
+  const handleSaveMember = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editData.id) return;
+    
+    setLoading(true);
+    try {
+      const { error } = await supabase.from('bumdes_users').update({
+        name: editData.name,
+        role: editData.role,
+        position: editData.position,
+        nik: editData.nik,
+        last_education: editData.last_education,
+      }).eq('id', editData.id);
+      
+      if (error) throw error;
+      setToast({ message: 'Profil berhasil diperbarui', type: 'success' });
+      setShowEditModal(false);
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      setToast({ message: 'Gagal memperbarui profil', type: 'error' });
+    }
+    setLoading(false);
+  };
+
+  if (loading && members.length === 0) {
     return (
       <div className="flex items-center justify-center h-[calc(100vh-200px)] text-slate-500 font-bold">
         Memuat data struktur organisasi...
@@ -210,7 +256,7 @@ export default function StrukturOrganisasi() {
 
             {/* Level 6: KARYAWAN */}
             <div className="flex flex-col items-center w-full">
-              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Staff & Karyawan</div>
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Karyawan</div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap w-full">
                 {karyawan.length > 0 ? karyawan.map(m => <MemberCard key={m.id} member={m} size="small" />) : <EmptyCard role="Karyawan" size="small" />}
               </div>
@@ -259,6 +305,63 @@ export default function StrukturOrganisasi() {
           </table>
         </div>
       </div>
+
+      {showEditModal && (
+        <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border dark:border-slate-800">
+            <div className="flex justify-between items-center p-6 border-b dark:border-slate-800">
+              <h3 className="text-xl font-bold dark:text-slate-100">Edit Profil Pengurus</h3>
+              <button onClick={() => setShowEditModal(false)} className="text-slate-400 hover:text-slate-600 p-2 bg-slate-100 dark:bg-slate-800 rounded-xl"><X size={20} /></button>
+            </div>
+            <form onSubmit={handleSaveMember} className="p-6 space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-500 mb-1">Nama Lengkap</label>
+                <input required type="text" value={editData.name || ''} onChange={e => setEditData({...editData, name: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-500 mb-1">Jabatan Spesifik</label>
+                <input type="text" value={editData.position || ''} onChange={e => setEditData({...editData, position: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Contoh: Kepala Unit Usaha Air Bersih" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-500 mb-1">Peran Akses (Role)</label>
+                <select required value={editData.role || ''} onChange={e => setEditData({...editData, role: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl">
+                  <option value="Musyawarah Desa (MUSDES)">Musyawarah Desa (MUSDES)</option>
+                  <option value="Penasihat">Penasihat</option>
+                  <option value="Pengawas">Pengawas</option>
+                  <option value="Direktur BUMDes">Direktur BUMDes</option>
+                  <option value="Sekretaris">Sekretaris</option>
+                  <option value="Bendahara">Bendahara</option>
+                  <option value="Manager Unit Usaha">Manager Unit Usaha</option>
+                  <option value="Karyawan">Karyawan</option>
+                </select>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-500 mb-1">NIK</label>
+                  <input type="text" value={editData.nik || ''} onChange={e => setEditData({...editData, nik: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="16 Digit" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-500 mb-1">Pendidikan</label>
+                  <input type="text" value={editData.last_education || ''} onChange={e => setEditData({...editData, last_education: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Cth: S1 Ekonomi" />
+                </div>
+              </div>
+              <div className="flex justify-end gap-2 pt-4">
+                <button type="button" onClick={() => setShowEditModal(false)} className="px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-xl">Batal</button>
+                <button type="submit" className="px-4 py-2 bg-primary-600 text-white rounded-xl">Simpan Perubahan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          subtitle={toast.subtitle}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }

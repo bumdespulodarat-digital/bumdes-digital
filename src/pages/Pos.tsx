@@ -881,37 +881,45 @@ export default function Pos() {
 
       {/* ===== AREA STRUK CETAK ===== */}
       {printData && (
-        <div className="hidden print:block w-[58mm] text-[11px] leading-snug font-mono text-black mx-auto p-1 pb-4 bg-white">
-          <div className="text-center mb-4">
-            <h2 className="font-bold text-[14px]">{storeInfo.name}</h2>
-            <p>{storeInfo.address}</p>
+        <div className="hidden print:block w-[148mm] text-sm leading-relaxed font-mono text-black mx-auto p-4 pb-8 bg-white">
+          <div className="text-center mb-6">
+            <h2 className="font-bold text-xl uppercase tracking-wider">{storeInfo.name}</h2>
+            <p className="mt-1">{storeInfo.address}</p>
             {storeInfo.contact && <p>Telp: {storeInfo.contact}</p>}
-            <div className="border-b border-dashed border-black my-2"></div>
+            <div className="border-b-2 border-dashed border-black my-4"></div>
           </div>
 
-          <div className="mb-2">
-            <p>No: {printData.invoice}</p>
-            <p>Tgl: {printData.date}</p>
-            {printData.cashier && <p>Kasir: {printData.cashier}</p>}
-            <div className="border-b border-dashed border-black my-2"></div>
+          <div className="mb-4 grid grid-cols-2 gap-2">
+            <div>
+              <p><span className="font-bold">No:</span> {printData.invoice}</p>
+              <p><span className="font-bold">Tgl:</span> {printData.date}</p>
+            </div>
+            <div className="text-right">
+              {printData.cashier && <p><span className="font-bold">Kasir:</span> {printData.cashier}</p>}
+            </div>
           </div>
+          <div className="border-b-2 border-dashed border-black mb-4"></div>
 
-          <div className="mb-2">
+          <div className="mb-4">
+            <div className="flex justify-between font-bold border-b border-black pb-2 mb-2">
+              <span>Item</span>
+              <span>Subtotal</span>
+            </div>
             {printData.items.map((item, i) => (
-              <div key={i} className="mb-2">
-                <p>{item.name}</p>
-                <div className="flex justify-between">
-                  <span>{item.qty} x {item.price.toLocaleString('id-ID')}</span>
-                  <span>{(item.qty * item.price).toLocaleString('id-ID')}</span>
+              <div key={i} className="mb-3">
+                <p className="font-semibold">{item.name}</p>
+                <div className="flex justify-between text-slate-700">
+                  <span>{item.qty} x Rp {item.price.toLocaleString('id-ID')}</span>
+                  <span className="font-semibold text-black">Rp {(item.qty * item.price).toLocaleString('id-ID')}</span>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="border-b border-dashed border-black my-2"></div>
+          <div className="border-b-2 border-dashed border-black my-4"></div>
 
           {totalTax > 0 && printData.totalTax > 0 && (
-            <div className="mb-1">
+            <div className="mb-2 space-y-1">
               <div className="flex justify-between">
                 <span>Subtotal:</span>
                 <span>Rp {printData.subtotal.toLocaleString('id-ID')}</span>
@@ -923,28 +931,27 @@ export default function Pos() {
             </div>
           )}
 
-          <div className="flex justify-between font-bold text-[13px] mb-1">
+          <div className="flex justify-between font-black text-lg mb-4 py-2 border-y-2 border-black">
             <span>TOTAL:</span>
             <span>Rp {printData.total.toLocaleString('id-ID')}</span>
           </div>
 
-          <div className="mb-2">
+          <div className="mb-6 space-y-1">
             <div className="flex justify-between">
               <span>Bayar ({printData.paymentMethod}):</span>
               <span>Rp {printData.amountPaid.toLocaleString('id-ID')}</span>
             </div>
             {printData.paymentMethod === 'Tunai' && printData.changeAmount > 0 && (
-              <div className="flex justify-between">
+              <div className="flex justify-between font-bold">
                 <span>Kembalian:</span>
                 <span>Rp {printData.changeAmount.toLocaleString('id-ID')}</span>
               </div>
             )}
           </div>
 
-          <div className="text-center mt-6">
-            <p>Terima Kasih</p>
-            <p>Barang yang dibeli tidak dapat</p>
-            <p>ditukar.</p>
+          <div className="text-center mt-8 pt-4 border-t-2 border-dashed border-black">
+            <p className="font-bold">Terima Kasih Atas Kunjungan Anda</p>
+            <p className="text-xs mt-1 text-slate-600">Barang yang sudah dibeli tidak dapat ditukar atau dikembalikan.</p>
           </div>
         </div>
       )}

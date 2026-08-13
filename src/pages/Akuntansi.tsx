@@ -33,7 +33,8 @@ interface Journal {
   accounts?: Account;
 }
 
-type TabType = 'laba-rugi' | 'neraca' | 'jurnal' | 'buku-besar' | 'neraca-saldo' | 'lpe' | 'lak' | 'aset-tetap';
+type TabType = 'laba-rugi' | 'neraca' | 'jurnal' | 'buku-besar' | 'neraca-saldo' | 'lpe' | 'lak' | 'aset-tetap' | 'kelola-akun';
+type ReportPeriod = 'all' | 'this_month' | '3_months' | '6_months';
 
 export default function Akuntansi() {
   const { userName, userRole } = useAuth();
@@ -51,7 +52,7 @@ export default function Akuntansi() {
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const [expenseData, setExpenseData] = useState({ amount: '', desc: '' });
   const [showIncomeModal, setShowIncomeModal] = useState(false);
-  const [incomeData, setIncomeData] = useState({ amount: '', source: 'Tempat Parkir', desc: '' });
+  const [incomeData, setIncomeData] = useState({ amount: '', source: 'Tempat Parkir', desc: '', relatedParty: '' });
   
   const [showClosingModal, setShowClosingModal] = useState(false);
   const [closingData, setClosingData] = useState({ month: new Date().getMonth() + 1, year: new Date().getFullYear() });
@@ -59,6 +60,12 @@ export default function Akuntansi() {
   
   // Filters
   const [selectedLedgerAccount, setSelectedLedgerAccount] = useState<string>('');
+  const [reportPeriod, setReportPeriod] = useState<ReportPeriod>('all');
+  
+  // Account Management
+  const [showAccountModal, setShowAccountModal] = useState(false);
+  const [accountData, setAccountData] = useState<Partial<Account>>({ code: '', name: '', type: 'Asset' });
+  const [editingAccountId, setEditingAccountId] = useState<string | null>(null);
   
   const [loading, setLoading] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
@@ -122,6 +129,20 @@ export default function Akuntansi() {
     fetchData();
   }, []);
 
+  const filteredJournals = useMemo(() => {
+    if (reportPeriod === 'all') return journals;
+    const now = new Date();
+    let startDate = new Date();
+    if (reportPeriod === 'this_month') {
+      startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    } else if (reportPeriod === '3_months') {
+      startDate.setMonth(now.getMonth() - 3);
+    } else if (reportPeriod === '6_months') {
+      startDate.setMonth(now.getMonth() - 6);
+    }
+    return journals.filter(j => new Date(j.created_at) >= startDate);
+  }, [journals, reportPeriod]);
+
   // Derived Data
   const accountBalances = useMemo(() => {
     const balances: Record<string, { debit: number; credit: number; balance: number; account: Account }> = {};
@@ -129,7 +150,7 @@ export default function Akuntansi() {
       balances[acc.id] = { debit: 0, credit: 0, balance: 0, account: acc };
     });
     
-    journals.forEach(j => {
+    filteredJournals.forEach(j => {
       if (!balances[j.account_id]) return;
       balances[j.account_id].debit += Number(j.debit || 0);
       balances[j.account_id].credit += Number(j.credit || 0);
@@ -144,7 +165,7 @@ export default function Akuntansi() {
     });
 
     return balances;
-  }, [journals, accounts]);
+  }, [filteredJournals, accounts]);
 
   // Derived Reports
   const labaRugiData = useMemo(() => {
@@ -187,7 +208,7 @@ export default function Akuntansi() {
 
   const lakData = useMemo(() => {
     let operasi = 0, investasi = 0, pendanaan = 0;
-    journals.forEach(j => {
+    filteredJournals.forEach(j => {
       if (j.accounts?.code.startsWith('1.1.01')) {
         const netCash = Number(j.debit || 0) - Number(j.credit || 0);
         // Simple heuristic: if description has Modal/Deviden -> Pendanaan. Aset -> Investasi. Else -> Operasi.
@@ -202,7 +223,7 @@ export default function Akuntansi() {
       }
     });
     return { operasi, investasi, pendanaan, total: operasi + investasi + pendanaan };
-  }, [journals]);
+  }, [filteredJournals]);
 
   // ... (Include handlers: getOrCreateAccount, handleCatatPengeluaran, handleCatatPemasukan)
   const getOrCreateAccount = async (code: string, name: string, type: string) => {
@@ -239,7 +260,7 @@ export default function Akuntansi() {
     setLoading(true);
     try {
       const amount = Number(incomeData.amount);
-      const desc = `[${incomeData.source}] ${incomeData.desc}`;
+      const desc = `[${incomeData.source}] ${incomeData.relatedParty ? 'Pihak: ' + incomeData.relatedParty + ' - ' : ''}${incomeData.desc}`;
       let revCode = '4.1.99.99';
       let revName = 'Pendapatan Lain-lain lainnya';
       if (incomeData.source === 'Tempat Parkir') { revCode = '4.1.07.01'; revName = 'Pendapatan Parkir Mobil'; }
@@ -256,7 +277,7 @@ export default function Akuntansi() {
           { transaction_id: trx.id, account_id: pendapatanId, debit: 0, credit: amount, description: desc }
         ]);
       }
-      setShowIncomeModal(false); setIncomeData({ amount: '', source: 'Tempat Parkir', desc: '' }); fetchData(); setToast({ message: 'Pemasukan berhasil dicatat!', type: 'success', subtitle: `Rp ${Number(incomeData.amount).toLocaleString('id-ID')} dari ${incomeData.source} telah tercatat.` });
+      setShowIncomeModal(false); setIncomeData({ amount: '', source: 'Tempat Parkir', desc: '', relatedParty: '' }); fetchData(); setToast({ message: 'Pemasukan berhasil dicatat!', type: 'success', subtitle: `Rp ${Number(incomeData.amount).toLocaleString('id-ID')} dari ${incomeData.source} telah tercatat.` });
     } catch (error) { console.error(error); setToast({ message: 'Gagal mencatat pemasukan', type: 'error', subtitle: 'Terjadi kesalahan. Silakan coba lagi.' }); }
     setLoading(false);
   };
@@ -727,6 +748,101 @@ export default function Akuntansi() {
     </div>
   );
 
+  const handleSaveAccount = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      if (editingAccountId) {
+        await supabase.from('accounts').update({ code: accountData.code, name: accountData.name, type: accountData.type }).eq('id', editingAccountId);
+        setToast({ message: 'Akun berhasil diperbarui', type: 'success' });
+      } else {
+        await supabase.from('accounts').insert({ code: accountData.code, name: accountData.name, type: accountData.type });
+        setToast({ message: 'Akun berhasil ditambahkan', type: 'success' });
+      }
+      setShowAccountModal(false);
+      setAccountData({ code: '', name: '', type: 'Asset' });
+      setEditingAccountId(null);
+      fetchData();
+    } catch (error) {
+      console.error(error);
+      setToast({ message: 'Gagal menyimpan akun', type: 'error' });
+    }
+    setLoading(false);
+  };
+
+  const handleDeleteAccount = async (id: string) => {
+    if (!window.confirm('Yakin ingin menghapus akun ini?')) return;
+    setLoading(true);
+    try {
+      const { error } = await supabase.from('accounts').delete().eq('id', id);
+      if (error) throw error;
+      setToast({ message: 'Akun berhasil dihapus', type: 'success' });
+      fetchData();
+    } catch (error) {
+      console.error(error);
+      setToast({ message: 'Gagal menghapus akun, mungkin masih digunakan di jurnal.', type: 'error' });
+    }
+    setLoading(false);
+  };
+
+  const renderKelolaAkun = () => (
+    <div className="flex-1 overflow-auto p-4 md:p-8">
+      <div className="max-w-6xl mx-auto w-full space-y-4 md:space-y-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <h2 className="text-xl md:text-3xl font-extrabold text-slate-800 dark:text-slate-100">Kelola Akun Buku Besar</h2>
+          <button onClick={() => { setAccountData({ code: '', name: '', type: 'Asset' }); setEditingAccountId(null); setShowAccountModal(true); }} className="px-4 py-2 bg-primary-600 text-white rounded-xl font-bold hover:bg-primary-700 trans-all">
+            + Tambah Akun
+          </button>
+        </div>
+        <div className="card rounded-2xl overflow-hidden border">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm min-w-[750px]">
+            <thead className="bg-slate-100 dark:bg-slate-800/80 font-bold uppercase text-xs dark:text-slate-300">
+              <tr><th className="p-4">Kode Akun</th><th className="p-4">Nama Akun</th><th className="p-4">Tipe Akun</th><th className="p-4 text-center w-24">Aksi</th></tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-700/60">
+              {accounts.map(a => (
+                <tr key={a.id} className="hover:bg-primary-50 dark:hover:bg-primary-900/20 trans-all">
+                  <td className="p-4 font-bold">{a.code}</td>
+                  <td className="p-4">{a.name}</td>
+                  <td className="p-4">{a.type}</td>
+                  <td className="p-4 text-center flex justify-center gap-2">
+                    <button onClick={() => { setAccountData(a); setEditingAccountId(a.id); setShowAccountModal(true); }} className="text-blue-500 hover:text-blue-700">Edit</button>
+                    <button onClick={() => handleDeleteAccount(a.id)} className="text-rose-500 hover:text-rose-700">Hapus</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      {showAccountModal && (
+        <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 w-full max-w-md">
+            <h3 className="text-xl font-bold mb-4">{editingAccountId ? 'Edit Akun' : 'Tambah Akun'}</h3>
+            <form onSubmit={handleSaveAccount} className="space-y-4">
+              <input required type="text" value={accountData.code} onChange={e => setAccountData({...accountData, code: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Kode Akun (Cth: 1.1.01.01)" />
+              <input required type="text" value={accountData.name} onChange={e => setAccountData({...accountData, name: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Nama Akun" />
+              <select required value={accountData.type} onChange={e => setAccountData({...accountData, type: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl">
+                <option value="Asset">Asset (Harta)</option>
+                <option value="Liability">Liability (Kewajiban/Hutang)</option>
+                <option value="Equity">Equity (Modal)</option>
+                <option value="Revenue">Revenue (Pendapatan)</option>
+                <option value="Expense">Expense (Beban)</option>
+              </select>
+              <div className="flex justify-end gap-2">
+                <button type="button" onClick={() => setShowAccountModal(false)} className="px-4 py-2 bg-slate-100 dark:bg-slate-800 dark:text-slate-300 rounded-xl">Batal</button>
+                <button type="submit" className="px-4 py-2 bg-primary-600 text-white rounded-xl">Simpan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className="flex flex-col min-h-[calc(100vh-130px)] space-y-4">
       {/* Navbar Tabs */}
@@ -740,15 +856,23 @@ export default function Akuntansi() {
             { id: 'jurnal', name: 'Jurnal', icon: <FileText size={14} /> },
             { id: 'buku-besar', name: 'Buku Besar', icon: <BookOpen size={14} /> },
             { id: 'neraca-saldo', name: 'Neraca Saldo', icon: <DollarSign size={14} /> },
+            { id: 'kelola-akun', name: 'Kelola Akun', icon: <BookOpen size={14} /> },
           ].map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex items-center gap-1 md:gap-1.5 py-2 px-2.5 md:px-3 rounded-xl text-xs md:text-sm font-bold trans-all whitespace-nowrap shrink-0 ${activeTab === tab.id ? 'bg-primary-50 text-primary-700 shadow-sm ring-1 ring-primary-200' : 'text-slate-500 hover:bg-slate-50'}`}>
               {tab.icon} <span>{tab.name}</span>
             </button>
           ))}
         </div>
-        <div className="flex flex-wrap sm:flex-nowrap gap-2 w-full">
-          <button onClick={() => setShowIncomeModal(true)} className="flex-1 min-w-[calc(50%-0.25rem)] sm:min-w-0 flex items-center justify-center gap-1.5 md:gap-2 bg-emerald-50 text-emerald-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-emerald-200 text-xs md:text-sm"><ArrowDownCircle size={14} /> Pemasukan</button>
-          <button onClick={() => setShowExpenseModal(true)} className="flex-1 min-w-[calc(50%-0.25rem)] sm:min-w-0 flex items-center justify-center gap-1.5 md:gap-2 bg-rose-50 text-rose-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-rose-200 text-xs md:text-sm"><ArrowUpCircle size={14} /> Pengeluaran</button>
+        <div className="flex flex-wrap sm:flex-nowrap gap-2 w-full items-center justify-between">
+          <select value={reportPeriod} onChange={(e) => setReportPeriod(e.target.value as ReportPeriod)} className="p-2.5 border rounded-xl bg-white dark:bg-slate-800 dark:border-slate-700 text-sm font-bold text-slate-700 dark:text-slate-300">
+            <option value="all">Semua Waktu</option>
+            <option value="this_month">Bulan Ini</option>
+            <option value="3_months">3 Bulan Terakhir</option>
+            <option value="6_months">6 Bulan Terakhir</option>
+          </select>
+          <div className="flex flex-wrap sm:flex-nowrap gap-2 flex-1 justify-end">
+            <button onClick={() => setShowIncomeModal(true)} className="flex-1 min-w-[calc(50%-0.25rem)] sm:max-w-xs flex items-center justify-center gap-1.5 md:gap-2 bg-emerald-50 text-emerald-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-emerald-200 text-xs md:text-sm"><ArrowDownCircle size={14} /> Pemasukan</button>
+            <button onClick={() => setShowExpenseModal(true)} className="flex-1 min-w-[calc(50%-0.25rem)] sm:max-w-xs flex items-center justify-center gap-1.5 md:gap-2 bg-rose-50 text-rose-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-rose-200 text-xs md:text-sm"><ArrowUpCircle size={14} /> Pengeluaran</button>
           {canManageClosing && (
             <button onClick={() => setShowClosingModal(true)} disabled={isExporting} className="flex-1 min-w-[calc(50%-0.25rem)] sm:min-w-0 flex items-center justify-center gap-1.5 md:gap-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-indigo-200 dark:border-indigo-800 text-xs md:text-sm disabled:opacity-50">
               <BookOpen size={14} /> Tutup Buku
@@ -759,9 +883,10 @@ export default function Akuntansi() {
           </button>
         </div>
       </div>
+    </div>
       
-      {/* Content Area */}
-      <div className="flex-1 card rounded-2xl shadow-sm overflow-hidden flex flex-col relative bg-white">
+    {/* Content Area */}
+    <div className="flex-1 card rounded-2xl shadow-sm overflow-hidden flex flex-col relative bg-white">
         {loading && <div className="absolute inset-0 bg-white/60 z-20 flex items-center justify-center font-bold text-primary-600">Memuat Laporan...</div>}
         {activeTab === 'laba-rugi' && renderLabaRugi()}
         {activeTab === 'neraca' && renderNeraca()}
@@ -770,6 +895,7 @@ export default function Akuntansi() {
         {activeTab === 'lpe' && renderLPE()}
         {activeTab === 'lak' && renderLAK()}
         {activeTab === 'jurnal' && renderJurnal()}
+        {activeTab === 'kelola-akun' && renderKelolaAkun()}
       </div>
       
       {/* Modals omitted for brevity, logic remains identical to previous modals using handleCatatPengeluaran, handleCatatPemasukan */}
@@ -786,6 +912,7 @@ export default function Akuntansi() {
                 <option value="Agen Internet">Agen Internet</option>
                 <option value="Jasa Lainnya">Jasa Lainnya</option>
               </select>
+              <input type="text" value={incomeData.relatedParty} onChange={e => setIncomeData({...incomeData, relatedParty: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Pihak Terkait (Opsional)" />
               <input required type="number" value={incomeData.amount} onChange={e => setIncomeData({...incomeData, amount: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Nominal" />
               <textarea required value={incomeData.desc} onChange={e => setIncomeData({...incomeData, desc: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Catatan" />
               <div className="flex justify-end gap-2"><button type="button" onClick={() => setShowIncomeModal(false)} className="px-4 py-2 bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 rounded-xl">Batal</button><button type="submit" className="px-4 py-2 bg-emerald-600 text-white rounded-xl">Simpan</button></div>

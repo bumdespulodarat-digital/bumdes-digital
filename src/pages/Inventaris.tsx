@@ -5,6 +5,10 @@ import Toast, { ConfirmDialog } from '../components/Toast';
 import type { ToastType } from '../components/Toast';
 import { useAuth } from '../contexts/AuthContext';
 import { exportToPDF, exportToExcel, type BumdesProfile, type ExportTableData } from '../utils/exportUtils';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+
+(pdfMake as any).vfs = (pdfFonts as any).pdfMake?.vfs ?? pdfFonts;
 
 type TabType = 'barang' | 'surat' | 'notulen' | 'dokumentasi';
 
@@ -173,6 +177,64 @@ export default function Inventaris() {
       setToast({ message: 'Gagal menyimpan data', type: 'error', subtitle: err?.message });
     }
     setLoading(false);
+  };
+
+  const handlePrintNotulen = (item: MeetingMinute) => {
+    const docDefinition: any = {
+      content: [
+        { text: bumdesProfile.storeName.toUpperCase(), style: 'header' },
+        { text: bumdesProfile.storeAddress, style: 'subheader' },
+        { text: 'NOTULEN RAPAT', style: 'title' },
+        {
+          columns: [
+            { width: 100, text: 'Judul Rapat', bold: true },
+            { width: 'auto', text: `: ${item.title}` }
+          ],
+          margin: [0, 0, 0, 5]
+        },
+        {
+          columns: [
+            { width: 100, text: 'Tanggal', bold: true },
+            { width: 'auto', text: `: ${new Date(item.date).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}` }
+          ],
+          margin: [0, 0, 0, 5]
+        },
+        {
+          columns: [
+            { width: 100, text: 'Notulis', bold: true },
+            { width: 'auto', text: `: ${item.notulist || '-'}` }
+          ],
+          margin: [0, 0, 0, 15]
+        },
+        { text: 'Agenda Rapat:', style: 'sectionHeader' },
+        { text: item.agenda || '-', margin: [0, 0, 0, 15] },
+        { text: 'Peserta:', style: 'sectionHeader' },
+        { text: item.attendees || '-', margin: [0, 0, 0, 15] },
+        { text: 'Keputusan / Hasil Rapat:', style: 'sectionHeader' },
+        { text: item.decisions || '-', margin: [0, 0, 0, 20] },
+        {
+          columns: [
+            { width: '*', text: '' },
+            {
+              width: 200,
+              alignment: 'center',
+              stack: [
+                { text: `Mengetahui,\nDirektur BUMDes`, margin: [0, 0, 0, 50] },
+                { text: bumdesProfile.direkturName, bold: true, decoration: 'underline' }
+              ]
+            }
+          ]
+        }
+      ],
+      styles: {
+        header: { fontSize: 16, bold: true, alignment: 'center' },
+        subheader: { fontSize: 12, alignment: 'center', margin: [0, 0, 0, 20] },
+        title: { fontSize: 14, bold: true, alignment: 'center', margin: [0, 0, 0, 20], decoration: 'underline' },
+        sectionHeader: { fontSize: 12, bold: true, margin: [0, 0, 0, 5] }
+      },
+      defaultStyle: { fontSize: 11 }
+    };
+    pdfMake.createPdf(docDefinition).download(`Notulen_${item.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`);
   };
 
   const handleDelete = async () => {
@@ -429,6 +491,7 @@ export default function Inventaris() {
                     </div>
                     {!isPengawas && (
                       <div className="flex gap-2 shrink-0">
+                        <button onClick={() => handlePrintNotulen(item)} className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white trans-all" title="Cetak PDF"><FileText size={14} /></button>
                         <button onClick={() => handleEditMeeting(item)} className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={14} /></button>
                         <button onClick={() => setDeleteConfirm({ id: item.id, table: 'meeting_minutes', name: item.title })} className="p-2 rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={14} /></button>
                       </div>
