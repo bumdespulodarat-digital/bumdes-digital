@@ -199,7 +199,18 @@ export default function Dashboard() {
     },
     scales: {
       x: { ticks: { color: textColor, font: { weight: 'bold' as const, size: 11 } }, grid: { display: false } },
-      y: { ticks: { color: textColor, font: { size: 11 }, callback: (v: any) => `Rp ${(v / 1000).toLocaleString('id-ID', { maximumFractionDigits: 0 })}rb` }, grid: { color: gridColor } }
+      y: { 
+        ticks: { 
+          color: textColor, 
+          font: { size: 11 }, 
+          callback: (v: any) => {
+            if (v >= 1000000) return `Rp ${(v / 1000000).toLocaleString('id-ID', { maximumFractionDigits: 1 })} Jt`;
+            if (v >= 1000) return `Rp ${(v / 1000).toLocaleString('id-ID', { maximumFractionDigits: 0 })} rb`;
+            return `Rp ${v}`;
+          }
+        }, 
+        grid: { color: gridColor } 
+      }
     }
   };
 
