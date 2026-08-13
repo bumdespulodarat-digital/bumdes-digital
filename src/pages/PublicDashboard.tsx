@@ -217,19 +217,28 @@ export default function PublicDashboard() {
       <div className="max-w-7xl mx-auto space-y-6 md:space-y-8 relative z-10">
         
         {/* Hero Section */}
-        <div className="bg-gradient-to-r from-primary-900 to-primary-700 rounded-[2rem] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden group border border-primary-600/30">
-          <div className="relative z-10 max-w-3xl">
+        <div className="bg-gradient-to-r from-primary-900 to-primary-700 rounded-[2rem] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden group border border-primary-600/30 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="relative z-10 max-w-2xl">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 leading-tight text-white drop-shadow-md animate-fade-in-up">Selamat Datang di Portal Resmi <br className="hidden md:block" /> BUMDes Noto Mulyo</h1>
-            <p className="text-primary-100 text-base md:text-xl font-medium leading-relaxed max-w-2xl animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+            <p className="text-primary-100 text-base md:text-xl font-medium leading-relaxed mb-8 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
               Mewujudkan desa mandiri, inovatif, dan sejahtera melalui pengelolaan unit usaha profesional yang berfokus pada pelayanan dan pemberdayaan ekonomi masyarakat Desa Pulodarat.
             </p>
+            <div className="animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+              <button onClick={() => window.scrollTo({ top: document.getElementById('statistik')?.offsetTop || 500, behavior: 'smooth' })} className="bg-white text-primary-800 hover:bg-primary-50 px-6 py-3.5 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center gap-2 cursor-pointer">
+                <TrendingUp size={20} /> Lihat Statistik Real-time
+              </button>
+            </div>
+          </div>
+          <div className="relative z-10 w-48 h-48 md:w-64 md:h-64 shrink-0 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+            <div className="absolute inset-0 bg-white/10 rounded-full blur-2xl animate-pulse"></div>
+            <img src="/logo-bumdes.png" alt="Logo BUMDes" className="w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500 animate-float" />
           </div>
           <div className="absolute right-[-10%] top-[-20%] w-96 h-96 bg-white opacity-[0.07] rounded-full blur-3xl group-hover:scale-110 trans-all duration-1000"></div>
           <div className="absolute left-[40%] bottom-[-50%] w-64 h-64 bg-primary-400 opacity-[0.15] rounded-full blur-2xl"></div>
         </div>
         
         {/* Header Widget */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/80 dark:border-slate-800/80 p-4 md:p-6 rounded-2xl md:rounded-[2rem] shadow-sm">
+        <div id="statistik" className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/80 dark:border-slate-800/80 p-4 md:p-6 rounded-2xl md:rounded-[2rem] shadow-sm scroll-mt-24">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary-900/20 transform -rotate-2">
               <Store size={28} className="rotate-2" />
