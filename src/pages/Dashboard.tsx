@@ -211,51 +211,65 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="space-y-4 md:space-y-6 pb-6">
+    <div className="space-y-4 md:space-y-6 pb-6 relative z-0">
+      
+      {/* Ambient Background Orbs */}
+      <div className="absolute top-[-5%] right-[-5%] w-[400px] h-[400px] bg-primary-500/20 dark:bg-primary-500/10 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+      <div className="absolute top-[40%] left-[-10%] w-[300px] h-[300px] bg-emerald-500/20 dark:bg-emerald-500/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-br from-primary-900 via-primary-800 to-primary-600 rounded-2xl md:rounded-3xl p-5 md:p-8 text-white shadow-2xl shadow-primary-900/30 relative overflow-hidden group">
+      <div className="bg-gradient-to-br from-primary-900 via-primary-800 to-primary-600 rounded-2xl md:rounded-[2rem] p-6 md:p-10 text-white shadow-2xl shadow-primary-900/30 relative overflow-hidden group border border-white/10">
         <div className="relative z-10 animate-fade-in-up">
-          <h1 className="text-xl md:text-3xl font-black mb-1.5 md:mb-2 tracking-tight">Hai, {userName}! 👋</h1>
-          <p className="text-primary-100 text-xs md:text-sm max-w-xl leading-relaxed font-medium">
+          <h1 className="text-2xl md:text-4xl font-black mb-2 md:mb-3 tracking-tight">Hai, {userName}! 👋</h1>
+          <p className="text-primary-100 text-sm md:text-base max-w-2xl leading-relaxed font-medium">
             Pantau dan kelola seluruh transaksi, stok, hingga laporan akuntansi BUMDes secara real-time dari genggaman Anda.
           </p>
         </div>
-        <div className="absolute -right-10 -top-10 w-48 h-48 bg-white opacity-10 rounded-full blur-2xl group-hover:scale-110 trans-all duration-700"></div>
-        <div className="absolute right-10 -bottom-10 w-32 h-32 bg-emerald-400 opacity-20 rounded-full blur-2xl group-hover:translate-x-4 trans-all duration-700"></div>
+        <div className="absolute -right-10 -top-10 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl group-hover:scale-125 trans-all duration-1000"></div>
+        <div className="absolute right-20 -bottom-10 w-40 h-40 bg-emerald-400 opacity-20 rounded-full blur-3xl group-hover:translate-x-8 trans-all duration-1000"></div>
       </div>
 
       {/* Grid Statistik */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5">
         {statCards.map((stat, i) => (
-          <div key={i} className={`bg-gradient-to-br ${stat.gradient} rounded-2xl md:rounded-3xl p-4 md:p-6 text-white shadow-lg hover:shadow-xl trans-all hover:-translate-y-1 relative overflow-hidden group animate-fade-in-up`} style={{ animationDelay: `${i * 80}ms` }}>
-            <div className="flex flex-col relative z-10">
-              <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl ${stat.iconBg} flex items-center justify-center mb-3 md:mb-4 group-hover:scale-110 trans-all`}>
-                {stat.icon}
+          <div key={i} className={`bg-gradient-to-br ${stat.gradient} rounded-2xl md:rounded-[2rem] p-5 md:p-6 text-white shadow-xl shadow-${stat.gradient.split('-')[1]}-900/20 hover:shadow-2xl hover:-translate-y-1 trans-all relative overflow-hidden group border border-white/10 animate-fade-in-up`} style={{ animationDelay: `${i * 80}ms` }}>
+            <div className="flex flex-col relative z-10 h-full justify-between">
+              <div className="flex justify-between items-start mb-4">
+                <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${stat.iconBg} flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 trans-all backdrop-blur-md border border-white/20`}>
+                  {stat.icon}
+                </div>
+                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                  <TrendingUp size={14} className="text-white" />
+                </div>
               </div>
-              <p className="text-white/70 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-0.5 md:mb-1">{stat.title}</p>
-              <h3 className="text-lg md:text-2xl font-black tracking-tight truncate">
-                {loading ? '...' : stat.value}
-              </h3>
+              <div>
+                <p className="text-white/80 text-xs font-bold uppercase tracking-widest mb-1">{stat.title}</p>
+                <h3 className="text-2xl md:text-3xl font-black tracking-tight truncate drop-shadow-sm">
+                  {loading ? '...' : stat.value}
+                </h3>
+              </div>
             </div>
-            <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-white opacity-10 rounded-full group-hover:scale-150 trans-all duration-500"></div>
+            {/* Decorative Background Elements */}
+            <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-white opacity-10 rounded-full group-hover:scale-150 trans-all duration-700 blur-2xl"></div>
+            <div className="absolute -left-8 -top-8 w-24 h-24 bg-white opacity-10 rounded-full blur-xl"></div>
           </div>
         ))}
       </div>
 
       {/* Aset Tetap Summary */}
       {stats.asetTetap > 0 && (
-        <div className="card rounded-2xl p-4 md:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm animate-fade-in-up" style={{ animationDelay: '400ms' }}>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex items-center justify-center">
-              <Building2 size={22} />
+        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white dark:border-slate-800 rounded-2xl md:rounded-[2rem] p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg shadow-slate-200/50 dark:shadow-none animate-fade-in-up" style={{ animationDelay: '400ms' }}>
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/40 dark:to-primary-800/40 text-primary-600 dark:text-primary-400 flex items-center justify-center shadow-inner">
+              <Building2 size={26} />
             </div>
             <div>
-              <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Nilai Aset Tetap BUMDes</p>
-              <h3 className="text-xl md:text-2xl font-black text-primary-900 dark:text-primary-300">Rp {stats.asetTetap.toLocaleString('id-ID')}</h3>
+              <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Total Nilai Aset Tetap BUMDes</p>
+              <h3 className="text-2xl md:text-3xl font-black text-primary-900 dark:text-primary-300 tracking-tight">Rp {stats.asetTetap.toLocaleString('id-ID')}</h3>
             </div>
           </div>
-          <span className="text-[10px] font-bold uppercase tracking-wider bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 bg-primary-500 rounded-full animate-pulse"></div> Tercatat di Neraca
+          <span className="text-xs font-bold uppercase tracking-wider bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 px-4 py-2 rounded-xl flex items-center gap-2 border border-primary-100 dark:border-primary-800/50">
+            <div className="w-2 h-2 bg-primary-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(14,165,233,0.8)]"></div> Tercatat di Neraca
           </span>
         </div>
       )}
@@ -263,53 +277,69 @@ export default function Dashboard() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 md:gap-6">
         {/* Bar Chart - Pendapatan vs Pengeluaran */}
-        <div className="xl:col-span-2 card rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-2">
+        <div className="xl:col-span-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white dark:border-slate-800 rounded-2xl md:rounded-[2rem] p-5 md:p-7 shadow-lg shadow-slate-200/50 dark:shadow-none">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-8 gap-3">
             <div>
-              <h3 className="font-extrabold text-slate-800 dark:text-slate-100 text-base md:text-lg">Pendapatan vs Pengeluaran</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Tahun {new Date().getFullYear()}</p>
+              <h3 className="font-black text-slate-800 dark:text-slate-100 text-lg md:text-xl tracking-tight">Pendapatan vs Pengeluaran</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">Tahun {new Date().getFullYear()}</p>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div> Live Data
+            <span className="text-xs font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 px-4 py-2 rounded-xl flex items-center gap-2 border border-emerald-100 dark:border-emerald-800/50">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div> Live Data
             </span>
           </div>
-          <div className="h-[250px] md:h-[320px]">
-            <Bar data={barChartData} options={barChartOptions} />
+          <div className="h-[280px] md:h-[350px]">
+            {loading ? (
+              <div className="w-full h-full flex flex-col gap-3 items-center justify-center text-slate-400 font-bold">
+                <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                Memuat Grafik...
+              </div>
+            ) : (
+              <Bar data={barChartData} options={barChartOptions} />
+            )}
           </div>
         </div>
 
         {/* Doughnut Chart - Sumber Pendapatan */}
-        <div className="card rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm">
-          <h3 className="font-extrabold text-slate-800 dark:text-slate-100 text-base md:text-lg mb-1">Sumber Pendapatan</h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-4 md:mb-6">Komposisi per unit usaha</p>
-          <div className="h-[220px] md:h-[260px]">
-            <Doughnut data={doughnutData} options={doughnutOptions} />
+        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white dark:border-slate-800 rounded-2xl md:rounded-[2rem] p-5 md:p-7 shadow-lg shadow-slate-200/50 dark:shadow-none">
+          <h3 className="font-black text-slate-800 dark:text-slate-100 text-lg md:text-xl tracking-tight mb-1">Sumber Pendapatan</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mb-6 md:mb-8">Komposisi per unit usaha</p>
+          <div className="h-[250px] md:h-[300px]">
+            {loading ? (
+              <div className="w-full h-full flex flex-col gap-3 items-center justify-center text-slate-400 font-bold">
+                <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                Memuat Grafik...
+              </div>
+            ) : (
+              <Doughnut data={doughnutData} options={doughnutOptions} />
+            )}
           </div>
         </div>
       </div>
 
       {/* Barang Terlaris */}
-      <div className="card rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm">
-        <h3 className="font-extrabold text-slate-800 dark:text-slate-100 text-base md:text-lg mb-1">🏆 Barang Terlaris</h3>
-        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-4 md:mb-6">Top 5 barang paling banyak terjual</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3 md:gap-4">
+      <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white dark:border-slate-800 rounded-2xl md:rounded-[2rem] p-5 md:p-7 shadow-lg shadow-slate-200/50 dark:shadow-none">
+        <h3 className="font-black text-slate-800 dark:text-slate-100 text-lg md:text-xl tracking-tight mb-1">🏆 Barang Terlaris</h3>
+        <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mb-6 md:mb-8">Top 5 barang paling banyak terjual</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4 md:gap-6">
           {topProducts.length === 0 && (
-            <p className="text-slate-400 dark:text-slate-500 text-sm italic py-4 text-center col-span-full">Belum ada data penjualan.</p>
+            <p className="text-slate-400 dark:text-slate-500 text-sm font-medium italic py-6 text-center col-span-full">Belum ada data penjualan.</p>
           )}
           {topProducts.map((p, i) => {
             const maxQty = topProducts[0]?.qty || 1;
             const pct = Math.round((p.qty / maxQty) * 100);
             const colors = ['bg-emerald-500', 'bg-blue-500', 'bg-amber-500', 'bg-violet-500', 'bg-rose-500'];
             return (
-              <div key={i} className="flex items-center gap-3 md:gap-4">
-                <span className={`w-7 h-7 md:w-8 md:h-8 rounded-lg ${colors[i]} text-white flex items-center justify-center text-xs font-black flex-shrink-0`}>{i + 1}</span>
+              <div key={i} className="flex items-center gap-3 md:gap-4 p-3 rounded-xl hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                <span className={`w-10 h-10 rounded-xl ${colors[i]} text-white flex items-center justify-center text-sm font-black shadow-md flex-shrink-0`}>{i + 1}</span>
                 <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="font-bold text-slate-700 dark:text-slate-200 text-sm truncate mr-2">{p.name}</span>
-                    <span className="text-xs font-extrabold text-slate-500 dark:text-slate-400 whitespace-nowrap">{p.qty} terjual</span>
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className="font-bold text-slate-700 dark:text-slate-200 text-sm truncate mr-2" title={p.name}>{p.name}</span>
+                    <span className="text-xs font-black text-slate-500 dark:text-slate-400 whitespace-nowrap bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md">{p.qty}x</span>
                   </div>
-                  <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                    <div className={`h-full ${colors[i]} rounded-full trans-all duration-1000`} style={{ width: `${pct}%` }}></div>
+                  <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden shadow-inner">
+                    <div className={`h-full ${colors[i]} rounded-full trans-all duration-1000 relative overflow-hidden`} style={{ width: `${pct}%` }}>
+                      <div className="absolute inset-0 bg-white/20 w-full h-full animate-shimmer"></div>
+                    </div>
                   </div>
                 </div>
               </div>
