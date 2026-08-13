@@ -178,7 +178,7 @@ export default function Dashboard() {
     },
     scales: {
       x: { ticks: { color: textColor, font: { weight: 'bold' as const, size: 11 } }, grid: { display: false } },
-      y: { ticks: { color: textColor, font: { size: 11 }, callback: (v: any) => `Rp ${(v / 1000).toFixed(0)}rb` }, grid: { color: gridColor } }
+      y: { ticks: { color: textColor, font: { size: 11 }, callback: (v: any) => `Rp ${(v / 1000).toLocaleString('id-ID', { maximumFractionDigits: 0 })}rb` }, grid: { color: gridColor } }
     }
   };
 
@@ -186,7 +186,11 @@ export default function Dashboard() {
     labels: revenueBySource.labels.length > 0 ? revenueBySource.labels : ['Belum ada data'],
     datasets: [{
       data: revenueBySource.data.length > 0 ? revenueBySource.data : [1],
-      backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(59, 130, 246, 0.8)', 'rgba(245, 158, 11, 0.8)', 'rgba(168, 85, 247, 0.8)'],
+      backgroundColor: [
+        'rgba(16, 185, 129, 0.8)', 'rgba(59, 130, 246, 0.8)', 'rgba(245, 158, 11, 0.8)', 'rgba(168, 85, 247, 0.8)',
+        'rgba(239, 68, 68, 0.8)', 'rgba(6, 182, 212, 0.8)', 'rgba(236, 72, 153, 0.8)', 'rgba(132, 204, 22, 0.8)',
+        'rgba(20, 184, 166, 0.8)', 'rgba(99, 102, 241, 0.8)'
+      ],
       borderColor: isDark ? '#0f172a' : '#ffffff',
       borderWidth: 4,
       hoverOffset: 8,
