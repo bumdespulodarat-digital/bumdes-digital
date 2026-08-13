@@ -1,4 +1,4 @@
-import { Outlet, NavLink, useNavigate } from 'react-router-dom';
+import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { LayoutDashboard, ShoppingCart, Package, FileText, Settings, Store, LogOut, Menu, X, Moon, Sun, ChevronLeft, ChevronRight, KeyRound, BarChart3, Archive, Users, BookOpen, HelpCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useEffect, useState } from 'react';
@@ -9,8 +9,9 @@ import type { ToastType } from '../components/Toast';
 
 export default function MainLayout() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isDark, toggleTheme } = useTheme();
-  const { userName: authUserName, canAccess } = useAuth();
+  const { userName: authUserName, canAccess, isLoading } = useAuth();
   const [storeInfo, setStoreInfo] = useState({ name: 'BUMDes Digital', address: 'Pulodarat, Jepara' });
   const [userName, setUserName] = useState('Admin');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -20,6 +21,14 @@ export default function MainLayout() {
   const [passwordForm, setPasswordForm] = useState({ newPassword: '', confirmPassword: '' });
   const [savingPassword, setSavingPassword] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: ToastType; subtitle?: string } | null>(null);
+
+  // Enforce Route Access Control
+  useEffect(() => {
+    if (!isLoading && !canAccess(location.pathname)) {
+      setToast({ message: 'Akses Ditolak', type: 'error', subtitle: 'Anda tidak memiliki izin (Hak Akses) untuk membuka halaman ini.' });
+      navigate('/admin'); // Redirect back to dashboard if they try to URL guess
+    }
+  }, [location.pathname, canAccess, isLoading, navigate]);
 
   useEffect(() => {
     // Ambil info toko

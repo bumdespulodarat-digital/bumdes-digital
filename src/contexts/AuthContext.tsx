@@ -29,8 +29,8 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 // Define page access per role
-const KARYAWAN_PAGES = ['/', '/kasir', '/stok'];
-const PENGAWAS_PAGES = ['/', '/akuntansi', '/laporan-transaksi', '/buku-kas'];
+const KARYAWAN_PAGES = ['/admin', '/admin/kasir', '/admin/stok'];
+const PENGAWAS_PAGES = ['/admin', '/admin/akuntansi', '/admin/laporan-transaksi', '/admin/buku-kas', '/admin/inventaris'];
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [userEmail, setUserEmail] = useState('');
