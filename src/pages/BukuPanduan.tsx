@@ -188,7 +188,8 @@ export default function BukuPanduan() {
         {
           ol: [
             { text: 'Perhatikan Kotak Ringkasan di bagian atas. Anda bisa melihat total pemasukan hari ini, bulan ini, dan saldo kas secara langsung.', style: 'listItem' },
-            { text: 'Lihat Grafik Garis di bagian tengah untuk menganalisa hari apa toko paling ramai.', style: 'listItem' },
+            { text: 'Lihat Grafik Garis Area (Area Line Chart) mulus di bagian tengah untuk menganalisa tren pendapatan vs pengeluaran secara presisi dengan satuan angka Jutaan pintar ("Jt").', style: 'listItem' },
+            { text: 'Gunakan Grafik Donat untuk membedah porsi sumber dana per unit usaha (Mendukung 20 warna dinamis & filter cerdas untuk menyembunyikan nominal Rp 0).', style: 'listItem' },
             { text: 'Di bagian bawah, terdapat tabel peringatan Piutang Belum Lunas. Segera hubungi pelanggan yang bersangkutan jika tanggal jatuh tempo sudah lewat.', style: 'listItem' }
           ]
         },
