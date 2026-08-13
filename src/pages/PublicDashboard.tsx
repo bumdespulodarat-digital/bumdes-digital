@@ -257,19 +257,19 @@ export default function PublicDashboard() {
       <div className="max-w-7xl mx-auto space-y-6 md:space-y-8 relative z-10">
         
         {/* Hero Section */}
-        <div className="bg-gradient-to-r from-primary-900 to-primary-700 rounded-[2rem] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden group border border-primary-600/30 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="relative z-10 max-w-2xl">
+        <div className="bg-gradient-to-r from-primary-900 to-primary-700 rounded-[2rem] p-6 md:p-12 text-white shadow-2xl relative overflow-hidden group border border-primary-600/30 flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-12">
+          <div className="relative z-10 max-w-2xl text-center md:text-left">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 leading-tight text-white drop-shadow-md animate-fade-in-up">Selamat Datang di Portal Resmi <br className="hidden md:block" /> BUMDes Noto Mulyo</h1>
-            <p className="text-primary-100 text-base md:text-xl font-medium leading-relaxed mb-8 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+            <p className="text-primary-100 text-sm md:text-xl font-medium leading-relaxed mb-6 md:mb-8 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
               Mewujudkan desa mandiri, inovatif, dan sejahtera melalui pengelolaan unit usaha profesional yang berfokus pada pelayanan dan pemberdayaan ekonomi masyarakat Desa Pulodarat.
             </p>
-            <div className="animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-              <button onClick={() => window.scrollTo({ top: document.getElementById('statistik')?.offsetTop || 500, behavior: 'smooth' })} className="bg-white text-primary-800 hover:bg-primary-50 px-6 py-3.5 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center gap-2 cursor-pointer">
+            <div className="animate-fade-in-up flex justify-center md:justify-start" style={{animationDelay: '0.2s'}}>
+              <button onClick={() => window.scrollTo({ top: document.getElementById('statistik')?.offsetTop || 500, behavior: 'smooth' })} className="bg-white text-primary-800 hover:bg-primary-50 px-6 py-3.5 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center justify-center w-full md:w-auto gap-2 cursor-pointer">
                 <TrendingUp size={20} /> Lihat Statistik Real-time
               </button>
             </div>
           </div>
-          <div className="relative z-10 w-48 h-48 md:w-64 md:h-64 shrink-0 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+          <div className="relative z-10 w-40 h-40 md:w-64 md:h-64 shrink-0 animate-fade-in-up mt-4 md:mt-0" style={{animationDelay: '0.3s'}}>
             <div className="absolute inset-0 bg-white/10 rounded-full blur-2xl animate-pulse"></div>
             <img src="/logo-bumdes.png" alt="Logo BUMDes" className="w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500 animate-float" />
           </div>
@@ -278,20 +278,20 @@ export default function PublicDashboard() {
         </div>
         
         {/* Header Widget */}
-        <div id="statistik" className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/80 dark:border-slate-800/80 p-4 md:p-6 rounded-2xl md:rounded-[2rem] shadow-sm scroll-mt-24">
-          <div className="flex items-center gap-4">
+        <div id="statistik" className="flex flex-col md:flex-row items-center justify-between gap-5 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/80 dark:border-slate-800/80 p-5 md:p-6 rounded-2xl md:rounded-[2rem] shadow-sm scroll-mt-24 text-center md:text-left">
+          <div className="flex flex-col md:flex-row items-center gap-4">
             <div className="w-14 h-14 bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary-900/20 transform -rotate-2">
               <Store size={28} className="rotate-2" />
             </div>
             <div>
-              <h1 className="text-xl md:text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">Statistik {storeName}</h1>
-              <p className="text-sm md:text-base font-bold text-slate-500 dark:text-slate-400">{lastUpdate || 'Pembaruan Data Otomatis (Real-time)'}</p>
+              <h1 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">Statistik {storeName}</h1>
+              <p className="text-xs md:text-base font-bold text-slate-500 dark:text-slate-400 mt-1">{lastUpdate || 'Pembaruan Data Otomatis (Real-time)'}</p>
             </div>
           </div>
-          <div className="flex items-center gap-3 w-full sm:w-auto bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-700/80 px-4 py-2.5 rounded-xl shadow-sm justify-between sm:justify-start">
+          <div className="flex items-center gap-3 w-full md:w-auto bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-700/80 px-4 py-3 md:py-2.5 rounded-xl shadow-sm justify-center md:justify-start">
             <div className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
-              <span className="text-xs md:text-sm font-bold text-slate-600 dark:text-slate-300 sm:mr-2">Live Terhubung</span>
+              <span className="text-xs md:text-sm font-bold text-slate-600 dark:text-slate-300 md:mr-2">Live Terhubung</span>
             </div>
             <Link to="/login" className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white rounded-lg text-xs md:text-sm font-bold transition-all shadow-md shadow-primary-900/20 hover:shadow-lg hover:-translate-y-0.5">
               <Lock size={14} /> Login Admin
@@ -375,29 +375,29 @@ export default function PublicDashboard() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {/* ATK */}
-            <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10 hover:border-blue-500/30 trans-all duration-300">
-              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+            <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10 hover:border-blue-500/30 trans-all duration-300 text-center sm:text-left">
+              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mb-5 mx-auto sm:mx-0 shadow-sm">
                 <ShoppingCart size={32} />
               </div>
-              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-3">Toko Alat Tulis Kantor (ATK)</h3>
+              <h3 className="text-lg md:text-xl font-bold text-slate-800 dark:text-slate-100 mb-3">Toko Alat Tulis Kantor (ATK)</h3>
               <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-sm">Menyediakan berbagai macam kebutuhan alat tulis kantor, perlengkapan sekolah, dan jasa fotokopi berkualitas dengan harga terjangkau untuk warga desa.</p>
             </div>
             
             {/* Pengasapan Lele */}
-            <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 hover:border-orange-500/30 trans-all duration-300">
-              <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+            <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 hover:border-orange-500/30 trans-all duration-300 text-center sm:text-left">
+              <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 rounded-2xl flex items-center justify-center mb-5 mx-auto sm:mx-0 shadow-sm">
                 <Package size={32} />
               </div>
-              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-3">Pengasapan Lele</h3>
+              <h3 className="text-lg md:text-xl font-bold text-slate-800 dark:text-slate-100 mb-3">Pengasapan Lele</h3>
               <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-sm">Pusat produksi dan distribusi lele asap premium yang diolah secara higienis, berupaya memberdayakan peternak ikan lokal Desa Pulodarat secara berkelanjutan.</p>
             </div>
             
             {/* Pengelolaan Parkir */}
-            <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/10 hover:border-emerald-500/30 trans-all duration-300">
-              <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+            <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/10 hover:border-emerald-500/30 trans-all duration-300 text-center sm:text-left">
+              <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mb-5 mx-auto sm:mx-0 shadow-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
               </div>
-              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-3">Pengelolaan Parkir</h3>
+              <h3 className="text-lg md:text-xl font-bold text-slate-800 dark:text-slate-100 mb-3">Pengelolaan Parkir</h3>
               <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-sm">Menyediakan layanan tata kelola lahan parkir yang aman, tertib, dan terpadu di kawasan pusat keramaian dan pasar demi kenyamanan warga desa.</p>
             </div>
           </div>
