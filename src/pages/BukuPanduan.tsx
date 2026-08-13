@@ -388,6 +388,31 @@ export default function BukuPanduan() {
         },
         { text: '', pageBreak: 'after' },
 
+        // BAB 8
+        { text: 'BAB 8 - PROFIL PENGGUNA & AVATAR', style: 'h1', tocItem: true },
+        
+        { text: '1. Mengatur Profil & Detail Akun', style: 'h2' },
+        { text: 'Setiap pengurus memiliki kebebasan untuk memperbarui data diri masing-masing agar sistem selalu up-to-date dan akurat.', style: 'paragraph' },
+        {
+          ol: [
+            { text: 'Klik foto profil (atau inisial nama) Anda di pojok kanan atas layar.', style: 'listItem' },
+            { text: 'Pilih menu "Profil Saya".', style: 'listItem' },
+            { text: 'Anda dapat memperbarui Nama, Email, Nomor Telepon/WhatsApp, Pendidikan Terakhir, hingga NIK KTP dan Jabatan Spesifik.', style: 'listItem' },
+            { text: 'Klik "Simpan Profil" di bagian bawah layar. Perubahan ini akan otomatis tersinkronisasi dengan menu Pengaturan dan Struktur Organisasi.', style: 'listItem' }
+          ]
+        },
+
+        { text: '2. Mengganti Foto Profil (Avatar)', style: 'h2' },
+        {
+          ol: [
+            { text: 'Di halaman Profil Saya, arahkan kursor (mouse) ke arah foto profil Anda yang berbentuk bulat.', style: 'listItem' },
+            { text: 'Klik ikon Kamera yang muncul.', style: 'listItem' },
+            { text: 'Pilih foto terbaik Anda dari komputer atau HP (Maksimal 2MB).', style: 'listItem' },
+            { text: 'Foto akan otomatis diunggah dan langsung tampil di seluruh sistem (termasuk di Bagan Struktur Organisasi).', style: 'listItem' }
+          ]
+        },
+        { text: '', pageBreak: 'after' },
+
         // GLOSARIUM & FAQ
         { text: 'GLOSARIUM (Kamus Istilah Singkat)', style: 'h1', tocItem: true },
         {

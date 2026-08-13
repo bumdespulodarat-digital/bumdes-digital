@@ -64,7 +64,12 @@ Terintegrasi secara penuh dengan **Chart of Accounts (COA) 5-Level** standar BUM
 - **Notulen Rapat:** Pencatatan absensi peserta rapat, agenda, dan keputusan akhir secara digital.
 - **Dokumentasi Kegiatan:** Pengarsipan galeri foto dan rekap acara BUMDes.
 
-### 👥 8. Struktur Organisasi & Hak Akses Bertingkat (RBAC)
+### 👤 8. Profil Pengguna & Avatar Dinamis
+- **Manajemen Akun Mandiri:** Setiap pengurus bisa memperbarui detail kontak, pendidikan, NIK KTP, dan jabatan spesifik.
+- **Unggah Foto Profil (Cloud Storage):** Avatar pengguna yang diunggah akan tersimpan aman di sistem *Cloud* dan tersinkronisasi.
+- **Integrasi Bagan Organisasi:** Foto profil akan otomatis tampil pada bagan Struktur Organisasi, membuatnya lebih interaktif dan humanis.
+
+### 👥 9. Struktur Organisasi & Hak Akses Bertingkat (RBAC)
 - **Visualisasi Struktur Organisasi (Org Chart):** Tampilan hierarki cantik dari Direktur hingga staf lapis bawah secara otomatis.
 - **Manajemen Multi-User & Role Khusus:**
   - `Admin/Direktur/Bendahara`: Akses penuh pengeditan (*Superuser*).
@@ -77,7 +82,7 @@ Terintegrasi secara penuh dengan **Chart of Accounts (COA) 5-Level** standar BUM
   - Karyawan: `karyawan.bumdespulodarat@gmail.com`
   - Pengawas: `pengawas.bumdespulodarat@gmail.com`
 
-### 📖 9. Buku Panduan (SOP) Digital
+### 📖 10. Buku Panduan (SOP) Digital
 - **Built-in FAQ:** Jawaban untuk pertanyaan umum (troubleshooting dasar) tersedia langsung di dalam aplikasi.
 - **Buku Panduan PDF:** Unduh otomatis *SOP (Standard Operating Procedure)* menjadi dokumen PDF yang profesional, lengkap, dan siap cetak untuk panduan pengurus BUMDes.
 
