@@ -234,18 +234,27 @@ export default function StrukturOrganisasi() {
             </div>
 
             {/* Level 4: SEKRETARIS & BENDAHARA */}
-            <div className="flex flex-col items-center w-full">
-              <div className="flex gap-8 justify-center w-full items-start">
-                <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center w-full relative">
+              {/* Horizontal Branch Line connecting the two */}
+              <div className="absolute top-0 w-1/2 sm:w-[320px] h-0.5 bg-slate-300 dark:bg-slate-600" />
+              
+              <div className="flex gap-8 sm:gap-16 justify-center w-full items-start pt-4 relative">
+                {/* Vertical drops from horizontal line */}
+                <div className="absolute top-0 left-[25%] sm:left-[calc(50%-160px)] w-0.5 h-4 bg-slate-300 dark:bg-slate-600" />
+                <div className="absolute top-0 right-[25%] sm:right-[calc(50%-160px)] w-0.5 h-4 bg-slate-300 dark:bg-slate-600" />
+                
+                <div className="flex flex-col items-center flex-1 sm:flex-none sm:w-[240px]">
                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Sekretaris</div>
                    {sekretaris.length > 0 ? sekretaris.map(m => <MemberCard key={m.id} member={m} />) : <EmptyCard role="Sekretaris" />}
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center flex-1 sm:flex-none sm:w-[240px]">
                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Bendahara</div>
                    {bendahara.length > 0 ? bendahara.map(m => <MemberCard key={m.id} member={m} />) : <EmptyCard role="Bendahara" />}
                 </div>
               </div>
-              <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />
+              
+              {/* The vertical line going down to the next level (Manager) from the center */}
+              <div className="absolute top-0 w-0.5 h-[calc(100%+1rem)] bg-slate-300 dark:bg-slate-600 -z-10" />
             </div>
 
             {/* Level 5: MANAGER UNIT USAHA */}
