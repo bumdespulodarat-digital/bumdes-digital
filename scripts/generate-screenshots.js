@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 // ==========================================
 const TEST_EMAIL = 'direktur.bumdespulodarat@gmail.com'; // <-- Masukkan Email Admin disini
 const TEST_PASSWORD = 'bumdes2026'; // <-- Masukkan Password Admin disini
-const APP_URL = 'http://localhost:5173';
+const APP_URL = 'https://bumdes-digital-iota.vercel.app';
 
 const SCREENSHOT_DIR = path.join(__dirname, '..', 'public', 'screenshots');
 
@@ -36,7 +36,7 @@ async function run() {
   try {
     // 1. HALAMAN LOGIN
     console.log('📸 Mengunjungi Halaman Login...');
-    await page.goto(APP_URL);
+    await page.goto(`${APP_URL}/login`, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await delay(2000); // Tunggu animasi selesai
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'login.png') });
     console.log('✅ Screenshot Login tersimpan.');
@@ -63,7 +63,7 @@ async function run() {
 
     // 3. HALAMAN KASIR (POS)
     console.log('🚗 Menuju halaman Kasir (POS)...');
-    await page.goto(`${APP_URL}/admin/kasir`);
+    await page.goto(`${APP_URL}/admin/kasir`, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await delay(2000); // Tunggu data dimuat
     console.log('📸 Mengambil Screenshot Kasir...');
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'kasir.png') });
@@ -71,7 +71,7 @@ async function run() {
 
     // 4. HALAMAN AKUNTANSI
     console.log('🚗 Menuju halaman Akuntansi...');
-    await page.goto(`${APP_URL}/admin/akuntansi`);
+    await page.goto(`${APP_URL}/admin/akuntansi`, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await delay(2000);
     console.log('📸 Mengambil Screenshot Akuntansi...');
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'akuntansi.png') });
