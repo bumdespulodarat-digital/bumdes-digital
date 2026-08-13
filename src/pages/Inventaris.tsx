@@ -5,6 +5,7 @@ import Toast, { ConfirmDialog } from '../components/Toast';
 import type { ToastType } from '../components/Toast';
 import { useAuth } from '../contexts/AuthContext';
 import { exportToPDF, exportToExcel, type BumdesProfile, type ExportTableData } from '../utils/exportUtils';
+import { fetchImageAsBase64 } from '../utils/imageUtils';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
@@ -179,12 +180,39 @@ export default function Inventaris() {
     setLoading(false);
   };
 
-  const handlePrintNotulen = (item: MeetingMinute) => {
+  const handlePrintNotulen = async (item: MeetingMinute) => {
+    const logoBase64 = await fetchImageAsBase64('/logo-bumdes.png');
+    
     const docDefinition: any = {
+      pageSize: 'A4',
+      pageMargins: [40, 120, 40, 60],
+      header: (): any => {
+        return {
+          margin: [40, 20, 40, 0],
+          stack: [
+            {
+              columns: [
+                ...(logoBase64 ? [{
+                  image: logoBase64,
+                  width: 60,
+                  margin: [0, 0, 15, 0]
+                }] : []),
+                {
+                  stack: [
+                    { text: bumdesProfile.storeName || 'BUMDes Noto Mulyo', style: 'headerTitle', alignment: 'center' },
+                    { text: bumdesProfile.storeAddress || 'Desa Polodarat, Kec. Pecan', style: 'headerSubtitle', alignment: 'center' },
+                  ],
+                  margin: [0, 10, 0, 0]
+                }
+              ],
+              alignment: 'center'
+            },
+            { canvas: [{ type: 'line', x1: 0, y1: 10, x2: 515, y2: 10, lineWidth: 2 }, { type: 'line', x1: 0, y1: 13, x2: 515, y2: 13, lineWidth: 0.5 }] },
+            { text: 'NOTULEN RAPAT', style: 'title', alignment: 'center', margin: [0, 15, 0, 15] }
+          ]
+        };
+      },
       content: [
-        { text: bumdesProfile.storeName.toUpperCase(), style: 'header' },
-        { text: bumdesProfile.storeAddress, style: 'subheader' },
-        { text: 'NOTULEN RAPAT', style: 'title' },
         {
           columns: [
             { width: 100, text: 'Judul Rapat', bold: true },

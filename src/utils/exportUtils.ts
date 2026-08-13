@@ -3,6 +3,7 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import type { TDocumentDefinitions, Content, TableCell } from 'pdfmake/interfaces';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
+import { fetchImageAsBase64 } from './imageUtils';
 
 // Register fonts
 (pdfMake as any).vfs = (pdfFonts as any).pdfMake?.vfs ?? pdfFonts;
@@ -110,6 +111,8 @@ export async function exportToPDF(
     ]
   };
 
+  const logoBase64 = await fetchImageAsBase64('/logo-bumdes.png');
+
   const docDefinition: TDocumentDefinitions = {
     pageSize: 'A4',
     pageMargins: [40, 120, 40, 60],
@@ -117,14 +120,29 @@ export async function exportToPDF(
       const headerContent: Content = {
         margin: [40, 20, 40, 0],
         stack: [
-          { text: profile.storeName || 'BUMDes Noto Mulyo', style: 'headerTitle', alignment: 'center' as const },
-          { text: profile.storeAddress || 'Desa Polodarat, Kec. Pecan', style: 'headerSubtitle', alignment: 'center' as const },
-          { canvas: [{ type: 'line', x1: 0, y1: 5, x2: 515, y2: 5, lineWidth: 2 }] },
+          {
+            columns: [
+              ...(logoBase64 ? [{
+                image: logoBase64,
+                width: 60,
+                margin: [0, 0, 15, 0] as [number, number, number, number]
+              }] : []),
+              {
+                stack: [
+                  { text: profile.storeName || 'BUMDes Noto Mulyo', style: 'headerTitle', alignment: 'center' as const },
+                  { text: profile.storeAddress || 'Desa Polodarat, Kec. Pecan', style: 'headerSubtitle', alignment: 'center' as const },
+                ],
+                margin: [0, 10, 0, 0] as [number, number, number, number]
+              }
+            ],
+            alignment: 'center' as const
+          },
+          { canvas: [{ type: 'line', x1: 0, y1: 10, x2: 515, y2: 10, lineWidth: 2 }, { type: 'line', x1: 0, y1: 13, x2: 515, y2: 13, lineWidth: 0.5 }] },
           ...(currentPage === 1 ? [
-            { text: data.title, style: 'reportTitle', alignment: 'center' as const, margin: [0, 10, 0, 0] as [number, number, number, number] },
+            { text: data.title, style: 'reportTitle', alignment: 'center' as const, margin: [0, 15, 0, 0] as [number, number, number, number] },
             { text: `Periode: ${periode}`, style: 'reportSubtitle', alignment: 'center' as const, margin: [0, 2, 0, 0] as [number, number, number, number] }
           ] : [
-            { text: `${data.title} (lanjutan)`, style: 'reportSubtitle', alignment: 'center' as const, margin: [0, 8, 0, 0] as [number, number, number, number] }
+            { text: `${data.title} (lanjutan)`, style: 'reportSubtitle', alignment: 'center' as const, margin: [0, 12, 0, 0] as [number, number, number, number] }
           ])
         ]
       };
@@ -157,10 +175,10 @@ export async function exportToPDF(
       signatureBlock
     ],
     styles: {
-      headerTitle: { fontSize: 14, bold: true },
-      headerSubtitle: { fontSize: 10, color: '#555' },
-      reportTitle: { fontSize: 13, bold: true },
-      reportSubtitle: { fontSize: 9, color: '#666' },
+      headerTitle: { fontSize: 16, bold: true },
+      headerSubtitle: { fontSize: 11, color: '#555' },
+      reportTitle: { fontSize: 14, bold: true },
+      reportSubtitle: { fontSize: 10, color: '#666' },
       tableHeader: { fontSize: 9, bold: true, fillColor: '#E2E8F0', color: '#1E293B', margin: [0, 4, 0, 4] }
     },
     defaultStyle: { fontSize: 9, font: 'Roboto' }
@@ -181,6 +199,15 @@ export async function exportToExcel(
   wb.creator = profile.storeName || 'BUMDes Digital';
   wb.created = new Date();
 
+  const logoBase64 = await fetchImageAsBase64('/logo-bumdes.png');
+  let imageId: number | undefined;
+  if (logoBase64) {
+    imageId = wb.addImage({
+      base64: logoBase64,
+      extension: 'png',
+    });
+  }
+
   const periode = getPeriode();
   const thinBorder: Partial<ExcelJS.Borders> = {
     top: { style: 'thin' },
@@ -193,26 +220,35 @@ export async function exportToExcel(
     const sheetName = data.title.replace(/[\\/*?:\[\]]/g, '').substring(0, 31);
     const ws = wb.addWorksheet(sheetName);
 
+    if (imageId !== undefined) {
+      ws.addImage(imageId, {
+        tl: { col: 0, row: 0 },
+        ext: { width: 60, height: 60 }
+      });
+    }
+
     // Header rows (kop)
-    const kopRow1 = ws.addRow([profile.storeName || 'BUMDes Noto Mulyo']);
-    kopRow1.font = { bold: true, size: 14 };
+    const kopRow1 = ws.addRow(['', profile.storeName || 'BUMDes Noto Mulyo']);
+    kopRow1.font = { bold: true, size: 16 };
     kopRow1.alignment = { horizontal: 'center' };
-    ws.mergeCells(1, 1, 1, data.headers.length);
+    ws.mergeCells(1, 2, 1, Math.max(data.headers.length, 3));
+    ws.getRow(1).height = 25;
 
-    const kopRow2 = ws.addRow([profile.storeAddress || '']);
-    kopRow2.font = { size: 10, color: { argb: 'FF666666' } };
+    const kopRow2 = ws.addRow(['', profile.storeAddress || '']);
+    kopRow2.font = { size: 11, color: { argb: 'FF666666' } };
     kopRow2.alignment = { horizontal: 'center' };
-    ws.mergeCells(2, 1, 2, data.headers.length);
+    ws.mergeCells(2, 2, 2, Math.max(data.headers.length, 3));
+    ws.getRow(2).height = 20;
 
-    const kopRow3 = ws.addRow([data.title]);
-    kopRow3.font = { bold: true, size: 12 };
+    const kopRow3 = ws.addRow(['', data.title]);
+    kopRow3.font = { bold: true, size: 14 };
     kopRow3.alignment = { horizontal: 'center' };
-    ws.mergeCells(3, 1, 3, data.headers.length);
+    ws.mergeCells(3, 2, 3, Math.max(data.headers.length, 3));
 
-    const kopRow4 = ws.addRow([`Periode: ${periode}`]);
+    const kopRow4 = ws.addRow(['', `Periode: ${periode}`]);
     kopRow4.font = { size: 10, italic: true };
     kopRow4.alignment = { horizontal: 'center' };
-    ws.mergeCells(4, 1, 4, data.headers.length);
+    ws.mergeCells(4, 2, 4, Math.max(data.headers.length, 3));
 
     ws.addRow([]); // spacer
 
