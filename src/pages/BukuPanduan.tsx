@@ -183,7 +183,7 @@ export default function BukuPanduan() {
           layout: 'lightHorizontalLines',
           margin: [0, 0, 0, 15] as [number, number, number, number]
         },
-        { text: 'Dashboard adalah halaman pertama yang Anda lihat setelah login. Halaman ini berfungsi sebagai pusat informasi (rapor) harian BUMDes.', style: 'paragraph' },
+        { text: 'Dashboard adalah halaman pertama yang Anda lihat setelah login. Halaman ini berfungsi sebagai pusat informasi (rapor) harian BUMDes. Sistem ini juga dilengkapi dengan Dashboard Publik untuk memberikan transparansi informasi secara live kepada masyarakat desa.', style: 'paragraph' },
         screenshotBox('Tampilan Dashboard dengan Grafik'),
         {
           ol: [
@@ -224,7 +224,7 @@ export default function BukuPanduan() {
             { text: 'Jika pembeli membeli layanan (misal: Jasa Fotokopi), klik ikon "+" (Produk Custom), lalu ketik nama jasa dan harganya.', style: 'listItem' },
             { text: 'Pilih Metode Pembayaran (Tunai, QRIS, atau Transfer).', style: 'listItem' },
             { text: 'Jika Tunai, ketikkan jumlah uang yang diberikan pembeli di kolom "Uang Bayar". Sistem akan otomatis menampilkan nominal Kembalian.', style: 'listItem' },
-            { text: 'Klik tombol "Cetak Struk" untuk menyimpan transaksi dan mencetak nota. Klik "Simpan Data" jika pembeli tidak meminta struk.', style: 'listItem' }
+            { text: 'Klik tombol "Cetak Struk" untuk menyimpan transaksi dan mencetak nota. Sistem secara otomatis mencetak dalam format kertas hemat (kertas A4 dibagi 2 / format A5). Klik "Simpan Data" jika pembeli tidak meminta struk.', style: 'listItem' }
           ]
         },
         { text: '', pageBreak: 'after' },
@@ -254,8 +254,8 @@ export default function BukuPanduan() {
             { text: 'Isi Jumlah Stok Awal yang ada di toko, lalu klik "Simpan".', style: 'listItem' }
           ]
         },
-        { text: '2. Inventaris (Aset Tetap)', style: 'h2' },
-        { text: 'Berbeda dengan barang dagangan, menu Inventaris & Arsip digunakan khusus untuk mendata Aset Tetap milik BUMDes (seperti Meja, Kursi, Komputer) agar tidak hilang dan terdata dengan rapi.', style: 'paragraph' },
+        { text: '2. Inventaris (Aset Tetap) & Arsip Digital', style: 'h2' },
+        { text: 'Berbeda dengan barang dagangan, menu Inventaris & Arsip digunakan khusus untuk mendata Aset Tetap milik BUMDes (seperti Meja, Kursi, Komputer) agar tidak hilang dan terdata dengan rapi. Selain itu, Anda juga dapat mengelola surat masuk, surat keluar, dan mencetak dokumen Notulen Rapat dalam format PDF resmi dengan KOP BUMDes.', style: 'paragraph' },
         { text: '', pageBreak: 'after' },
 
         // BAB 5
@@ -294,6 +294,7 @@ export default function BukuPanduan() {
         {
           ol: [
             { text: 'Pemasukan dari Kasir sudah OTOMATIS masuk ke sini. Anda tidak perlu repot mengetik ulang.', style: 'listItem' },
+            { text: 'Untuk mencatat pemasukan khusus/lainnya, Anda dapat menggunakan menu Setor Pemasukan dengan fitur Unit Usaha (Pihak Terkait) yang bisa Anda ketik atau tambahkan sendiri secara fleksibel.', style: 'listItem' },
             { text: 'Untuk mencatat pengeluaran harian (misal: Beli ATK, Bayar Listrik, Gaji), klik tombol "+ Catat Transaksi" lalu pilih tipe "Uang Keluar".', style: 'listItem' }
           ]
         },
@@ -313,7 +314,7 @@ export default function BukuPanduan() {
         { text: 'BAB 7 - PENGATURAN & STRUKTUR', style: 'h1', tocItem: true },
         
         { text: '1. Struktur Organisasi', style: 'h2' },
-        { text: 'BUMDes dikelola dengan hierarki kepengurusan yang jelas, yang terangkum dalam menu Struktur Organisasi:', style: 'paragraph' },
+        { text: 'BUMDes dikelola dengan hierarki kepengurusan yang jelas, yang terangkum dalam menu Struktur Organisasi interaktif. Anda juga dapat memperbarui profil pengurus secara langsung, seperti mengedit NIK, Jabatan, dan Pendidikan Terakhir.', style: 'paragraph' },
         {
           ul: [
             { text: 'Musyawarah Desa (Musdes): Forum tertinggi pengambil keputusan di BUMDes.', style: 'listItem' },
@@ -337,7 +338,7 @@ export default function BukuPanduan() {
         {
           ol: [
             { text: 'Buka menu Laporan Transaksi atau Akuntansi.', style: 'listItem' },
-            { text: 'Atur filter tanggal (Misal: 1 Agustus - 31 Agustus).', style: 'listItem' },
+            { text: 'Atur filter tanggal. Anda bisa dengan cepat memilih filter 3 Bulan Terakhir atau 6 Bulan Terakhir.', style: 'listItem' },
             { text: 'Klik tombol "Export PDF" atau "Export Excel".', style: 'listItem' },
             { text: 'Laporan resmi lengkap dengan KOP Surat BUMDes akan otomatis terunduh dan siap di-print.', style: 'listItem' }
           ]
