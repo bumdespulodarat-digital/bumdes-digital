@@ -99,7 +99,7 @@ describe('Login Page - Autentikasi', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/');
+      expect(mockNavigate).toHaveBeenCalledWith('/admin');
     });
   });
 

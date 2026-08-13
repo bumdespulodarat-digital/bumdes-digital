@@ -24,8 +24,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/public-dashboard" element={<PublicDashboard />} />
-            <Route path="/" element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
+            <Route path="/" element={<PublicDashboard />} />
+            <Route path="/admin" element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
               <Route index element={<Dashboard />} />
               <Route path="kasir" element={<Pos />} />
               <Route path="stok" element={<Stok />} />

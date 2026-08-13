@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { DollarSign, TrendingUp, Package, ShoppingCart, Store } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { DollarSign, TrendingUp, Package, ShoppingCart, Store, Lock } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import {
   Chart as ChartJS,
@@ -211,7 +212,10 @@ export default function PublicDashboard() {
           </div>
           <div className="hidden sm:flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 rounded-xl shadow-sm">
             <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></div>
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-300">Live Terhubung</span>
+            <span className="text-xs font-bold text-slate-600 dark:text-slate-300 mr-2">Live Terhubung</span>
+            <Link to="/login" className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 hover:bg-primary-100 dark:bg-primary-900/30 dark:hover:bg-primary-900/50 text-primary-700 dark:text-primary-300 rounded-lg text-xs font-bold transition-all border border-primary-200 dark:border-primary-800">
+              <Lock size={12} /> Login Admin
+            </Link>
           </div>
         </div>
 

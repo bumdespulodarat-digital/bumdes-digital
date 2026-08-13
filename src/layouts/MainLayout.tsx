@@ -84,17 +84,17 @@ export default function MainLayout() {
   };
 
   const allNavItems = [
-    { path: '/', icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
-    { path: '/kasir', icon: <ShoppingCart size={20} />, label: 'Kasir (POS)' },
-    { path: '/stok', icon: <Package size={20} />, label: 'Stok Barang' },
-    { path: '/hutang-piutang', icon: <FileText size={20} />, label: 'Hutang Piutang' },
-    { path: '/akuntansi', icon: <FileText size={20} />, label: 'Akuntansi' },
-    { path: '/laporan-transaksi', icon: <BarChart3 size={20} />, label: 'Laporan Transaksi' },
-    { path: '/buku-kas', icon: <BookOpen size={20} />, label: 'Buku Kas' },
-    { path: '/inventaris', icon: <Archive size={20} />, label: 'Inventaris & Arsip' },
-    { path: '/struktur-organisasi', icon: <Users size={20} />, label: 'Struktur Organisasi' },
-    { path: '/panduan', icon: <HelpCircle size={20} />, label: 'Pusat Bantuan' },
-    { path: '/pengaturan', icon: <Settings size={20} />, label: 'Pengaturan' },
+    { path: '/admin', icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
+    { path: '/admin/kasir', icon: <ShoppingCart size={20} />, label: 'Kasir (POS)' },
+    { path: '/admin/stok', icon: <Package size={20} />, label: 'Stok Barang' },
+    { path: '/admin/hutang-piutang', icon: <FileText size={20} />, label: 'Hutang Piutang' },
+    { path: '/admin/akuntansi', icon: <FileText size={20} />, label: 'Akuntansi' },
+    { path: '/admin/laporan-transaksi', icon: <BarChart3 size={20} />, label: 'Laporan Transaksi' },
+    { path: '/admin/buku-kas', icon: <BookOpen size={20} />, label: 'Buku Kas' },
+    { path: '/admin/inventaris', icon: <Archive size={20} />, label: 'Inventaris & Arsip' },
+    { path: '/admin/struktur-organisasi', icon: <Users size={20} />, label: 'Struktur Organisasi' },
+    { path: '/admin/panduan', icon: <HelpCircle size={20} />, label: 'Pusat Bantuan' },
+    { path: '/admin/pengaturan', icon: <Settings size={20} />, label: 'Pengaturan' },
   ];
 
   // Filter nav items based on user role
