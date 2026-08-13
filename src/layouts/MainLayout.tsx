@@ -170,8 +170,12 @@ export default function MainLayout() {
               }
               title={isSidebarCollapsed ? item.label : undefined}
             >
-              <div className={`shrink-0 transition-transform duration-300 ${isActive ? '' : 'group-hover:scale-110 group-hover:-rotate-3'}`}>{item.icon}</div>
-              <span className={`text-sm whitespace-nowrap overflow-hidden transition-all duration-300 ${isSidebarCollapsed ? 'md:w-0 md:opacity-0' : 'w-48 opacity-100'} ${isActive ? '' : 'group-hover:translate-x-1'}`}>{item.label}</span>
+              {({ isActive }) => (
+                <>
+                  <div className={`shrink-0 transition-transform duration-300 ${isActive ? '' : 'group-hover:scale-110 group-hover:-rotate-3'}`}>{item.icon}</div>
+                  <span className={`text-sm whitespace-nowrap overflow-hidden transition-all duration-300 ${isSidebarCollapsed ? 'md:w-0 md:opacity-0' : 'w-48 opacity-100'} ${isActive ? '' : 'group-hover:translate-x-1'}`}>{item.label}</span>
+                </>
+              )}
             </NavLink>
           ))}
         </nav>
