@@ -226,7 +226,7 @@ export default function BukuPanduan() {
           margin: [0, 0, 0, 15] as [number, number, number, number]
         },
         { text: 'Dashboard adalah halaman pertama yang Anda lihat setelah login. Halaman ini berfungsi sebagai pusat informasi (rapor) harian BUMDes. Sistem ini juga dilengkapi dengan Dashboard Publik untuk memberikan transparansi informasi secara live kepada masyarakat desa.', style: 'paragraph' },
-        screenshotBox('Tampilan Dashboard dengan Grafik'),
+        screenshotBox('Tampilan Dashboard dengan Grafik', dashboardImg),
         {
           ol: [
             { text: 'Perhatikan Kotak Ringkasan di bagian atas. Anda bisa melihat total pemasukan hari ini, bulan ini, dan saldo kas secara langsung.', style: 'listItem' },

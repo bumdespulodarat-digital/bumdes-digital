@@ -9,8 +9,8 @@ const __dirname = path.dirname(__filename);
 // ==========================================
 // PENGATURAN KREDENSIAL (UBAH SEBELUM JALAN)
 // ==========================================
-const TEST_EMAIL = 'admin@bumdes.com'; // <-- Masukkan Email Admin disini
-const TEST_PASSWORD = 'password123'; // <-- Masukkan Password Admin disini
+const TEST_EMAIL = 'direktur.bumdespulodarat@gmail.com'; // <-- Masukkan Email Admin disini
+const TEST_PASSWORD = 'bumdes2026'; // <-- Masukkan Password Admin disini
 const APP_URL = 'http://localhost:5173';
 
 const SCREENSHOT_DIR = path.join(__dirname, '..', 'public', 'screenshots');
