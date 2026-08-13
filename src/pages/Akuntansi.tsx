@@ -260,7 +260,7 @@ export default function Akuntansi() {
     setLoading(true);
     try {
       const amount = Number(incomeData.amount);
-      const desc = `[${incomeData.source}] ${incomeData.relatedParty ? 'Pihak: ' + incomeData.relatedParty + ' - ' : ''}${incomeData.desc}`;
+      const desc = `[${incomeData.source}] ${incomeData.desc}`;
       let revCode = '4.1.99.99';
       let revName = 'Pendapatan Lain-lain lainnya';
       if (incomeData.source === 'Tempat Parkir') { revCode = '4.1.07.01'; revName = 'Pendapatan Parkir Mobil'; }
@@ -905,14 +905,14 @@ export default function Akuntansi() {
           <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 w-full max-w-md">
             <h3 className="text-xl font-bold mb-4">Setor Pemasukan</h3>
             <form onSubmit={handleCatatPemasukan} className="space-y-4">
-              <select value={incomeData.source} onChange={e => setIncomeData({...incomeData, source: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl">
-                <option value="Tempat Parkir">Tempat Parkir</option>
-                <option value="Pengasapan Lele">Pengasapan Lele</option>
-                <option value="Samsat Budiman">Samsat Budiman</option>
-                <option value="Agen Internet">Agen Internet</option>
-                <option value="Jasa Lainnya">Jasa Lainnya</option>
-              </select>
-              <input type="text" value={incomeData.relatedParty} onChange={e => setIncomeData({...incomeData, relatedParty: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Pihak Terkait (Opsional)" />
+              <input type="text" list="unit-usaha-list" required value={incomeData.source} onChange={e => setIncomeData({...incomeData, source: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Nama Unit Usaha (Contoh: Tempat Parkir)" />
+              <datalist id="unit-usaha-list">
+                <option value="Tempat Parkir" />
+                <option value="Pengasapan Lele" />
+                <option value="Samsat Budiman" />
+                <option value="Agen Internet" />
+                <option value="Jasa Lainnya" />
+              </datalist>
               <input required type="number" value={incomeData.amount} onChange={e => setIncomeData({...incomeData, amount: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Nominal" />
               <textarea required value={incomeData.desc} onChange={e => setIncomeData({...incomeData, desc: e.target.value})} className="w-full p-3 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl" placeholder="Catatan" />
               <div className="flex justify-end gap-2"><button type="button" onClick={() => setShowIncomeModal(false)} className="px-4 py-2 bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 rounded-xl">Batal</button><button type="submit" className="px-4 py-2 bg-emerald-600 text-white rounded-xl">Simpan</button></div>

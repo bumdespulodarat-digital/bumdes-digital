@@ -206,22 +206,25 @@ export default function StrukturOrganisasi() {
               <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />
             </div>
 
-            {/* Level 2: PENASIHAT & PENGAWAS */}
+            {/* Level 2: PENASIHAT */}
             <div className="flex flex-col items-center w-full">
-              <div className="flex gap-8 justify-center w-full items-start">
-                <div className="flex flex-col items-center">
-                   <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Penasihat</div>
-                   {penasihat.length > 0 ? penasihat.map(m => <MemberCard key={m.id} member={m} />) : <EmptyCard role="Penasihat" />}
-                </div>
-                <div className="flex flex-col items-center">
-                   <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Pengawas</div>
-                   {pengawas.length > 0 ? pengawas.map(m => <MemberCard key={m.id} member={m} />) : <EmptyCard role="Pengawas" />}
-                </div>
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Penasihat</div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">
+                 {penasihat.length > 0 ? penasihat.map(m => <MemberCard key={m.id} member={m} size="large" />) : <EmptyCard role="Penasihat" size="large" />}
               </div>
               <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />
             </div>
 
-            {/* Level 3: DIREKTUR */}
+            {/* Level 3: PENGAWAS */}
+            <div className="flex flex-col items-center w-full">
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Pengawas</div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">
+                 {pengawas.length > 0 ? pengawas.map(m => <MemberCard key={m.id} member={m} size="large" />) : <EmptyCard role="Pengawas" size="large" />}
+              </div>
+              <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-600 mt-4" />
+            </div>
+
+            {/* Level 4: DIREKTUR */}
             <div className="flex flex-col items-center w-full">
               <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Direktur</div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">

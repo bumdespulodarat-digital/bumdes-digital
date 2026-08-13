@@ -64,14 +64,21 @@ export default function PublicDashboard() {
           pendapatan += amount;
           if (year === currentYear) revByMonth[month] += amount;
           
-          // Group by source
+          // Group by source (Dynamic based on [Unit Usaha] tag)
           const desc = j.description || '';
-          let sourceName = 'Penjualan Toko';
-          if (desc.includes('[Tempat Parkir]')) sourceName = 'Tempat Parkir';
-          else if (desc.includes('[Pengasapan Lele]')) sourceName = 'Pengasapan Lele';
-          else if (desc.includes('[Samsat Budiman]')) sourceName = 'Samsat Budiman';
-          else if (desc.includes('[Agen Internet]')) sourceName = 'Agen Internet';
-          else if (desc.includes('[Jasa Lainnya]')) sourceName = 'Jasa Lainnya';
+          let sourceName = 'Lainnya';
+          const match = desc.match(/^\[(.*?)\]/);
+          if (match) {
+            sourceName = match[1];
+          } else {
+            // Fallback for older transactions
+            if (desc.includes('[Tempat Parkir]')) sourceName = 'Tempat Parkir';
+            else if (desc.includes('[Pengasapan Lele]')) sourceName = 'Pengasapan Lele';
+            else if (desc.includes('[Samsat Budiman]')) sourceName = 'Samsat Budiman';
+            else if (desc.includes('[Agen Internet]')) sourceName = 'Agen Internet';
+            else if (desc.includes('[Jasa Lainnya]')) sourceName = 'Jasa Lainnya';
+            else if (desc.toLowerCase().includes('jual') || desc.toLowerCase().includes('kasir')) sourceName = 'Penjualan Toko';
+          }
           sourceMap[sourceName] = (sourceMap[sourceName] || 0) + amount;
         }
         if (j.accounts?.type === 'Expense') {
