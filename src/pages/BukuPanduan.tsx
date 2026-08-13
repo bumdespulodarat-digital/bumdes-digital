@@ -35,31 +35,55 @@ export default function BukuPanduan() {
 
   const handleDownloadPDF = async () => {
     setIsGeneratingPdf(true);
-    let logoBase64 = '';
-    try {
-      const response = await fetch('/logo-bumdes.png');
-      const blob = await response.blob();
-      logoBase64 = await new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result as string);
-        reader.readAsDataURL(blob);
-      });
-    } catch (err) {
-      console.warn('Gagal memuat logo BUMDes', err);
-    }
-    const screenshotBox = (text: string): any => ({
-      table: {
-        widths: ['*'],
-        body: [
-          [{ text: `📷 [ ${text} ]\n(Area Placeholder Gambar)`, alignment: 'center', margin: [0, 40, 0, 40], color: '#94A3B8', fillColor: '#F1F5F9' }]
-        ]
-      },
-      layout: {
-        hLineWidth: () => 1, vLineWidth: () => 1,
-        hLineColor: () => '#E2E8F0', vLineColor: () => '#E2E8F0'
-      },
-      margin: [0, 10, 0, 15]
-    });
+    const fetchImageBase64 = async (url: string) => {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) return null;
+        const blob = await response.blob();
+        return await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(blob);
+        });
+      } catch (err) {
+        return null;
+      }
+    };
+
+    const logoBase64 = await fetchImageBase64('/logo-bumdes.png');
+    const loginImg = await fetchImageBase64('/screenshots/login.png');
+    const dashboardImg = await fetchImageBase64('/screenshots/dashboard.png');
+    const kasirImg = await fetchImageBase64('/screenshots/kasir.png');
+    const akuntansiImg = await fetchImageBase64('/screenshots/akuntansi.png');
+
+    const screenshotBox = (text: string, base64Image?: string | null): any => {
+      if (base64Image) {
+        return {
+          table: {
+            widths: ['*'],
+            body: [[{ image: base64Image, width: 420, alignment: 'center', margin: [0, 10, 0, 10] }]]
+          },
+          layout: {
+            hLineWidth: () => 1, vLineWidth: () => 1,
+            hLineColor: () => '#E2E8F0', vLineColor: () => '#E2E8F0'
+          },
+          margin: [0, 10, 0, 15]
+        };
+      }
+      return {
+        table: {
+          widths: ['*'],
+          body: [
+            [{ text: `📷 [ ${text} ]\n(Area Placeholder Gambar)`, alignment: 'center', margin: [0, 40, 0, 40], color: '#94A3B8', fillColor: '#F1F5F9' }]
+          ]
+        },
+        layout: {
+          hLineWidth: () => 1, vLineWidth: () => 1,
+          hLineColor: () => '#E2E8F0', vLineColor: () => '#E2E8F0'
+        },
+        margin: [0, 10, 0, 15]
+      };
+    };
 
     const docDefinition: any = {
       pageSize: 'A4',
@@ -168,7 +192,7 @@ export default function BukuPanduan() {
           margin: [0, 0, 0, 15] as [number, number, number, number]
         },
         { text: '1. Cara Login ke Dalam Sistem', style: 'h2' },
-        screenshotBox('Halaman Login Aplikasi'),
+        screenshotBox('Halaman Login Aplikasi', loginImg),
         {
           ol: [
             { text: 'Buka alamat website sistem BUMDes melalui browser (Google Chrome/Safari) di Laptop atau HP Anda.', style: 'listItem' },
@@ -234,7 +258,7 @@ export default function BukuPanduan() {
         { text: 'Setiap transaksi di Kasir akan secara OTOMATIS: \n1. Mengurangi sisa stok barang.\n2. Menambah saldo di Buku Kas.\n3. Membuat jurnal pembukuan akuntansi.\nAnda TIDAK PERLU mencatatnya lagi secara manual!', style: 'noteBox', margin: [0, 0, 0, 15] as [number, number, number, number] },
 
         { text: '1. Cara Melakukan Transaksi Penjualan', style: 'h2' },
-        screenshotBox('Tampilan Menu Kasir & Keranjang'),
+        screenshotBox('Tampilan Menu Kasir & Keranjang', kasirImg),
         {
           ol: [
             { text: 'Buka menu Kasir (POS) di sidebar.', style: 'listItem' },
@@ -318,8 +342,8 @@ export default function BukuPanduan() {
           ]
         },
 
-        { text: '2. Laporan Laba Rugi & Neraca', style: 'h2' },
-        screenshotBox('Tampilan Laporan Laba Rugi'),
+        { text: '1. Laporan Laba Rugi', style: 'h2' },
+        screenshotBox('Laporan Laba Rugi Akuntansi', akuntansiImg),
         {
           ol: [
             { text: 'Buka menu Akuntansi. Anda akan langsung melihat laporan keuangan BUMDes tanpa perlu menghitung rumus rumit.', style: 'listItem' },
