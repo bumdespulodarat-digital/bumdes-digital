@@ -173,16 +173,16 @@ export default function MainLayout() {
                   isSidebarCollapsed ? 'md:gap-0 md:w-12 md:h-12 md:p-0 md:justify-center md:mx-auto gap-3 px-4 py-3.5 mx-0' : 'gap-3 px-4 py-3.5 mx-0'
                 } ${
                   isActive 
-                    ? 'bg-gradient-to-r from-primary-100 to-primary-50 dark:from-primary-900/60 dark:to-primary-900/20 text-primary-700 dark:text-primary-300 font-bold shadow-sm border-l-4 border-primary-600 dark:border-primary-500' 
-                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/80 hover:text-primary-600 dark:hover:text-primary-400 font-medium border-l-4 border-transparent'
+                    ? 'bg-gradient-to-r from-primary-100 to-primary-50 dark:from-primary-900/60 dark:to-primary-900/20 text-primary-700 dark:text-primary-300 font-bold shadow-sm' 
+                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/80 hover:text-primary-600 dark:hover:text-primary-400 font-medium'
                 }`
               }
               title={isSidebarCollapsed ? item.label : undefined}
             >
-              {({ isActive }) => (
+              {() => (
                 <>
-                  <div className={`shrink-0 transition-transform duration-300 ${isActive ? '' : 'group-hover:scale-110 group-hover:-rotate-3'}`}>{item.icon}</div>
-                  <span className={`text-sm whitespace-nowrap overflow-hidden transition-all duration-300 ${isSidebarCollapsed ? 'md:w-0 md:opacity-0' : 'w-48 opacity-100'} ${isActive ? '' : 'group-hover:translate-x-1'}`}>{item.label}</span>
+                  <div className="shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">{item.icon}</div>
+                  <span className={`text-sm whitespace-nowrap overflow-hidden transition-all duration-300 ${isSidebarCollapsed ? 'md:w-0 md:opacity-0' : 'w-48 opacity-100'} group-hover:translate-x-1`}>{item.label}</span>
                 </>
               )}
             </NavLink>
@@ -192,7 +192,7 @@ export default function MainLayout() {
         <div className="p-4 border-t border-slate-200 dark:border-slate-800">
           <button 
             onClick={handleLogout} 
-            className={`group flex items-center rounded-xl transition-all duration-300 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 hover:text-rose-700 font-bold border-l-4 border-transparent hover:border-rose-500 ${
+            className={`group flex items-center rounded-xl transition-all duration-300 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 hover:text-rose-700 font-bold ${
               isSidebarCollapsed ? 'md:gap-0 md:w-12 md:h-12 md:p-0 md:justify-center md:mx-auto gap-3 px-4 py-3.5 mx-0 w-full text-left' : 'gap-3 px-4 py-3.5 mx-0 w-full text-left'
             }`}
             title={isSidebarCollapsed ? 'Keluar Sistem' : undefined}
