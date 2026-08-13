@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { useNavigate } from 'react-router-dom';
-import { Store, Lock, Mail, ArrowRight } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Store, Lock, Mail, ArrowRight, ArrowLeft } from 'lucide-react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -27,6 +27,11 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Tombol Kembali */}
+      <Link to="/" className="absolute top-6 left-6 z-20 flex items-center gap-2 text-white/90 hover:text-white font-medium bg-white/10 hover:bg-white/20 border border-white/10 px-5 py-2.5 rounded-xl backdrop-blur-md trans-all shadow-lg hover:shadow-xl">
+        <ArrowLeft size={18} /> Kembali ke Beranda
+      </Link>
+
       {/* Background */}
       <div className="absolute top-0 left-0 w-full h-96 bg-primary-900 rounded-b-[100px] shadow-2xl"></div>
       <div className="absolute -top-20 -right-20 w-96 h-96 bg-primary-600 rounded-full blur-3xl opacity-50"></div>
