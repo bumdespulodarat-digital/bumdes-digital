@@ -7,6 +7,7 @@ import Dashboard from '../pages/Dashboard';
 vi.mock('react-chartjs-2', () => ({
   Bar: () => <div data-testid="mock-chart-bar">Bar Chart</div>,
   Doughnut: () => <div data-testid="mock-chart-doughnut">Doughnut Chart</div>,
+  Line: () => <div data-testid="mock-chart-line">Line Chart</div>,
 }));
 
 vi.mock('../lib/supabase', async () => {
