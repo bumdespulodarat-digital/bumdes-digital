@@ -137,6 +137,7 @@ export default function PublicDashboard() {
         borderWidth: 2,
         borderRadius: 8,
         borderSkipped: false,
+        maxBarThickness: 40,
       },
       {
         label: 'Pengeluaran',
@@ -146,6 +147,7 @@ export default function PublicDashboard() {
         borderWidth: 2,
         borderRadius: 8,
         borderSkipped: false,
+        maxBarThickness: 40,
       }
     ]
   };
