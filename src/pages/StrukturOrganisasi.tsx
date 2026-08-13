@@ -89,8 +89,12 @@ export default function StrukturOrganisasi() {
         <div className={`h-2 bg-gradient-to-r ${gradient}`} />
         <div className={`${isLarge ? 'p-6' : 'p-4'} text-center`}>
           {/* Avatar */}
-          <div className={`${isLarge ? 'w-20 h-20' : isSmall ? 'w-12 h-12' : 'w-16 h-16'} mx-auto rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-black ${isLarge ? 'text-3xl' : isSmall ? 'text-lg' : 'text-2xl'} shadow-lg mb-3 ring-4 ring-white dark:ring-slate-800`}>
-            {member.name.charAt(0).toUpperCase()}
+          <div className={`${isLarge ? 'w-20 h-20' : isSmall ? 'w-12 h-12' : 'w-16 h-16'} mx-auto rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-black ${isLarge ? 'text-3xl' : isSmall ? 'text-lg' : 'text-2xl'} shadow-lg mb-3 ring-4 ring-white dark:ring-slate-800 overflow-hidden`}>
+            {member.photo_url ? (
+              <img src={member.photo_url} alt={member.name} className="w-full h-full object-cover" />
+            ) : (
+              member.name.charAt(0).toUpperCase()
+            )}
           </div>
           <h3 className={`font-bold text-slate-800 dark:text-slate-100 ${isLarge ? 'text-lg' : 'text-sm'} leading-tight mb-0.5`}>{member.name}</h3>
           <p className={`text-xs font-bold bg-gradient-to-r ${gradient} bg-clip-text text-transparent mb-2`}>
@@ -298,8 +302,12 @@ export default function StrukturOrganisasi() {
                 <tr key={m.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all">
                   <td className="p-4">
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${ROLE_COLORS[m.role] || 'from-slate-500 to-slate-700'} flex items-center justify-center text-white font-bold text-sm shrink-0`}>
-                        {m.name.charAt(0).toUpperCase()}
+                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${ROLE_COLORS[m.role] || 'from-slate-500 to-slate-700'} flex items-center justify-center text-white font-bold text-sm shrink-0 overflow-hidden`}>
+                        {m.photo_url ? (
+                          <img src={m.photo_url} alt={m.name} className="w-full h-full object-cover" />
+                        ) : (
+                          m.name.charAt(0).toUpperCase()
+                        )}
                       </div>
                       <span className="font-bold text-slate-800 dark:text-slate-100 whitespace-nowrap">{m.name}</span>
                     </div>
