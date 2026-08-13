@@ -185,7 +185,7 @@ export default function PublicDashboard() {
         'rgba(234, 179, 8, 0.8)', 'rgba(100, 116, 139, 0.8)', 'rgba(113, 113, 122, 0.8)', 'rgba(120, 113, 108, 0.8)'
       ],
       borderColor: isDark ? '#0f172a' : '#ffffff',
-      borderWidth: 4,
+      borderWidth: 1,
       hoverOffset: 8,
     }]
   };
