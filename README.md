@@ -86,6 +86,12 @@ Terintegrasi secara penuh dengan **Chart of Accounts (COA) 5-Level** standar BUM
 - **Built-in FAQ:** Jawaban untuk pertanyaan umum (troubleshooting dasar) tersedia langsung di dalam aplikasi.
 - **Buku Panduan PDF:** Unduh otomatis *SOP (Standard Operating Procedure)* menjadi dokumen PDF yang profesional, komprehensif, dan siap cetak. Buku panduan ini secara lengkap membahas seluruh alur fitur BUMDes (termasuk *Public Dashboard*, Import Excel, Akuntansi Lanjutan, dan *Role-Based Access Control*) yang disertai dengan *screenshot* aktual dari sistem.
 
+### 🎨 11. Identitas Visual & UI/UX Enterprise
+- **Desain Autentik BUMDes:** Antarmuka bebas dari desain "template AI" generik. Menggunakan palet warna resmi BUMDes (Biru, Hijau, Oranye) dengan gaya visual (tanpa shadow berlebihan/gradien pelangi) yang profesional dan bersih.
+- **Tipografi Berkarakter:** Penggunaan font serif (`Merriweather`) untuk judul modul demi memberikan kesan resmi institusi desa, dipadukan dengan sans-serif (`Plus Jakarta Sans`) untuk keterbacaan data numerik yang optimal.
+- **Ergonomi Sentuhan (Touch-Friendly):** Seluruh elemen interaktif (tombol, *input*, *dropdown*) dirancang dengan standar target sentuh minimal 44px, sangat nyaman dioperasikan baik dari layar komputer, maupun HP dan tablet kasir.
+- **Tabel Responsif:** Data panjang seperti Laporan, Inventaris, dan Buku Kas disajikan dengan gaya baris belang (*striped rows*) agar nyaman dan tidak membingungkan mata saat dibaca cepat.
+
 ## 🛠️ Stack Teknologi (Tech Stack)
 Aplikasi ini dibangun menggunakan arsitektur modern untuk menjamin kecepatan, keamanan, dan keandalan data:
 - **Frontend Layer:** React (Vite) dengan strict TypeScript.
