@@ -82,7 +82,7 @@ export default function MainLayout() {
 
       if (error) throw error;
 
-      setToast({ message: 'Password berhasil diubah! 🔑', type: 'success', subtitle: 'Gunakan password baru Anda saat login berikutnya.' });
+      setToast({ message: 'Password berhasil diubah!', type: 'success', subtitle: 'Gunakan password baru Anda saat login berikutnya.' });
       setShowChangePassword(false);
       setPasswordForm({ newPassword: '', confirmPassword: '' });
     } catch (error: any) {
@@ -143,7 +143,7 @@ export default function MainLayout() {
               <img src="/logo-bumdes.png" alt="Logo BUMDes" className="max-w-full max-h-full object-contain drop-shadow-sm" />
             </div>
             <div className={`overflow-hidden transition-all duration-300 ${isSidebarCollapsed ? 'md:w-0 md:opacity-0' : 'w-48 opacity-100'}`}>
-              <h1 className="font-bold text-lg leading-tight text-primary-900 dark:text-primary-300 truncate" title={storeInfo.name}>{storeInfo.name}</h1>
+              <h1 className="font-serif font-bold text-lg leading-tight text-primary-900 dark:text-primary-300 truncate" title={storeInfo.name}>{storeInfo.name}</h1>
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium truncate" title={storeInfo.address}>{storeInfo.address}</p>
             </div>
           </div>
@@ -216,7 +216,7 @@ export default function MainLayout() {
             >
               <Menu size={20} />
             </button>
-            <h2 className="font-extrabold text-lg text-slate-800 dark:text-slate-100 tracking-tight">Sistem BUMDes</h2>
+            <h2 className="font-serif font-extrabold text-lg text-slate-800 dark:text-slate-100 tracking-tight">Sistem BUMDes</h2>
           </div>
 
           <div className="flex items-center gap-3">
@@ -345,7 +345,7 @@ export default function MainLayout() {
                   placeholder="Ketik ulang password baru"
                 />
                 {passwordForm.confirmPassword && passwordForm.newPassword !== passwordForm.confirmPassword && (
-                  <p className="text-xs text-rose-500 mt-1.5 font-semibold">⚠️ Password tidak cocok</p>
+                  <p className="text-xs text-rose-500 mt-1.5 font-semibold">Password tidak cocok</p>
                 )}
               </div>
               

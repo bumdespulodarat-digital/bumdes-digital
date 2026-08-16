@@ -547,7 +547,7 @@ export default function BukuPanduan() {
       <div className="bg-gradient-to-br from-primary-900 via-primary-800 to-primary-600 rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden group">
         <div className="relative z-10 animate-fade-in-up flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="max-w-2xl">
-            <h1 className="text-2xl md:text-3xl font-black mb-2 flex items-center gap-3">
+            <h1 className="text-2xl md:text-3xl font-serif font-black mb-2 flex items-center gap-3">
               <BookOpen className="text-primary-200" /> Pusat Bantuan & Panduan
             </h1>
             <p className="text-primary-100 text-sm leading-relaxed font-medium">
@@ -557,7 +557,7 @@ export default function BukuPanduan() {
           <button 
             onClick={handleDownloadPDF}
             disabled={isGeneratingPdf}
-            className="flex items-center justify-center gap-2 bg-white text-primary-700 hover:bg-primary-50 px-6 py-3 rounded-xl font-bold transition-all shadow-lg active:scale-95 shrink-0 cursor-pointer disabled:opacity-70 disabled:cursor-wait"
+            className="flex items-center justify-center gap-2 min-h-[44px] bg-white text-primary-700 hover:bg-primary-50 px-6 py-3 rounded-xl font-bold transition-all shadow-lg active:scale-95 shrink-0 cursor-pointer disabled:opacity-70 disabled:cursor-wait"
           >
             <Download size={18} className={isGeneratingPdf ? 'animate-bounce' : ''} /> 
             {isGeneratingPdf ? 'Menyiapkan PDF...' : 'Download PDF Panduan'}
@@ -571,7 +571,7 @@ export default function BukuPanduan() {
         {/* FAQ Section */}
         <div className="lg:col-span-2 card rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col lg:overflow-hidden">
           <div className="p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
-            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <h2 className="text-xl font-serif font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
               <ShieldQuestion size={20} className="text-primary-600" /> Pertanyaan yang Sering Diajukan (FAQ)
             </h2>
           </div>
@@ -583,7 +583,7 @@ export default function BukuPanduan() {
               >
                 <button 
                   onClick={() => toggleItem(index)}
-                  className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 focus:outline-none"
+                  className="w-full text-left min-h-[44px] px-5 py-4 flex items-center justify-between gap-4 focus:outline-none"
                 >
                   <span className={`font-bold text-sm md:text-base pr-4 ${openItem === index ? 'text-primary-700 dark:text-primary-400' : 'text-slate-700 dark:text-slate-300'}`}>
                     {faq.q}
@@ -608,7 +608,7 @@ export default function BukuPanduan() {
             <div className="absolute top-0 right-0 p-4 opacity-10">
               <Lightbulb size={100} />
             </div>
-            <h3 className="text-amber-800 dark:text-amber-500 font-black flex items-center gap-2 mb-3 relative z-10">
+            <h3 className="text-amber-800 dark:text-amber-500 font-serif font-black flex items-center gap-2 mb-3 relative z-10">
               <Lightbulb size={20} /> Tips Harian
             </h3>
             <p className="text-sm text-amber-700 dark:text-amber-400/80 leading-relaxed relative z-10 font-medium">
@@ -619,13 +619,13 @@ export default function BukuPanduan() {
 
           
           <div className="card rounded-3xl shadow-sm p-6 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
-            <h3 className="text-slate-800 dark:text-slate-100 font-black flex items-center gap-2 mb-2">
+            <h3 className="text-slate-800 dark:text-slate-100 font-serif font-black flex items-center gap-2 mb-2">
               <HelpCircle size={20} className="text-primary-600" /> Butuh Bantuan Ekstra?
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
               Jika Anda mengalami kendala teknis atau menemukan bug/error, silakan hubungi tim IT.
             </p>
-            <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 w-full bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 py-2.5 rounded-xl font-bold text-sm transition-all">
+            <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 w-full min-h-[44px] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 py-2.5 rounded-xl font-bold text-sm transition-all">
               Hubungi Tim IT
             </a>
           </div>

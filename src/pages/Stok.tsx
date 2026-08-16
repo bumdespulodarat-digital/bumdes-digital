@@ -210,7 +210,7 @@ export default function Stok() {
     setImportLoading(false);
     setShowImportModal(false);
     setImportData([]);
-    setToast({ message: `Import selesai! ✅`, type: 'success', subtitle: `${successCount} baru ditambah, ${skipCount} diperbarui.` });
+    setToast({ message: `Import selesai!`, type: 'success', subtitle: `${successCount} baru ditambah, ${skipCount} diperbarui.` });
     fetchItems();
   };
 
@@ -220,17 +220,17 @@ export default function Stok() {
       {/* Navbar Tabs */}
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-center card rounded-2xl shadow-sm p-4 z-10">
         <div className="flex overflow-x-auto no-scrollbar whitespace-nowrap bg-slate-100 dark:bg-slate-800 p-1 rounded-xl w-full sm:w-auto snap-x">
-          <button onClick={() => setActiveTab('Manajemen')} className={`flex items-center gap-2 px-6 py-2 rounded-lg font-bold text-sm trans-all ${activeTab === 'Manajemen' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}><Package size={16} /> Manajemen Stok</button>
-          <button onClick={() => setActiveTab('Kartu')} className={`flex items-center gap-2 px-6 py-2 rounded-lg font-bold text-sm trans-all ${activeTab === 'Kartu' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}><FileText size={16} /> Kartu Stok</button>
+          <button onClick={() => setActiveTab('Manajemen')} className={`flex items-center gap-2 px-6 py-2 min-h-[44px] rounded-lg font-bold text-sm trans-all ${activeTab === 'Manajemen' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}><Package size={16} /> Manajemen Stok</button>
+          <button onClick={() => setActiveTab('Kartu')} className={`flex items-center gap-2 px-6 py-2 min-h-[44px] rounded-lg font-bold text-sm trans-all ${activeTab === 'Kartu' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}><FileText size={16} /> Kartu Stok</button>
         </div>
         {activeTab === 'Manajemen' && (
           <div className="flex gap-2 w-full sm:w-auto flex-wrap">
-            <button onClick={fetchItems} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-xl font-bold border dark:border-slate-700"><RefreshCw size={16} className={loading ? 'animate-spin' : ''} /></button>
+            <button onClick={fetchItems} className="flex-1 sm:flex-none min-h-[44px] flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-xl font-bold border dark:border-slate-700"><RefreshCw size={16} className={loading ? 'animate-spin' : ''} /></button>
             {!isPengawas && (
               <>
-                <button onClick={handleDownloadTemplate} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-3 py-2 rounded-xl font-bold border border-emerald-200 dark:border-emerald-800 text-sm"><Download size={14} /> Template</button>
-                <button onClick={() => setShowImportModal(true)} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-2 rounded-xl font-bold border border-blue-200 dark:border-blue-800 text-sm"><Upload size={14} /> Import Excel</button>
-                <button onClick={() => { setEditingItem(null); setFormData({ sku: '', name: '', category: 'ATK', price: '', cost_price: '', stock: '', tax_rate: '0' }); setShowModal(true); }} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-primary-600/30"><Plus size={16} /> Tambah Barang</button>
+                <button onClick={handleDownloadTemplate} className="flex-1 sm:flex-none min-h-[44px] flex items-center justify-center gap-2 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-3 py-2 rounded-xl font-bold border border-emerald-200 dark:border-emerald-800 text-sm"><Download size={14} /> Template</button>
+                <button onClick={() => setShowImportModal(true)} className="flex-1 sm:flex-none min-h-[44px] flex items-center justify-center gap-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-2 rounded-xl font-bold border border-blue-200 dark:border-blue-800 text-sm"><Upload size={14} /> Import Excel</button>
+                <button onClick={() => { setEditingItem(null); setFormData({ sku: '', name: '', category: 'ATK', price: '', cost_price: '', stock: '', tax_rate: '0' }); setShowModal(true); }} className="flex-1 sm:flex-none min-h-[44px] flex items-center justify-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-primary-600/30"><Plus size={16} /> Tambah Barang</button>
               </>
             )}
           </div>
@@ -274,7 +274,7 @@ export default function Stok() {
                 </thead>
                 <tbody className="divide-y divide-slate-200 dark:divide-slate-700/60">
                   {filteredItems.map((item) => (
-                    <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all">
+                    <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all even:bg-slate-50/50 dark:even:bg-slate-800/30">
                       <td className="p-4 font-mono text-slate-500 dark:text-slate-400">{item.sku}</td>
                       <td className="p-4 font-bold dark:text-slate-100">{item.name}</td>
                       <td className="p-4"><span className="px-2 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-700 dark:text-slate-300">{item.category}</span></td>
@@ -294,8 +294,8 @@ export default function Stok() {
                       </td>
                       {!isPengawas && (
                         <td className="p-4 text-center space-x-2">
-                          <button onClick={() => handleEdit(item)} className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={14} /></button>
-                          <button onClick={() => handleDelete(item.id)} className="p-2 rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={14} /></button>
+                          <button onClick={() => handleEdit(item)} className="p-2 w-10 h-10 inline-flex items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={16} /></button>
+                          <button onClick={() => handleDelete(item.id)} className="p-2 w-10 h-10 inline-flex items-center justify-center rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={16} /></button>
                         </td>
                       )}
                     </tr>
@@ -310,7 +310,7 @@ export default function Stok() {
         <div className="flex-1 card rounded-2xl shadow-sm border dark:border-slate-800 flex flex-col relative bg-white dark:bg-slate-900 p-4 sm:p-8">
           <div className="max-w-4xl mx-auto w-full space-y-6">
             <div>
-              <h2 className="text-2xl font-extrabold text-slate-800 dark:text-slate-100 mb-2">Buku Pembantu Persediaan</h2>
+              <h2 className="text-2xl font-serif font-extrabold text-slate-800 dark:text-slate-100 mb-2">Buku Pembantu Persediaan</h2>
               <p className="text-slate-500 dark:text-slate-400 text-sm">Lihat riwayat pergerakan stok barang masuk dan keluar.</p>
             </div>
             
@@ -334,7 +334,7 @@ export default function Stok() {
                          saldo += (movements[i].type === 'IN' ? movements[i].qty : -movements[i].qty);
                       }
                       return (
-                        <tr key={m.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all">
+                        <tr key={m.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all even:bg-slate-50/50 dark:even:bg-slate-800/30">
                           <td className="p-4 dark:text-slate-300">{new Date(m.created_at).toLocaleString('id-ID')}</td>
                           <td className="p-4 dark:text-slate-300">{m.description}</td>
                           <td className="p-4 text-center font-bold text-emerald-600 dark:text-emerald-400">{m.type === 'IN' ? m.qty : '-'}</td>
@@ -355,8 +355,8 @@ export default function Stok() {
         <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center p-4 z-50">
           <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border dark:border-slate-800">
             <div className="flex justify-between items-center p-6 border-b dark:border-slate-800">
-              <h3 className="text-xl font-bold dark:text-slate-100">{editingItem ? 'Edit Barang' : 'Tambah Barang Baru'}</h3>
-              <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-600 p-2 bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl"><X size={20} /></button>
+              <h3 className="text-xl font-serif font-bold dark:text-slate-100">{editingItem ? 'Edit Barang' : 'Tambah Barang Baru'}</h3>
+              <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-600 p-2 w-11 h-11 inline-flex items-center justify-center bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl"><X size={20} /></button>
             </div>
             <form onSubmit={handleSave} className="p-6 space-y-4">
               <input required type="text" value={formData.sku} onChange={e => setFormData({...formData, sku: e.target.value})} className="w-full px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2" placeholder="Kode (SKU)" />
@@ -380,8 +380,8 @@ export default function Stok() {
                 <span className="absolute right-3 top-[34px] text-slate-400 text-sm font-bold">%</span>
               </div>
               <div className="pt-4 flex justify-end gap-3 border-t dark:border-slate-800 mt-2">
-                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2.5 text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl font-bold">Batal</button>
-                <button type="submit" className="px-5 py-2.5 bg-primary-600 text-white rounded-xl font-bold shadow-lg">Simpan Data</button>
+                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 min-h-[44px] text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl font-bold">Batal</button>
+                <button type="submit" className="px-5 py-2 min-h-[44px] bg-primary-600 text-white rounded-xl font-bold shadow-lg">Simpan Data</button>
               </div>
             </form>
           </div>
@@ -393,13 +393,13 @@ export default function Stok() {
         <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center p-4 z-50">
           <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden border dark:border-slate-800 max-h-[85vh] flex flex-col">
             <div className="flex justify-between items-center p-6 border-b dark:border-slate-800 shrink-0">
-              <h3 className="text-xl font-bold dark:text-slate-100">📥 Import Barang dari Excel</h3>
-              <button onClick={() => { setShowImportModal(false); setImportData([]); }} className="text-slate-400 hover:text-slate-600 p-2 bg-slate-100 dark:bg-slate-800 rounded-xl"><X size={20} /></button>
+              <h3 className="text-xl font-serif font-bold dark:text-slate-100">Import Barang dari Excel</h3>
+              <button onClick={() => { setShowImportModal(false); setImportData([]); }} className="text-slate-400 hover:text-slate-600 p-2 w-11 h-11 inline-flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-xl"><X size={20} /></button>
             </div>
             <div className="p-6 space-y-4 overflow-y-auto flex-1">
               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4">
-                <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">📄 Download template terlebih dahulu, isi data, lalu upload file Excel Anda di bawah ini.</p>
-                <button onClick={handleDownloadTemplate} className="mt-2 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-bold text-sm"><Download size={14} /> Download Template Excel</button>
+                <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">Download template terlebih dahulu, isi data, lalu upload file Excel Anda di bawah ini.</p>
+                <button onClick={handleDownloadTemplate} className="mt-2 flex items-center gap-2 px-4 py-2 min-h-[44px] bg-blue-600 text-white rounded-lg font-bold text-sm"><Download size={14} /> Download Template Excel</button>
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Upload File Excel (.xlsx)</label>
@@ -432,8 +432,8 @@ export default function Stok() {
               )}
             </div>
             <div className="p-6 border-t dark:border-slate-800 flex justify-end gap-3 shrink-0">
-              <button onClick={() => { setShowImportModal(false); setImportData([]); }} className="px-4 py-2.5 text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-xl font-bold">Batal</button>
-              <button onClick={handleImportConfirm} disabled={importData.length === 0 || importLoading} className="px-5 py-2.5 bg-primary-600 text-white rounded-xl font-bold shadow-lg disabled:opacity-50">
+              <button onClick={() => { setShowImportModal(false); setImportData([]); }} className="px-4 py-2 min-h-[44px] text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-xl font-bold">Batal</button>
+              <button onClick={handleImportConfirm} disabled={importData.length === 0 || importLoading} className="px-5 py-2 min-h-[44px] bg-primary-600 text-white rounded-xl font-bold shadow-lg disabled:opacity-50">
                 {importLoading ? 'Mengimport...' : `Import ${importData.length} Barang`}
               </button>
             </div>

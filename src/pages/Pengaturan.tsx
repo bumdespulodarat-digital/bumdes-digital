@@ -97,7 +97,7 @@ export default function Pengaturan() {
       });
       setNewUser({ name: '', role: 'Karyawan', email: '', password: '' });
       fetchData();
-      setToast({ message: `${newUser.name} berhasil ditambahkan! ✨`, type: 'success', subtitle: `Akun ${newUser.email} (${newUser.role}) sudah aktif dan siap digunakan.` });
+      setToast({ message: `${newUser.name} berhasil ditambahkan!`, type: 'success', subtitle: `Akun ${newUser.email} (${newUser.role}) sudah aktif dan siap digunakan.` });
     } catch (error: any) {
       console.error(error);
       setToast({ message: 'Terjadi kesalahan sistem', type: 'error', subtitle: 'Silakan coba lagi atau hubungi administrator.' });
@@ -147,7 +147,7 @@ export default function Pengaturan() {
       }
 
       fetchData();
-      setToast({ message: `${name} berhasil dihapus sepenuhnya ✅`, type: 'success', subtitle: `Akun ${email} telah dihapus dari database dan Supabase Auth.` });
+      setToast({ message: `${name} berhasil dihapus sepenuhnya`, type: 'success', subtitle: `Akun ${email} telah dihapus dari database dan Supabase Auth.` });
     } catch (error: any) {
       console.error('Error menghapus pengurus:', error);
       setToast({ message: 'Gagal menghapus pengurus', type: 'error', subtitle: error?.message || 'Terjadi kesalahan, silakan coba lagi.' });
@@ -184,7 +184,7 @@ export default function Pengaturan() {
 
       if (updateError) throw updateError;
 
-      setToast({ message: `Password ${editPasswordModal.name} berhasil diubah! 🔑`, type: 'success', subtitle: 'Pengguna sekarang dapat login dengan password baru.' });
+      setToast({ message: `Password ${editPasswordModal.name} berhasil diubah!`, type: 'success', subtitle: 'Pengguna sekarang dapat login dengan password baru.' });
       setEditPasswordModal(null);
       setEditPasswordValue('');
     } catch (error: any) {
@@ -234,7 +234,7 @@ export default function Pengaturan() {
         {activeTab === 'toko' && (
           <div className="flex-1 p-6 md:p-8 overflow-y-auto">
             <div className="max-w-2xl mb-8">
-              <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Pengaturan Profil Usaha</h2>
+              <h2 className="text-2xl font-serif font-bold text-slate-800 dark:text-slate-100">Pengaturan Profil Usaha</h2>
               <p className="text-slate-500 dark:text-slate-400 mt-1">Informasi ini akan ditampilkan pada kop Struk Kasir dan Laporan PDF/Excel.</p>
             </div>
 
@@ -292,7 +292,7 @@ export default function Pengaturan() {
             <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
               
               <div className="lg:col-span-2">
-                <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">Daftar Akun Pengurus</h2>
+                <h2 className="text-2xl font-serif font-bold text-slate-800 dark:text-slate-100 mb-2">Daftar Akun Pengurus</h2>
                 <p className="text-slate-500 dark:text-slate-400 mb-6">Manajemen akses multi-user untuk para pengurus BUMDes.</p>
                 
                 <div className="space-y-3">
@@ -323,7 +323,7 @@ export default function Pengaturan() {
 
               <div className="lg:col-span-1">
                 <div className="bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl p-6 sticky top-0">
-                  <h3 className="font-extrabold text-slate-800 dark:text-slate-100 mb-6 flex items-center gap-2">
+                  <h3 className="font-serif font-extrabold text-slate-800 dark:text-slate-100 mb-6 flex items-center gap-2">
                     <UserPlus size={18} className="text-primary-600" /> Tambah Akun Baru
                   </h3>
                   <form onSubmit={handleTambahPengurus} className="space-y-4">
@@ -372,7 +372,7 @@ export default function Pengaturan() {
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-fade-in-up">
             <div className="p-6 border-b border-slate-100 dark:border-slate-800">
-              <h2 className="text-xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
+              <h2 className="text-xl font-serif font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
                 <KeyRound size={22} className="text-primary-600" /> Ubah Password
               </h2>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
@@ -398,14 +398,14 @@ export default function Pengaturan() {
                 <button 
                   type="button" 
                   onClick={() => { setEditPasswordModal(null); setEditPasswordValue(''); }}
-                  className="flex-1 py-3 px-4 rounded-xl font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 trans-all"
+                  className="flex-1 py-3 px-4 min-h-[44px] rounded-xl font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 trans-all"
                 >
                   Batal
                 </button>
                 <button 
                   type="submit" 
                   disabled={saving}
-                  className="flex-1 py-3 px-4 rounded-xl font-bold text-white bg-primary-600 hover:bg-primary-700 shadow-lg shadow-primary-600/30 trans-all disabled:opacity-50"
+                  className="flex-1 py-3 px-4 min-h-[44px] rounded-xl font-bold text-white bg-primary-600 hover:bg-primary-700 shadow-lg shadow-primary-600/30 trans-all disabled:opacity-50"
                 >
                   {saving ? 'Menyimpan...' : 'Simpan'}
                 </button>

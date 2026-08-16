@@ -1,0 +1,53 @@
+**PENGURUS BUMDES:**
+Pertama ini 10000, sebut yang dikomentari, praktekkan tersebut yang dikit. Ini 10.000 sebut ini, seperti itu. Itu kalau nanti bisa ya ditambahkan.
+
+Kemudian input barang dengan Excel. Ini contoh disediakan barang baru, banyak sekali, kemudian kalau input satu-satu kan lama. Kalau bisa ditambahin, nanti format Excel-nya bisa di-download dulu, kemudian di PC, setelah itu tinggal di-upload. Nanti stok barangnya tinggal nambah-nambah-nambah. Jadi stok barangnya, excel-nya di-upload, otomatis barang dan stok barangnya masuk. Iya, kalau bisa seperti itu. Tapi apapun hasilnya, nanti biar BUMDes seluruhnya sangat mengapresiasi.
+
+Kemudian yang ketiga, user karyawan toko kalau bisa berbeda dengan pengurus BUMDes. Jadi untuk karyawan, kalau bisa hanya bisa melihat di kasir POS-nya atau mungkin stok barang. Dan untuk yang akuntansinya kalau bisa, jangan sampai bisa melihat bagian akuntansi kayak neraca, kemudian laba rugi. Pokoknya yang bahasanya itu privacy untuk para pengurus, itu supaya bisa tersendiri.
+
+Kemudian, bisa gak sih, BUMDes ini punya aset printer, jadi tidak ada pembukuan lain-lain di aplikasi ini. Jadi semuanya ini, BUMDes itu biasanya butuh kayak inventaris barang, kemudian kayak inventaris surat. Nomor suratnya saja jadi bisa diinput semuanya. Oh ada surat dari mana, kemudian tanggal berapa. Bahkan di aplikasi ini makanya digital kan, ya sekalian saja inventaris surat itu juga masih ada kayak hasil scan, itu bisa di-upload, itu saja sudah cukup. Izin usaha, IP, kemudian kayak Perdes BUMDes itu kan biasanya di-scan, nah tinggal di-upload saja setelah di-scan. Nanti juga di-upload, suatu saat butuh tinggal dibuka. Kemudian kegiatan dokumentasinya itu, jadi di situ ada kegiatan, jadi menu upload saja, link-nya saja. Berarti tinggal klik itu, langsung masuk ke link di Google Drive, itu juga bisa. Kalau di satu aplikasi ini itu tidak terlalu harus nyari-nyari buka lagi di Google Drive. Kalau langsung di sini, ada link-nya untuk menuju ke Google Drive kan tinggal buka ini, tinggal diklik, nanti otomatis masuk ke Google Drive walaupun mungkin nanti login dulu atau bagaimana.
+
+Kemudian, kalau soal mungkin ini kelanjutannya, pertanyaan saya adalah nanti itu untuk domain dan servernya kira-kira kan berbayar mungkin per tahunnya, per bulannya nanti. Kalau iya, kelanjutannya kan supaya aplikasi ini tetap digunakan selama-lamanya nanti yang membiayai, saya siap keluar biaya untuk bulanan/tahunannya. Tadi biaya domain kan gak gratis, server cost-nya kira-kira masuk di budget.
+
+Intinya adalah bagaimana pembukuan administrasi BUMDes itu bisa lebih lengkap dan lebih mudah. Nah, yang namanya keuangan pasti paham risikonya seperti apa kan ya. Itulah namanya uang, itu harus diperinci secara maksimal. Dokumentasi foto-foto itu juga termasuk dasar dari bukti. Segala sesuatu tindakan dari BUMDes pasti tidak luput dari yang namanya dokumentasi. Itu sebisa mungkin juga di aplikasi ini nanti harapan kami ada untuk bisa upload foto kegiatan. Suatu saat ditanyakan pembukuan itu sangat penting bagi BUMDes. Tidak hanya BUMDes kami, semua BUMDes rata-rata masalahnya adalah di pembukuan. Jadi kalau ini mungkin nanti terealisasi, itu merupakan sesuatu yang luar biasa. Administrasinya lengkap dan sudah jadi satu paket di aplikasi luar biasa. Itu saja dari saya, semoga nanti bisa terealisasi. Sekian dari saya, Assalamualaikum warahmatullahi wabarakatuh.
+
+**TIM KKN:**
+Nanti saya akan mencoba semuanya terkait fitur-fitur tadi yang ditambahkan. Saya misalkan bisa ya pak, karena saya juga sama-sama masih belajar.
+
+**PENGURUS BUMDES:**
+Ini sekretarisnya tanya begini, integrasi dengan Android atau Playstore kira-kira itu biayanya sampai berapa? Di Playstore kan satu kali bayar dong ya?
+
+**TIM KKN:**
+Cuman untuk di Playstore sebelumnya saya pernah, pembayarannya saya ngikut dari pihak kampus untuk tugas waktu itu dan untuk ACC-nya itu sangat lama. Jadi ada teman saya yang tidak ter-ACC seperti itu, jadi belum tentu bisa dari pusatnya Google Playstore. Waktu itu pakai akun kampus itu jadi gratis.
+
+**PENGURUS BUMDES:**
+Bentuk aplikasi malah mahal ya. Tapi kan satu kali gak apa-apa. Lagipula setelah masuk aplikasi web kan sudah cukup gitu loh.
+
+**TIM KKN:**
+Kalau ada biayanya pasti ada pak, cuman saya kurang tahu di Google Playstore per bulan atau per tahun. Waktu itu saya mencoba dengan menggunakan komputer yang 24 jam hidup terus menerus itu jadikan web server, jika di sini ada ruangan server bisa seperti itu. Jadi pembayarannya cukup satu kali, database online untuk via Android menggunakan itu.
+
+**PENGURUS BUMDES:**
+Kalau kita bisa sekali jangka waktu yang lama, lebih mending hal itu kita lakukan daripada kita terus membayarkan 450 ribu, terlalu riskan. Mungkin kalau kita bisa mengaplikasikan itu secara aplikasi web yang memang memuat sama halnya, kemungkinan lebih simpel, tidak mengeluarkan uang untuk beberapa kali setiap bulan, biayanya juga lumayan. Kalau semisal memang bisa diaplikasikan, kita mengharapkan hal itu.
+
+**TIM KKN:**
+Menurut saya untuk penambahan fitur website mungkin selama KKN saya masih bisa menambahkan. Dan untuk mobile itu membutuhkan waktu yang cukup lama pak, karena ini saya sendiri yang buat.
+
+**PENGURUS BUMDES:**
+Ini kami tidak memaksa sampai sejauh mana. Intinya seperti tadi yang saya sampaikan, bagaimanapun hasilnya tetap BUMDes sangat mengapresiasi. Karena masalah terbesar BUMDes itu ya tadi, pembukuan dan administrasi. Itu salah sedikit berisiko sampai ke mana-mana. Tapi kalau ini pokoknya dibuat setransparan mungkin, semudah mungkin cara mengerjakannya, insya Allah nanti laporan tidak akan keteteran. Kalau laporan mas, ini sedikit curhat, jatah laporan itu kan setiap 3 bulan sekali atau jelek-jeleknya 6 bulan sekali. Kadang kita sendiri karena rumit membuat laporan, apalagi harus nginput satu-satu di Excel, jadi laporan semesteran sering terlambat sampai 7 bulan bahkan 1 tahun. Pengurus BUMDes ini bukan sepenuhnya orang yang free, masih punya pekerjaan utama. Jadi kami sangat mengapresiasi ini, tadi sudah bagus. Walaupun tadi kalau masuk di Playstore sangat susah, untuk di website tidak masalah.
+
+Lalu bagaimana dengan laporan dan pajak? Pajak itu kalau laporan setahun sekali, jadi nominal pajaknya bagaimana hitung-hitungannya? Karena usahanya cuma satu, biar pengeluaran pajak per produk itu ketahuan berapa pajaknya. Penghasilan dapat uang dari internet WiFi itu nanti pajaknya pasti berbeda. Otomatis penghasilan yang kita dapat itu harus disisihkan untuk bayar pajak.
+
+**TIM KKN:**
+Biasanya kalau sistem akuntansi, di sistem sudah ada PPN-nya. Jadi perkalian totalnya, misal 11%, itu PPN IN atau PPN OUT. Biasanya kalau masuk itu, kita nanti bayarin ke pajaknya. Itu berarti nanti semisalkan di laporan akhirnya, bisa langsung masuk kalkulasi pajak berapa. Ada akunnya sendiri yaitu VAT IN. Sama kayak pajak pertambahan nilai yang lain. 
+
+**PENGURUS BUMDES:**
+Itu bagus ya. Jadi nanti kalau laporan pajak itu kira-kira sudah ada budget tersisihkan sekian ratus ribu. Buat bayar pajak. Kalau udah masuk sistem itu udah gampang, udah di-total keputusannya. Terkait dengan laporan, bisa dimasukkan jadi setiap struk itu sudah ada nominal pajaknya. Laporannya berarti bisa ditarik satu bulan? Transaksi Agustus dari tanggal 1 sampai tanggal 30? Atau mungkin per minggu atau per semester minimal lah. Kalau bisa dibuat seperti itu, laporan bulanannya jadi gampang. Jadi per transaksi tadi terakumulasi di satu bulannya atau di enam bulan atau satu tahun.
+
+**TIM KKN:**
+Oke, siap. Siap, siap. Kemudian ada pertanyaan lagi? Cukup Pak? Mau tanya, ini setelah acara ini selesai, saya ingin menambahkan tadi fitur ini. Dan untuk saya konsultasinya dengan siapa yang cocok?
+
+**PENGURUS BUMDES:**
+Kalau yang stand-by sama saya, cuma kalau bisa koordinasi sama saya siang saja. Karena kalau pagi nanti saya pegang aplikasi Capil dan lain sebagainya, nanti kalau pas pelayanan tidak bisa fokus. Kalau habis dzuhur banyak waktu luangnya.
+
+**TIM KKN:**
+Baik, terima kasih banyak kepada seluruhnya yang sudah berpartisipasi dari awal ini.

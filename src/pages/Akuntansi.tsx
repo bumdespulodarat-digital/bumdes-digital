@@ -531,7 +531,7 @@ export default function Akuntansi() {
     <div className="flex-1 overflow-auto p-4 md:p-8">
       <div className="max-w-3xl mx-auto w-full space-y-4 md:space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <h2 className="text-xl md:text-3xl font-extrabold text-slate-800 dark:text-slate-100">Laporan Laba Rugi</h2>
+          <h2 className="text-xl md:text-3xl font-serif font-extrabold text-slate-800 dark:text-slate-100">Laporan Laba Rugi</h2>
           <ExportButtons reportType="laba-rugi" />
         </div>
         <div className="bg-slate-50 dark:bg-slate-800/50 p-4 md:p-6 rounded-2xl border">
@@ -560,7 +560,7 @@ export default function Akuntansi() {
     <div className="flex-1 overflow-auto p-4 md:p-8">
       <div className="max-w-4xl mx-auto w-full">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 md:mb-8">
-          <h2 className="text-xl md:text-3xl font-extrabold text-slate-800 dark:text-slate-100">Neraca (Posisi Keuangan)</h2>
+          <h2 className="text-xl md:text-3xl font-serif font-extrabold text-slate-800 dark:text-slate-100">Neraca (Posisi Keuangan)</h2>
           <ExportButtons reportType="neraca" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
@@ -601,7 +601,7 @@ export default function Akuntansi() {
       <div className="flex-1 overflow-auto p-4 md:p-8">
         <div className="max-w-5xl mx-auto w-full space-y-4 md:space-y-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-            <h2 className="text-xl md:text-3xl font-extrabold text-slate-800 dark:text-slate-100">Buku Besar</h2>
+            <h2 className="text-xl md:text-3xl font-serif font-extrabold text-slate-800 dark:text-slate-100">Buku Besar</h2>
             {selectedLedgerAccount && <ExportButtons reportType="buku-besar" />}
           </div>
           <select value={selectedLedgerAccount} onChange={e => setSelectedLedgerAccount(e.target.value)} className="input-field w-full md:w-1/2 px-4 py-3 border-2 rounded-xl text-sm md:text-base">
@@ -617,7 +617,7 @@ export default function Akuntansi() {
                 </thead>
                 <tbody className="">
                   {rows.map(r => (
-                    <tr key={r.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all border-b">
+                    <tr key={r.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all border-b even:bg-slate-50/50 dark:even:bg-slate-800/30">
                       <td className="p-4">{new Date(r.created_at).toLocaleDateString('id-ID')}</td>
                       <td className="p-4">{r.description}</td>
                       <td className="p-4">{r.debit > 0 ? r.debit.toLocaleString() : '-'}</td>
@@ -644,7 +644,7 @@ export default function Akuntansi() {
       <div className="flex-1 overflow-auto p-4 md:p-8">
         <div className="max-w-4xl mx-auto w-full">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 md:mb-6">
-            <h2 className="text-xl md:text-3xl font-extrabold text-slate-800 dark:text-slate-100">Neraca Saldo</h2>
+            <h2 className="text-xl md:text-3xl font-serif font-extrabold text-slate-800 dark:text-slate-100">Neraca Saldo</h2>
             <ExportButtons reportType="neraca-saldo" />
           </div>
           <div className="card rounded-2xl overflow-hidden border">
@@ -655,7 +655,7 @@ export default function Akuntansi() {
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {activeAccounts.sort((a,b) => a.account.code.localeCompare(b.account.code)).map(b => (
-                  <tr key={b.account.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all">
+                  <tr key={b.account.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all even:bg-slate-50/50 dark:even:bg-slate-800/30">
                     <td className="p-4">{b.account.code}</td>
                     <td className="p-4 font-bold">{b.account.name}</td>
                     <td className="p-4 text-right">{(b.account.type === 'Asset' || b.account.type === 'Expense') && b.balance > 0 ? b.balance.toLocaleString('id-ID') : '-'}</td>
@@ -680,7 +680,7 @@ export default function Akuntansi() {
     <div className="flex-1 overflow-auto p-4 md:p-8">
       <div className="max-w-3xl mx-auto w-full space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <h2 className="text-xl md:text-3xl font-extrabold text-slate-800 dark:text-slate-100">Laporan Perubahan Ekuitas (LPE)</h2>
+          <h2 className="text-xl md:text-3xl font-serif font-extrabold text-slate-800 dark:text-slate-100">Laporan Perubahan Ekuitas (LPE)</h2>
           <ExportButtons reportType="lpe" />
         </div>
         <div className="card rounded-2xl p-4 md:p-6 border space-y-3 md:space-y-4">
@@ -696,7 +696,7 @@ export default function Akuntansi() {
     <div className="flex-1 overflow-auto p-4 md:p-8">
       <div className="max-w-3xl mx-auto w-full space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <h2 className="text-xl md:text-3xl font-extrabold text-slate-800 dark:text-slate-100">Laporan Arus Kas (LAK)</h2>
+          <h2 className="text-xl md:text-3xl font-serif font-extrabold text-slate-800 dark:text-slate-100">Laporan Arus Kas (LAK)</h2>
           <ExportButtons reportType="lak" />
         </div>
         <div className="card rounded-2xl p-4 md:p-6 border space-y-3 md:space-y-4">
@@ -712,7 +712,7 @@ export default function Akuntansi() {
   const renderJurnal = () => (
     <div className="flex-1 overflow-auto p-4 md:p-8">
       <div className="max-w-6xl mx-auto w-full space-y-4 md:space-y-6">
-        <h2 className="text-xl md:text-3xl font-extrabold text-slate-800 dark:text-slate-100">Jurnal Umum</h2>
+        <h2 className="text-xl md:text-3xl font-serif font-extrabold text-slate-800 dark:text-slate-100">Jurnal Umum</h2>
         <div className="card rounded-2xl overflow-hidden border">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm min-w-[750px]">
@@ -721,7 +721,7 @@ export default function Akuntansi() {
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-700/60">
               {journals.map(j => (
-                <tr key={j.id} className="hover:bg-primary-50 dark:hover:bg-primary-900/20 trans-all group">
+                <tr key={j.id} className="hover:bg-primary-50 dark:hover:bg-primary-900/20 trans-all group even:bg-slate-50/50 dark:even:bg-slate-800/30">
                   <td className="p-4 whitespace-nowrap text-slate-500 dark:text-slate-400">{new Date(j.created_at).toLocaleString('id-ID')}</td>
                   <td className="p-4 text-slate-700 dark:text-slate-200">{j.description}</td>
                   <td className="p-4 font-bold text-slate-800 dark:text-slate-100">{j.accounts?.code} {j.accounts?.name}</td>
@@ -731,7 +731,7 @@ export default function Akuntansi() {
                     {j.transaction_id && (
                       <button 
                         onClick={() => handleDeleteTransaction(j.transaction_id)}
-                        className="text-slate-300 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 p-2 rounded-lg trans-all opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="text-slate-300 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 w-11 h-11 flex items-center justify-center rounded-lg trans-all opacity-0 group-hover:opacity-100 transition-opacity mx-auto"
                         title="Hapus Transaksi Ini"
                       >
                         <Trash2 size={16} />
@@ -789,8 +789,8 @@ export default function Akuntansi() {
     <div className="flex-1 overflow-auto p-4 md:p-8">
       <div className="max-w-6xl mx-auto w-full space-y-4 md:space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <h2 className="text-xl md:text-3xl font-extrabold text-slate-800 dark:text-slate-100">Kelola Akun Buku Besar</h2>
-          <button onClick={() => { setAccountData({ code: '', name: '', type: 'Asset' }); setEditingAccountId(null); setShowAccountModal(true); }} className="px-4 py-2 bg-primary-600 text-white rounded-xl font-bold hover:bg-primary-700 trans-all">
+          <h2 className="text-xl md:text-3xl font-serif font-extrabold text-slate-800 dark:text-slate-100">Kelola Akun Buku Besar</h2>
+          <button onClick={() => { setAccountData({ code: '', name: '', type: 'Asset' }); setEditingAccountId(null); setShowAccountModal(true); }} className="px-4 py-2 min-h-[44px] bg-primary-600 text-white rounded-xl font-bold hover:bg-primary-700 trans-all">
             + Tambah Akun
           </button>
         </div>
@@ -802,13 +802,13 @@ export default function Akuntansi() {
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-700/60">
               {accounts.map(a => (
-                <tr key={a.id} className="hover:bg-primary-50 dark:hover:bg-primary-900/20 trans-all">
+                <tr key={a.id} className="hover:bg-primary-50 dark:hover:bg-primary-900/20 trans-all even:bg-slate-50/50 dark:even:bg-slate-800/30">
                   <td className="p-4 font-bold">{a.code}</td>
                   <td className="p-4">{a.name}</td>
                   <td className="p-4">{a.type}</td>
                   <td className="p-4 text-center flex justify-center gap-2">
-                    <button onClick={() => { setAccountData(a); setEditingAccountId(a.id); setShowAccountModal(true); }} className="text-blue-500 hover:text-blue-700">Edit</button>
-                    <button onClick={() => handleDeleteAccount(a.id)} className="text-rose-500 hover:text-rose-700">Hapus</button>
+                    <button onClick={() => { setAccountData(a); setEditingAccountId(a.id); setShowAccountModal(true); }} className="text-blue-500 hover:text-blue-700 w-11 h-11 flex items-center justify-center rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 trans-all">Edit</button>
+                    <button onClick={() => handleDeleteAccount(a.id)} className="text-rose-500 hover:text-rose-700 w-11 h-11 flex items-center justify-center rounded-lg hover:bg-rose-50 dark:hover:bg-rose-900/30 trans-all">Hapus</button>
                   </td>
                 </tr>
               ))}
@@ -871,10 +871,10 @@ export default function Akuntansi() {
             <option value="6_months">6 Bulan Terakhir</option>
           </select>
           <div className="grid grid-cols-2 md:flex md:flex-row flex-wrap gap-2 w-full xl:w-auto xl:justify-end">
-            <button onClick={() => setShowIncomeModal(true)} className="flex items-center justify-center gap-1.5 md:gap-2 bg-emerald-50 text-emerald-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-emerald-200 text-xs md:text-sm whitespace-nowrap"><ArrowDownCircle size={14} /> Pemasukan</button>
-            <button onClick={() => setShowExpenseModal(true)} className="flex items-center justify-center gap-1.5 md:gap-2 bg-rose-50 text-rose-700 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-rose-200 text-xs md:text-sm whitespace-nowrap"><ArrowUpCircle size={14} /> Pengeluaran</button>
+            <button onClick={() => setShowIncomeModal(true)} className="flex items-center justify-center gap-1.5 md:gap-2 bg-emerald-50 text-emerald-700 px-3 md:px-4 py-2 min-h-[44px] rounded-xl font-bold border border-emerald-200 text-xs md:text-sm whitespace-nowrap hover:bg-emerald-100 trans-all"><ArrowDownCircle size={14} /> Pemasukan</button>
+            <button onClick={() => setShowExpenseModal(true)} className="flex items-center justify-center gap-1.5 md:gap-2 bg-rose-50 text-rose-700 px-3 md:px-4 py-2 min-h-[44px] rounded-xl font-bold border border-rose-200 text-xs md:text-sm whitespace-nowrap hover:bg-rose-100 trans-all"><ArrowUpCircle size={14} /> Pengeluaran</button>
           {canManageClosing && (
-            <button onClick={() => setShowClosingModal(true)} disabled={isExporting} className="flex items-center justify-center gap-1.5 md:gap-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-3 md:px-4 py-2.5 rounded-xl font-bold border border-indigo-200 dark:border-indigo-800 text-xs md:text-sm disabled:opacity-50 whitespace-nowrap">
+            <button onClick={() => setShowClosingModal(true)} disabled={isExporting} className="flex items-center justify-center gap-1.5 md:gap-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-3 md:px-4 py-2 min-h-[44px] rounded-xl font-bold border border-indigo-200 dark:border-indigo-800 text-xs md:text-sm disabled:opacity-50 whitespace-nowrap hover:bg-indigo-100 dark:hover:bg-indigo-900/50 trans-all">
               <BookOpen size={14} /> Tutup Buku
             </button>
           )}

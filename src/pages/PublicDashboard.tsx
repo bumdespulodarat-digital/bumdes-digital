@@ -285,10 +285,10 @@ export default function PublicDashboard() {
   };
 
   const statCards = [
-    { title: 'Saldo Kas', value: `Rp ${stats.kas.toLocaleString('id-ID')}`, icon: <DollarSign size={24} />, gradient: 'from-emerald-500 to-teal-600', iconBg: 'bg-emerald-400/20' },
-    { title: 'Total Pendapatan', value: `Rp ${stats.pendapatan.toLocaleString('id-ID')}`, icon: <TrendingUp size={24} />, gradient: 'from-blue-500 to-indigo-600', iconBg: 'bg-blue-400/20' },
-    { title: 'Macam Barang', value: `${stats.stokCount} Item`, icon: <Package size={24} />, gradient: 'from-amber-500 to-orange-600', iconBg: 'bg-amber-400/20' },
-    { title: 'Total Transaksi', value: `${stats.transaksiCount}`, icon: <ShoppingCart size={24} />, gradient: 'from-violet-500 to-purple-600', iconBg: 'bg-violet-400/20' },
+    { title: 'Saldo Kas', value: `Rp ${stats.kas.toLocaleString('id-ID')}`, icon: <DollarSign size={24} className="text-emerald-600 dark:text-emerald-400" />, bg: 'bg-white dark:bg-slate-900', iconBg: 'bg-emerald-100 dark:bg-emerald-900/30' },
+    { title: 'Total Pendapatan', value: `Rp ${stats.pendapatan.toLocaleString('id-ID')}`, icon: <TrendingUp size={24} className="text-primary-600 dark:text-primary-400" />, bg: 'bg-white dark:bg-slate-900', iconBg: 'bg-primary-100 dark:bg-primary-900/30' },
+    { title: 'Macam Barang', value: `${stats.stokCount} Item`, icon: <Package size={24} className="text-orange-600 dark:text-orange-400" />, bg: 'bg-white dark:bg-slate-900', iconBg: 'bg-orange-100 dark:bg-orange-900/30' },
+    { title: 'Total Transaksi', value: `${stats.transaksiCount}`, icon: <ShoppingCart size={24} className="text-secondary-600 dark:text-secondary-400" />, bg: 'bg-white dark:bg-slate-900', iconBg: 'bg-secondary-100 dark:bg-secondary-900/30' },
   ];
 
   return (
@@ -303,7 +303,7 @@ export default function PublicDashboard() {
               <div className="w-10 h-10 flex items-center justify-center">
                 <img src="/logo-bumdes.png" alt="Logo BUMDes" className="max-w-full max-h-full object-contain drop-shadow-md" />
               </div>
-              <span className="font-black text-slate-800 dark:text-white text-lg tracking-tight hidden sm:block">
+              <span className="font-serif font-bold text-slate-800 dark:text-white text-lg tracking-tight hidden sm:block">
                 {storeName}
               </span>
             </div>
@@ -349,16 +349,16 @@ export default function PublicDashboard() {
       </nav>
 
       {/* Ambient Background Orbs */}
-      <div className="absolute top-[0%] left-[-10%] w-96 h-96 bg-primary-500/20 dark:bg-primary-500/10 rounded-full blur-[100px] -z-10"></div>
-      <div className="absolute top-[40%] right-[-10%] w-[500px] h-[500px] bg-emerald-500/20 dark:bg-emerald-500/10 rounded-full blur-[120px] -z-10"></div>
-      <div className="absolute bottom-[0%] left-[-10%] w-[400px] h-[400px] bg-orange-500/15 dark:bg-orange-500/5 rounded-full blur-[120px] -z-10"></div>
+      <div className="absolute top-[0%] left-[-10%] w-96 h-96 bg-primary-100 dark:bg-primary-900/20 rounded-full blur-[100px] -z-10"></div>
+      <div className="absolute top-[40%] right-[-10%] w-[500px] h-[500px] bg-secondary-100 dark:bg-secondary-900/20 rounded-full blur-[120px] -z-10"></div>
+      <div className="absolute bottom-[0%] left-[-10%] w-[400px] h-[400px] bg-accent-100 dark:bg-accent-900/10 rounded-full blur-[120px] -z-10"></div>
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 space-y-12 md:space-y-20 relative z-10">
         
         {/* Hero Section */}
-        <div className="bg-gradient-to-r from-primary-900 to-primary-700 rounded-[2rem] p-6 md:p-12 lg:p-16 text-white shadow-2xl relative overflow-hidden group border border-primary-600/30 flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-12 mt-4 md:mt-8">
+        <div className="bg-primary-800 rounded-2xl p-6 md:p-12 lg:p-16 text-white shadow-lg relative overflow-hidden group border border-primary-700 flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-12 mt-4 md:mt-8">
           <div className="relative z-10 max-w-2xl text-center md:text-left">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black mb-4 md:mb-6 leading-tight text-white drop-shadow-md animate-fade-in-up">Portal Resmi <br className="hidden md:block" /> {storeName}</h1>
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold mb-4 md:mb-6 leading-tight text-white drop-shadow-sm animate-fade-in-up">Portal Resmi <br className="hidden md:block" /> {storeName}</h1>
             <p className="text-primary-100 text-sm md:text-xl font-medium leading-relaxed mb-6 md:mb-10 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
               Mewujudkan desa mandiri, inovatif, dan sejahtera melalui pengelolaan unit usaha profesional yang berfokus pada pelayanan dan pemberdayaan ekonomi masyarakat Desa Pulodarat.
             </p>
@@ -375,19 +375,19 @@ export default function PublicDashboard() {
             <div className="absolute inset-0 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <img src="/logo-bumdes.png" alt="Logo BUMDes" className="w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500 animate-float relative z-20" />
           </div>
-          <div className="absolute right-[-10%] top-[-20%] w-96 h-96 bg-white opacity-[0.07] rounded-full blur-3xl group-hover:scale-110 trans-all duration-1000"></div>
-          <div className="absolute left-[40%] bottom-[-50%] w-64 h-64 bg-primary-400 opacity-[0.15] rounded-full blur-2xl"></div>
+          <div className="absolute right-[-10%] top-[-20%] w-96 h-96 bg-white opacity-5 rounded-full blur-3xl group-hover:scale-110 trans-all duration-1000"></div>
+          <div className="absolute left-[40%] bottom-[-50%] w-64 h-64 bg-secondary-400 opacity-10 rounded-full blur-2xl"></div>
         </div>
         
         {/* Header Widget Statistik */}
-        <div id="statistik" className="flex flex-col lg:flex-row items-center justify-between gap-6 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/80 dark:border-slate-800/80 p-6 md:p-8 rounded-[2rem] shadow-xl scroll-mt-32 text-center lg:text-left reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out">
+        <div id="statistik" className="flex flex-col lg:flex-row items-center justify-between gap-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 md:p-8 rounded-2xl shadow-sm scroll-mt-32 text-center lg:text-left reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out">
           <div className="flex flex-col sm:flex-row items-center gap-5">
             <div className="w-16 h-16 flex items-center justify-center transform transition-transform duration-300 hover:scale-110">
-              <img src="/logo-bumdes.png" alt="Logo BUMDes" className="max-w-full max-h-full object-contain drop-shadow-xl" />
+              <img src="/logo-bumdes.png" alt="Logo BUMDes" className="max-w-full max-h-full object-contain" />
             </div>
             <div>
-              <h2 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">Perkembangan BUMDes</h2>
-              <p className="text-sm md:text-base font-bold text-slate-500 dark:text-slate-400 mt-1.5">{lastUpdate || 'Memuat pembaruan data...'}</p>
+              <h2 className="text-2xl md:text-3xl font-serif font-bold text-slate-800 dark:text-slate-100 tracking-tight">Perkembangan BUMDes</h2>
+              <p className="text-sm md:text-base font-medium text-slate-500 dark:text-slate-400 mt-1.5">{lastUpdate || 'Memuat pembaruan data...'}</p>
             </div>
           </div>
           <div className="flex items-center gap-3 bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-700/80 px-6 py-3.5 rounded-xl shadow-sm">
@@ -399,26 +399,20 @@ export default function PublicDashboard() {
         {/* Grid Statistik */}
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 md:gap-6 reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out" style={{transitionDelay: '100ms'}}>
           {statCards.map((stat, i) => (
-            <div key={i} className={`bg-gradient-to-br ${stat.gradient} rounded-[2rem] p-6 md:p-8 text-white shadow-xl shadow-${stat.gradient.split('-')[1]}-900/20 hover:shadow-2xl hover:-translate-y-2 trans-all duration-300 relative overflow-hidden group border border-white/10`}>
-              <div className="flex flex-col relative z-10 h-full justify-between gap-6">
+            <div key={i} className={`${stat.bg} rounded-2xl p-6 md:p-7 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md trans-all duration-300 group`}>
+              <div className="flex flex-col relative z-10 h-full justify-between gap-5">
                 <div className="flex justify-between items-start">
-                  <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl ${stat.iconBg} flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 trans-all duration-300 backdrop-blur-md border border-white/20`}>
+                  <div className={`w-12 h-12 rounded-xl ${stat.iconBg} flex items-center justify-center trans-all duration-300`}>
                     {stat.icon}
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <TrendingUp size={18} className="text-white" />
                   </div>
                 </div>
                 <div>
-                  <p className="text-white/80 text-xs md:text-sm font-bold uppercase tracking-widest mb-1.5">{stat.title}</p>
-                  <h3 className="text-3xl md:text-4xl font-black tracking-tight drop-shadow-sm">
+                  <p className="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-semibold uppercase tracking-widest mb-1.5">{stat.title}</p>
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-slate-800 dark:text-slate-100 tracking-tight">
                     {loading ? '...' : stat.value}
                   </h3>
                 </div>
               </div>
-              {/* Decorative Background Elements */}
-              <div className="absolute -right-8 -bottom-8 w-40 h-40 bg-white opacity-10 rounded-full group-hover:scale-150 trans-all duration-700 blur-2xl"></div>
-              <div className="absolute -left-12 -top-12 w-32 h-32 bg-white opacity-10 rounded-full blur-xl"></div>
             </div>
           ))}
         </div>
@@ -426,10 +420,10 @@ export default function PublicDashboard() {
         {/* Charts Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out" style={{transitionDelay: '200ms'}}>
           {/* Bar Chart */}
-          <div className="lg:col-span-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-[2rem] p-6 md:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-white dark:border-slate-800">
+          <div className="lg:col-span-2 bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-800">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-8 gap-2">
               <div>
-                <h3 className="font-black text-slate-800 dark:text-slate-100 text-xl md:text-2xl tracking-tight">Kinerja Keuangan Bulanan</h3>
+                <h3 className="font-serif font-bold text-slate-800 dark:text-slate-100 text-xl md:text-2xl tracking-tight">Kinerja Keuangan Bulanan</h3>
                 <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 font-medium mt-1.5">Pendapatan vs Pengeluaran (Tahun {new Date().getFullYear()})</p>
               </div>
             </div>
@@ -448,8 +442,8 @@ export default function PublicDashboard() {
           </div>
 
           {/* Doughnut Chart */}
-          <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-[2rem] p-6 md:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-white dark:border-slate-800 flex flex-col">
-            <h3 className="font-black text-slate-800 dark:text-slate-100 text-xl md:text-2xl tracking-tight mb-1">Sumber Pendapatan</h3>
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col">
+            <h3 className="font-serif font-bold text-slate-800 dark:text-slate-100 text-xl md:text-2xl tracking-tight mb-1">Sumber Pendapatan</h3>
             <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 font-medium mb-6 md:mb-8">Komposisi omzet per unit usaha</p>
             <div className="flex-1 min-h-[250px] md:min-h-[300px] flex items-center justify-center">
               {loading ? (
@@ -466,8 +460,8 @@ export default function PublicDashboard() {
 
         {/* Unit Usaha Profile (Image Cards) */}
         <div id="unit-usaha" className="pt-8 md:pt-16 scroll-mt-24">
-          <div className="text-center mb-10 md:mb-16 reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out">
-            <h2 className="text-3xl md:text-4xl font-black text-slate-800 dark:text-slate-100 tracking-tight">Unit Usaha Unggulan</h2>
+          <div className="text-center mb-10 md:mb-12 reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-800 dark:text-slate-100 tracking-tight">Unit Usaha Unggulan</h2>
             <p className="text-slate-500 dark:text-slate-400 mt-4 font-medium text-base md:text-lg max-w-2xl mx-auto">Mendukung perekonomian lokal melalui berbagai layanan dan produk berkualitas untuk kesejahteraan warga Desa Pulodarat.</p>
           </div>
           
@@ -515,10 +509,10 @@ export default function PublicDashboard() {
 
         {/* Contact & Map Section */}
         <div id="kontak" className="pt-8 md:pt-16 scroll-mt-24 reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out">
-          <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-6 md:p-12 shadow-2xl border border-slate-200/60 dark:border-slate-800/60 flex flex-col lg:flex-row gap-12 lg:gap-16">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-12 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col lg:flex-row gap-12 lg:gap-16">
             {/* Contact Form */}
             <div className="w-full lg:w-1/2">
-              <h3 className="text-2xl md:text-4xl font-black text-slate-800 dark:text-slate-100 mb-4 tracking-tight">Kirim Pesan</h3>
+              <h3 className="text-2xl md:text-3xl font-serif font-bold text-slate-800 dark:text-slate-100 mb-4 tracking-tight">Kirim Pesan</h3>
               <p className="text-slate-500 dark:text-slate-400 mb-8 text-base">Punya pertanyaan, kritik, atau saran untuk BUMDes? Jangan ragu untuk menghubungi kami melalui form di bawah ini.</p>
               <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); alert("Pesan simulasi berhasil terkirim!"); }}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">

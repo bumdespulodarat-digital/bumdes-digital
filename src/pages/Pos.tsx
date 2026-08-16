@@ -448,13 +448,13 @@ export default function Pos() {
           <div className="flex overflow-x-auto whitespace-nowrap no-scrollbar bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl w-full sm:w-auto snap-x">
             <button 
               onClick={() => setActiveTab('Kasir')} 
-              className={`flex-1 sm:flex-none px-6 py-2 rounded-lg font-bold text-sm trans-all flex items-center gap-2 justify-center ${activeTab === 'Kasir' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
+              className={`flex-1 sm:flex-none px-6 py-2 min-h-[44px] rounded-lg font-bold text-sm trans-all flex items-center gap-2 justify-center ${activeTab === 'Kasir' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
             >
               <ShoppingBag size={16} /> Kasir
             </button>
             <button 
               onClick={() => setActiveTab('Riwayat')} 
-              className={`flex-1 sm:flex-none px-6 py-2 rounded-lg font-bold text-sm trans-all flex items-center gap-2 justify-center ${activeTab === 'Riwayat' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
+              className={`flex-1 sm:flex-none px-6 py-2 min-h-[44px] rounded-lg font-bold text-sm trans-all flex items-center gap-2 justify-center ${activeTab === 'Riwayat' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
             >
               <FileText size={16} /> Riwayat Transaksi
             </button>
@@ -540,7 +540,7 @@ export default function Pos() {
               ${isMobileCartOpen ? 'translate-y-0' : 'translate-y-full xl:translate-y-0'}
             `}>
               <div className="p-5 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50 xl:rounded-t-3xl shrink-0">
-                <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                <h2 className="text-lg font-serif font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                   <ShoppingBag size={20} className="text-primary-600 dark:text-primary-400" /> Keranjang Belanja
                 </h2>
                 <button onClick={() => setIsMobileCartOpen(false)} className="xl:hidden w-11 h-11 flex items-center justify-center rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 shrink-0">
@@ -711,7 +711,7 @@ export default function Pos() {
                   className="w-full pl-11 pr-4 py-2.5 input-field border dark:border-slate-700 rounded-xl font-medium"
                 />
               </div>
-              <button onClick={fetchHistory} className="w-full md:w-auto px-5 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 trans-all flex items-center justify-center gap-2">
+              <button onClick={fetchHistory} className="w-full md:w-auto px-5 py-2.5 min-h-[44px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 trans-all flex items-center justify-center gap-2">
                 <RefreshCcw size={18} /> Refresh
               </button>
             </div>
@@ -738,7 +738,7 @@ export default function Pos() {
                     </tr>
                   )}
                   {filteredHistory.map(trx => (
-                    <tr key={trx.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all">
+                    <tr key={trx.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all even:bg-slate-50/50 dark:even:bg-slate-800/30">
                       <td className="p-4 font-bold text-primary-700 dark:text-primary-400">{trx.invoice_number}</td>
                       <td className="p-4 text-slate-600 dark:text-slate-400">{formatReceiptDateTime(new Date(trx.created_at))}</td>
                       <td className="p-4 font-semibold text-slate-700 dark:text-slate-300">{trx.cashier_name || '-'}</td>
@@ -753,7 +753,7 @@ export default function Pos() {
                       <td className="p-4 text-center">
                         <button 
                           onClick={() => openHistoryDetail(trx)}
-                          className="px-4 py-1.5 bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-lg text-xs font-bold hover:bg-primary-600 hover:text-white trans-all inline-flex items-center gap-1.5"
+                          className="px-4 py-2 min-h-[44px] bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-lg text-xs font-bold hover:bg-primary-600 hover:text-white trans-all inline-flex items-center gap-1.5"
                         >
                           Detail <ChevronRight size={14} />
                         </button>
@@ -773,7 +773,7 @@ export default function Pos() {
           <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 w-full max-w-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh]">
             <div className="flex justify-between items-center mb-6">
               <div>
-                <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100">Detail Transaksi</h3>
+                <h3 className="text-xl font-serif font-bold text-slate-800 dark:text-slate-100">Detail Transaksi</h3>
                 <p className="text-sm font-semibold text-primary-600 dark:text-primary-400 mt-1">{selectedTransaction.invoice_number}</p>
               </div>
               <button onClick={() => setShowHistoryModal(false)} className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800 trans-all">
@@ -815,7 +815,7 @@ export default function Pos() {
                     <tr><td colSpan={4} className="text-center p-8 text-slate-400 font-medium">Memuat item...</td></tr>
                   ) : (
                     transactionDetails.map(detail => (
-                      <tr key={detail.id}>
+                      <tr key={detail.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all even:bg-slate-50/50 dark:even:bg-slate-800/30">
                         <td className="p-3 pl-4 font-semibold text-slate-800 dark:text-slate-200">{detail.items?.name || detail.custom_item_name || 'Item Custom'}</td>
                         <td className="p-3 text-center font-medium text-slate-600 dark:text-slate-400">{detail.qty}</td>
                         <td className="p-3 text-right font-medium text-slate-600 dark:text-slate-400">{detail.unit_price.toLocaleString('id-ID')}</td>
@@ -828,11 +828,11 @@ export default function Pos() {
             </div>
 
             <div className="flex justify-end gap-3 pt-2">
-              <button type="button" onClick={() => setShowHistoryModal(false)} className="px-6 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 trans-all">Tutup</button>
+              <button type="button" onClick={() => setShowHistoryModal(false)} className="px-6 py-2 min-h-[44px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 trans-all">Tutup</button>
               <button 
                 type="button" 
                 onClick={() => handleReprint(selectedTransaction, transactionDetails)} 
-                className="px-6 py-2.5 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 trans-all shadow-lg flex items-center gap-2"
+                className="px-6 py-2 min-h-[44px] bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 trans-all shadow-lg flex items-center gap-2"
               >
                 <Printer size={18} /> Cetak Ulang Struk
               </button>
@@ -846,10 +846,10 @@ export default function Pos() {
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in print:hidden">
           <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border dark:border-slate-800">
             <div className="flex justify-between items-center p-6 border-b dark:border-slate-800 shrink-0">
-              <h3 className="text-xl font-bold dark:text-slate-100 flex items-center gap-2">
+              <h3 className="text-xl font-serif font-bold dark:text-slate-100 flex items-center gap-2">
                 <Plus size={22} className="text-amber-500" /> Produk Custom
               </h3>
-              <button onClick={() => setShowCustomModal(false)} className="text-slate-400 hover:text-slate-600 p-2 bg-slate-100 dark:bg-slate-800 rounded-xl"><X size={20} /></button>
+              <button onClick={() => setShowCustomModal(false)} className="text-slate-400 hover:text-slate-600 w-11 h-11 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-xl trans-all"><X size={20} /></button>
             </div>
             <div className="p-6 space-y-4">
               <div>
@@ -872,8 +872,8 @@ export default function Pos() {
               </div>
             </div>
             <div className="p-6 border-t dark:border-slate-800 flex justify-end gap-3 shrink-0">
-              <button onClick={() => setShowCustomModal(false)} className="px-4 py-2.5 text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-xl font-bold">Batal</button>
-              <button onClick={addCustomToCart} disabled={!customForm.name || !customForm.price} className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold shadow-lg disabled:opacity-50">Tambahkan</button>
+              <button onClick={() => setShowCustomModal(false)} className="px-4 py-2 min-h-[44px] text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-xl font-bold trans-all hover:bg-slate-200 dark:hover:bg-slate-700">Batal</button>
+              <button onClick={addCustomToCart} disabled={!customForm.name || !customForm.price} className="px-5 py-2 min-h-[44px] bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold shadow-lg disabled:opacity-50 trans-all">Tambahkan</button>
             </div>
           </div>
         </div>

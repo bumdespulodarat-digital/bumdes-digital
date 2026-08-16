@@ -1,0 +1,54 @@
+Saya ingin menambahkan artikel/rilis berita baru ke project Artikel ini.
+
+Langkah yang perlu kamu lakukan:
+1. Periksa struktur project di folder `Artikel/src` (dan `docs` jika relevan) untuk memahami pola penulisan artikel yang sudah ada — format file, frontmatter/metadata, penamaan slug, dan lokasi penyimpanan konten/gambar.
+2. Buat artikel baru mengikuti pola yang sama, dengan judul:
+   "Pendampingan Pembukuan dan Administrasi Digital BUMDes Noto Mulyo Desa Pulodarat"
+
+Detail acara:
+- Hari/Tanggal : Senin, 10 Agustus 2026
+- Waktu        : 19.00 WIB – selesai
+- Tempat       : Balai Desa Pulodarat
+- Dihadiri oleh:
+  1. Petinggi Desa Pulodarat
+  2. Ketua BPD Desa Pulodarat
+  3. Perangkat Desa Pulodarat
+  4. Pengurus BUMDes Noto Mulyo
+  5. Anggota KKN Desa Pulodarat
+
+3. Gunakan isi berikut sebagai draf konten (sudah mengikuti pedoman rilis berita KKN: nama peristiwa, waktu, lokasi, siapa, mengapa, bagaimana, kutipan, foto):
+
+---
+
+# RILIS BERITA
+
+## Pendampingan Pembukuan dan Administrasi Digital BUMDes Noto Mulyo Desa Pulodarat
+
+**Desa Pulodarat, Kecamatan Pecangaan, Kabupaten Jepara —** Tim Kuliah Kerja Nyata (KKN) Desa Pulodarat menggelar kegiatan pendampingan pembukuan dan administrasi BUMDes Noto Mulyo secara digital, sebagai salah satu program kerja unggulan KKN XXI Tahun 2026. Kegiatan ini menjadi bagian dari upaya mendorong tata kelola BUMDes yang lebih tertib, transparan, dan efisien melalui pemanfaatan Sistem Informasi Digital BUMDes.
+
+Kegiatan berlangsung pada **Senin, 10 Agustus 2026**, pukul **19.00 WIB sampai selesai**, bertempat di **Balai Desa Pulodarat**. Acara ini dihadiri oleh Petinggi Desa Pulodarat, Ketua BPD Desa Pulodarat, perangkat Desa Pulodarat, pengurus BUMDes Noto Mulyo, serta seluruh anggota Tim KKN Desa Pulodarat.
+
+Kegiatan ini digelar untuk menjawab kebutuhan BUMDes Noto Mulyo akan sistem pencatatan transaksi dan pembukuan yang selama ini masih dilakukan secara manual, sehingga rawan tercecer dan memakan waktu lama dalam penyusunan laporan. Melalui pendampingan ini, pengurus BUMDes diharapkan dapat memanfaatkan sistem digital untuk meningkatkan akuntabilitas pengelolaan usaha desa.
+
+Dalam pelaksanaannya, Tim KKN mempresentasikan Sistem Informasi Digital BUMDes yang telah dikembangkan, mencakup modul Dashboard, Kasir (Point of Sale), Stok Barang, Hutang Piutang, Akuntansi, Laporan Transaksi, Buku Kas, Inventaris & Arsip, hingga Struktur Organisasi. Pemaparan dilakukan secara langsung dengan menampilkan tampilan sistem pada layar, memperlihatkan cara kerja pencatatan transaksi kasir secara otomatis serta pemantauan keuangan secara real-time. Tim KKN juga menyerahkan Buku Panduan Penggunaan sistem agar pengurus BUMDes dapat mengoperasikannya secara mandiri.
+
+> "[Kutipan komentar dari Petinggi Desa/Ketua BPD/pengurus BUMDes terkait manfaat pendampingan ini]," ujar **[Nama, Jabatan]**.
+
+> "[Kutipan komentar kedua, misalnya dari anggota Tim KKN atau pengurus BUMDes yang merasakan langsung manfaat sistem]," tambah **[Nama, Jabatan]**.
+
+Dengan adanya pendampingan ini, diharapkan BUMDes Noto Mulyo dapat mengelola administrasi dan keuangannya secara lebih modern, serta menjadi percontohan digitalisasi BUMDes bagi desa-desa lain di Kecamatan Pecangaan.
+
+---
+
+4. Bagian bertanda kurung siku [...] dalam draf (nama narasumber, kutipan komentar) BELUM diisi data asli — biarkan sebagai placeholder yang jelas terlihat perlu diedit, jangan dikarang/diisi otomatis.
+5. Sertakan foto-foto berikut ke dalam artikel (letakkan di folder assets/gambar sesuai konvensi project, lalu referensikan dari konten):
+   - IMG_7539.HEIC — foto bersama Tim KKN, perangkat & pengurus BUMDes di Balai Desa Pulodarat (dengan banner "Program Kerja KKN Desa Pulodarat XXI 2026")
+   - IMG_7525.HEIC — foto sesi diskusi/tanya-jawab peserta
+   - IMG_7510.HEIC — foto pemaparan Sistem Informasi Digital BUMDes (Dashboard & Kasir POS) di layar
+   - IMG_7530_-_frame_at_0m2s.jpg — foto suasana presentasi dengan layar sistem BUMDes
+   - IMG_7508_-_frame_at_0m0s.jpg — foto narasumber memaparkan materi di depan peserta
+   Catatan: file .HEIC mungkin perlu dikonversi ke .jpg/.png dulu agar kompatibel dengan web (gunakan tool konversi yang tersedia di project atau sharp/imagemagick jika ada).
+6. Pastikan hasil akhirnya konsisten dengan gaya artikel lain yang sudah ada di project ini (heading, spacing, komponen gambar jika ada).
+7. Setelah dibuat, jalankan build/preview project (jika ada script-nya di package.json) untuk memastikan artikel baru tampil tanpa error.
+
+Tunjukkan file yang kamu buat/ubah sebelum saya konfirmasi.

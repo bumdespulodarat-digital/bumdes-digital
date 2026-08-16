@@ -274,24 +274,24 @@ export default function BukuKas() {
               <BookOpen size={20} />
             </div>
             <div>
-              <h2 className="font-bold text-slate-800 dark:text-slate-100">Buku Kas Umum</h2>
+              <h2 className="font-serif font-bold text-slate-800 dark:text-slate-100">Buku Kas Umum</h2>
               <p className="text-xs text-slate-500 dark:text-slate-400">{BULAN[filterMonth - 1]} {filterYear}</p>
             </div>
           </div>
           <div className="flex gap-2">
-            <button onClick={() => setPaymentMethodTab('Tunai')} className={`px-4 py-1.5 rounded-lg text-sm font-bold trans-all ${paymentMethodTab === 'Tunai' ? 'bg-primary-600 text-white shadow-md' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 hover:bg-slate-200'}`}>Kas Tunai (Laci)</button>
-            <button onClick={() => setPaymentMethodTab('Bank')} className={`px-4 py-1.5 rounded-lg text-sm font-bold trans-all ${paymentMethodTab === 'Bank' ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 hover:bg-slate-200'}`}>Kas Bank (Rekening)</button>
+            <button onClick={() => setPaymentMethodTab('Tunai')} className={`px-4 py-2 min-h-[44px] rounded-lg text-sm font-bold trans-all ${paymentMethodTab === 'Tunai' ? 'bg-primary-600 text-white shadow-md' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 hover:bg-slate-200'}`}>Kas Tunai (Laci)</button>
+            <button onClick={() => setPaymentMethodTab('Bank')} className={`px-4 py-2 min-h-[44px] rounded-lg text-sm font-bold trans-all ${paymentMethodTab === 'Bank' ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 hover:bg-slate-200'}`}>Kas Bank (Rekening)</button>
           </div>
         </div>
         <div className="flex gap-2 w-full sm:w-auto flex-wrap">
-          <select value={filterMonth} onChange={e => setFilterMonth(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
+          <select value={filterMonth} onChange={e => setFilterMonth(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 min-h-[44px] border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
             {BULAN.map((b, i) => <option key={i} value={i + 1}>{b}</option>)}
           </select>
-          <select value={filterYear} onChange={e => setFilterYear(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
+          <select value={filterYear} onChange={e => setFilterYear(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 min-h-[44px] border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
             {Array.from({ length: Math.max(10, new Date().getFullYear() - 2024 + 5) }, (_, i) => 2024 + i).map(y => <option key={y} value={y}>{y}</option>)}
           </select>
           {!isPengawas && (
-            <button onClick={() => { setEditingId(null); setPhotoFile(null); setPhotoPreview(null); setForm({ date: new Date().toISOString().split('T')[0], description: '', category: 'Umum', type: 'debit', amount: '', photo_url: null }); setShowModal(true); }} className="w-full sm:w-auto flex justify-center items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-primary-600/30 mt-2 sm:mt-0">
+            <button onClick={() => { setEditingId(null); setPhotoFile(null); setPhotoPreview(null); setForm({ date: new Date().toISOString().split('T')[0], description: '', category: 'Umum', type: 'debit', amount: '', photo_url: null }); setShowModal(true); }} className="w-full sm:w-auto flex justify-center items-center gap-2 bg-primary-600 text-white px-4 py-2 min-h-[44px] rounded-xl font-bold shadow-lg shadow-primary-600/30 mt-2 sm:mt-0 hover:bg-primary-700 trans-all">
               <Plus size={16} /> Tambah Entri
             </button>
           )}
@@ -329,17 +329,17 @@ export default function BukuKas() {
       <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Cari keterangan..." className="w-full pl-10 pr-4 py-2.5 border dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm font-semibold bg-white dark:bg-slate-900 dark:text-slate-100" />
+          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Cari keterangan..." className="w-full pl-10 pr-4 py-2 min-h-[44px] border dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm font-semibold bg-white dark:bg-slate-900 dark:text-slate-100" />
         </div>
-        <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)} className="px-3 py-2.5 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
+        <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)} className="px-3 py-2 min-h-[44px] border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
           <option value="">Semua Kategori</option>
           {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
         </select>
         <div className="flex gap-2">
-          <button onClick={() => handleExport('pdf')} disabled={isExporting || entries.length === 0} className="flex items-center gap-2 px-4 py-2 bg-rose-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
+          <button onClick={() => handleExport('pdf')} disabled={isExporting || entries.length === 0} className="flex items-center justify-center gap-2 px-4 py-2 min-h-[44px] bg-rose-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50 hover:bg-rose-700 trans-all">
             <Download size={14} /> PDF
           </button>
-          <button onClick={() => handleExport('excel')} disabled={isExporting || entries.length === 0} className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
+          <button onClick={() => handleExport('excel')} disabled={isExporting || entries.length === 0} className="flex items-center justify-center gap-2 px-4 py-2 min-h-[44px] bg-emerald-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50 hover:bg-emerald-700 trans-all">
             <Download size={14} /> Excel
           </button>
         </div>
@@ -380,7 +380,7 @@ export default function BukuKas() {
                 <tr><td colSpan={isPengawas ? 8 : 9} className="p-12 text-center text-slate-400 font-medium">Belum ada entri buku kas untuk periode ini.</td></tr>
               )}
               {runningBalanceEntries.map((entry, idx) => (
-                <tr key={entry.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all">
+                <tr key={entry.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all even:bg-slate-50/50 dark:even:bg-slate-800/30">
                   <td className="p-4 text-slate-500 text-center">{idx + 1}</td>
                   <td className="p-4 dark:text-slate-300">{new Date(entry.date).toLocaleDateString('id-ID')}</td>
                   <td className="p-4 font-semibold dark:text-slate-100">
@@ -410,9 +410,9 @@ export default function BukuKas() {
                         <span className="text-xs font-semibold text-slate-400">Terkunci</span>
                       ) : (
                         <>
-                          <button onClick={() => handleEdit(entry)} className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={13} /></button>
+                          <button onClick={() => handleEdit(entry)} className="w-11 h-11 flex items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={13} /></button>
                           {entry.source === 'Manual' && (
-                            <button onClick={() => setDeleteConfirm(entry.id)} className="p-1.5 rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={13} /></button>
+                            <button onClick={() => setDeleteConfirm(entry.id)} className="w-11 h-11 flex items-center justify-center rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={13} /></button>
                           )}
                         </>
                       )}
@@ -441,8 +441,8 @@ export default function BukuKas() {
         <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center p-4 z-50">
           <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border dark:border-slate-800">
             <div className="flex justify-between items-center p-6 border-b dark:border-slate-800">
-              <h3 className="text-xl font-bold dark:text-slate-100">{editingId ? 'Edit Entri Kas' : 'Tambah Entri Kas'}</h3>
-              <button onClick={() => { setShowModal(false); setEditingId(null); }} className="text-slate-400 hover:text-slate-600 p-2 bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl"><X size={20} /></button>
+              <h3 className="text-xl font-serif font-bold dark:text-slate-100">{editingId ? 'Edit Entri Kas' : 'Tambah Entri Kas'}</h3>
+              <button onClick={() => { setShowModal(false); setEditingId(null); }} className="text-slate-400 hover:text-slate-600 w-11 h-11 flex items-center justify-center bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl trans-all"><X size={20} /></button>
             </div>
             <form onSubmit={handleSave} className="p-6 space-y-4">
               <input required type="date" value={form.date} onChange={e => setForm({...form, date: e.target.value})} className="w-full px-3 py-2.5 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2" />
@@ -451,9 +451,9 @@ export default function BukuKas() {
                 <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="w-full px-3 py-2.5 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2">
                   {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
-                <select value={form.type} onChange={e => setForm({...form, type: e.target.value as 'debit' | 'credit'})} className="w-full px-3 py-2.5 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2">
-                  <option value="debit">💰 Uang Masuk (Debit)</option>
-                  <option value="credit">💸 Uang Keluar (Kredit)</option>
+                <select value={form.type} onChange={e => setForm({...form, type: e.target.value as 'debit' | 'credit'})} className="w-full px-3 py-2.5 min-h-[44px] border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-lg focus:ring-2">
+                  <option value="debit">Uang Masuk (Debit)</option>
+                  <option value="credit">Uang Keluar (Kredit)</option>
                 </select>
               </div>
               <div className="relative">

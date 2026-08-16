@@ -115,7 +115,7 @@ export default function StrukturOrganisasi() {
             </div>
           )}
           {(userRole === 'Admin' || userRole === 'Direktur BUMDes') && (
-            <button onClick={() => { setEditData(member); setShowEditModal(true); }} className="mt-3 px-3 py-1.5 bg-slate-50 border dark:border-slate-700 dark:bg-slate-700 text-xs font-bold rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/50 trans-all w-full text-slate-700 dark:text-slate-200">
+            <button onClick={() => { setEditData(member); setShowEditModal(true); }} className="mt-3 px-3 py-2 min-h-[44px] bg-slate-50 border dark:border-slate-700 dark:bg-slate-700 text-xs font-bold rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/50 trans-all w-full text-slate-700 dark:text-slate-200">
               Edit Profil
             </button>
           )}
@@ -180,7 +180,7 @@ export default function StrukturOrganisasi() {
           <div className="w-16 h-16 mx-auto bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl flex items-center justify-center text-white mb-4 shadow-xl">
             <Building2 size={28} />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-primary-900 dark:text-primary-200 mb-1">Struktur Organisasi</h1>
+          <h1 className="text-2xl sm:text-3xl font-serif font-black text-primary-900 dark:text-primary-200 mb-1">Struktur Organisasi</h1>
           <p className="text-slate-600 dark:text-slate-400 font-medium">{storeInfo.name}</p>
           <p className="text-sm text-slate-500 dark:text-slate-400">{storeInfo.address}</p>
         </div>
@@ -189,7 +189,7 @@ export default function StrukturOrganisasi() {
       {/* Org Chart Toggle */}
       <button
         onClick={() => setShowOrgChart(!showOrgChart)}
-        className="card rounded-2xl shadow-sm p-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800 trans-all"
+        className="card rounded-2xl shadow-sm p-4 min-h-[56px] flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800 trans-all"
       >
         <span className="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
           <Users size={18} className="text-primary-600" /> Bagan Organisasi
@@ -284,7 +284,7 @@ export default function StrukturOrganisasi() {
       {/* Member List Table */}
       <div className="card rounded-2xl shadow-sm border dark:border-slate-800 overflow-hidden">
         <div className="p-5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
-          <h3 className="font-bold text-slate-800 dark:text-slate-100">Daftar Pengurus & Karyawan</h3>
+          <h3 className="text-lg font-serif font-bold text-slate-800 dark:text-slate-100">Daftar Pengurus & Karyawan</h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{members.length} orang terdaftar di sistem</p>
         </div>
         <div className="overflow-x-auto">
@@ -299,7 +299,7 @@ export default function StrukturOrganisasi() {
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-700/60">
               {sortedMembers.map(m => (
-                <tr key={m.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all">
+                <tr key={m.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all even:bg-slate-50/50 dark:even:bg-slate-800/30">
                   <td className="p-4">
                     <div className="flex items-center gap-3">
                       <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${ROLE_COLORS[m.role] || 'from-slate-500 to-slate-700'} flex items-center justify-center text-white font-bold text-sm shrink-0 overflow-hidden`}>
@@ -330,8 +330,8 @@ export default function StrukturOrganisasi() {
         <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border dark:border-slate-800 max-h-[90vh] flex flex-col">
             <div className="flex justify-between items-center p-6 border-b dark:border-slate-800">
-              <h3 className="text-xl font-bold dark:text-slate-100">Edit Profil Pengurus</h3>
-              <button onClick={() => setShowEditModal(false)} className="text-slate-400 hover:text-slate-600 p-2 bg-slate-100 dark:bg-slate-800 rounded-xl"><X size={20} /></button>
+              <h3 className="text-xl font-serif font-bold dark:text-slate-100">Edit Profil Pengurus</h3>
+              <button onClick={() => setShowEditModal(false)} className="text-slate-400 hover:text-slate-600 w-11 h-11 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-xl trans-all"><X size={20} /></button>
             </div>
             <form onSubmit={handleSaveMember} className="p-6 space-y-4 overflow-y-auto flex-1">
               <div>
@@ -366,8 +366,8 @@ export default function StrukturOrganisasi() {
                 </div>
               </div>
               <div className="flex justify-end gap-2 pt-4">
-                <button type="button" onClick={() => setShowEditModal(false)} className="px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-xl">Batal</button>
-                <button type="submit" className="px-4 py-2 bg-primary-600 text-white rounded-xl">Simpan Perubahan</button>
+                <button type="button" onClick={() => setShowEditModal(false)} className="px-4 py-2 min-h-[44px] bg-slate-100 dark:bg-slate-800 rounded-xl trans-all hover:bg-slate-200 dark:hover:bg-slate-700">Batal</button>
+                <button type="submit" className="px-4 py-2 min-h-[44px] bg-primary-600 text-white rounded-xl trans-all hover:bg-primary-700 font-bold">Simpan Perubahan</button>
               </div>
             </form>
           </div>

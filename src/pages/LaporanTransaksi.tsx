@@ -177,7 +177,7 @@ export default function LaporanTransaksi() {
               <button
                 key={p.key}
                 onClick={() => setPeriod(p.key)}
-                className={`flex items-center gap-2 px-6 py-2 rounded-lg font-bold text-sm trans-all snap-start shrink-0 ${period === p.key ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400'}`}
+                className={`flex items-center gap-2 px-6 py-2 min-h-[44px] rounded-lg font-bold text-sm trans-all snap-start shrink-0 ${period === p.key ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400'}`}
               >
                 {p.label}
               </button>
@@ -185,22 +185,22 @@ export default function LaporanTransaksi() {
           </div>
           <div className="flex flex-wrap items-center gap-2 w-full xl:w-auto">
             {period === 'mingguan' && (
-              <input type="date" value={selectedWeek} onChange={e => setSelectedWeek(e.target.value)} className="flex-1 sm:flex-none px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold" />
+              <input type="date" value={selectedWeek} onChange={e => setSelectedWeek(e.target.value)} className="flex-1 sm:flex-none px-3 py-2 min-h-[44px] border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold" />
             )}
             {(period === 'bulanan' || period === 'tahunan') && (
-              <select value={selectedYear} onChange={e => setSelectedYear(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
+              <select value={selectedYear} onChange={e => setSelectedYear(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 min-h-[44px] border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
                 {Array.from({ length: Math.max(10, new Date().getFullYear() - 2024 + 5) }, (_, i) => 2024 + i).map(y => <option key={y} value={y}>{y}</option>)}
               </select>
             )}
             {period === 'bulanan' && (
-              <select value={selectedMonth} onChange={e => setSelectedMonth(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
+              <select value={selectedMonth} onChange={e => setSelectedMonth(Number(e.target.value))} className="flex-1 sm:flex-none px-3 py-2 min-h-[44px] border dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 rounded-xl text-sm font-semibold">
                 {BULAN.map((b, i) => <option key={i} value={i + 1}>{b}</option>)}
               </select>
             )}
-            <button onClick={() => handleExport('pdf')} disabled={isExporting || transactions.length === 0} className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-rose-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
+            <button onClick={() => handleExport('pdf')} disabled={isExporting || transactions.length === 0} className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 min-h-[44px] bg-rose-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
               <Download size={16} /> PDF
             </button>
-            <button onClick={() => handleExport('excel')} disabled={isExporting || transactions.length === 0} className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
+            <button onClick={() => handleExport('excel')} disabled={isExporting || transactions.length === 0} className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 min-h-[44px] bg-emerald-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
               <Download size={16} /> Excel
             </button>
           </div>
@@ -227,7 +227,7 @@ export default function LaporanTransaksi() {
 
       {/* Chart */}
       <div className="card rounded-2xl shadow-sm p-5 border dark:border-slate-800">
-        <h3 className="font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
+        <h3 className="font-serif font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
           <BarChart3 size={18} className="text-primary-600" /> Grafik Pendapatan — {getPeriodLabel()}
         </h3>
         <div className="h-64">
@@ -258,7 +258,7 @@ export default function LaporanTransaksi() {
       {/* Transaction Table */}
       <div className="card rounded-2xl shadow-sm border dark:border-slate-800 overflow-hidden">
         <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
-          <h3 className="font-bold text-slate-800 dark:text-slate-100">Detail Transaksi — {getPeriodLabel()}</h3>
+          <h3 className="font-serif font-bold text-slate-800 dark:text-slate-100">Detail Transaksi — {getPeriodLabel()}</h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{transactions.length} transaksi ditemukan</p>
         </div>
         <div className="overflow-x-auto">
@@ -281,7 +281,7 @@ export default function LaporanTransaksi() {
                   <tr><td colSpan={6} className="p-12 text-center text-slate-400 font-medium">Tidak ada transaksi pada periode ini.</td></tr>
                 )}
                 {transactions.map(t => (
-                  <tr key={t.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all">
+                  <tr key={t.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all even:bg-slate-50/50 dark:even:bg-slate-800/30">
                     <td className="p-4 font-bold text-primary-700 dark:text-primary-400">{t.invoice_number}</td>
                     <td className="p-4 text-slate-600 dark:text-slate-400">{new Date(t.created_at).toLocaleString('id-ID')}</td>
                     <td className="p-4 font-semibold dark:text-slate-300">{t.cashier_name || '-'}</td>

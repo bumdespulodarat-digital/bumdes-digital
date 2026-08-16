@@ -251,72 +251,66 @@ export default function Dashboard() {
   };
 
   const statCards = [
-    { title: 'Saldo Kas', value: `Rp ${stats.kas.toLocaleString('id-ID')}`, icon: <DollarSign size={24} />, gradient: 'from-emerald-500 to-teal-600', iconBg: 'bg-emerald-400/20' },
-    { title: 'Total Pendapatan', value: `Rp ${stats.pendapatan.toLocaleString('id-ID')}`, icon: <TrendingUp size={24} />, gradient: 'from-blue-500 to-indigo-600', iconBg: 'bg-blue-400/20' },
-    { title: 'Macam Barang', value: `${stats.stokCount} Item`, icon: <Package size={24} />, gradient: 'from-amber-500 to-orange-600', iconBg: 'bg-amber-400/20' },
-    { title: 'Total Transaksi', value: `${stats.transaksiCount}`, icon: <ShoppingCart size={24} />, gradient: 'from-violet-500 to-purple-600', iconBg: 'bg-violet-400/20' },
+    { title: 'Saldo Kas', value: `Rp ${stats.kas.toLocaleString('id-ID')}`, icon: <DollarSign size={24} className="text-emerald-600 dark:text-emerald-400" />, bg: 'bg-white dark:bg-slate-900', iconBg: 'bg-emerald-100 dark:bg-emerald-900/30' },
+    { title: 'Total Pendapatan', value: `Rp ${stats.pendapatan.toLocaleString('id-ID')}`, icon: <TrendingUp size={24} className="text-primary-600 dark:text-primary-400" />, bg: 'bg-white dark:bg-slate-900', iconBg: 'bg-primary-100 dark:bg-primary-900/30' },
+    { title: 'Macam Barang', value: `${stats.stokCount} Item`, icon: <Package size={24} className="text-orange-600 dark:text-orange-400" />, bg: 'bg-white dark:bg-slate-900', iconBg: 'bg-orange-100 dark:bg-orange-900/30' },
+    { title: 'Total Transaksi', value: `${stats.transaksiCount}`, icon: <ShoppingCart size={24} className="text-secondary-600 dark:text-secondary-400" />, bg: 'bg-white dark:bg-slate-900', iconBg: 'bg-secondary-100 dark:bg-secondary-900/30' },
   ];
 
   return (
     <div className="space-y-4 md:space-y-6 pb-6 relative z-0">
       
       {/* Ambient Background Orbs */}
-      <div className="absolute top-[-5%] right-[-5%] w-[400px] h-[400px] bg-primary-500/20 dark:bg-primary-500/10 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
-      <div className="absolute top-[40%] left-[-10%] w-[300px] h-[300px] bg-emerald-500/20 dark:bg-emerald-500/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+      <div className="absolute top-[-5%] right-[-5%] w-[400px] h-[400px] bg-primary-100 dark:bg-primary-900/20 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+      <div className="absolute top-[40%] left-[-10%] w-[300px] h-[300px] bg-secondary-100 dark:bg-secondary-900/20 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
 
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-br from-primary-900 via-primary-800 to-primary-600 rounded-2xl md:rounded-[2rem] p-6 md:p-10 text-white shadow-2xl shadow-primary-900/30 relative overflow-hidden group border border-white/10">
+      <div className="bg-primary-800 rounded-2xl md:rounded-[2rem] p-6 md:p-10 text-white shadow-md relative overflow-hidden group border border-primary-700">
         <div className="relative z-10 animate-fade-in-up">
-          <h1 className="text-2xl md:text-4xl font-black mb-2 md:mb-3 tracking-tight">Hai, {userName}! 👋</h1>
+          <h1 className="text-2xl md:text-4xl font-serif font-bold mb-2 md:mb-3 tracking-tight">Hai, {userName}!</h1>
           <p className="text-primary-100 text-sm md:text-base max-w-2xl leading-relaxed font-medium">
             Pantau dan kelola seluruh transaksi, stok, hingga laporan akuntansi BUMDes secara real-time dari genggaman Anda.
           </p>
         </div>
-        <div className="absolute -right-10 -top-10 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl group-hover:scale-125 trans-all duration-1000"></div>
-        <div className="absolute right-20 -bottom-10 w-40 h-40 bg-emerald-400 opacity-20 rounded-full blur-3xl group-hover:translate-x-8 trans-all duration-1000"></div>
+        <div className="absolute -right-10 -top-10 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl group-hover:scale-125 trans-all duration-1000"></div>
+        <div className="absolute right-20 -bottom-10 w-40 h-40 bg-secondary-400 opacity-10 rounded-full blur-3xl group-hover:translate-x-8 trans-all duration-1000"></div>
       </div>
 
       {/* Grid Statistik */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5">
         {statCards.map((stat, i) => (
-          <div key={i} className={`bg-gradient-to-br ${stat.gradient} rounded-2xl md:rounded-[2rem] p-5 md:p-6 text-white shadow-xl shadow-${stat.gradient.split('-')[1]}-900/20 hover:shadow-2xl hover:-translate-y-1 trans-all relative overflow-hidden group border border-white/10 animate-fade-in-up`} style={{ animationDelay: `${i * 80}ms` }}>
-            <div className="flex flex-col relative z-10 h-full justify-between">
-              <div className="flex justify-between items-start mb-4">
-                <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${stat.iconBg} flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 trans-all backdrop-blur-md border border-white/20`}>
+          <div key={i} className={`${stat.bg} rounded-2xl md:rounded-[2rem] p-5 md:p-6 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md trans-all relative overflow-hidden group animate-fade-in-up`} style={{ animationDelay: `${i * 80}ms` }}>
+            <div className="flex flex-col relative z-10 h-full justify-between gap-5">
+              <div className="flex justify-between items-start mb-2">
+                <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${stat.iconBg} flex items-center justify-center trans-all duration-300`}>
                   {stat.icon}
-                </div>
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                  <TrendingUp size={14} className="text-white" />
                 </div>
               </div>
               <div>
-                <p className="text-white/80 text-xs font-bold uppercase tracking-widest mb-1">{stat.title}</p>
-                <h3 className="text-2xl md:text-3xl font-black tracking-tight truncate drop-shadow-sm">
+                <p className="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-widest mb-1.5">{stat.title}</p>
+                <h3 className="text-2xl md:text-3xl font-serif font-bold text-slate-800 dark:text-slate-100 tracking-tight truncate">
                   {loading ? '...' : stat.value}
                 </h3>
               </div>
             </div>
-            {/* Decorative Background Elements */}
-            <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-white opacity-10 rounded-full group-hover:scale-150 trans-all duration-700 blur-2xl"></div>
-            <div className="absolute -left-8 -top-8 w-24 h-24 bg-white opacity-10 rounded-full blur-xl"></div>
           </div>
         ))}
       </div>
 
       {/* Aset Tetap Summary */}
       {stats.asetTetap > 0 && (
-        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white dark:border-slate-800 rounded-2xl md:rounded-[2rem] p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg shadow-slate-200/50 dark:shadow-none animate-fade-in-up" style={{ animationDelay: '400ms' }}>
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl md:rounded-[2rem] p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm animate-fade-in-up" style={{ animationDelay: '400ms' }}>
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/40 dark:to-primary-800/40 text-primary-600 dark:text-primary-400 flex items-center justify-center shadow-inner">
+            <div className="w-14 h-14 rounded-2xl bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 flex items-center justify-center">
               <Building2 size={26} />
             </div>
             <div>
-              <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Total Nilai Aset Tetap BUMDes</p>
-              <h3 className="text-2xl md:text-3xl font-black text-primary-900 dark:text-primary-300 tracking-tight">Rp {stats.asetTetap.toLocaleString('id-ID')}</h3>
+              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Total Nilai Aset Tetap BUMDes</p>
+              <h3 className="text-2xl md:text-3xl font-serif font-bold text-slate-800 dark:text-slate-100 tracking-tight">Rp {stats.asetTetap.toLocaleString('id-ID')}</h3>
             </div>
           </div>
           <span className="text-xs font-bold uppercase tracking-wider bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 px-4 py-2 rounded-xl flex items-center gap-2 border border-primary-100 dark:border-primary-800/50">
-            <div className="w-2 h-2 bg-primary-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(14,165,233,0.8)]"></div> Tercatat di Neraca
+            <div className="w-2 h-2 bg-primary-500 rounded-full animate-pulse shadow-sm"></div> Tercatat di Neraca
           </span>
         </div>
       )}
@@ -324,10 +318,10 @@ export default function Dashboard() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 md:gap-6">
         {/* Bar Chart - Pendapatan vs Pengeluaran */}
-        <div className="xl:col-span-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white dark:border-slate-800 rounded-2xl md:rounded-[2rem] p-5 md:p-7 shadow-lg shadow-slate-200/50 dark:shadow-none">
+        <div className="xl:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl md:rounded-[2rem] p-5 md:p-7 shadow-sm">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-8 gap-3">
             <div>
-              <h3 className="font-black text-slate-800 dark:text-slate-100 text-lg md:text-xl tracking-tight">Pendapatan vs Pengeluaran</h3>
+              <h3 className="font-serif font-bold text-slate-800 dark:text-slate-100 text-lg md:text-xl tracking-tight">Pendapatan vs Pengeluaran</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">Tahun {new Date().getFullYear()}</p>
             </div>
             <span className="text-xs font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 px-4 py-2 rounded-xl flex items-center gap-2 border border-emerald-100 dark:border-emerald-800/50">
@@ -349,8 +343,8 @@ export default function Dashboard() {
         </div>
 
         {/* Doughnut Chart - Sumber Pendapatan */}
-        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white dark:border-slate-800 rounded-2xl md:rounded-[2rem] p-5 md:p-7 shadow-lg shadow-slate-200/50 dark:shadow-none">
-          <h3 className="font-black text-slate-800 dark:text-slate-100 text-lg md:text-xl tracking-tight mb-1">Sumber Pendapatan</h3>
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl md:rounded-[2rem] p-5 md:p-7 shadow-sm">
+          <h3 className="font-serif font-bold text-slate-800 dark:text-slate-100 text-lg md:text-xl tracking-tight mb-1">Sumber Pendapatan</h3>
           <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mb-6 md:mb-8">Komposisi per unit usaha</p>
           <div className="h-[250px] md:h-[300px]">
             {loading ? (
@@ -366,8 +360,8 @@ export default function Dashboard() {
       </div>
 
       {/* Barang Terlaris */}
-      <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white dark:border-slate-800 rounded-2xl md:rounded-[2rem] p-5 md:p-7 shadow-lg shadow-slate-200/50 dark:shadow-none">
-        <h3 className="font-black text-slate-800 dark:text-slate-100 text-lg md:text-xl tracking-tight mb-1">🏆 Barang Terlaris</h3>
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl md:rounded-[2rem] p-5 md:p-7 shadow-sm">
+        <h3 className="font-serif font-bold text-slate-800 dark:text-slate-100 text-lg md:text-xl tracking-tight mb-1">Barang Terlaris</h3>
         <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mb-6 md:mb-8">Top 5 barang paling banyak terjual</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4 md:gap-6">
           {topProducts.length === 0 && (

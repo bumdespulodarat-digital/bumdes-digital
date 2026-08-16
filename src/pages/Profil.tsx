@@ -87,7 +87,7 @@ export default function Profil() {
       if (dbError) throw dbError;
 
       if (profile.email === userEmail) {
-        setToast({ message: 'Profil berhasil diperbarui! 🎉', type: 'success', subtitle: 'Informasi akun Anda telah tersimpan.' });
+        setToast({ message: 'Profil berhasil diperbarui!', type: 'success', subtitle: 'Informasi akun Anda telah tersimpan.' });
       }
       
       // Reload page after a delay so that AuthContext updates with new data
@@ -138,7 +138,7 @@ export default function Profil() {
       if (dbError) throw dbError;
 
       setProfile({ ...profile, photo_url: publicUrl });
-      setToast({ message: 'Foto berhasil diunggah! 📸', type: 'success' });
+      setToast({ message: 'Foto berhasil diunggah!', type: 'success' });
       
       setTimeout(() => window.location.reload(), 2000);
 
@@ -206,7 +206,7 @@ export default function Profil() {
               </div>
 
               <div className="text-center md:text-left flex-1">
-                <h2 className="text-3xl font-black text-slate-800 dark:text-slate-100 mb-2">{profile.name || 'Pengguna'}</h2>
+                <h2 className="text-3xl font-serif font-black text-slate-800 dark:text-slate-100 mb-2">{profile.name || 'Pengguna'}</h2>
                 <div className="inline-block px-4 py-1.5 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-primary-100 dark:border-primary-900/50 text-primary-700 dark:text-primary-300 rounded-full text-sm font-black mb-4 shadow-sm uppercase tracking-wide">
                   {profile.role || 'Admin'}
                 </div>
@@ -219,7 +219,7 @@ export default function Profil() {
             <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-6">
               
               <div className="md:col-span-2">
-                <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                <h3 className="text-lg font-serif font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
                   <User size={18} className="text-primary-600" /> Informasi Dasar
                 </h3>
               </div>
@@ -288,7 +288,7 @@ export default function Profil() {
               </div>
 
               <div className="md:col-span-2 mt-4">
-                <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                <h3 className="text-lg font-serif font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
                   <Briefcase size={18} className="text-primary-600" /> Informasi Pekerjaan
                 </h3>
               </div>

@@ -170,7 +170,7 @@ export default function Inventaris() {
           await supabase.from('activity_docs').insert(activityForm);
         }
       }
-      setToast({ message: `Data berhasil ${editingId ? 'diperbarui' : 'ditambahkan'}! ✅`, type: 'success' });
+      setToast({ message: `Data berhasil ${editingId ? 'diperbarui' : 'ditambahkan'}!`, type: 'success' });
       setShowModal(false);
       resetForms();
       fetchData();
@@ -382,10 +382,10 @@ export default function Inventaris() {
         </div>
         {!isPengawas && (
           <div className="flex gap-2 w-full sm:w-auto">
-            <button onClick={fetchData} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-xl font-bold border dark:border-slate-700">
+            <button onClick={fetchData} className="flex-1 sm:flex-none min-h-[44px] flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-xl font-bold border dark:border-slate-700">
               <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
             </button>
-            <button onClick={openAddModal} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-primary-600/30">
+            <button onClick={openAddModal} className="flex-1 sm:flex-none min-h-[44px] flex items-center justify-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-primary-600/30">
               <Plus size={16} /> Tambah
             </button>
           </div>
@@ -403,10 +403,10 @@ export default function Inventaris() {
           </div>
           {(activeTab === 'barang' || activeTab === 'surat') && (
             <div className="flex gap-2 w-full sm:w-auto">
-              <button onClick={() => handleExport('pdf')} disabled={isExporting || (activeTab === 'barang' && inventoryItems.length === 0) || (activeTab === 'surat' && letters.length === 0)} className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-rose-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
+              <button onClick={() => handleExport('pdf')} disabled={isExporting || (activeTab === 'barang' && inventoryItems.length === 0) || (activeTab === 'surat' && letters.length === 0)} className="flex-1 sm:flex-none min-h-[44px] flex justify-center items-center gap-2 px-4 py-2 bg-rose-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
                 <Download size={14} /> PDF
               </button>
-              <button onClick={() => handleExport('excel')} disabled={isExporting || (activeTab === 'barang' && inventoryItems.length === 0) || (activeTab === 'surat' && letters.length === 0)} className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
+              <button onClick={() => handleExport('excel')} disabled={isExporting || (activeTab === 'barang' && inventoryItems.length === 0) || (activeTab === 'surat' && letters.length === 0)} className="flex-1 sm:flex-none min-h-[44px] flex justify-center items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl font-bold text-sm shadow-lg disabled:opacity-50">
                 <Download size={14} /> Excel
               </button>
             </div>
@@ -434,7 +434,7 @@ export default function Inventaris() {
                     <tr><td colSpan={7} className="p-8 text-center text-slate-500 dark:text-slate-400 font-medium">Belum ada data inventaris barang.</td></tr>
                   )}
                   {inventoryItems.filter(i => i.name.toLowerCase().includes(search.toLowerCase())).map(item => (
-                    <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all">
+                    <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all even:bg-slate-50/50 dark:even:bg-slate-800/30">
                       <td className="p-4 font-bold dark:text-slate-100">{item.name}</td>
                       <td className="p-4"><span className="px-2 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-700 dark:text-slate-300">{item.category}</span></td>
                       <td className="p-4 text-center font-black dark:text-slate-100">{item.qty}</td>
@@ -448,8 +448,8 @@ export default function Inventaris() {
                       <td className="p-4 text-center space-x-2">
                         {!isPengawas && (
                           <>
-                            <button onClick={() => handleEditInventory(item)} className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={14} /></button>
-                            <button onClick={() => setDeleteConfirm({ id: item.id, table: 'inventory_items', name: item.name })} className="p-2 rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={14} /></button>
+                            <button onClick={() => handleEditInventory(item)} className="p-2 w-10 h-10 inline-flex items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={16} /></button>
+                            <button onClick={() => setDeleteConfirm({ id: item.id, table: 'inventory_items', name: item.name })} className="p-2 w-10 h-10 inline-flex items-center justify-center rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={16} /></button>
                           </>
                         )}
                       </td>
@@ -479,7 +479,7 @@ export default function Inventaris() {
                     <tr><td colSpan={6} className="p-8 text-center text-slate-500 dark:text-slate-400 font-medium">Belum ada data surat.</td></tr>
                   )}
                   {letters.filter(l => l.subject.toLowerCase().includes(search.toLowerCase()) || l.letter_number.toLowerCase().includes(search.toLowerCase())).map(item => (
-                    <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all">
+                    <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all even:bg-slate-50/50 dark:even:bg-slate-800/30">
                       <td className="p-4 font-mono text-slate-600 dark:text-slate-400">{item.letter_number}</td>
                       <td className="p-4 dark:text-slate-300">{new Date(item.date).toLocaleDateString('id-ID')}</td>
                       <td className="p-4">
@@ -492,8 +492,8 @@ export default function Inventaris() {
                       <td className="p-4 text-center space-x-2">
                         {!isPengawas && (
                           <>
-                            <button onClick={() => handleEditLetter(item)} className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={14} /></button>
-                            <button onClick={() => setDeleteConfirm({ id: item.id, table: 'letters', name: item.subject })} className="p-2 rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={14} /></button>
+                            <button onClick={() => handleEditLetter(item)} className="p-2 w-10 h-10 inline-flex items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={16} /></button>
+                            <button onClick={() => setDeleteConfirm({ id: item.id, table: 'letters', name: item.subject })} className="p-2 w-10 h-10 inline-flex items-center justify-center rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={16} /></button>
                           </>
                         )}
                       </td>
@@ -514,14 +514,14 @@ export default function Inventaris() {
                 <div key={item.id} className="p-5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-primary-300 dark:hover:border-primary-700 trans-all">
                   <div className="flex flex-col sm:flex-row justify-between items-start gap-3 mb-3">
                     <div className="flex-1">
-                      <h3 className="font-bold text-slate-800 dark:text-slate-100 text-lg">{item.title}</h3>
-                      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">📅 {new Date(item.date).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} {item.notulist && `• ✍️ Notulis: ${item.notulist}`}</p>
+                      <h3 className="font-serif font-bold text-slate-800 dark:text-slate-100 text-lg">{item.title}</h3>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{new Date(item.date).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} {item.notulist && `• Notulis: ${item.notulist}`}</p>
                     </div>
                     {!isPengawas && (
                       <div className="flex gap-2 shrink-0">
-                        <button onClick={() => handlePrintNotulen(item)} className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white trans-all" title="Cetak PDF"><FileText size={14} /></button>
-                        <button onClick={() => handleEditMeeting(item)} className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={14} /></button>
-                        <button onClick={() => setDeleteConfirm({ id: item.id, table: 'meeting_minutes', name: item.title })} className="p-2 rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={14} /></button>
+                        <button onClick={() => handlePrintNotulen(item)} className="p-2 w-10 h-10 inline-flex items-center justify-center rounded-lg bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white trans-all" title="Cetak PDF"><FileText size={16} /></button>
+                        <button onClick={() => handleEditMeeting(item)} className="p-2 w-10 h-10 inline-flex items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white trans-all"><Edit size={16} /></button>
+                        <button onClick={() => setDeleteConfirm({ id: item.id, table: 'meeting_minutes', name: item.title })} className="p-2 w-10 h-10 inline-flex items-center justify-center rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white trans-all"><Trash2 size={16} /></button>
                       </div>
                     )}
                   </div>
@@ -545,13 +545,13 @@ export default function Inventaris() {
                     <Camera size={48} className="text-primary-400 dark:text-primary-600 opacity-40" />
                   </div>
                   <div className="p-4">
-                    <h3 className="font-bold text-slate-800 dark:text-slate-100 mb-1">{item.title}</h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">📅 {new Date(item.date).toLocaleDateString('id-ID')} {item.location && `• 📍 ${item.location}`}</p>
+                    <h3 className="font-serif font-bold text-slate-800 dark:text-slate-100 mb-1">{item.title}</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{new Date(item.date).toLocaleDateString('id-ID')} {item.location && `• ${item.location}`}</p>
                     {item.description && <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-3">{item.description}</p>}
                     {!isPengawas && (
                       <div className="flex gap-2 mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
-                        <button onClick={() => handleEditActivity(item)} className="flex-1 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold hover:bg-blue-600 hover:text-white trans-all">Edit</button>
-                        <button onClick={() => setDeleteConfirm({ id: item.id, table: 'activity_docs', name: item.title })} className="flex-1 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 text-xs font-bold hover:bg-rose-600 hover:text-white trans-all">Hapus</button>
+                        <button onClick={() => handleEditActivity(item)} className="flex-1 py-2 min-h-[44px] rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm font-bold hover:bg-blue-600 hover:text-white trans-all">Edit</button>
+                        <button onClick={() => setDeleteConfirm({ id: item.id, table: 'activity_docs', name: item.title })} className="flex-1 py-2 min-h-[44px] rounded-lg bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 text-sm font-bold hover:bg-rose-600 hover:text-white trans-all">Hapus</button>
                       </div>
                     )}
                   </div>
@@ -567,8 +567,8 @@ export default function Inventaris() {
         <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center p-4 z-50">
           <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden border dark:border-slate-800 max-h-[90vh] flex flex-col">
             <div className="flex justify-between items-center p-6 border-b dark:border-slate-800 shrink-0">
-              <h3 className="text-xl font-bold dark:text-slate-100">{getFormTitle()}</h3>
-              <button onClick={() => { setShowModal(false); resetForms(); }} className="text-slate-400 hover:text-slate-600 p-2 bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl"><X size={20} /></button>
+              <h3 className="text-xl font-serif font-bold dark:text-slate-100">{getFormTitle()}</h3>
+              <button onClick={() => { setShowModal(false); resetForms(); }} className="text-slate-400 hover:text-slate-600 p-2 w-11 h-11 inline-flex items-center justify-center bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl"><X size={20} /></button>
             </div>
             <form onSubmit={handleSave} className="p-6 space-y-4 overflow-y-auto flex-1">
               {activeTab === 'barang' && (
@@ -639,8 +639,8 @@ export default function Inventaris() {
                 </>
               )}
               <div className="pt-4 flex justify-end gap-3 border-t dark:border-slate-800 mt-2">
-                <button type="button" onClick={() => { setShowModal(false); resetForms(); }} className="px-4 py-2.5 text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl font-bold">Batal</button>
-                <button type="submit" className="px-5 py-2.5 bg-primary-600 text-white rounded-xl font-bold shadow-lg">Simpan Data</button>
+                <button type="button" onClick={() => { setShowModal(false); resetForms(); }} className="px-4 py-2 min-h-[44px] text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl font-bold">Batal</button>
+                <button type="submit" className="px-5 py-2 min-h-[44px] bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold shadow-lg">Simpan Data</button>
               </div>
             </form>
           </div>

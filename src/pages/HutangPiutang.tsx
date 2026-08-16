@@ -90,7 +90,7 @@ export default function HutangPiutang() {
     if (error) {
       setToast({ message: 'Gagal menambah kontak', type: 'error', subtitle: error.message });
     } else {
-      setToast({ message: 'Kontak berhasil ditambahkan! ✨', type: 'success', subtitle: `${contactForm.name} telah ditambahkan ke daftar kontak.` });
+      setToast({ message: 'Kontak berhasil ditambahkan!', type: 'success', subtitle: `${contactForm.name} telah ditambahkan ke daftar kontak.` });
     }
     setContactForm({ name: '', type: 'Customer', phone: '' });
     setShowContactModal(false);
@@ -152,7 +152,7 @@ export default function HutangPiutang() {
         }
       }
 
-      setToast({ message: `${debtForm.type} berhasil dicatat! 📝`, type: 'success', subtitle: `Rp ${amount.toLocaleString('id-ID')} — ${debtForm.notes}` });
+      setToast({ message: `${debtForm.type} berhasil dicatat!`, type: 'success', subtitle: `Rp ${amount.toLocaleString('id-ID')} — ${debtForm.notes}` });
     }
 
     setDebtForm({ contact_id: '', type: 'Piutang', amount: '', due_date: '', notes: '' });
@@ -203,7 +203,7 @@ export default function HutangPiutang() {
       }
     }
 
-    setToast({ message: `${debt.type} telah dilunasi! ✅`, type: 'success', subtitle: `${debt.contacts?.name} — Rp ${debt.amount.toLocaleString('id-ID')}` });
+    setToast({ message: `${debt.type} telah dilunasi!`, type: 'success', subtitle: `${debt.contacts?.name} — Rp ${debt.amount.toLocaleString('id-ID')}` });
     fetchData();
   };
 
@@ -258,7 +258,7 @@ export default function HutangPiutang() {
     if (error) {
       setToast({ message: 'Gagal menyimpan perubahan', type: 'error', subtitle: error.message });
     } else {
-      setToast({ message: 'Data berhasil diperbarui! ✏️', type: 'success', subtitle: 'Perubahan telah tersimpan.' });
+      setToast({ message: 'Data berhasil diperbarui!', type: 'success', subtitle: 'Perubahan telah tersimpan.' });
     }
     setShowEditModal(false);
     fetchData();
@@ -279,7 +279,7 @@ export default function HutangPiutang() {
     if (error) {
       setToast({ message: 'Gagal menghapus data', type: 'error', subtitle: error.message });
     } else {
-      setToast({ message: 'Data berhasil dihapus 🗑️', type: 'success', subtitle: `${debt.type} ${debt.contacts?.name} — Rp ${debt.amount.toLocaleString('id-ID')} telah dihapus.` });
+      setToast({ message: 'Data berhasil dihapus', type: 'success', subtitle: `${debt.type} ${debt.contacts?.name} — Rp ${debt.amount.toLocaleString('id-ID')} telah dihapus.` });
     }
     fetchData();
   };
@@ -309,12 +309,12 @@ export default function HutangPiutang() {
 
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center bg-white dark:bg-slate-900/40 p-4 border dark:border-slate-800/60 rounded-2xl shadow-sm relative z-10">
         <div className="flex overflow-x-auto whitespace-nowrap no-scrollbar bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl w-full sm:w-auto snap-x">
-          <button onClick={() => setActiveTab('Piutang')} className={`flex-1 sm:flex-none px-6 py-2 rounded-lg font-bold text-sm trans-all ${activeTab === 'Piutang' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}>Buku Piutang</button>
-          <button onClick={() => setActiveTab('Utang')} className={`flex-1 sm:flex-none px-6 py-2 rounded-lg font-bold text-sm trans-all ${activeTab === 'Utang' ? 'bg-white dark:bg-slate-700 shadow-sm text-rose-700 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}>Buku Utang</button>
+          <button onClick={() => setActiveTab('Piutang')} className={`flex-1 sm:flex-none px-6 py-2 min-h-[44px] rounded-lg font-bold text-sm trans-all ${activeTab === 'Piutang' ? 'bg-white dark:bg-slate-700 shadow-sm text-primary-700 dark:text-primary-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}>Buku Piutang</button>
+          <button onClick={() => setActiveTab('Utang')} className={`flex-1 sm:flex-none px-6 py-2 min-h-[44px] rounded-lg font-bold text-sm trans-all ${activeTab === 'Utang' ? 'bg-white dark:bg-slate-700 shadow-sm text-rose-700 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}>Buku Utang</button>
         </div>
         <div className="flex gap-2 w-full sm:w-auto">
-          <button onClick={() => setShowContactModal(true)} className="flex-1 sm:flex-none justify-center items-center flex gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 trans-all"><Users size={16} /> Kontak</button>
-          <button onClick={() => { setDebtForm({...debtForm, type: activeTab}); setShowDebtModal(true); }} className={`flex-1 sm:flex-none justify-center items-center flex gap-2 px-4 py-2 text-white rounded-xl font-bold trans-all hover:-translate-y-0.5 ${activeTab === 'Piutang' ? 'bg-primary-600 hover:bg-primary-700 shadow-lg shadow-primary-600/30' : 'bg-rose-600 hover:bg-rose-700 shadow-lg shadow-rose-600/30'}`}><Plus size={16} /> Tambah {activeTab}</button>
+          <button onClick={() => setShowContactModal(true)} className="flex-1 sm:flex-none justify-center items-center flex gap-2 px-4 py-2 min-h-[44px] bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 trans-all"><Users size={16} /> Kontak</button>
+          <button onClick={() => { setDebtForm({...debtForm, type: activeTab}); setShowDebtModal(true); }} className={`flex-1 sm:flex-none justify-center items-center flex gap-2 px-4 py-2 min-h-[44px] text-white rounded-xl font-bold trans-all hover:-translate-y-0.5 ${activeTab === 'Piutang' ? 'bg-primary-600 hover:bg-primary-700 shadow-lg shadow-primary-600/30' : 'bg-rose-600 hover:bg-rose-700 shadow-lg shadow-rose-600/30'}`}><Plus size={16} /> Tambah {activeTab}</button>
         </div>
       </div>
 
@@ -336,7 +336,7 @@ export default function HutangPiutang() {
           <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
             {filteredDebts.length === 0 && <tr><td colSpan={7} className="text-center p-8 text-slate-400">Tidak ada data.</td></tr>}
             {filteredDebts.map(d => (
-              <tr key={d.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all">
+              <tr key={d.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 trans-all even:bg-slate-50/50 dark:even:bg-slate-800/30">
                 <td className="p-4 text-slate-600 dark:text-slate-400">{formatDate(d.created_at)}</td>
                 <td className="p-4 font-bold text-slate-800 dark:text-slate-100">{d.contacts?.name || '-'}</td>
                 <td className="p-4 text-slate-600 dark:text-slate-400">{formatDate(d.due_date)}</td>
@@ -352,17 +352,17 @@ export default function HutangPiutang() {
                       <button
                         onClick={() => handlePayDebt(d)}
                         title="Tandai Lunas"
-                        className="w-9 h-9 rounded-lg flex items-center justify-center text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 trans-all"
+                        className="w-11 h-11 rounded-lg flex items-center justify-center text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 trans-all"
                       >
-                        <CheckCircle size={16} />
+                        <CheckCircle size={18} />
                       </button>
                     ) : (
                       <button
                         onClick={() => handleBatalLunas(d)}
                         title="Batalkan Lunas"
-                        className="w-9 h-9 rounded-lg flex items-center justify-center text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/30 trans-all"
+                        className="w-11 h-11 rounded-lg flex items-center justify-center text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/30 trans-all"
                       >
-                        <Undo2 size={16} />
+                        <Undo2 size={18} />
                       </button>
                     )}
 
@@ -370,18 +370,18 @@ export default function HutangPiutang() {
                     <button
                       onClick={() => handleOpenEdit(d)}
                       title="Edit"
-                      className="w-9 h-9 rounded-lg flex items-center justify-center text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 trans-all"
+                      className="w-11 h-11 rounded-lg flex items-center justify-center text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 trans-all"
                     >
-                      <Pencil size={16} />
+                      <Pencil size={18} />
                     </button>
 
                     {/* Hapus */}
                     <button
                       onClick={() => handleDeleteDebt(d)}
                       title="Hapus"
-                      className="w-9 h-9 rounded-lg flex items-center justify-center text-rose-500 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/30 trans-all"
+                      className="w-11 h-11 rounded-lg flex items-center justify-center text-rose-500 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/30 trans-all"
                     >
-                      <Trash2 size={16} />
+                      <Trash2 size={18} />
                     </button>
                   </div>
                 </td>
@@ -396,7 +396,7 @@ export default function HutangPiutang() {
       {showContactModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-800 animate-fade-in-up">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-4">Tambah Kontak Baru</h3>
+            <h3 className="text-xl font-serif font-bold text-slate-800 dark:text-slate-100 mb-4">Tambah Kontak Baru</h3>
             <form onSubmit={handleAddContact} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wide">Nama Lengkap</label>
@@ -415,8 +415,8 @@ export default function HutangPiutang() {
                 <input type="text" value={contactForm.phone} onChange={e => setContactForm({...contactForm, phone: e.target.value})} className="w-full p-3 input-field border dark:border-slate-700 rounded-xl font-semibold" placeholder="08xxxxxxxxxx" />
               </div>
               <div className="flex justify-end gap-3 pt-2">
-                <button type="button" onClick={() => setShowContactModal(false)} className="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 trans-all">Batal</button>
-                <button type="submit" className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold trans-all shadow-lg shadow-primary-600/30">Simpan</button>
+                <button type="button" onClick={() => setShowContactModal(false)} className="px-5 py-2 min-h-[44px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 trans-all">Batal</button>
+                <button type="submit" className="px-5 py-2 min-h-[44px] bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold trans-all shadow-lg shadow-primary-600/30">Simpan</button>
               </div>
             </form>
           </div>
@@ -427,7 +427,7 @@ export default function HutangPiutang() {
       {showDebtModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-800 animate-fade-in-up">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-4">Catat {debtForm.type}</h3>
+            <h3 className="text-xl font-serif font-bold text-slate-800 dark:text-slate-100 mb-4">Catat {debtForm.type}</h3>
             <form onSubmit={handleAddDebt} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wide">Pihak Terkait</label>
@@ -449,8 +449,8 @@ export default function HutangPiutang() {
                 <textarea required value={debtForm.notes} onChange={e => setDebtForm({...debtForm, notes: e.target.value})} className="w-full p-3 input-field border dark:border-slate-700 rounded-xl font-semibold" rows={3} placeholder="Keterangan..." />
               </div>
               <div className="flex justify-end gap-3 pt-2">
-                <button type="button" onClick={() => setShowDebtModal(false)} className="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 trans-all">Batal</button>
-                <button type="submit" className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold trans-all shadow-lg shadow-primary-600/30">Simpan</button>
+                <button type="button" onClick={() => setShowDebtModal(false)} className="px-5 py-2 min-h-[44px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 trans-all">Batal</button>
+                <button type="submit" className="px-5 py-2 min-h-[44px] bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold trans-all shadow-lg shadow-primary-600/30">Simpan</button>
               </div>
             </form>
           </div>
@@ -461,7 +461,7 @@ export default function HutangPiutang() {
       {showEditModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 w-full max-w-md shadow-2xl border border-slate-200 dark:border-slate-800 animate-fade-in-up">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-serif font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
               <Pencil size={20} className="text-primary-600" /> Edit Data
             </h3>
             <form onSubmit={handleSaveEdit} className="space-y-4">
@@ -485,8 +485,8 @@ export default function HutangPiutang() {
                 <textarea required value={editForm.notes} onChange={e => setEditForm({...editForm, notes: e.target.value})} className="w-full p-3 input-field border dark:border-slate-700 rounded-xl font-semibold" rows={3} placeholder="Keterangan..." />
               </div>
               <div className="flex justify-end gap-3 pt-2">
-                <button type="button" onClick={() => setShowEditModal(false)} className="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 trans-all">Batal</button>
-                <button type="submit" className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold trans-all shadow-lg shadow-primary-600/30">Simpan Perubahan</button>
+                <button type="button" onClick={() => setShowEditModal(false)} className="px-5 py-2 min-h-[44px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 trans-all">Batal</button>
+                <button type="submit" className="px-5 py-2 min-h-[44px] bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold trans-all shadow-lg shadow-primary-600/30">Simpan Perubahan</button>
               </div>
             </form>
           </div>
