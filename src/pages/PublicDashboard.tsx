@@ -300,8 +300,8 @@ export default function PublicDashboard() {
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl flex items-center justify-center text-white shadow-lg">
-                <Store size={20} />
+              <div className="w-10 h-10 flex items-center justify-center">
+                <img src="/logo-bumdes.png" alt="Logo BUMDes" className="max-w-full max-h-full object-contain drop-shadow-md" />
               </div>
               <span className="font-black text-slate-800 dark:text-white text-lg tracking-tight hidden sm:block">
                 {storeName}
@@ -382,8 +382,8 @@ export default function PublicDashboard() {
         {/* Header Widget Statistik */}
         <div id="statistik" className="flex flex-col lg:flex-row items-center justify-between gap-6 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/80 dark:border-slate-800/80 p-6 md:p-8 rounded-[2rem] shadow-xl scroll-mt-32 text-center lg:text-left reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out">
           <div className="flex flex-col sm:flex-row items-center gap-5">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary-900/20 transform -rotate-3 hover:rotate-0 transition-transform duration-300">
-              <Store size={32} />
+            <div className="w-16 h-16 flex items-center justify-center transform transition-transform duration-300 hover:scale-110">
+              <img src="/logo-bumdes.png" alt="Logo BUMDes" className="max-w-full max-h-full object-contain drop-shadow-xl" />
             </div>
             <div>
               <h2 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">Perkembangan BUMDes</h2>
@@ -545,7 +545,7 @@ export default function PublicDashboard() {
             <div className="w-full lg:w-1/2 flex flex-col">
               <div className="w-full h-[250px] md:h-[350px] rounded-[1.5rem] overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800 mb-8">
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15858.918512166946!2d110.7093!3d-6.6853!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNDEnMDcuMSJTIDExMMKwNDInMzMuNSJF!5e0!3m2!1sen!2sid!4v1620000000000!5m2!1sen!2sid" 
+                  src="https://maps.google.com/maps?q=Balai%20Desa%20Pulodarat&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                   width="100%" 
                   height="100%" 
                   style={{ border: 0 }} 
@@ -584,8 +584,8 @@ export default function PublicDashboard() {
         <footer className="mt-8 pt-8 pb-4 border-t border-slate-200/80 dark:border-slate-800/80">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white">
-                <Store size={16} />
+              <div className="w-10 h-10 flex items-center justify-center">
+                <img src="/logo-bumdes.png" alt="Logo BUMDes" className="max-w-full max-h-full object-contain drop-shadow-sm" />
               </div>
               <div>
                 <span className="font-bold text-slate-700 dark:text-slate-300 block">{storeName}</span>

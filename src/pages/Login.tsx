@@ -41,8 +41,8 @@ export default function Login() {
 
       <div className="w-full max-w-[420px] bg-white/70 dark:bg-slate-900/80 backdrop-blur-md border border-white/60 dark:border-slate-700/50 rounded-2xl sm:rounded-[2rem] shadow-2xl overflow-hidden relative z-10 transition-all duration-500 mt-12 sm:mt-0">
         <div className="p-6 sm:p-10 text-center relative overflow-hidden bg-white/40 dark:bg-slate-800/40">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-primary transform rotate-3 transition-all duration-500">
-            <Store className="w-8 h-8 sm:w-10 sm:h-10 text-white -rotate-3" />
+          <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 transform transition-all duration-500 hover:scale-105 drop-shadow-xl flex items-center justify-center">
+            <img src="/logo-bumdes.png" alt="Logo BUMDes" className="max-w-full max-h-full object-contain" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-primary-950 dark:text-primary-200 mb-1 sm:mb-2 tracking-tight transition-all duration-500">BUMDes Digital</h1>
           <p className="text-slate-600 dark:text-slate-400 font-medium text-xs sm:text-sm">Masuk untuk mengelola operasional desa</p>
