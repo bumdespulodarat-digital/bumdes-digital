@@ -228,7 +228,8 @@ export default function BukuPanduan() {
           layout: 'lightHorizontalLines',
           margin: [0, 0, 0, 15] as [number, number, number, number]
         },
-        { text: 'Dashboard adalah halaman pertama yang Anda lihat setelah login. Halaman ini berfungsi sebagai pusat informasi (rapor) harian BUMDes. Sistem ini juga dilengkapi dengan Dashboard Publik untuk memberikan transparansi informasi secara live kepada masyarakat desa.', style: 'paragraph' },
+        { text: 'Dashboard adalah halaman pertama yang Anda lihat setelah login. Halaman ini berfungsi sebagai pusat informasi (rapor) harian BUMDes.', style: 'paragraph' },
+        { text: 'Sistem ini juga dilengkapi dengan Dashboard Publik (/public-dashboard). Ini adalah sebuah widget pintar berupa statistik anonim (tanpa menampilkan nama pembeli/rahasia perusahaan) yang siap di-embed (dipasang) ke dalam website resmi desa (seperti WordPress atau Web Desa) untuk memberikan transparansi informasi secara live kepada masyarakat.', style: 'paragraph' },
         screenshotBox('Tampilan Dashboard dengan Grafik', dashboardImg),
         {
           ol: [
@@ -279,7 +280,17 @@ export default function BukuPanduan() {
             { text: 'Jika pembeli membeli layanan (misal: Jasa Fotokopi), klik ikon "+" (Produk Custom), lalu ketik nama jasa dan harganya.', style: 'listItem' },
             { text: 'Pilih Metode Pembayaran (Tunai, QRIS, atau Transfer).', style: 'listItem' },
             { text: 'Jika Tunai, ketikkan jumlah uang yang diberikan pembeli di kolom "Uang Bayar". Sistem akan otomatis menampilkan nominal Kembalian.', style: 'listItem' },
+            { text: 'Sistem secara otomatis akan menghitung Pajak PPN (jika ada) sesuai tarif pajak masing-masing barang, dan mencatatkannya ke Jurnal PPN Keluaran.', style: 'listItem' },
             { text: 'Klik tombol "Cetak Struk" untuk menyimpan transaksi dan mencetak nota. Sistem secara otomatis mencetak dalam format kertas hemat (kertas A4 dibagi 2 / format A5). Klik "Simpan Data" jika pembeli tidak meminta struk.', style: 'listItem' }
+          ]
+        },
+        { text: '2. Riwayat Transaksi & Cetak Ulang Struk', style: 'h2' },
+        {
+          ol: [
+            { text: 'Di dalam menu Kasir, terdapat tab "Riwayat Transaksi" di bagian atas.', style: 'listItem' },
+            { text: 'Anda dapat mencari transaksi lama berdasarkan Nomor Invoice, Nama Kasir, atau Tanggal.', style: 'listItem' },
+            { text: 'Klik tombol "Detail" pada transaksi yang diinginkan untuk melihat rincian barang yang dibeli.', style: 'listItem' },
+            { text: 'Jika komputer mati tiba-tiba atau kertas printer habis, Anda bisa mencetak ulang struk lama (Reprint) langsung dari menu Detail ini.', style: 'listItem' }
           ]
         },
         { text: '', pageBreak: 'after' },
@@ -306,10 +317,20 @@ export default function BukuPanduan() {
             { text: 'Buka menu Stok Barang, lalu klik tombol "+ Tambah Barang" di pojok kanan atas.', style: 'listItem' },
             { text: 'Isi Nama Barang dan Kode SKU (Bisa diisi dengan men-scan barcode di kemasan produk).', style: 'listItem' },
             { text: 'Isi Harga Beli (modal) dan Harga Jual (untuk pelanggan).', style: 'listItem' },
+            { text: 'Pilih persentase Pajak (0%, 2%, 11%, dll) jika barang tersebut dikenakan pajak.', style: 'listItem' },
             { text: 'Isi Jumlah Stok Awal yang ada di toko, lalu klik "Simpan".', style: 'listItem' }
           ]
         },
-        { text: '2. Inventaris (Aset Tetap) & Arsip Digital', style: 'h2' },
+        { text: '2. Import Barang via Excel (Massal)', style: 'h2' },
+        {
+          ol: [
+            { text: 'Jika BUMDes memiliki ratusan barang (misal: Toko ATK), Anda tidak perlu menginput satu per satu.', style: 'listItem' },
+            { text: 'Klik tombol "Import Excel" di menu Stok Barang.', style: 'listItem' },
+            { text: 'Download "Template Excel" yang disediakan sistem.', style: 'listItem' },
+            { text: 'Isi data barang Anda di Excel tersebut, simpan, lalu Upload kembali ke sistem. Ratusan barang akan otomatis masuk ke database dalam hitungan detik!', style: 'listItem' }
+          ]
+        },
+        { text: '3. Inventaris (Aset Tetap) & Arsip Digital', style: 'h2' },
         { text: 'Berbeda dengan barang dagangan, menu Inventaris & Arsip digunakan khusus untuk mendata Aset Tetap milik BUMDes (seperti Meja, Kursi, Komputer) agar tidak hilang dan terdata dengan rapi. Selain itu, Anda juga dapat mengelola surat masuk, surat keluar, dan mencetak dokumen Notulen Rapat dalam format PDF resmi dengan KOP BUMDes.', style: 'paragraph' },
         { text: '', pageBreak: 'after' },
 
@@ -363,6 +384,16 @@ export default function BukuPanduan() {
             { text: 'Neraca: Menampilkan posisi keuangan BUMDes (Berapa total Kas, total Aset, dan Modal).', style: 'listItem' }
           ]
         },
+        { text: '3. Akuntansi Lanjutan', style: 'h2' },
+        { text: 'Sistem menggunakan standar Chart of Accounts (COA) 5-Level untuk mendetailkan klasifikasi akun. Anda juga dapat mengakses laporan tingkat lanjut berikut:', style: 'paragraph' },
+        {
+          ul: [
+            { text: 'Buku Besar: Melihat mutasi debet/kredit dan saldo berjalan per akun tertentu (misal: memantau mutasi khusus akun "Kas Tunai" atau "Pendapatan Parkir").', style: 'listItem' },
+            { text: 'Neraca Saldo: Ringkasan total Debit dan Kredit seluruh akun aktif untuk memastikan keseimbangan (balance).', style: 'listItem' },
+            { text: 'Laporan Perubahan Ekuitas (LPE): Melacak perubahan modal BUMDes dari awal periode hingga laba ditahan.', style: 'listItem' },
+            { text: 'Laporan Arus Kas (LAK): Melihat detail aliran uang riil yang masuk dan keluar berdasarkan aktivitas Operasi, Investasi, dan Pendanaan.', style: 'listItem' }
+          ]
+        },
         { text: '', pageBreak: 'after' },
 
         // BAB 7
@@ -380,15 +411,25 @@ export default function BukuPanduan() {
           ]
         },
 
-        { text: '2. Mengelola Akun Pengurus', style: 'h2' },
+        { text: '2. Hak Akses (Role-Based Access Control)', style: 'h2' },
+        { text: 'Untuk menjaga keamanan data dan mencegah kesalahan input, sistem ini membatasi akses menu berdasarkan jabatan (Role) Anda:', style: 'paragraph' },
         {
-          ol: [
-            { text: 'Menu Pengaturan hanya bisa diakses oleh jabatan Admin dan Direktur.', style: 'listItem' },
-            { text: 'Di sini, Anda bisa membuatkan akun (email & password) baru jika ada pergantian pengurus BUMDes.', style: 'listItem' }
+          ul: [
+            { text: 'Admin, Direktur BUMDes, & Bendahara: Memiliki akses penuh (Full Access) ke semua menu, termasuk Laporan, Akuntansi, pengaturan akun, dan Hak Akses.', style: 'listItem' },
+            { text: 'Pengawas: Hanya memiliki akses "Read-Only" (Hanya Membaca). Pengawas dapat melihat Laporan, Akuntansi, dan Buku Kas untuk keperluan audit, tetapi tidak bisa mengubah, menambah, atau menghapus data transaksi.', style: 'listItem' },
+            { text: 'Karyawan (Staff Toko): Akses sangat dibatasi. Hanya dapat membuka Dashboard, menu Kasir (POS) untuk melayani pelanggan, dan melihat Stok Barang. Karyawan tidak bisa melihat laporan keuangan, laba rugi, maupun menu pengaturan.', style: 'listItem' }
           ]
         },
 
-        { text: '3. Mencetak Laporan Bulanan (Export PDF/Excel)', style: 'h2' },
+        { text: '3. Mengelola Akun Pengurus', style: 'h2' },
+        {
+          ol: [
+            { text: 'Menu Pengaturan hanya bisa diakses oleh jabatan Admin dan Direktur.', style: 'listItem' },
+            { text: 'Di sini, Anda bisa membuatkan akun (email & password) baru serta mengatur Role / Jabatan mereka jika ada pergantian pengurus BUMDes.', style: 'listItem' }
+          ]
+        },
+
+        { text: '4. Mencetak Laporan Bulanan (Export PDF/Excel)', style: 'h2' },
         { text: 'Setiap akhir bulan, BUMDes wajib melapor ke Kepala Desa. Caranya sangat mudah:', style: 'paragraph' },
         {
           ol: [
