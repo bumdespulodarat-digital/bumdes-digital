@@ -84,7 +84,7 @@ Terintegrasi secara penuh dengan **Chart of Accounts (COA) 5-Level** standar BUM
 
 ### 📖 10. Buku Panduan (SOP) Digital
 - **Built-in FAQ:** Jawaban untuk pertanyaan umum (troubleshooting dasar) tersedia langsung di dalam aplikasi.
-- **Buku Panduan PDF:** Unduh otomatis *SOP (Standard Operating Procedure)* menjadi dokumen PDF yang profesional, lengkap, dan siap cetak untuk panduan pengurus BUMDes.
+- **Buku Panduan PDF:** Unduh otomatis *SOP (Standard Operating Procedure)* menjadi dokumen PDF yang profesional, komprehensif, dan siap cetak. Buku panduan ini secara lengkap membahas seluruh alur fitur BUMDes (termasuk *Public Dashboard*, Import Excel, Akuntansi Lanjutan, dan *Role-Based Access Control*) yang disertai dengan *screenshot* aktual dari sistem.
 
 ## 🛠️ Stack Teknologi (Tech Stack)
 Aplikasi ini dibangun menggunakan arsitektur modern untuk menjamin kecepatan, keamanan, dan keandalan data:
