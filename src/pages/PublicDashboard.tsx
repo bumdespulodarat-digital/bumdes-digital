@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { DollarSign, TrendingUp, Package, ShoppingCart, Store, Lock, Moon, Sun, Menu, X, MapPin, Mail as MailIcon, ArrowRight } from 'lucide-react';
+import { DollarSign, TrendingUp, Package, ShoppingCart, Lock, Moon, Sun, Menu, X, MapPin, Mail as MailIcon, ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import {
   Chart as ChartJS,

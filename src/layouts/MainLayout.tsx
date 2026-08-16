@@ -1,5 +1,5 @@
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, ShoppingCart, Package, FileText, Settings, Store, LogOut, Menu, X, Moon, Sun, ChevronLeft, ChevronRight, KeyRound, BarChart3, Archive, Users, BookOpen, HelpCircle, User } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, Package, FileText, Settings, LogOut, Menu, X, Moon, Sun, ChevronLeft, ChevronRight, KeyRound, BarChart3, Archive, Users, BookOpen, HelpCircle, User } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useEffect, useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
@@ -139,8 +139,8 @@ export default function MainLayout() {
       `}>
         <div className="p-5 flex items-center justify-between gap-3 relative">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-10 h-10 min-w-[40px] bg-primary-600 rounded-xl flex items-center justify-center text-white font-bold shadow-primary shrink-0">
-              <Store size={20} />
+            <div className="w-10 h-10 min-w-[40px] flex items-center justify-center shrink-0">
+              <img src="/logo-bumdes.png" alt="Logo BUMDes" className="max-w-full max-h-full object-contain drop-shadow-sm" />
             </div>
             <div className={`overflow-hidden transition-all duration-300 ${isSidebarCollapsed ? 'md:w-0 md:opacity-0' : 'w-48 opacity-100'}`}>
               <h1 className="font-bold text-lg leading-tight text-primary-900 dark:text-primary-300 truncate" title={storeInfo.name}>{storeInfo.name}</h1>
