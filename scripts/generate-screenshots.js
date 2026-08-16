@@ -77,6 +77,56 @@ async function run() {
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'akuntansi.png') });
     console.log('✅ Screenshot Akuntansi tersimpan.');
 
+    // 5. HALAMAN STOK (TAMBAH BARANG)
+    console.log('🚗 Menuju halaman Stok...');
+    await page.goto(`${APP_URL}/admin/stok`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await delay(2000);
+    console.log('📝 Membuka modal Tambah Barang dan mengisi data...');
+    // Klik tombol Tambah Barang (cari tombol yang teksnya mengandung "Tambah Barang")
+    await page.evaluate(() => {
+      const buttons = Array.from(document.querySelectorAll('button'));
+      const btn = buttons.find(b => b.textContent && b.textContent.includes('Tambah Barang'));
+      if (btn) btn.click();
+    });
+    await delay(1000); // tunggu modal muncul
+    
+    // Isi form Tambah Barang dengan data realistis
+    // Selectors bedasarkan placeholder: "Kode (SKU)", "Nama Barang", "Stok", "HPP", "Harga Jual"
+    await page.evaluate(() => {
+      const inputs = Array.from(document.querySelectorAll('input'));
+      const setInputValue = (input, value) => {
+        if (!input) return;
+        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+        nativeInputValueSetter.call(input, value);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      };
+
+      const inputSKU = inputs.find(i => i.placeholder === 'Kode (SKU)');
+      const inputName = inputs.find(i => i.placeholder === 'Nama Barang');
+      const inputStok = inputs.find(i => i.placeholder === 'Stok');
+      const inputHPP = inputs.find(i => i.placeholder === 'HPP');
+      const inputHarga = inputs.find(i => i.placeholder === 'Harga Jual');
+
+      if(inputSKU) setInputValue(inputSKU, 'BRG-PUPUK-01');
+      if(inputName) setInputValue(inputName, 'Pupuk Urea Non-Subsidi 50Kg');
+      if(inputStok) setInputValue(inputStok, '25');
+      if(inputHPP) setInputValue(inputHPP, '180000');
+      if(inputHarga) setInputValue(inputHarga, '195000');
+    });
+    
+    await delay(1000);
+    console.log('📸 Mengambil Screenshot Form Tambah Barang...');
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'stok-tambah.png') });
+    console.log('✅ Screenshot Stok Tambah tersimpan.');
+
+    // 6. HALAMAN HUTANG PIUTANG (TAB PIUTANG)
+    console.log('🚗 Menuju halaman Hutang Piutang...');
+    await page.goto(`${APP_URL}/admin/hutang-piutang`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await delay(2000); // tunggu data dimuat. default sudah di tab piutang.
+    console.log('📸 Mengambil Screenshot Piutang...');
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'piutang.png') });
+    console.log('✅ Screenshot Piutang tersimpan.');
+
     console.log('\n🎉 SEMUA TUGAS SELESAI!');
     console.log(`Silakan cek folder: ${SCREENSHOT_DIR}`);
 

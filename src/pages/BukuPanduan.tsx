@@ -55,6 +55,8 @@ export default function BukuPanduan() {
     const dashboardImg = await fetchImageBase64('/screenshots/dashboard.png');
     const kasirImg = await fetchImageBase64('/screenshots/kasir.png');
     const akuntansiImg = await fetchImageBase64('/screenshots/akuntansi.png');
+    const stokTambahImg = await fetchImageBase64('/screenshots/stok-tambah.png');
+    const piutangImg = await fetchImageBase64('/screenshots/piutang.png');
 
     const screenshotBox = (text: string, base64Image?: string | null): any => {
       if (base64Image) {
@@ -145,6 +147,7 @@ export default function BukuPanduan() {
           canvas: [{ type: 'rect', x: 0, y: 0, w: 515, h: 3, color: '#4F46E5' }]
         },
         { text: 'Tahun 2024', style: 'coverYear', alignment: 'center', margin: [0, 20, 0, 0] },
+        { text: 'Revisi: Agustus 2026, sesuai Versi 2.0 sistem', fontSize: 11, alignment: 'center', color: '#64748B', margin: [0, 5, 0, 0] },
         { text: '', pageBreak: 'after' },
 
         // DAFTAR ISI (TOC)
@@ -235,6 +238,15 @@ export default function BukuPanduan() {
             { text: 'Di bagian bawah, terdapat tabel peringatan Piutang Belum Lunas. Segera hubungi pelanggan yang bersangkutan jika tanggal jatuh tempo sudah lewat.', style: 'listItem' }
           ]
         },
+        { text: '2. Laporan Transaksi', style: 'h2' },
+        { text: 'Menu Laporan Transaksi memungkinkan Anda untuk melihat riwayat aktivitas secara rinci serta mencetak laporan lengkap.', style: 'paragraph' },
+        {
+          ol: [
+            { text: 'Pilih filter tanggal yang diinginkan (contoh: 1 Agustus - 31 Agustus) atau gunakan filter cepat seperti "Hari Ini" atau "Bulan Ini".', style: 'listItem' },
+            { text: 'Anda dapat melihat ringkasan total Pemasukan, Pengeluaran, dan Laba Bersih pada periode tersebut.', style: 'listItem' },
+            { text: 'Untuk mencetak laporan, klik tombol "Export PDF" untuk format dokumen cetak resmi, atau "Export Excel" untuk analisis data lebih lanjut.', style: 'listItem' }
+          ]
+        },
         { text: '', pageBreak: 'after' },
 
         // BAB 3
@@ -288,7 +300,7 @@ export default function BukuPanduan() {
           margin: [0, 0, 0, 15] as [number, number, number, number]
         },
         { text: '1. Cara Menambahkan Barang Baru', style: 'h2' },
-        screenshotBox('Tampilan Form Tambah Barang'),
+        screenshotBox('Tampilan Form Tambah Barang', stokTambahImg),
         {
           ol: [
             { text: 'Buka menu Stok Barang, lalu klik tombol "+ Tambah Barang" di pojok kanan atas.', style: 'listItem' },
@@ -316,7 +328,7 @@ export default function BukuPanduan() {
           layout: 'lightHorizontalLines',
           margin: [0, 0, 0, 15] as [number, number, number, number]
         },
-        screenshotBox('Tabel Piutang Pelanggan'),
+        screenshotBox('Tabel Piutang Pelanggan', piutangImg),
         { text: '1. Cara Mencatat Warga yang Kasbon (Piutang)', style: 'h2' },
         {
           ol: [
@@ -342,7 +354,7 @@ export default function BukuPanduan() {
           ]
         },
 
-        { text: '1. Laporan Laba Rugi', style: 'h2' },
+        { text: '2. Laporan Laba Rugi', style: 'h2' },
         screenshotBox('Laporan Laba Rugi Akuntansi', akuntansiImg),
         {
           ol: [
@@ -422,6 +434,17 @@ export default function BukuPanduan() {
             { text: 'Laba Bersih: Keuntungan murni setelah dipotong semua biaya operasional (listrik, gaji, dll).', style: 'listItem' },
             { text: 'Kasbon / Piutang: Uang yang dipinjam oleh warga, atau barang yang diambil warga tapi belum dibayar lunas.', style: 'listItem' },
             { text: 'Jurnal Umum: Buku catatan akuntansi yang mencatat setiap kejadian keuangan menjadi dua sisi (Debit dan Kredit) agar seimbang.', style: 'listItem' }
+          ]
+        },
+
+        { text: 'PUSAT BANTUAN SISTEM', style: 'h1', tocItem: true, margin: [0, 20, 0, 10] as [number, number, number, number] },
+        { text: 'Selain membaca Buku Panduan ini, Anda juga dapat mengakses menu "Pusat Bantuan" langsung dari sidebar aplikasi Anda.', style: 'paragraph' },
+        { text: 'Pusat Bantuan dalam aplikasi menyediakan:', style: 'paragraph' },
+        {
+          ul: [
+            { text: 'Pertanyaan yang Sering Diajukan (FAQ) interaktif yang bisa langsung Anda klik tanpa perlu membaca seluruh buku panduan.', style: 'listItem' },
+            { text: 'Tips Harian yang selalu diperbarui untuk membantu efisiensi operasional BUMDes.', style: 'listItem' },
+            { text: 'Tombol untuk menghubungi Tim IT secara cepat via WhatsApp.', style: 'listItem' }
           ]
         },
 
