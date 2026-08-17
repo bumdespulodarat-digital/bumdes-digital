@@ -12,6 +12,12 @@ vi.mock('../lib/supabase', async () => {
   };
 });
 
+// Mock window.location.reload to avoid JSDOM navigation error
+Object.defineProperty(window, 'location', {
+  configurable: true,
+  value: { reload: vi.fn() },
+});
+
 describe('Pengaturan - Settings & User Management', () => {
   beforeEach(() => {
     vi.clearAllMocks();

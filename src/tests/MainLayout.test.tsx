@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
 vi.mock('../lib/supabase', async () => {
@@ -38,6 +38,13 @@ describe('MainLayout - Layout Utama & Dark Mode', () => {
     vi.clearAllMocks();
     // Reset document classes
     document.documentElement.className = '';
+  });
+
+  afterEach(async () => {
+    // Flush any pending promises from useEffects
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
   });
 
   it('TEST-LAYOUT-001: Toggle dark mode harus mengubah class di tag html', async () => {

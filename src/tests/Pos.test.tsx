@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Pos from '../pages/Pos';
 
@@ -16,7 +16,11 @@ describe('Kasir (POS) - Point of Sale System', () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
   });
 
-  afterEach(() => {
+  afterEach(async () => {
+    // Flush timers to clear toast states
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
     vi.useRealTimers();
   });
 
