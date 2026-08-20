@@ -4,172 +4,248 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Berita Acara Uji Coba Sistem (UAT)</title>
+    <!-- Import modern Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --brand-primary: #4F46E5; /* Indigo 600 */
+            --brand-secondary: #EEF2FF; /* Indigo 50 */
+            --text-main: #0F172A; /* Slate 900 */
+            --text-muted: #64748B; /* Slate 500 */
+            --border-light: #E2E8F0; /* Slate 200 */
+            --bg-gray: #F8FAFC; /* Slate 50 */
+        }
         body {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 12pt;
-            line-height: 1.5;
-            color: #000;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 10pt;
+            line-height: 1.6;
+            color: var(--text-main);
             margin: 0;
             padding: 0;
-            background-color: #f3f4f6; /* Warna latar untuk web */
+            background-color: #CBD5E1; /* Web background */
         }
         .container {
             width: 210mm;
             min-height: 297mm;
             background: white;
-            margin: 20px auto;
+            margin: 40px auto;
             padding: 20mm;
             box-sizing: border-box;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+            position: relative;
         }
-        
-        /* KOP SURAT (MENGGUNAKAN TABEL AGAR PRESISI) */
-        table.kop-table {
-            width: 100%;
-            border-bottom: 3px solid black;
-            border-collapse: collapse;
-            margin-bottom: 2px;
-        }
-        table.kop-table td {
-            border: none;
-            padding: 0 0 10px 0;
-            vertical-align: middle;
-        }
-        .kop-logo {
-            width: 90px;
-            text-align: center;
-        }
-        .logo-box {
-            width: 75px;
-            height: 75px;
-            border: 1px dashed black;
-            display: inline-flex;
+
+        /* MODERN HEADER */
+        .kop-header {
+            display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-family: Arial, sans-serif;
-            margin: 0 auto;
-        }
-        .kop-text {
-            text-align: center;
-            padding-right: 90px; /* Balance the logo width so text is perfectly centered */
-        }
-        .kop-text h1 {
-            margin: 0; font-size: 16pt; font-weight: normal;
-        }
-        .kop-text h2 {
-            margin: 0; font-size: 18pt; font-weight: bold;
-        }
-        .kop-text p {
-            margin: 2px 0 0 0; font-size: 11pt;
-        }
-        .garis-ganda {
-            border-top: 1px solid black;
+            justify-content: space-between;
             margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border-light);
+        }
+        .kop-titles {
+            display: flex;
+            flex-direction: column;
+        }
+        .kop-titles h1 {
+            margin: 0;
+            font-size: 20pt;
+            font-weight: 800;
+            color: var(--brand-primary);
+            letter-spacing: -0.5px;
+        }
+        .kop-titles h2 {
+            margin: 2px 0 0 0;
+            font-size: 11pt;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .kop-tag {
+            background-color: var(--brand-secondary);
+            color: var(--brand-primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 10pt;
+            letter-spacing: 0.5px;
         }
 
-        /* HEADER JUDUL */
-        .judul-dokumen {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .judul-dokumen h3 {
-            margin: 0; font-size: 14pt; text-decoration: underline; font-weight: bold;
-        }
-        .judul-dokumen p {
-            margin: 2px 0 0 0; font-size: 12pt;
-        }
-
-        /* TEKS DAN IDENTITAS (MENGGUNAKAN TABEL TANPA BORDER) */
+        /* INTRO TEXT */
         .teks-pengantar {
+            font-size: 10.5pt;
+            color: #334155;
+            margin-bottom: 25px;
             text-align: justify;
-            margin-bottom: 15px;
+        }
+
+        /* IDENTITY TABLE - MODERN LOOK */
+        .tabel-identitas-wrapper {
+            background-color: var(--bg-gray);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
         }
         table.tabel-identitas {
-            width: 90%;
-            margin: 0 auto 15px auto;
+            width: 100%;
             border-collapse: collapse;
         }
         table.tabel-identitas td {
-            border: none;
-            padding: 4px 5px;
-            vertical-align: bottom;
+            padding: 4px 0;
+            vertical-align: middle;
+            font-size: 10.5pt;
         }
-        .col-label { width: 35%; }
-        .col-titik { width: 2%; text-align: center; }
-        .col-isi { width: 63%; border-bottom: 1px dotted black; }
-
-        /* TABEL UTAMA PENGUJIAN */
+        .col-label { width: 35%; font-weight: 600; color: #475569; }
+        .col-titik { width: 3%; text-align: center; color: #94A3B8; }
+        .col-isi { width: 62%; border-bottom: 1px solid #CBD5E1; color: var(--text-main); font-weight: 500; }
+        
+        /* TABLE STYLING - ENTERPRISE LOOK */
         table.tabel-uji {
             width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 25px;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            overflow: hidden; /* For rounded corners */
+            margin-bottom: 30px;
         }
         table.tabel-uji th, table.tabel-uji td {
-            border: 1px solid black;
-            padding: 8px 10px;
-            vertical-align: top;
+            padding: 12px 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--border-light);
+            border-right: 1px solid var(--border-light);
+        }
+        table.tabel-uji th:last-child, table.tabel-uji td:last-child {
+            border-right: none;
+        }
+        /* Remove bottom border from last rows in each tbody */
+        table.tabel-uji tbody tr:last-child td {
+            border-bottom: 1px solid var(--border-light); 
         }
         table.tabel-uji th {
-            text-align: center;
-            background-color: #f2f2f2;
-            font-weight: bold;
+            background-color: var(--brand-secondary);
+            color: var(--brand-primary);
+            font-weight: 700;
+            font-size: 10pt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: left;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
-        ul.skenario-list {
-            margin: 0; padding-left: 20px;
+        table.tabel-uji th.center { text-align: center; }
+        table.tabel-uji td {
+            font-size: 10pt;
         }
-        ul.skenario-list li { margin-bottom: 4px; }
         
+        .modul-title {
+            font-weight: 700;
+            color: #1E293B;
+            font-size: 10.5pt;
+        }
+        
+        /* MODERN CHECKBOX */
+        .status-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            color: #475569;
+        }
         .box {
             display: inline-block;
-            width: 14px; height: 14px;
-            border: 1px solid black;
-            margin-right: 6px;
-            position: relative;
-            top: 2px;
+            width: 16px; 
+            height: 16px;
+            border: 2px solid #94A3B8;
+            border-radius: 4px;
+            background-color: white;
+            box-sizing: border-box;
         }
 
-        /* KESIMPULAN */
+        /* KESIMPULAN SECTION */
         .kesimpulan-box {
-            border: 1px solid black;
-            padding: 15px;
-            margin-bottom: 25px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 35px;
+            background-color: white;
         }
-        .opsi-kesimpulan { margin-bottom: 8px; }
-        .garis-titik { border-bottom: 1px dotted black; height: 25px; margin-top: 5px; }
+        .kesimpulan-title {
+            font-weight: 800;
+            font-size: 11pt;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .opsi-kesimpulan { 
+            margin-bottom: 10px; 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 10px;
+            font-size: 10.5pt;
+        }
+        .opsi-kesimpulan b {
+            color: #1E293B;
+        }
+        .catatan-title {
+            margin-top: 20px;
+            font-weight: 600;
+            color: #475569;
+            font-size: 10pt;
+        }
+        .garis-titik { 
+            border-bottom: 1px dashed var(--border-light); 
+            height: 25px; 
+            margin-top: 5px; 
+        }
 
-        /* TANDA TANGAN */
+        /* SIGNATURES */
         table.tanda-tangan-table {
             width: 100%;
             border-collapse: collapse;
             text-align: center;
-            margin-top: 30px;
+            margin-top: 20px;
         }
         table.tanda-tangan-table td {
             border: none;
             width: 33.33%;
             vertical-align: top;
-            padding: 0 10px;
+            padding: 0 15px;
+            font-size: 10pt;
+            color: #475569;
         }
         .nama-ttd {
-            font-weight: bold;
-            text-decoration: underline;
-            margin-top: 70px;
-            margin-bottom: 2px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 80px;
+            margin-bottom: 4px;
+            border-bottom: 1px solid var(--text-main);
+            padding-bottom: 2px;
+            display: inline-block;
+            min-width: 160px;
         }
 
-        /* MEDIA PRINT UNTUK KERTAS A4 */
+        /* PRINT SETTINGS */
         @media print {
             body { background: none; }
             .container {
-                margin: 0; padding: 0; width: 100%; box-shadow: none; border: none; min-height: auto;
+                margin: 0; padding: 0; width: 100%; box-shadow: none; min-height: auto;
             }
-            tbody {
-                page-break-inside: avoid;
-            }
+            .kop-tag { border: 1px solid var(--brand-primary); }
+            tbody { page-break-inside: avoid; }
+            table.tabel-uji { border: 1px solid #CBD5E1 !important; }
+            table.tabel-uji th { border-bottom: 1px solid #CBD5E1 !important; border-right: 1px solid #CBD5E1 !important; }
+            table.tabel-uji td { border-bottom: 1px solid #CBD5E1 !important; border-right: 1px solid #CBD5E1 !important; }
             @page { size: A4; margin: 15mm; }
         }
     </style>
@@ -178,221 +254,302 @@
 
 <div class="container">
     
-    <!-- HEADER SIMPEL TIM KKN -->
-    <table class="kop-table" style="border-bottom: 2px solid black; padding-bottom: 15px;">
-        <tr>
-            <td class="kop-text" style="padding-right: 0;">
-                <h1 style="font-weight: bold; font-size: 16pt;">LEMBAR UJI COBA & SERAH TERIMA APLIKASI</h1>
-                <h2 style="font-size: 14pt; margin-top: 5px;">Sistem Informasi Digital BUMDes Noto Mulyo (Versi 2.0)</h2>
-                <p style="color: #475569; font-style: italic;">Disusun dan diserahkan oleh: Tim KKN</p>
-            </td>
-        </tr>
-    </table>
-    <br>
-
-    <!-- PARAGRAF PEMBUKA -->
-    <div class="teks-pengantar">
-        Pada hari ini, tanggal _____________________________, telah dilakukan sesi uji coba bersama antara Tim KKN (sebagai pembuat aplikasi) dan Pengurus BUMDes Noto Mulyo. Tujuan kegiatan ini adalah untuk mencoba langsung apakah semua fitur di dalam aplikasi sudah berjalan dengan lancar dan mudah digunakan.
+    <!-- MODERN HEADER -->
+    <div class="kop-header">
+        <div class="kop-titles">
+            <h1>SERAH TERIMA & UJI COBA APLIKASI</h1>
+            <h2>BUMDes Noto Mulyo — Pulodarat</h2>
+        </div>
+        <div class="kop-tag">UAT FORM</div>
     </div>
 
-    <!-- IDENTITAS BERBASIS TABEL -->
-    <table class="tabel-identitas">
-        <tr>
-            <td class="col-label">1. Nama Penguji (BUMDes)</td>
-            <td class="col-titik">:</td>
-            <td class="col-isi"></td>
-        </tr>
-        <tr>
-            <td class="col-label" style="padding-top: 15px;">2. Nama Pendamping (KKN)</td>
-            <td class="col-titik" style="padding-top: 15px;">:</td>
-            <td class="col-isi" style="padding-top: 15px;"></td>
-        </tr>
-    </table>
-
+    <!-- PENGANTAR -->
     <div class="teks-pengantar">
-        Berikut adalah daftar fitur yang dicoba hari ini. (Berikan tanda centang [<span style="font-family:sans-serif;">✓</span>] pada kotak "Berhasil" jika fitur lancar, atau "Gagal" jika ada masalah/error).
+        Pada hari ini, tanggal <span style="display:inline-block; width:150px; border-bottom:1px solid #94A3B8;"></span>, telah dilaksanakan pengujian sistem (<i>User Acceptance Test</i>) secara bersama-sama antara Tim KKN selaku pengembang dan Pengurus BUMDes Noto Mulyo. Pengujian ini bertujuan memastikan seluruh modul berjalan dengan lancar dan stabil untuk operasional harian BUMDes.
     </div>
 
-    <!-- TABEL PENGUJIAN UTAMA -->
-    <table class="tabel-uji" style="font-size: 11pt;">
+    <!-- IDENTITAS -->
+    <div class="tabel-identitas-wrapper">
+        <table class="tabel-identitas">
+            <tr>
+                <td class="col-label">1. Nama Penguji (Pihak BUMDes)</td>
+                <td class="col-titik">:</td>
+                <td class="col-isi"></td>
+            </tr>
+            <tr>
+                <td class="col-label" style="padding-top: 12px;">2. Nama Pendamping (Tim KKN)</td>
+                <td class="col-titik" style="padding-top: 12px;">:</td>
+                <td class="col-isi" style="padding-top: 12px;"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="teks-pengantar" style="margin-bottom: 15px; font-weight: 500; color: #1E293B;">
+        Tabel Hasil Uji Coba Skenario (Berikan tanda centang [<span style="font-family:sans-serif;">✓</span>] pada kolom status):
+    </div>
+
+    <!-- TABEL PENGUJIAN -->
+    <table class="tabel-uji">
         <thead>
             <tr>
-                <th style="width: 5%;">No</th>
-                <th style="width: 22%;">Bagian Aplikasi</th>
-                <th style="width: 38%;">Langkah Uji Coba</th>
-                <th style="width: 15%;">Hasil</th>
-                <th style="width: 20%;">Catatan Kendala</th>
+                <th class="center" style="width: 5%;">No</th>
+                <th style="width: 25%;">Modul Sistem</th>
+                <th style="width: 42%;">Langkah Uji Coba (Skenario)</th>
+                <th style="width: 28%;">Status Pengujian</th>
             </tr>
         </thead>
         <tbody>
             <!-- MODUL 1 -->
             <tr>
-                <td rowspan="3" style="text-align: center;">1</td>
-                <td rowspan="3"><b>Halaman Awal (Dashboard)</b></td>
+                <td rowspan="3" class="center">1</td>
+                <td rowspan="3" class="modul-title">Dashboard & Akses</td>
                 <td>Masuk (login) menggunakan email dan sandi</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>Melihat grafik dan angka keuangan tampil rapi</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>Mengubah tampilan ke mode gelap/terang</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
         </tbody>
         <tbody>
             <!-- MODUL 2 -->
             <tr>
-                <td rowspan="3" style="text-align: center;">2</td>
-                <td rowspan="3"><b>Stok Barang & Inventaris</b></td>
+                <td rowspan="3" class="center">2</td>
+                <td rowspan="3" class="modul-title">Stok Barang & Inventaris</td>
                 <td>Menambah barang jualan baru</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>Menyimpan harga beli (HPP) dan harga jual</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>Mengecek riwayat keluar/masuk di Kartu Stok</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
-
         </tbody>
         <tbody>
             <!-- MODUL 3 -->
             <tr>
-                <td rowspan="4" style="text-align: center;">3</td>
-                <td rowspan="4"><b>Kasir Toko (Penjualan)</b></td>
+                <td rowspan="4" class="center">3</td>
+                <td rowspan="4" class="modul-title">Kasir (Point of Sale)</td>
                 <td>Mencari barang pesanan atau scan barcode</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>Mengisi jumlah uang bayar dari pembeli</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>Mengecek kebenaran hitungan uang kembalian</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>Mencetak struk belanja setelah pembayaran</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
-
         </tbody>
         <tbody>
             <!-- MODUL 4 -->
             <tr>
-                <td rowspan="3" style="text-align: center;">4</td>
-                <td rowspan="3"><b>Hutang Piutang Warga</b></td>
+                <td rowspan="3" class="center">4</td>
+                <td rowspan="3" class="modul-title">Hutang Piutang</td>
                 <td>Mencatat pelanggan yang ngutang (kasbon baru)</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>Melakukan pelunasan (klik tombol Tandai Lunas)</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>Mengecek daftar riwayat lunas & belum lunas</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
-
         </tbody>
         <tbody>
             <!-- MODUL 5 -->
             <tr>
-                <td rowspan="3" style="text-align: center;">5</td>
-                <td rowspan="3"><b>Buku Kas & Uang Harian</b></td>
+                <td rowspan="3" class="center">5</td>
+                <td rowspan="3" class="modul-title">Buku Kas & Uang Harian</td>
                 <td>Uang dari kasir otomatis masuk ke Kas Tunai</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>Mencatat pengeluaran operasional (contoh: ATK)</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>Mencatat uang setoran dari unit usaha lain</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
-
         </tbody>
         <tbody>
             <!-- MODUL 6 -->
             <tr>
-                <td rowspan="3" style="text-align: center;">6</td>
-                <td rowspan="3"><b>Laporan Laba Rugi</b></td>
-                <td>Mengecek Laba Rugi: untung bersih dihitung benar</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td rowspan="3" class="center">6</td>
+                <td rowspan="3" class="modul-title">Laporan Akuntansi</td>
+                <td>Cek Laba Rugi: untung bersih dihitung benar</td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
             <tr>
-                <td>Mengecek Neraca: aset dan modal seimbang</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>Cek Neraca: total aset dan modal seimbang</td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>Mendownload laporan ke bentuk PDF / Excel</td>
-                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
-                <td></td>
+                <td>
+                    <div class="status-container">
+                        <div class="checkbox-item"><span class="box"></span> Sukses</div>
+                        <div class="checkbox-item"><span class="box"></span> Gagal</div>
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
 
-    <!-- KESIMPULAN KOTAK -->
+    <!-- KESIMPULAN -->
     <div class="kesimpulan-box">
-        <div style="font-weight: bold; margin-bottom: 10px;">KESIMPULAN UJI COBA</div>
-        Setelah dicoba, aplikasi BUMDes ini dinyatakan:
-        <br><br>
-        <div class="opsi-kesimpulan"><span class="box"></span> <b>SANGAT BAGUS</b> (Semua fitur lancar dan siap dipakai harian).</div>
-        <div class="opsi-kesimpulan"><span class="box"></span> <b>CUKUP BAGUS</b> (Bisa dipakai, tapi ada sedikit fitur yang perlu diperbaiki).</div>
-        <div class="opsi-kesimpulan"><span class="box"></span> <b>KURANG BAGUS</b> (Masih banyak error, harus diperbaiki total).</div>
+        <div class="kesimpulan-title">Keputusan & Kesimpulan Pengujian</div>
         
-        <div style="margin-top: 15px;"><b>Kritik, Saran, atau Fitur Tambahan yang Diinginkan:</b></div>
+        <div class="opsi-kesimpulan">
+            <span class="box" style="margin-top:2px;"></span> 
+            <div><b>SANGAT BAGUS</b> — Seluruh fitur operasional berjalan dengan lancar dan sistem dinyatakan siap digunakan secara harian tanpa ada masalah/error yang menghambat.</div>
+        </div>
+        <div class="opsi-kesimpulan">
+            <span class="box" style="margin-top:2px;"></span> 
+            <div><b>CUKUP BAGUS</b> — Sistem bisa dioperasikan, namun terdapat beberapa revisi atau perbaikan kecil (minor) yang perlu diselesaikan.</div>
+        </div>
+        <div class="opsi-kesimpulan">
+            <span class="box" style="margin-top:2px;"></span> 
+            <div><b>KURANG BAGUS</b> — Ditemukan masalah fatal yang mengganggu proses bisnis sehingga harus diperbaiki secara menyeluruh sebelum serah terima.</div>
+        </div>
+        
+        <div class="catatan-title">Catatan Kendala atau Fitur Tambahan yang Diinginkan:</div>
         <div class="garis-titik"></div>
         <div class="garis-titik"></div>
         <div class="garis-titik"></div>
     </div>
 
-    <div class="teks-pengantar" style="margin-bottom: 0;">
-        Demikian Berita Acara Uji Coba ini dibuat dengan sebenar-benarnya untuk dapat dipergunakan sebagaimana mestinya.
-    </div>
-
-    <!-- TANDA TANGAN BERBASIS TABEL -->
+    <!-- TANDA TANGAN -->
     <table class="tanda-tangan-table">
         <tr>
             <td>
-                Dibuat & Diserahkan oleh,
-                <div class="nama-ttd">( ___________________ )</div>
+                Diserahkan oleh,
+                <div>Tim Pengembang</div>
+                <div class="nama-ttd"></div>
             </td>
             <td>
                 Telah Diuji oleh,
-                <div class="nama-ttd">( ___________________ )</div>
+                <div>Pihak Pengguna / BUMDes</div>
+                <div class="nama-ttd"></div>
             </td>
             <td>
                 Mengetahui,
-                <div class="nama-ttd">( ___________________ )</div>
+                <div>Penanggung Jawab BUMDes</div>
+                <div class="nama-ttd"></div>
             </td>
         </tr>
     </table>
 
 </div>
+
+<script>
+    // window.onload = function() { window.print(); }
+</script>
 
 </body>
 </html>
