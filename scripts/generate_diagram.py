@@ -1,6 +1,6 @@
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from matplotlib.path import Path
+import matplotlib.pyplot as plt  # type: ignore
+import matplotlib.patches as mpatches  # type: ignore
+from matplotlib.path import Path  # type: ignore
 import os
 
 def draw_diagram():
