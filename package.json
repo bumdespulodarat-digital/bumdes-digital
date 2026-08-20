@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "oxlint",
+    "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
+    "screenshots": "node scripts/generate-screenshots.js",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"
@@ -46,6 +47,7 @@
     "jsdom": "^23.2.0",
     "oxlint": "^1.71.0",
     "postcss": "^8.5.25",
+    "puppeteer": "^25.8.0",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
     "vite": "^8.1.1",

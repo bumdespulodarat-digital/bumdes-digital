@@ -406,6 +406,7 @@ export default function BukuPanduan() {
             { text: 'Isi Jumlah Stok Awal yang ada di toko, lalu klik "Simpan".', style: 'listItem' },
           ]
         },
+        calloutBox('⚠️ PENTING: Pengisian Harga Beli', 'Harga Beli wajib diisi dengan benar. Sistem menggunakan angka ini untuk menghitung Harga Pokok Penjualan (HPP) secara otomatis saat barang terjual di Kasir. Jika Harga Beli dibiarkan 0, maka HPP tidak akan tercatat dan Laba di laporan keuangan menjadi tidak akurat.', 'warning'),
 
         { text: '4.2 Kartu Stok (Riwayat Keluar-Masuk)', style: 'h2' },
         {
@@ -568,6 +569,7 @@ export default function BukuPanduan() {
             { text: 'Gunakan filter periode (Semua, Bulan Ini, 3 Bulan, 6 Bulan) dan klik Export PDF/Excel.', style: 'listItem' },
           ]
         },
+        calloutBox('📝 Catatan: Mengapa HPP bisa Rp 0?', 'Jika Anda melihat nilai HPP Rp 0 padahal ada pendapatan penjualan, itu berarti barang yang terjual di Kasir belum diisi "Harga Beli"-nya di menu Stok Barang. Pastikan semua barang memiliki Harga Beli agar sistem bisa menghitung laba dengan tepat.', 'info'),
 
         { text: '6.5 Neraca', style: 'h2' },
         { text: 'Tab Neraca menunjukkan posisi keuangan BUMDes pada suatu periode:', style: 'paragraph' },

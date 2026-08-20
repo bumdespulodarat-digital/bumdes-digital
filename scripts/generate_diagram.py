@@ -6,7 +6,7 @@ import os
 def draw_diagram():
     fig, ax = plt.subplots(figsize=(12, 10), facecolor='white')
     ax.set_xlim(-6, 6)
-    ax.set_ylim(0, 7)
+    ax.set_ylim(-1, 8)
     ax.axis('off')
 
     # Color palette
