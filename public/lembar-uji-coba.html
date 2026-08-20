@@ -9,12 +9,12 @@
     
     <style>
         :root {
-            --brand-primary: #4F46E5; /* Indigo 600 */
-            --brand-secondary: #EEF2FF; /* Indigo 50 */
-            --text-main: #0F172A; /* Slate 900 */
-            --text-muted: #64748B; /* Slate 500 */
-            --border-light: #E2E8F0; /* Slate 200 */
-            --bg-gray: #F8FAFC; /* Slate 50 */
+            --brand-primary: #000000; /* Hitam pekat */
+            --brand-secondary: #F0F0F0; /* Abu-abu terang untuk header tabel */
+            --text-main: #000000;
+            --text-muted: #333333;
+            --border-light: #000000; /* Garis hitam tegas */
+            --bg-gray: #FFFFFF; /* Putih bersih */
         }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -77,7 +77,7 @@
         /* INTRO TEXT */
         .teks-pengantar {
             font-size: 10.5pt;
-            color: #334155;
+            color: #000000;
             margin-bottom: 25px;
             text-align: justify;
         }
@@ -99,9 +99,9 @@
             vertical-align: middle;
             font-size: 10.5pt;
         }
-        .col-label { width: 35%; font-weight: 600; color: #475569; }
-        .col-titik { width: 3%; text-align: center; color: #94A3B8; }
-        .col-isi { width: 62%; border-bottom: 1px solid #CBD5E1; color: var(--text-main); font-weight: 500; }
+        .col-label { width: 35%; font-weight: 600; color: #000000; }
+        .col-titik { width: 3%; text-align: center; color: #000000; }
+        .col-isi { width: 62%; border-bottom: 1px solid #000000; color: var(--text-main); font-weight: 500; }
         
         /* TABLE STYLING - ENTERPRISE LOOK */
         table.tabel-uji {
@@ -144,7 +144,7 @@
         
         .modul-title {
             font-weight: 700;
-            color: #1E293B;
+            color: #000000;
             font-size: 10.5pt;
         }
         
@@ -159,13 +159,13 @@
             align-items: center;
             gap: 6px;
             font-weight: 500;
-            color: #475569;
+            color: #000000;
         }
         .box {
             display: inline-block;
             width: 16px; 
             height: 16px;
-            border: 2px solid #94A3B8;
+            border: 1.5px solid #000000;
             border-radius: 4px;
             background-color: white;
             box-sizing: border-box;
@@ -195,12 +195,12 @@
             font-size: 10.5pt;
         }
         .opsi-kesimpulan b {
-            color: #1E293B;
+            color: #000000;
         }
         .catatan-title {
             margin-top: 20px;
             font-weight: 600;
-            color: #475569;
+            color: #000000;
             font-size: 10pt;
         }
         .garis-titik { 
@@ -222,7 +222,7 @@
             vertical-align: top;
             padding: 0 15px;
             font-size: 10pt;
-            color: #475569;
+            color: #000000;
         }
         .nama-ttd {
             font-weight: 700;
@@ -243,9 +243,9 @@
             }
             .kop-tag { border: 1px solid var(--brand-primary); }
             tbody { page-break-inside: avoid; }
-            table.tabel-uji { border: 1px solid #CBD5E1 !important; }
-            table.tabel-uji th { border-bottom: 1px solid #CBD5E1 !important; border-right: 1px solid #CBD5E1 !important; }
-            table.tabel-uji td { border-bottom: 1px solid #CBD5E1 !important; border-right: 1px solid #CBD5E1 !important; }
+            table.tabel-uji { border: 1px solid #000000 !important; }
+            table.tabel-uji th { border-bottom: 1px solid #000000 !important; border-right: 1px solid #000000 !important; }
+            table.tabel-uji td { border-bottom: 1px solid #000000 !important; border-right: 1px solid #000000 !important; }
             @page { size: A4; margin: 15mm; }
         }
     </style>
@@ -265,7 +265,7 @@
 
     <!-- PENGANTAR -->
     <div class="teks-pengantar">
-        Pada hari ini, tanggal <span style="display:inline-block; width:150px; border-bottom:1px solid #94A3B8;"></span>, telah dilaksanakan pengujian sistem (<i>User Acceptance Test</i>) secara bersama-sama antara Tim KKN selaku pengembang dan Pengurus BUMDes Noto Mulyo. Pengujian ini bertujuan memastikan seluruh modul berjalan dengan lancar dan stabil untuk operasional harian BUMDes.
+        Pada hari ini, tanggal <span style="display:inline-block; width:150px; border-bottom:1px solid #000000;"></span>, telah dilaksanakan pengujian sistem (<i>User Acceptance Test</i>) secara bersama-sama antara Tim KKN selaku pengembang dan Pengurus BUMDes Noto Mulyo. Pengujian ini bertujuan memastikan seluruh modul berjalan dengan lancar dan stabil untuk operasional harian BUMDes.
     </div>
 
     <!-- IDENTITAS -->
@@ -284,7 +284,7 @@
         </table>
     </div>
 
-    <div class="teks-pengantar" style="margin-bottom: 15px; font-weight: 500; color: #1E293B;">
+    <div class="teks-pengantar" style="margin-bottom: 15px; font-weight: 500; color: #000000;">
         Tabel Hasil Uji Coba Skenario (Berikan tanda centang [<span style="font-family:sans-serif;">✓</span>] pada kolom status):
     </div>
 
