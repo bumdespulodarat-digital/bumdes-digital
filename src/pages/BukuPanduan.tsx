@@ -57,13 +57,14 @@ export default function BukuPanduan() {
       }
     };
 
-    const logoBase64 = await fetchImageBase64('/logo-bumdes.png');
-    const loginImg = await fetchImageBase64('/screenshots/login.png');
-    const dashboardImg = await fetchImageBase64('/screenshots/dashboard.png');
-    const kasirImg = await fetchImageBase64('/screenshots/kasir.png');
-    const akuntansiImg = await fetchImageBase64('/screenshots/akuntansi.png');
-    const stokTambahImg = await fetchImageBase64('/screenshots/stok-tambah.png');
-    const piutangImg = await fetchImageBase64('/screenshots/piutang.png');
+    const cacheBuster = '?v=' + Date.now();
+    const logoBase64 = await fetchImageBase64('/logo-bumdes.png' + cacheBuster);
+    const loginImg = await fetchImageBase64('/screenshots/login.png' + cacheBuster);
+    const dashboardImg = await fetchImageBase64('/screenshots/dashboard.png' + cacheBuster);
+    const kasirImg = await fetchImageBase64('/screenshots/kasir.png' + cacheBuster);
+    const akuntansiImg = await fetchImageBase64('/screenshots/akuntansi.png' + cacheBuster);
+    const stokTambahImg = await fetchImageBase64('/screenshots/stok-tambah.png' + cacheBuster);
+    const piutangImg = await fetchImageBase64('/screenshots/piutang.png' + cacheBuster);
 
     // ==================== HELPER FUNCTIONS ====================
 
