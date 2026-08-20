@@ -220,7 +220,7 @@ export default function BukuPanduan() {
         
         { text: '\n\n\n\n\n\n' },
         { canvas: [{ type: 'rect', x: 0, y: 0, w: 515, h: 3, color: '#4F46E5' }] },
-        { text: 'Tahun 2024', style: 'coverYear', alignment: 'center', margin: [0, 20, 0, 0] },
+        { text: `Tahun ${new Date().getFullYear()}`, style: 'coverYear', alignment: 'center', margin: [0, 20, 0, 0] },
         { text: 'Revisi: Agustus 2026, sesuai Versi 2.0 sistem', fontSize: 11, alignment: 'center', color: '#64748B', margin: [0, 5, 0, 0] },
         { text: '', pageBreak: 'after' },
 
@@ -252,7 +252,7 @@ export default function BukuPanduan() {
             { text: 'Browser Rekomendasi: Gunakan Google Chrome, Mozilla Firefox, atau Safari versi terbaru untuk performa dan tampilan terbaik.', style: 'listItem' }
           ]
         },
-        { text: 'Jepara, 2024\n\n\n\nTim Penyusun', style: 'paragraph', alignment: 'right', margin: [0, 30, 0, 0] as [number, number, number, number] },
+        { text: `Jepara, ${new Date().getFullYear()}\n\n\n\nTim Penyusun`, style: 'paragraph', alignment: 'right', margin: [0, 30, 0, 0] as [number, number, number, number] },
         { text: '', pageBreak: 'after' },
 
         // ============================================================
