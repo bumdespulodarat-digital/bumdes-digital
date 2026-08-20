@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lembar Uji Coba Sistem BUMDes</title>
+    <style>
+        :root {
+            --primary: #1E40AF;
+            --border: #CBD5E1;
+            --bg-gray: #F8FAFC;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #0F172A;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            background-color: #E2E8F0;
+        }
+        .a4-container {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            background: white;
+            padding: 20mm;
+            box-sizing: border-box;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            font-size: 22px;
+            margin: 0 0 5px 0;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+        .header p {
+            margin: 0;
+            font-size: 14px;
+            color: #475569;
+        }
+        .identity-box {
+            display: flex;
+            justify-content: space-between;
+            background-color: var(--bg-gray);
+            border: 1px solid var(--border);
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+        .identity-row {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .identity-row strong {
+            display: inline-block;
+            width: 120px;
+        }
+        .identity-row .dots {
+            display: inline-block;
+            width: 200px;
+            border-bottom: 1px dotted #94A3B8;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            vertical-align: top;
+        }
+        th {
+            background-color: var(--primary);
+            color: white;
+            text-align: left;
+        }
+        .col-modul { width: 18%; font-weight: bold; background: var(--bg-gray); }
+        .col-skenario { width: 45%; }
+        .col-hasil { width: 12%; text-align: center; }
+        .col-catatan { width: 25%; }
+        
+        .checkbox-box {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border: 1px solid #64748B;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        .kesimpulan-box {
+            border: 1px solid var(--border);
+            padding: 15px;
+            height: 120px;
+            margin-bottom: 30px;
+        }
+        .kesimpulan-box h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+        }
+        .signature-area {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            text-align: center;
+        }
+        .signature-box {
+            width: 250px;
+        }
+        .signature-box p {
+            margin: 0 0 70px 0;
+            font-size: 14px;
+        }
+        .signature-line {
+            border-bottom: 1px solid black;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* Print Specific Styles */
+        @media print {
+            body { background: none; }
+            .a4-container {
+                margin: 0;
+                padding: 15mm;
+                box-shadow: none;
+                width: 100%;
+                min-height: auto;
+            }
+            /* Force table borders to print clearly */
+            table, th, td {
+                border: 1px solid black !important;
+            }
+            th {
+                color: black !important;
+                background-color: #e2e8f0 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .col-modul, .identity-box {
+                background-color: #f8fafc !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .header { border-bottom: 3px solid black; }
+            .header h1 { color: black; }
+            @page { margin: 10mm; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="a4-container">
+    <div class="header">
+        <h1>LEMBAR UJI COBA APLIKASI (UAT)</h1>
+        <p>Sistem Informasi Digital BUMDes Noto Mulyo - Desa Pulodarat</p>
+    </div>
+
+    <div class="identity-box">
+        <div>
+            <div class="identity-row"><strong>Nama Penguji</strong>: <span class="dots"></span></div>
+            <div class="identity-row"><strong>Jabatan / Peran</strong>: <span class="dots"></span></div>
+        </div>
+        <div>
+            <div class="identity-row"><strong>Tanggal Uji Coba</strong>: <span class="dots"></span></div>
+            <div class="identity-row"><strong>Waktu Mulai</strong>: <span class="dots"></span></div>
+        </div>
+    </div>
+
+    <p style="font-size: 14px; margin-bottom: 10px;">Berikan tanda centang (✓) pada kotak yang sesuai jika fitur berjalan dengan baik.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="col-modul">Modul</th>
+                <th class="col-skenario">Skenario Uji Coba</th>
+                <th class="col-hasil">Berhasil?</th>
+                <th class="col-catatan">Catatan / Kendala</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-modul">1. Akses & Login</td>
+                <td class="col-skenario">
+                    Membuka website BUMDes.<br>
+                    Login menggunakan Email dan Password dengan sukses.<br>
+                    Masuk ke halaman Dashboard.
+                </td>
+                <td class="col-hasil">
+                    <div><span class="checkbox-box"></span> Ya</div>
+                    <div style="margin-top:5px;"><span class="checkbox-box"></span> Tidak</div>
+                </td>
+                <td class="col-catatan"></td>
+            </tr>
+            <tr>
+                <td class="col-modul">2. Stok Barang</td>
+                <td class="col-skenario">
+                    Menambahkan 1 barang dagangan baru.<br>
+                    Mengisi Kategori, Harga Beli (HPP), dan Harga Jual.<br>
+                    Barang baru berhasil muncul di daftar stok.
+                </td>
+                <td class="col-hasil">
+                    <div><span class="checkbox-box"></span> Ya</div>
+                    <div style="margin-top:5px;"><span class="checkbox-box"></span> Tidak</div>
+                </td>
+                <td class="col-catatan"></td>
+            </tr>
+            <tr>
+                <td class="col-modul">3. Kasir (POS)</td>
+                <td class="col-skenario">
+                    Mencari barang yang baru ditambahkan.<br>
+                    Menambahkan barang ke keranjang belanja.<br>
+                    Memasukkan jumlah "Uang Bayar" (Tunai) pelanggan.<br>
+                    Menyelesaikan transaksi (Cetak Struk / Simpan).
+                </td>
+                <td class="col-hasil">
+                    <div><span class="checkbox-box"></span> Ya</div>
+                    <div style="margin-top:5px;"><span class="checkbox-box"></span> Tidak</div>
+                </td>
+                <td class="col-catatan"></td>
+            </tr>
+            <tr>
+                <td class="col-modul">4. Buku Kas</td>
+                <td class="col-skenario">
+                    Mengecek Saldo Kas Tunai bertambah secara otomatis setelah transaksi Kasir di atas.<br>
+                    Mencoba melakukan 1 "Catat Pengeluaran" manual (contoh: Biaya ATK).
+                </td>
+                <td class="col-hasil">
+                    <div><span class="checkbox-box"></span> Ya</div>
+                    <div style="margin-top:5px;"><span class="checkbox-box"></span> Tidak</div>
+                </td>
+                <td class="col-catatan"></td>
+            </tr>
+            <tr>
+                <td class="col-modul">5. Hutang Piutang</td>
+                <td class="col-skenario">
+                    Mencatat 1 Piutang Pelanggan baru.<br>
+                    Mencoba melakukan "Tandai Lunas" pada piutang tersebut.
+                </td>
+                <td class="col-hasil">
+                    <div><span class="checkbox-box"></span> Ya</div>
+                    <div style="margin-top:5px;"><span class="checkbox-box"></span> Tidak</div>
+                </td>
+                <td class="col-catatan"></td>
+            </tr>
+            <tr>
+                <td class="col-modul">6. Akuntansi</td>
+                <td class="col-skenario">
+                    Membuka Laporan <b>Laba Rugi</b>.<br>
+                    Memastikan nilai <b>HPP</b> dan <b>Pendapatan</b> sudah terisi secara otomatis dari Kasir.<br>
+                    Memastikan Laba Bersih dihitung dengan benar.
+                </td>
+                <td class="col-hasil">
+                    <div><span class="checkbox-box"></span> Ya</div>
+                    <div style="margin-top:5px;"><span class="checkbox-box"></span> Tidak</div>
+                </td>
+                <td class="col-catatan"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="kesimpulan-box">
+        <h3>Kesimpulan Umum / Masukan / Fitur yang perlu ditambahkan:</h3>
+        <p style="color: #94A3B8; font-style: italic; font-size: 13px; margin-top: 5px;">(Tuliskan kritik, saran, atau bagian yang masih membingungkan selama menggunakan aplikasi ini)</p>
+    </div>
+
+    <div class="signature-area">
+        <div class="signature-box">
+            <p>Telah diuji oleh,</p>
+            <div class="signature-line"></div>
+            <div style="font-size: 12px; color: #64748B;">Nama Terang & Tanda Tangan</div>
+        </div>
+        <div class="signature-box">
+            <p>Mengetahui Penanggung Jawab,</p>
+            <div class="signature-line">Bpk. Anjid</div>
+            <div style="font-size: 12px; color: #64748B;">Direktur / Penanggung Jawab BUMDes</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fitur otomatis print saat dibuka (Opsional)
+    // window.onload = function() { window.print(); }
+</script>
+
+</body>
+</html>
