@@ -65,6 +65,7 @@ export default function BukuPanduan() {
     const akuntansiImg = await fetchImageBase64('/screenshots/akuntansi.png' + cacheBuster);
     const stokTambahImg = await fetchImageBase64('/screenshots/stok-tambah.png' + cacheBuster);
     const piutangImg = await fetchImageBase64('/screenshots/piutang.png' + cacheBuster);
+    const diagramAlurImg = await fetchImageBase64('/screenshots/diagram_alur_transaksi.png' + cacheBuster);
 
     // ==================== HELPER FUNCTIONS ====================
 
@@ -614,56 +615,7 @@ export default function BukuPanduan() {
         // ---------- DIAGRAM ALUR TRANSAKSI ----------
         { text: '6.9 Diagram Alur: Perjalanan Satu Transaksi Kasir', style: 'h2' },
         { text: 'Diagram berikut menunjukkan bagaimana satu transaksi penjualan di Kasir mengalir ke seluruh laporan keuangan secara otomatis:', style: 'paragraph' },
-        {
-          table: {
-            widths: ['*'],
-            body: [
-              [{ text: 'DIAGRAM ALUR TRANSAKSI', bold: true, fontSize: 12, alignment: 'center', color: '#166534', margin: [0, 8, 0, 12], fillColor: '#F0FDF4' }],
-              [{
-                stack: [
-                  { text: '+-----------------------------------------+', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '|     PELANGGAN MEMBELI DI KASIR (POS)    |', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a', bold: true },
-                  { text: '+--------------------+--------------------+', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '                     v', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#4F46E5', bold: true },
-                  { text: '   +-----------------+------------------+', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '   v                                    v', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#4F46E5', bold: true },
-                  { text: '+------------------+    +----------------------+', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '| STOK BERKURANG   |    | BUKU KAS BERTAMBAH   |', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a', bold: true },
-                  { text: '| (Kartu Stok: OUT)|    | (Debit: Kas Masuk)   |', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '+------------------+    +----------+-----------+', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '                                   v', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#4F46E5', bold: true },
-                  { text: '                     +-------------------------+', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '                     |  JURNAL UMUM OTOMATIS   |', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a', bold: true },
-                  { text: '                     | (Debit Kas = Kredit     |', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '                     |  Pendapatan + HPP)      |', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '                     +------------+------------+', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '                                  v', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#4F46E5', bold: true },
-                  { text: '              +-------------------+------------------+', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '              v                                      v', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#4F46E5', bold: true },
-                  { text: '   +------------------+               +------------------+', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '   |    BUKU BESAR    |               |  NERACA SALDO    |', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a', bold: true },
-                  { text: '   | (mutasi per akun)|               | (total D = K)    |', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '   +--------+---------+               +------------------+', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '            v', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#4F46E5', bold: true },
-                  { text: '   +--------+---------------------------------+', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '   v                                          v', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#4F46E5', bold: true },
-                  { text: '+------------------+               +------------------+', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '|  LABA RUGI       |               |    NERACA        |', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a', bold: true },
-                  { text: '| (+Pendapatan,    |               | (+Aset Kas,      |', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '|  -HPP, -Beban)   |               |  -Persediaan)    |', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                  { text: '+------------------+               +------------------+', font: 'Roboto', fontSize: 9, alignment: 'center', color: '#1a1a1a' },
-                ],
-                margin: [10, 10, 10, 10],
-                fillColor: '#FAFFFE'
-              }]
-            ]
-          },
-          layout: {
-            hLineWidth: () => 1, vLineWidth: () => 1,
-            hLineColor: () => '#86EFAC', vLineColor: () => '#86EFAC',
-          },
-          margin: [0, 5, 0, 15]
-        },
+        screenshotBox('DIAGRAM ALUR TRANSAKSI', diagramAlurImg),
 
         calloutBox('Hubungan Antar Laporan — Ringkasan',
           'Jurnal Umum = catatan mentah SEMUA transaksi (otomatis & manual)\n' +
