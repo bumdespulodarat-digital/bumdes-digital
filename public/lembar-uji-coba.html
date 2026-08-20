@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lembar Uji Coba Sistem BUMDes</title>
+    <title>Berita Acara Uji Coba Sistem (UAT) BUMDes</title>
     <style>
         :root {
-            --primary: #1E40AF;
-            --border: #CBD5E1;
-            --bg-gray: #F8FAFC;
+            --primary: #000000;
         }
         body {
-            font-family: 'Arial', sans-serif;
-            color: #0F172A;
+            font-family: 'Times New Roman', Times, serif;
+            color: #000000;
             line-height: 1.5;
             margin: 0;
             padding: 0;
@@ -23,105 +21,179 @@
             min-height: 297mm;
             margin: 20px auto;
             background: white;
-            padding: 20mm;
+            padding: 20mm 20mm 25mm 20mm;
             box-sizing: border-box;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .header {
-            text-align: center;
-            border-bottom: 3px solid var(--primary);
-            padding-bottom: 15px;
-            margin-bottom: 25px;
+        
+        /* KOP SURAT */
+        .kop-surat {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 4px solid black;
+            padding-bottom: 10px;
+            margin-bottom: 2px;
+            position: relative;
         }
-        .header h1 {
-            font-size: 22px;
-            margin: 0 0 5px 0;
-            color: var(--primary);
+        .kop-surat::after {
+            content: "";
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            right: 0;
+            border-bottom: 1px solid black;
+        }
+        .logo-placeholder {
+            width: 70px;
+            height: 70px;
+            border: 1px dashed black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            text-align: center;
+            margin-right: 20px;
+            position: absolute;
+            left: 0;
+        }
+        .kop-text {
+            text-align: center;
+        }
+        .kop-text h1 {
+            margin: 0;
+            font-size: 18px;
             text-transform: uppercase;
         }
-        .header p {
+        .kop-text h2 {
             margin: 0;
-            font-size: 14px;
-            color: #475569;
+            font-size: 22px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
-        .identity-box {
-            display: flex;
-            justify-content: space-between;
-            background-color: var(--bg-gray);
-            border: 1px solid var(--border);
-            padding: 15px;
+        .kop-text p {
+            margin: 2px 0 0 0;
+            font-size: 12px;
+        }
+
+        /* HEADER DOKUMEN */
+        .doc-header {
+            text-align: center;
+            margin-top: 30px;
             margin-bottom: 25px;
-            border-radius: 4px;
         }
-        .identity-row {
-            margin-bottom: 8px;
-            font-size: 14px;
+        .doc-header h3 {
+            margin: 0;
+            font-size: 16px;
+            text-decoration: underline;
+            text-transform: uppercase;
         }
-        .identity-row strong {
-            display: inline-block;
-            width: 120px;
+        .doc-header p {
+            margin: 5px 0 0 0;
+            font-size: 12px;
         }
-        .identity-row .dots {
-            display: inline-block;
-            width: 200px;
-            border-bottom: 1px dotted #94A3B8;
+
+        /* IDENTITAS */
+        .paragraf-pembuka {
+            font-size: 12pt;
+            text-align: justify;
+            margin-bottom: 15px;
         }
+        .form-identitas {
+            margin-left: 30px;
+            margin-bottom: 25px;
+        }
+        .form-row {
+            display: flex;
+            margin-bottom: 5px;
+            font-size: 12pt;
+        }
+        .form-label {
+            width: 180px;
+        }
+        .form-value {
+            flex: 1;
+            border-bottom: 1px dotted black;
+        }
+
+        /* TABEL PENGUJIAN */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 25px;
-            font-size: 13px;
+            margin-bottom: 20px;
+            font-size: 11pt;
         }
         th, td {
-            border: 1px solid var(--border);
-            padding: 10px;
-            vertical-align: top;
-        }
-        th {
-            background-color: var(--primary);
-            color: white;
-            text-align: left;
-        }
-        .col-modul { width: 18%; font-weight: bold; background: var(--bg-gray); }
-        .col-skenario { width: 45%; }
-        .col-hasil { width: 12%; text-align: center; }
-        .col-catatan { width: 25%; }
-        
-        .checkbox-box {
-            display: inline-block;
-            width: 15px;
-            height: 15px;
-            border: 1px solid #64748B;
-            margin-right: 5px;
+            border: 1px solid black;
+            padding: 8px 10px;
             vertical-align: middle;
         }
-        .kesimpulan-box {
-            border: 1px solid var(--border);
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+            font-weight: bold;
+        }
+        .col-no { width: 4%; text-align: center; }
+        .col-modul { width: 22%; font-weight: bold; }
+        .col-skenario { width: 42%; }
+        .col-hasil { width: 14%; text-align: center; }
+        .col-paraf { width: 18%; text-align: center; }
+        
+        .check-box-inline {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 1px solid black;
+            margin-right: 5px;
+            vertical-align: -2px;
+        }
+        
+        ul.skenario-list {
+            margin: 0;
+            padding-left: 15px;
+            text-align: left;
+        }
+        ul.skenario-list li {
+            margin-bottom: 4px;
+        }
+
+        /* KESIMPULAN */
+        .kesimpulan-section {
+            border: 1px solid black;
             padding: 15px;
-            height: 120px;
             margin-bottom: 30px;
+            font-size: 12pt;
         }
-        .kesimpulan-box h3 {
-            margin: 0 0 10px 0;
-            font-size: 14px;
+        .kesimpulan-title {
+            font-weight: bold;
+            margin-bottom: 10px;
         }
+        .opsi-kesimpulan {
+            margin-bottom: 5px;
+        }
+
+        /* TANDA TANGAN */
         .signature-area {
             display: flex;
             justify-content: space-between;
             margin-top: 40px;
             text-align: center;
+            font-size: 12pt;
         }
         .signature-box {
-            width: 250px;
+            width: 30%;
         }
         .signature-box p {
-            margin: 0 0 70px 0;
-            font-size: 14px;
+            margin: 0 0 80px 0;
         }
         .signature-line {
             border-bottom: 1px solid black;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
+        }
+        .nama-terang {
+            font-weight: bold;
         }
 
         /* Print Specific Styles */
@@ -134,23 +206,14 @@
                 width: 100%;
                 min-height: auto;
             }
-            /* Force table borders to print clearly */
             table, th, td {
                 border: 1px solid black !important;
             }
             th {
-                color: black !important;
                 background-color: #e2e8f0 !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
-            .col-modul, .identity-box {
-                background-color: #f8fafc !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            .header { border-bottom: 3px solid black; }
-            .header h1 { color: black; }
             @page { margin: 10mm; }
         }
     </style>
@@ -158,135 +221,215 @@
 <body>
 
 <div class="a4-container">
-    <div class="header">
-        <h1>LEMBAR UJI COBA APLIKASI (UAT)</h1>
-        <p>Sistem Informasi Digital BUMDes Noto Mulyo - Desa Pulodarat</p>
-    </div>
-
-    <div class="identity-box">
-        <div>
-            <div class="identity-row"><strong>Nama Penguji</strong>: <span class="dots"></span></div>
-            <div class="identity-row"><strong>Jabatan / Peran</strong>: <span class="dots"></span></div>
+    
+    <!-- KOP SURAT -->
+    <div class="kop-surat">
+        <div class="logo-placeholder">
+            [ Logo <br> BUMDes ]
         </div>
-        <div>
-            <div class="identity-row"><strong>Tanggal Uji Coba</strong>: <span class="dots"></span></div>
-            <div class="identity-row"><strong>Waktu Mulai</strong>: <span class="dots"></span></div>
+        <div class="kop-text">
+            <h1>PEMERINTAH DESA PULODARAT</h1>
+            <h2>BADAN USAHA MILIK DESA (BUMDes) NOTO MULYO</h2>
+            <p>Alamat: Balai Desa Pulodarat, Kec. Pecangaan, Kab. Jepara, Jawa Tengah</p>
+            <p>Email: direktur.bumdespulodarat@gmail.com | Telepon: _____________________</p>
         </div>
     </div>
 
-    <p style="font-size: 14px; margin-bottom: 10px;">Berikan tanda centang (✓) pada kotak yang sesuai jika fitur berjalan dengan baik.</p>
+    <!-- DOKUMEN HEADER -->
+    <div class="doc-header">
+        <h3>BERITA ACARA USER ACCEPTANCE TEST (UAT)</h3>
+        <p>Nomor Dokumen: UAT/____/BUMDES/2026</p>
+    </div>
 
+    <!-- PARAGRAF PEMBUKA -->
+    <div class="paragraf-pembuka">
+        Pada hari ini, tanggal ______________________, bertempat di Kantor BUMDes Noto Mulyo, telah dilakukan pengujian sistem (<i>User Acceptance Test</i>) terhadap "Aplikasi Web Digital BUMDes Versi 2.0". Pengujian ini dilaksanakan secara bersama-sama oleh:
+    </div>
+
+    <!-- IDENTITAS -->
+    <div class="form-identitas">
+        <div class="form-row">
+            <div class="form-label">1. Nama Penguji (User)</div>
+            <div class="form-label">:</div>
+            <div class="form-value"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">Jabatan</div>
+            <div class="form-label">:</div>
+            <div class="form-value"></div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <div class="form-label">2. Nama Pendamping (IT)</div>
+            <div class="form-label">:</div>
+            <div class="form-value"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-label">Jabatan</div>
+            <div class="form-label">:</div>
+            <div class="form-value">Developer / Pendamping Sistem</div>
+        </div>
+    </div>
+
+    <div class="paragraf-pembuka">
+        Adapun hasil pengujian terhadap modul-modul sistem dicatat dalam tabel berikut ini (Berikan tanda centang [✓] jika fitur berjalan dengan baik, atau tanda silang [X] jika gagal/<i>error</i>):
+    </div>
+
+    <!-- TABEL PENGUJIAN -->
     <table>
         <thead>
             <tr>
-                <th class="col-modul">Modul</th>
-                <th class="col-skenario">Skenario Uji Coba</th>
-                <th class="col-hasil">Berhasil?</th>
-                <th class="col-catatan">Catatan / Kendala</th>
+                <th class="col-no">No</th>
+                <th class="col-modul">Modul Sistem</th>
+                <th class="col-skenario">Skenario / Rincian Pengujian</th>
+                <th class="col-hasil">Status (Pass/Fail)</th>
+                <th class="col-paraf">Paraf Penguji</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td class="col-modul">1. Akses & Login</td>
+                <td class="col-no">1</td>
+                <td class="col-modul">Akses & Keamanan<br>(Dashboard)</td>
                 <td class="col-skenario">
-                    Membuka website BUMDes.<br>
-                    Login menggunakan Email dan Password dengan sukses.<br>
-                    Masuk ke halaman Dashboard.
+                    <ul class="skenario-list">
+                        <li>Login menggunakan akun email & password</li>
+                        <li>Navigasi sidebar dan fitur Dark Mode berfungsi</li>
+                        <li>Grafik analitik di Dashboard merespon dengan baik</li>
+                    </ul>
                 </td>
                 <td class="col-hasil">
-                    <div><span class="checkbox-box"></span> Ya</div>
-                    <div style="margin-top:5px;"><span class="checkbox-box"></span> Tidak</div>
+                    <div><span class="check-box-inline"></span> Pass</div>
+                    <div><span class="check-box-inline"></span> Fail</div>
                 </td>
-                <td class="col-catatan"></td>
+                <td class="col-paraf"></td>
             </tr>
             <tr>
-                <td class="col-modul">2. Stok Barang</td>
+                <td class="col-no">2</td>
+                <td class="col-modul">Manajemen Stok & Inventaris</td>
                 <td class="col-skenario">
-                    Menambahkan 1 barang dagangan baru.<br>
-                    Mengisi Kategori, Harga Beli (HPP), dan Harga Jual.<br>
-                    Barang baru berhasil muncul di daftar stok.
+                    <ul class="skenario-list">
+                        <li>Tambah Barang Baru (Harga Beli, Harga Jual, PPN)</li>
+                        <li>Cek pencatatan otomatis di Kartu Stok</li>
+                        <li>Tambah Aset Tetap di menu Inventaris</li>
+                    </ul>
                 </td>
                 <td class="col-hasil">
-                    <div><span class="checkbox-box"></span> Ya</div>
-                    <div style="margin-top:5px;"><span class="checkbox-box"></span> Tidak</div>
+                    <div><span class="check-box-inline"></span> Pass</div>
+                    <div><span class="check-box-inline"></span> Fail</div>
                 </td>
-                <td class="col-catatan"></td>
+                <td class="col-paraf"></td>
             </tr>
             <tr>
-                <td class="col-modul">3. Kasir (POS)</td>
+                <td class="col-no">3</td>
+                <td class="col-modul">Kasir Penjualan<br>(Point of Sale)</td>
                 <td class="col-skenario">
-                    Mencari barang yang baru ditambahkan.<br>
-                    Menambahkan barang ke keranjang belanja.<br>
-                    Memasukkan jumlah "Uang Bayar" (Tunai) pelanggan.<br>
-                    Menyelesaikan transaksi (Cetak Struk / Simpan).
+                    <ul class="skenario-list">
+                        <li>Pencarian barang & Scan Barcode</li>
+                        <li>Pembayaran Tunai, validasi kalkulasi kembalian</li>
+                        <li>Pajak PPN (jika ada) terhitung secara akurat</li>
+                        <li>Cetak Struk Transaksi (PDF / Printer Thermal)</li>
+                    </ul>
                 </td>
                 <td class="col-hasil">
-                    <div><span class="checkbox-box"></span> Ya</div>
-                    <div style="margin-top:5px;"><span class="checkbox-box"></span> Tidak</div>
+                    <div><span class="check-box-inline"></span> Pass</div>
+                    <div><span class="check-box-inline"></span> Fail</div>
                 </td>
-                <td class="col-catatan"></td>
+                <td class="col-paraf"></td>
             </tr>
             <tr>
-                <td class="col-modul">4. Buku Kas</td>
+                <td class="col-no">4</td>
+                <td class="col-modul">Buku Kas Harian</td>
                 <td class="col-skenario">
-                    Mengecek Saldo Kas Tunai bertambah secara otomatis setelah transaksi Kasir di atas.<br>
-                    Mencoba melakukan 1 "Catat Pengeluaran" manual (contoh: Biaya ATK).
+                    <ul class="skenario-list">
+                        <li>Transaksi dari Kasir otomatis masuk ke Kas Tunai</li>
+                        <li>Entri Catat Pengeluaran Operasional (Manual)</li>
+                        <li>Fitur Setor Pemasukan dari Unit Usaha Lain</li>
+                    </ul>
                 </td>
                 <td class="col-hasil">
-                    <div><span class="checkbox-box"></span> Ya</div>
-                    <div style="margin-top:5px;"><span class="checkbox-box"></span> Tidak</div>
+                    <div><span class="check-box-inline"></span> Pass</div>
+                    <div><span class="check-box-inline"></span> Fail</div>
                 </td>
-                <td class="col-catatan"></td>
+                <td class="col-paraf"></td>
             </tr>
             <tr>
-                <td class="col-modul">5. Hutang Piutang</td>
+                <td class="col-no">5</td>
+                <td class="col-modul">Hutang Piutang</td>
                 <td class="col-skenario">
-                    Mencatat 1 Piutang Pelanggan baru.<br>
-                    Mencoba melakukan "Tandai Lunas" pada piutang tersebut.
+                    <ul class="skenario-list">
+                        <li>Mencatat Piutang Baru (Kasbon Pelanggan)</li>
+                        <li>Melakukan aksi "Tandai Lunas"</li>
+                        <li>Perubahan status lunas tercatat di Jurnal/Kas</li>
+                    </ul>
                 </td>
                 <td class="col-hasil">
-                    <div><span class="checkbox-box"></span> Ya</div>
-                    <div style="margin-top:5px;"><span class="checkbox-box"></span> Tidak</div>
+                    <div><span class="check-box-inline"></span> Pass</div>
+                    <div><span class="check-box-inline"></span> Fail</div>
                 </td>
-                <td class="col-catatan"></td>
+                <td class="col-paraf"></td>
             </tr>
             <tr>
-                <td class="col-modul">6. Akuntansi</td>
+                <td class="col-no">6</td>
+                <td class="col-modul">Akuntansi Terpadu<br>(Buku Besar & Laba Rugi)</td>
                 <td class="col-skenario">
-                    Membuka Laporan <b>Laba Rugi</b>.<br>
-                    Memastikan nilai <b>HPP</b> dan <b>Pendapatan</b> sudah terisi secara otomatis dari Kasir.<br>
-                    Memastikan Laba Bersih dihitung dengan benar.
+                    <ul class="skenario-list">
+                        <li>Sistem otomatis menjurnal (Double-Entry)</li>
+                        <li>Laporan <b>Laba Rugi</b> (Pendapatan & HPP) akurat</li>
+                        <li>Laporan <b>Neraca</b> (Posisi Keuangan) seimbang / <i>Balance</i></li>
+                        <li>Fitur Export Laporan ke PDF/Excel berfungsi</li>
+                    </ul>
                 </td>
                 <td class="col-hasil">
-                    <div><span class="checkbox-box"></span> Ya</div>
-                    <div style="margin-top:5px;"><span class="checkbox-box"></span> Tidak</div>
+                    <div><span class="check-box-inline"></span> Pass</div>
+                    <div><span class="check-box-inline"></span> Fail</div>
                 </td>
-                <td class="col-catatan"></td>
+                <td class="col-paraf"></td>
             </tr>
         </tbody>
     </table>
 
-    <div class="kesimpulan-box">
-        <h3>Kesimpulan Umum / Masukan / Fitur yang perlu ditambahkan:</h3>
-        <p style="color: #94A3B8; font-style: italic; font-size: 13px; margin-top: 5px;">(Tuliskan kritik, saran, atau bagian yang masih membingungkan selama menggunakan aplikasi ini)</p>
+    <!-- KESIMPULAN -->
+    <div class="kesimpulan-section">
+        <div class="kesimpulan-title">KESIMPULAN & STATUS PENERIMAAN</div>
+        Berdasarkan hasil pengujian di atas, maka sistem aplikasi ini dinyatakan:
+        <br><br>
+        <div class="opsi-kesimpulan"><span class="check-box-inline"></span> <b>DITERIMA TANPA SYARAT</b> (Semua fitur berjalan dengan baik dan siap dioperasikan).</div>
+        <div class="opsi-kesimpulan"><span class="check-box-inline"></span> <b>DITERIMA DENGAN CATATAN MINOR</b> (Dapat dioperasikan, namun terdapat perbaikan kecil).</div>
+        <div class="opsi-kesimpulan"><span class="check-box-inline"></span> <b>DITOLAK / BUTUH PERBAIKAN MAYOR</b> (Terdapat masalah fatal yang menghalangi operasional).</div>
+        
+        <br>
+        <div><b>Catatan Tambahan (Masukan/Kritik):</b></div>
+        <div style="border-bottom: 1px dotted black; height: 25px; margin-top:5px;"></div>
+        <div style="border-bottom: 1px dotted black; height: 25px;"></div>
+        <div style="border-bottom: 1px dotted black; height: 25px;"></div>
     </div>
 
+    <div class="paragraf-pembuka" style="margin-bottom: 40px;">
+        Demikian Berita Acara Uji Coba ini dibuat dengan sebenar-benarnya untuk dapat dipergunakan sebagaimana mestinya.
+    </div>
+
+    <!-- TANDA TANGAN -->
     <div class="signature-area">
         <div class="signature-box">
-            <p>Telah diuji oleh,</p>
-            <div class="signature-line"></div>
-            <div style="font-size: 12px; color: #64748B;">Nama Terang & Tanda Tangan</div>
+            <p>Dibuat oleh,<br>Pihak Pengembang / Pendamping</p>
+            <div class="signature-line nama-terang">( ___________________________ )</div>
+            <div style="font-size: 11pt;">Tim IT</div>
         </div>
         <div class="signature-box">
-            <p>Mengetahui Penanggung Jawab,</p>
-            <div class="signature-line">Bpk. Anjid</div>
-            <div style="font-size: 12px; color: #64748B;">Direktur / Penanggung Jawab BUMDes</div>
+            <p>Telah Diuji oleh,<br>Pihak Pengguna (User)</p>
+            <div class="signature-line nama-terang">( ___________________________ )</div>
+            <div style="font-size: 11pt;">Karyawan / Bendahara</div>
+        </div>
+        <div class="signature-box">
+            <p>Mengetahui,<br>Penanggung Jawab BUMDes</p>
+            <div class="signature-line nama-terang" style="font-weight: bold;">( Bpk. Anjid )</div>
+            <div style="font-size: 11pt;">Direktur BUMDes</div>
         </div>
     </div>
+
 </div>
 
 <script>
-    // Fitur otomatis print saat dibuka (Opsional)
+    // Fitur otomatis print saat dibuka (Opsional, dinonaktifkan secara default)
     // window.onload = function() { window.print(); }
 </script>
 
