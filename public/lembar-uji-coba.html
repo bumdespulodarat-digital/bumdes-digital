@@ -189,35 +189,35 @@
 
     <!-- PARAGRAF PEMBUKA -->
     <div class="teks-pengantar">
-        Pada hari ini, tanggal _____________________________, telah dilakukan sesi uji coba (<i>User Acceptance Test</i>) secara bersama-sama antara Tim KKN (selaku pengembang) dengan pihak Pengurus BUMDes Noto Mulyo. Pengujian ini bertujuan untuk memastikan seluruh fitur aplikasi berjalan dengan baik sebelum digunakan secara penuh.
+        Pada hari ini, tanggal _____________________________, telah dilakukan sesi uji coba bersama antara Tim KKN (sebagai pembuat aplikasi) dan Pengurus BUMDes Noto Mulyo. Tujuan kegiatan ini adalah untuk mencoba langsung apakah semua fitur di dalam aplikasi sudah berjalan dengan lancar dan mudah digunakan.
     </div>
 
     <!-- IDENTITAS BERBASIS TABEL -->
     <table class="tabel-identitas">
         <tr>
-            <td class="col-label">1. Nama Penguji (User)</td>
+            <td class="col-label">1. Nama Penguji (Pengurus)</td>
             <td class="col-titik">:</td>
             <td class="col-isi"></td>
         </tr>
         <tr>
-            <td class="col-label">Jabatan</td>
+            <td class="col-label">Jabatan di BUMDes</td>
             <td class="col-titik">:</td>
             <td class="col-isi"></td>
         </tr>
         <tr>
-            <td class="col-label" style="padding-top: 15px;">2. Nama Pendamping (IT)</td>
+            <td class="col-label" style="padding-top: 15px;">2. Nama Pendamping (KKN)</td>
             <td class="col-titik" style="padding-top: 15px;">:</td>
             <td class="col-isi" style="padding-top: 15px;"></td>
         </tr>
         <tr>
-            <td class="col-label">Jabatan</td>
+            <td class="col-label">Peran</td>
             <td class="col-titik">:</td>
             <td class="col-isi" style="font-weight: bold; border-bottom: none;">Tim KKN</td>
         </tr>
     </table>
 
     <div class="teks-pengantar">
-        Adapun rincian skenario pengujian beserta status keberhasilannya dicatat pada tabel berikut ini. (Berikan tanda centang [<span style="font-family:sans-serif;">✓</span>] jika fitur berjalan dengan baik).
+        Berikut adalah daftar fitur yang dicoba hari ini. (Berikan tanda centang [<span style="font-family:sans-serif;">✓</span>] pada kotak "Berhasil" jika fitur lancar, atau "Gagal" jika ada masalah/error).
     </div>
 
     <!-- TABEL PENGUJIAN UTAMA -->
@@ -225,90 +225,90 @@
         <thead>
             <tr>
                 <th style="width: 5%;">No</th>
-                <th style="width: 25%;">Modul Sistem</th>
-                <th style="width: 40%;">Skenario Pengujian</th>
-                <th style="width: 15%;">Status</th>
-                <th style="width: 15%;">Paraf</th>
+                <th style="width: 25%;">Bagian Aplikasi</th>
+                <th style="width: 40%;">Langkah yang Dicoba</th>
+                <th style="width: 15%;">Hasil</th>
+                <th style="width: 15%;">Tanda Tangan</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td style="text-align: center;">1</td>
-                <td><b>Akses & Dashboard</b></td>
+                <td><b>Halaman Awal (Dashboard)</b></td>
                 <td>
                     <ul class="skenario-list">
-                        <li>Login dengan Email & Password</li>
-                        <li>Navigasi menu & Mode Gelap (Dark Mode)</li>
-                        <li>Tampilan grafik statistik Dashboard</li>
+                        <li>Bisa masuk (login) pakai email & sandi</li>
+                        <li>Grafik dan angka keuangan tampil rapi</li>
+                        <li>Layar bisa diubah jadi mode gelap/terang</li>
                     </ul>
                 </td>
                 <td style="white-space: nowrap;">
-                    <div><span class="box"></span> Pass</div>
-                    <div style="margin-top: 4px;"><span class="box"></span> Fail</div>
+                    <div><span class="box"></span> Berhasil</div>
+                    <div style="margin-top: 4px;"><span class="box"></span> Gagal</div>
                 </td>
                 <td></td>
             </tr>
             <tr>
                 <td style="text-align: center;">2</td>
-                <td><b>Manajemen Stok & Inventaris</b></td>
+                <td><b>Stok & Barang</b></td>
                 <td>
                     <ul class="skenario-list">
-                        <li>Tambah Produk (Harga Beli, Jual, PPN)</li>
-                        <li>Pencatatan Riwayat Kartu Stok</li>
-                        <li>Tambah Data Aset di menu Inventaris</li>
+                        <li>Bisa menambah barang jualan baru</li>
+                        <li>Harga beli dan harga jual bisa disimpan</li>
+                        <li>Riwayat stok keluar/masuk tercatat otomatis</li>
                     </ul>
                 </td>
                 <td style="white-space: nowrap;">
-                    <div><span class="box"></span> Pass</div>
-                    <div style="margin-top: 4px;"><span class="box"></span> Fail</div>
+                    <div><span class="box"></span> Berhasil</div>
+                    <div style="margin-top: 4px;"><span class="box"></span> Gagal</div>
                 </td>
                 <td></td>
             </tr>
             <tr>
                 <td style="text-align: center;">3</td>
-                <td><b>Kasir (Point of Sale)</b></td>
+                <td><b>Kasir Toko</b></td>
                 <td>
                     <ul class="skenario-list">
-                        <li>Cari barang / Scan Barcode</li>
-                        <li>Kalkulasi Total Bayar & Kembalian Tunai</li>
-                        <li>Pencetakan Struk / Nota Transaksi</li>
+                        <li>Gampang mencari barang saat ada pembeli</li>
+                        <li>Hitungan total belanja & uang kembalian pas</li>
+                        <li>Bisa mencetak struk belanja dengan lancar</li>
                     </ul>
                 </td>
                 <td style="white-space: nowrap;">
-                    <div><span class="box"></span> Pass</div>
-                    <div style="margin-top: 4px;"><span class="box"></span> Fail</div>
+                    <div><span class="box"></span> Berhasil</div>
+                    <div style="margin-top: 4px;"><span class="box"></span> Gagal</div>
                 </td>
                 <td></td>
             </tr>
             <tr>
                 <td style="text-align: center;">4</td>
-                <td><b>Buku Kas & Hutang Piutang</b></td>
+                <td><b>Buku Kas & Catatan Uang</b></td>
                 <td>
                     <ul class="skenario-list">
-                        <li>Validasi Saldo Kas (Uang Masuk dari Kasir)</li>
-                        <li>Entri Catat Pengeluaran (Manual)</li>
-                        <li>Catat Piutang Pelanggan & Tandai Lunas</li>
+                        <li>Uang hasil kasir langsung masuk ke Buku Kas</li>
+                        <li>Bisa mencatat uang keluar (contoh: beli ATK)</li>
+                        <li>Bisa mencatat warga yang ngutang (kasbon)</li>
                     </ul>
                 </td>
                 <td style="white-space: nowrap;">
-                    <div><span class="box"></span> Pass</div>
-                    <div style="margin-top: 4px;"><span class="box"></span> Fail</div>
+                    <div><span class="box"></span> Berhasil</div>
+                    <div style="margin-top: 4px;"><span class="box"></span> Gagal</div>
                 </td>
                 <td></td>
             </tr>
             <tr>
                 <td style="text-align: center;">5</td>
-                <td><b>Akuntansi Terpadu</b></td>
+                <td><b>Laporan Akuntansi</b></td>
                 <td>
                     <ul class="skenario-list">
-                        <li>Jurnal Umum otomatis terbuat</li>
-                        <li>Cek Laporan Laba Rugi (Pendapatan & HPP)</li>
-                        <li>Export Laporan (PDF / Excel) berfungsi</li>
+                        <li>Cek Laba Rugi: untung bersih dihitung benar</li>
+                        <li>Cek Laporan Neraca: aset dan modal seimbang</li>
+                        <li>Laporan bisa didownload jadi PDF / Excel</li>
                     </ul>
                 </td>
                 <td style="white-space: nowrap;">
-                    <div><span class="box"></span> Pass</div>
-                    <div style="margin-top: 4px;"><span class="box"></span> Fail</div>
+                    <div><span class="box"></span> Berhasil</div>
+                    <div style="margin-top: 4px;"><span class="box"></span> Gagal</div>
                 </td>
                 <td></td>
             </tr>
@@ -317,14 +317,14 @@
 
     <!-- KESIMPULAN KOTAK -->
     <div class="kesimpulan-box">
-        <div style="font-weight: bold; margin-bottom: 10px;">KESIMPULAN PENGUJIAN</div>
-        Sistem aplikasi ini dinyatakan:
+        <div style="font-weight: bold; margin-bottom: 10px;">KESIMPULAN UJI COBA</div>
+        Setelah dicoba, aplikasi BUMDes ini dinyatakan:
         <br><br>
-        <div class="opsi-kesimpulan"><span class="box"></span> <b>DITERIMA TANPA SYARAT</b> (Semua fitur berjalan baik).</div>
-        <div class="opsi-kesimpulan"><span class="box"></span> <b>DITERIMA DENGAN CATATAN MINOR</b> (Bisa dioperasikan, namun ada revisi kecil).</div>
-        <div class="opsi-kesimpulan"><span class="box"></span> <b>DITOLAK / BUTUH PERBAIKAN MAYOR</b> (Terdapat masalah fatal).</div>
+        <div class="opsi-kesimpulan"><span class="box"></span> <b>SANGAT BAGUS</b> (Semua fitur lancar dan siap dipakai harian).</div>
+        <div class="opsi-kesimpulan"><span class="box"></span> <b>CUKUP BAGUS</b> (Bisa dipakai, tapi ada sedikit fitur yang perlu diperbaiki).</div>
+        <div class="opsi-kesimpulan"><span class="box"></span> <b>KURANG BAGUS</b> (Masih banyak error, harus diperbaiki total).</div>
         
-        <div style="margin-top: 15px;"><b>Catatan Tambahan:</b></div>
+        <div style="margin-top: 15px;"><b>Kritik, Saran, atau Fitur Tambahan yang Diinginkan:</b></div>
         <div class="garis-titik"></div>
         <div class="garis-titik"></div>
         <div class="garis-titik"></div>
