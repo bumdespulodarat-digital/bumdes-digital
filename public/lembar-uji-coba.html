@@ -211,95 +211,133 @@
     </div>
 
     <!-- TABEL PENGUJIAN UTAMA -->
-    <table class="tabel-uji">
+    <table class="tabel-uji" style="font-size: 11pt;">
         <thead>
             <tr>
                 <th style="width: 5%;">No</th>
-                <th style="width: 25%;">Bagian Aplikasi</th>
-                <th style="width: 40%;">Langkah yang Dicoba</th>
+                <th style="width: 22%;">Bagian Aplikasi</th>
+                <th style="width: 38%;">Langkah Uji Coba</th>
                 <th style="width: 15%;">Hasil</th>
-                <th style="width: 15%;">Tanda Tangan</th>
+                <th style="width: 20%;">Catatan Kendala</th>
             </tr>
         </thead>
         <tbody>
+            <!-- MODUL 1 -->
             <tr>
-                <td style="text-align: center;">1</td>
-                <td><b>Halaman Awal (Dashboard)</b></td>
-                <td>
-                    <ul class="skenario-list">
-                        <li>Bisa masuk (login) pakai email & sandi</li>
-                        <li>Grafik dan angka keuangan tampil rapi</li>
-                        <li>Layar bisa diubah jadi mode gelap/terang</li>
-                    </ul>
-                </td>
-                <td style="white-space: nowrap;">
-                    <div><span class="box"></span> Berhasil</div>
-                    <div style="margin-top: 4px;"><span class="box"></span> Gagal</div>
-                </td>
+                <td rowspan="3" style="text-align: center;">1</td>
+                <td rowspan="3"><b>Halaman Awal (Dashboard)</b></td>
+                <td>Masuk (login) menggunakan email dan sandi</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
                 <td></td>
             </tr>
             <tr>
-                <td style="text-align: center;">2</td>
-                <td><b>Stok & Barang</b></td>
-                <td>
-                    <ul class="skenario-list">
-                        <li>Bisa menambah barang jualan baru</li>
-                        <li>Harga beli dan harga jual bisa disimpan</li>
-                        <li>Riwayat stok keluar/masuk tercatat otomatis</li>
-                    </ul>
-                </td>
-                <td style="white-space: nowrap;">
-                    <div><span class="box"></span> Berhasil</div>
-                    <div style="margin-top: 4px;"><span class="box"></span> Gagal</div>
-                </td>
+                <td>Melihat grafik dan angka keuangan tampil rapi</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
                 <td></td>
             </tr>
             <tr>
-                <td style="text-align: center;">3</td>
-                <td><b>Kasir Toko</b></td>
-                <td>
-                    <ul class="skenario-list">
-                        <li>Gampang mencari barang saat ada pembeli</li>
-                        <li>Hitungan total belanja & uang kembalian pas</li>
-                        <li>Bisa mencetak struk belanja dengan lancar</li>
-                    </ul>
-                </td>
-                <td style="white-space: nowrap;">
-                    <div><span class="box"></span> Berhasil</div>
-                    <div style="margin-top: 4px;"><span class="box"></span> Gagal</div>
-                </td>
+                <td>Mengubah tampilan ke mode gelap/terang</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+
+            <!-- MODUL 2 -->
+            <tr>
+                <td rowspan="3" style="text-align: center;">2</td>
+                <td rowspan="3"><b>Stok Barang & Inventaris</b></td>
+                <td>Menambah barang jualan baru</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
                 <td></td>
             </tr>
             <tr>
-                <td style="text-align: center;">4</td>
-                <td><b>Buku Kas & Catatan Uang</b></td>
-                <td>
-                    <ul class="skenario-list">
-                        <li>Uang hasil kasir langsung masuk ke Buku Kas</li>
-                        <li>Bisa mencatat uang keluar (contoh: beli ATK)</li>
-                        <li>Bisa mencatat warga yang ngutang (kasbon)</li>
-                    </ul>
-                </td>
-                <td style="white-space: nowrap;">
-                    <div><span class="box"></span> Berhasil</div>
-                    <div style="margin-top: 4px;"><span class="box"></span> Gagal</div>
-                </td>
+                <td>Menyimpan harga beli (HPP) dan harga jual</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
                 <td></td>
             </tr>
             <tr>
-                <td style="text-align: center;">5</td>
-                <td><b>Laporan Akuntansi</b></td>
-                <td>
-                    <ul class="skenario-list">
-                        <li>Cek Laba Rugi: untung bersih dihitung benar</li>
-                        <li>Cek Laporan Neraca: aset dan modal seimbang</li>
-                        <li>Laporan bisa didownload jadi PDF / Excel</li>
-                    </ul>
-                </td>
-                <td style="white-space: nowrap;">
-                    <div><span class="box"></span> Berhasil</div>
-                    <div style="margin-top: 4px;"><span class="box"></span> Gagal</div>
-                </td>
+                <td>Mengecek riwayat keluar/masuk di Kartu Stok</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+
+            <!-- MODUL 3 -->
+            <tr>
+                <td rowspan="4" style="text-align: center;">3</td>
+                <td rowspan="4"><b>Kasir Toko (Penjualan)</b></td>
+                <td>Mencari barang pesanan atau scan barcode</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Mengisi jumlah uang bayar dari pembeli</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Mengecek kebenaran hitungan uang kembalian</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Mencetak struk belanja setelah pembayaran</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+
+            <!-- MODUL 4 -->
+            <tr>
+                <td rowspan="3" style="text-align: center;">4</td>
+                <td rowspan="3"><b>Hutang Piutang Warga</b></td>
+                <td>Mencatat pelanggan yang ngutang (kasbon baru)</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Melakukan pelunasan (klik tombol Tandai Lunas)</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Mengecek daftar riwayat lunas & belum lunas</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+
+            <!-- MODUL 5 -->
+            <tr>
+                <td rowspan="3" style="text-align: center;">5</td>
+                <td rowspan="3"><b>Buku Kas & Uang Harian</b></td>
+                <td>Uang dari kasir otomatis masuk ke Kas Tunai</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Mencatat pengeluaran operasional (contoh: ATK)</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Mencatat uang setoran dari unit usaha lain</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+
+            <!-- MODUL 6 -->
+            <tr>
+                <td rowspan="3" style="text-align: center;">6</td>
+                <td rowspan="3"><b>Laporan Laba Rugi</b></td>
+                <td>Mengecek Laba Rugi: untung bersih dihitung benar</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Mengecek Neraca: aset dan modal seimbang</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Mendownload laporan ke bentuk PDF / Excel</td>
+                <td style="white-space: nowrap;"><span class="box"></span> Sukses <span class="box" style="margin-left:5px;"></span> Gagal</td>
                 <td></td>
             </tr>
         </tbody>
