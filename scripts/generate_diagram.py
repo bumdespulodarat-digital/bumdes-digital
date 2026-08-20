@@ -1,95 +1,90 @@
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from matplotlib.path import Path
 import os
 
 def draw_diagram():
-    fig, ax = plt.subplots(figsize=(10, 8), facecolor='white')
-    ax.set_xlim(-4, 4)
-    ax.set_ylim(0, 6)
+    fig, ax = plt.subplots(figsize=(12, 10), facecolor='white')
+    ax.set_xlim(-6, 6)
+    ax.set_ylim(0, 7)
     ax.axis('off')
 
-    # Styling for nodes
-    bbox_style = dict(boxstyle="round,pad=0.8", facecolor="#F0FDF4", edgecolor="#166534", linewidth=1.5)
-    text_kwargs = dict(ha="center", va="center", fontsize=11, fontweight='bold', color="#1a1a1a", bbox=bbox_style, fontfamily='sans-serif')
-    
-    # Define nodes and coordinates
-    nodes = {
-        'N1': {'pos': (0, 5), 'label': 'PELANGGAN MEMBELI DI KASIR (POS)'},
-        'N2L': {'pos': (-2, 4), 'label': 'STOK BERKURANG\n(Kartu Stok: OUT)'},
-        'N2R': {'pos': (2, 4), 'label': 'BUKU KAS BERTAMBAH\n(Debit: Kas Masuk)'},
-        'N3': {'pos': (0, 3), 'label': 'JURNAL UMUM OTOMATIS\n(Debit Kas = Kredit\nPendapatan + HPP)'},
-        'N4L': {'pos': (-2, 2), 'label': 'BUKU BESAR\n(mutasi per akun)'},
-        'N4R': {'pos': (2, 2), 'label': 'NERACA SALDO\n(total D = K)'},
-        'N5L': {'pos': (-2, 1), 'label': 'LABA RUGI\n(+Pendapatan,\n-HPP, -Beban)'},
-        'N5R': {'pos': (2, 1), 'label': 'NERACA\n(+Aset Kas,\n-Persediaan)'},
+    # Color palette
+    colors = {
+        'kasir': {'face': '#ECFCCB', 'edge': '#65A30D', 'text': '#3F6212'}, # lime-100, lime-600, lime-800
+        'stok': {'face': '#DBEAFE', 'edge': '#2563EB', 'text': '#1E3A8A'},   # blue-100, blue-600, blue-900
+        'kas': {'face': '#FEF3C7', 'edge': '#D97706', 'text': '#92400E'},    # amber-100, amber-600, amber-900
+        'jurnal': {'face': '#F3E8FF', 'edge': '#9333EA', 'text': '#581C87'}, # purple-100, purple-600, purple-900
+        'buku_besar': {'face': '#FCE7F3', 'edge': '#DB2777', 'text': '#831843'}, # pink-100
+        'laporan': {'face': '#FFE4E6', 'edge': '#E11D48', 'text': '#881337'}, # rose-100
     }
 
-    # Draw nodes
-    for k, v in nodes.items():
-        ax.text(v['pos'][0], v['pos'][1], v['label'], **text_kwargs)
+    def draw_node(x, y, title, subtitle, color_key, width=3.2, height=1.0):
+        c = colors[color_key]
+        # Draw box
+        box = mpatches.FancyBboxPatch((x - width/2, y - height/2), width, height,
+                                      boxstyle="round,pad=0.1,rounding_size=0.15",
+                                      facecolor=c['face'], edgecolor=c['edge'], linewidth=2, zorder=2)
+        ax.add_patch(box)
+        
+        # Add Title
+        ax.text(x, y + 0.15, title, ha="center", va="center", 
+                fontsize=11, fontweight='bold', color=c['text'], fontfamily='sans-serif', zorder=3)
+        # Add Subtitle
+        ax.text(x, y - 0.2, subtitle, ha="center", va="center", 
+                fontsize=9, color='#475569', fontfamily='sans-serif', zorder=3)
 
-    # Define edges (from_node, to_node)
-    edges = [
-        ('N1', 'N2L'),
-        ('N1', 'N2R'),
-        ('N2L', 'N3'),
-        ('N2R', 'N3'),
-        ('N3', 'N4L'),
-        ('N3', 'N4R'),
-        ('N4L', 'N5L'),
-        ('N4R', 'N5R'),
-    ]
+    # Nodes
+    draw_node(0, 6, "KASIR (POS)", "Pelanggan membeli barang\ndan membayar di Kasir", 'kasir', width=4, height=0.9)
+    
+    draw_node(-3, 4.5, "MODUL STOK", "Stok Berkurang\n(Tercatat di Kartu Stok: OUT)", 'stok', width=3, height=0.9)
+    draw_node(3, 4.5, "BUKU KAS", "Saldo Kas Bertambah\n(Pemasukan / Debit)", 'kas', width=3, height=0.9)
+    
+    draw_node(0, 3, "JURNAL UMUM (Otomatis)", "[Debit] Kas  =  [Kredit] Pendapatan\n[Debit] HPP  =  [Kredit] Persediaan", 'jurnal', width=4.5, height=0.9)
+    
+    draw_node(-3, 1.5, "BUKU BESAR", "Mutasi Saldo per Akun", 'buku_besar', width=2.8, height=0.8)
+    draw_node(3, 1.5, "NERACA SALDO", "Total Saldo (Balance D=K)", 'buku_besar', width=2.8, height=0.8)
+    
+    draw_node(-3, 0.3, "LABA RUGI", "Laba Bersih\n(Pendapatan - HPP - Beban)", 'laporan', width=2.8, height=0.8)
+    draw_node(3, 0.3, "NERACA", "Posisi Keuangan\n(Aset = Kewajiban + Ekuitas)", 'laporan', width=2.8, height=0.8)
 
-    # Draw edges with orthogonal routing
-    for e in edges:
-        p1 = nodes[e[0]]['pos']
-        p2 = nodes[e[1]]['pos']
+    def draw_orthogonal_arrow(x1, y1, x2, y2, y_mid=None):
+        if y_mid is None:
+            y_mid = (y1 + y2) / 2
+        # Path: (x1, y1) -> (x1, y_mid) -> (x2, y_mid) -> (x2, y2)
+        verts = [(x1, y1), (x1, y_mid), (x2, y_mid), (x2, y2)]
+        codes = [Path.MOVETO, Path.LINETO, Path.LINETO, Path.LINETO]
+        path = Path(verts, codes)
+        patch = mpatches.PathPatch(path, facecolor='none', edgecolor="#94A3B8", lw=2.5, zorder=1)
+        ax.add_patch(patch)
         
-        # Orthogonal arrows
-        # We start from bottom of p1, go down halfway, then horizontal to p2.x, then down to p2 top.
-        # But annotate allows connection styles. 
-        # For simple orthogonal: angle, angle3, bar.
-        
-        # To make it look clean, we can manually draw lines if we want, but annotate is easier.
-        connectionstyle = "bar,fraction=0.5" 
-        if p1[0] == p2[0]:
-            # straight line down
-            connectionstyle = "arc3,rad=0"
-        else:
-            # step down
-            if p1[1] > p2[1]: # going down
-                connectionstyle = f"angle,angleA=-90,angleB=180,rad=5" if p1[0] > p2[0] else f"angle,angleA=-90,angleB=0,rad=5"
+        # Add arrow head at the end
+        arrow = mpatches.FancyArrowPatch((x2, y2+0.01), (x2, y2),
+                                         arrowstyle="-|>,head_width=5,head_length=8",
+                                         color="#94A3B8", linewidth=2.5, zorder=1)
+        ax.add_patch(arrow)
 
-        # Actually, let's just use manual segments for perfectly clean orthogonal lines
-        # or simple straight lines. Straight lines might be clean enough.
-        # Let's try straight lines first, they often look fine in flowcharts if arranged in a grid.
-        # Let's just use manual orthogonal drawing to be precise:
-        
-        # Mid-y point
-        mid_y = (p1[1] + p2[1]) / 2.0
-        
-        # For N1 -> N2L / N2R
-        if e[0] == 'N1':
-            mid_y = 4.6
-        elif e[1] == 'N3':
-            mid_y = 3.4
-        elif e[0] == 'N3':
-            mid_y = 2.6
-        
-        color = "#4F46E5"
-        lw = 2
-        
-        if p1[0] == p2[0]:
-            # straight line
-            ax.annotate('', xy=(p2[0], p2[1]+0.3), xytext=(p1[0], p1[1]-0.3),
-                        arrowprops=dict(arrowstyle="->", color=color, lw=lw))
-        else:
-            # Draw line down from p1 to mid_y
-            ax.plot([p1[0], p1[0]], [p1[1]-0.25, mid_y], color=color, lw=lw)
-            # Draw horizontal line
-            ax.plot([p1[0], p2[0]], [mid_y, mid_y], color=color, lw=lw)
-            # Draw line down from mid_y to p2 with arrow
-            ax.annotate('', xy=(p2[0], p2[1]+0.3), xytext=(p2[0], mid_y),
-                        arrowprops=dict(arrowstyle="->", color=color, lw=lw))
+    # N1 to N2
+    draw_orthogonal_arrow(0, 5.55, -3, 4.95, y_mid=5.25)
+    draw_orthogonal_arrow(0, 5.55, 3, 4.95, y_mid=5.25)
+    
+    # N2 to N3
+    draw_orthogonal_arrow(-3, 4.05, 0, 3.45, y_mid=3.75)
+    draw_orthogonal_arrow(3, 4.05, 0, 3.45, y_mid=3.75)
+    
+    # N3 to N4
+    draw_orthogonal_arrow(0, 2.55, -3, 1.9, y_mid=2.25)
+    draw_orthogonal_arrow(0, 2.55, 3, 1.9, y_mid=2.25)
+
+    # N4 to N5
+    draw_orthogonal_arrow(-3, 1.1, -3, 0.7)
+    draw_orthogonal_arrow(3, 1.1, 3, 0.7)
+    
+    # Title
+    ax.text(0, 6.8, "DIAGRAM ALUR TRANSAKSI", ha="center", va="center", 
+            fontsize=16, fontweight='bold', color="#166534", fontfamily='sans-serif')
+    ax.text(0, 6.55, "Bagaimana 1 transaksi di Kasir otomatis mengalir ke seluruh Laporan Keuangan", 
+            ha="center", va="center", fontsize=10, color="#64748B", fontfamily='sans-serif')
 
     plt.tight_layout()
     
