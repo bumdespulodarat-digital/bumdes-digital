@@ -81,9 +81,9 @@ def draw_diagram():
     draw_orthogonal_arrow(3, 1.1, 3, 0.7)
     
     # Title
-    ax.text(0, 6.8, "DIAGRAM ALUR TRANSAKSI", ha="center", va="center", 
+    ax.text(0, 7.1, "DIAGRAM ALUR TRANSAKSI", ha="center", va="center", 
             fontsize=16, fontweight='bold', color="#166534", fontfamily='sans-serif')
-    ax.text(0, 6.55, "Bagaimana 1 transaksi di Kasir otomatis mengalir ke seluruh Laporan Keuangan", 
+    ax.text(0, 6.8, "Bagaimana 1 transaksi di Kasir otomatis mengalir ke seluruh Laporan Keuangan", 
             ha="center", va="center", fontsize=10, color="#64748B", fontfamily='sans-serif')
 
     plt.tight_layout()
