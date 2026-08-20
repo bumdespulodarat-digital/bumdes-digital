@@ -39,6 +39,9 @@ export default function BukuPanduan() {
       try {
         const response = await fetch(url);
         if (!response.ok) return null;
+        // Validate that the response is actually an image (not an HTML SPA fallback)
+        const contentType = response.headers.get('content-type') || '';
+        if (!contentType.startsWith('image/')) return null;
         const blob = await response.blob();
         return await new Promise<string>((resolve) => {
           const reader = new FileReader();
@@ -533,8 +536,14 @@ export default function BukuPanduan() {
       defaultStyle: { font: 'Roboto' }
     };
 
-    pdfMake.createPdf(docDefinition).download('Buku_Panduan_Lengkap_BUMDes.pdf');
-    setIsGeneratingPdf(false);
+    try {
+      pdfMake.createPdf(docDefinition).download('Buku_Panduan_Lengkap_BUMDes.pdf');
+    } catch (err) {
+      console.error('Gagal membuat PDF:', err);
+      alert('Gagal membuat PDF. Silakan coba lagi.');
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   };
 
   const toggleItem = (index: number) => {

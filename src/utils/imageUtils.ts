@@ -8,6 +8,11 @@ export const fetchImageAsBase64 = async (url: string): Promise<string> => {
     if (!response.ok) {
       throw new Error(`Failed to fetch image from ${url}`);
     }
+    // Validate that the response is actually an image (not an HTML SPA fallback)
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.startsWith('image/')) {
+      throw new Error(`Response from ${url} is not an image (content-type: ${contentType})`);
+    }
     const blob = await response.blob();
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
