@@ -110,8 +110,7 @@
             border-spacing: 0;
             border: 1px solid var(--border-light);
             border-radius: 8px;
-            overflow: hidden; /* For rounded corners */
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         table.tabel-uji th, table.tabel-uji td {
             padding: 12px 15px;
@@ -175,9 +174,10 @@
         .kesimpulan-box {
             border: 1px solid var(--border-light);
             border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 35px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
             background-color: white;
+            page-break-inside: avoid;
         }
         .kesimpulan-title {
             font-weight: 800;
@@ -214,7 +214,8 @@
             width: 100%;
             border-collapse: collapse;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 15px;
+            page-break-inside: avoid;
         }
         table.tanda-tangan-table td {
             border: none;
@@ -237,16 +238,30 @@
 
         /* PRINT SETTINGS */
         @media print {
-            body { background: none; }
+            body { background: none; font-size: 9.5pt; }
             .container {
                 margin: 0; padding: 0; width: 100%; box-shadow: none; min-height: auto;
             }
+            .kop-header { margin-bottom: 15px; padding-bottom: 10px; }
+            .tabel-identitas-wrapper { margin-bottom: 15px; padding: 10px 15px; border-radius: 0; }
             .kop-tag { border: 1px solid var(--brand-primary); }
-            tbody { page-break-inside: avoid; }
-            table.tabel-uji { border: 1px solid #000000 !important; }
-            table.tabel-uji th { border-bottom: 1px solid #000000 !important; border-right: 1px solid #000000 !important; }
-            table.tabel-uji td { border-bottom: 1px solid #000000 !important; border-right: 1px solid #000000 !important; }
-            @page { size: A4; margin: 15mm; }
+            
+            /* Anti terpotong */
+            tbody, tr, .kesimpulan-box, .tanda-tangan-table { page-break-inside: avoid !important; }
+            
+            /* Tabel Print Rapi */
+            table.tabel-uji { 
+                border-collapse: collapse !important; 
+                border-radius: 0 !important; 
+                margin-bottom: 15px !important;
+            }
+            table.tabel-uji th, table.tabel-uji td { 
+                border: 1px solid #000000 !important; 
+                padding: 8px 10px !important; 
+            }
+            
+            .kesimpulan-box { padding: 12px 15px !important; border-radius: 0 !important; }
+            @page { size: A4; margin: 12mm 15mm; }
         }
     </style>
 </head>
